@@ -104,12 +104,11 @@ select avg(rating)
 from rates where t_id = 'tt2506874')
 where t_id = 'tt2506874';
 
-select * from title ORDER BY rating;
 
 
 
 
-
+select awards from omdb_data where awards is not null and length(awards) > 10;
 
 
 

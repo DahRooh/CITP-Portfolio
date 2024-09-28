@@ -1,6 +1,5 @@
 -- relations
 drop table if exists person_has_a;
-drop table if exists title_award;
 drop table if exists person_involved_title;
 drop table if exists title_is;
 drop table if exists type_award;
@@ -50,6 +49,7 @@ create table title(
 	language varchar(1000),
 	country varchar(1000),
   runtime numeric(5,0),
+  awards varchar(500),
 	poster varchar(1000)
 );
 
