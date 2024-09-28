@@ -59,16 +59,12 @@ from title_basics left join omdb_data using(tconst);
 /* MOVIE TABLE */
 
 -- all "movies"
-insert into movie;
-
+insert into movie
 select distinct tconst
 from title_basics
 full join omdb_data using(tconst)
 where titletype in ('tvShort', 'movie', 'tvMovie', 'short') or type in ('movie');
 
-
-select * from title
-natural join movie;
 
 
 /* EPISODE TABLE */
@@ -116,8 +112,8 @@ from name_basics;
 
 
 /* PERSON_INVOLVED_TITLE TABLE */
-insert into person_involved_title (p_id, t_id, job)
-select nconst, tconst, category, character
+insert into person_involved_title (p_id, t_id, job, character)
+select nconst, tconst, category, nullif(characters, '')
 from title_principals;
 
 

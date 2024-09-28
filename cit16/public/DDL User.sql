@@ -15,8 +15,9 @@ drop table if exists bookmark;
 create table webpage
 (
 	wp_id varchar(12) primary key,
-  url varchar(255),
-  wp_view_count numeric(9,0)
+  p_t_id varchar(10),
+  url varchar(255) default null,
+  wp_view_count numeric(9,0) default 0
 );
 /*
 select * from title
@@ -28,7 +29,7 @@ create table users
 		u_id serial primary key,
 		username varchar(30) unique, 
 		password varchar(255),
-		email varchar(100)
+		email varchar(100) unique
 );
 
 create table search

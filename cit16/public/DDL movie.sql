@@ -54,13 +54,14 @@ create table title(
 );
 
 create table person_involved_title(
+  pit_id serial,
 	p_id varchar(10),
 	t_id varchar(10),
 	job varchar(30),
-  character varchar(200) default null,
-	primary key(p_id, t_id, job),
-	foreign key(p_id) references person,
-	foreign key(t_id) references title
+  character varchar(500) default null,
+  primary key(pit_id, p_id, t_id),
+  foreign key(p_id) references person,
+  foreign key(t_id) references title
 );
 
 create table movie(
