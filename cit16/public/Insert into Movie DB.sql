@@ -52,28 +52,30 @@ select distinct unnest(string_to_array(name_basics.primaryprofession, ',')) from
  
  /* TITLE TABLE */
 insert into title
-select tconst, primarytitle, null, isadult, released, language, country, poster
+select tconst, primarytitle, null, titletype, isadult, released, language, country, runtimeminutes, poster
 from title_basics left join omdb_data using(tconst);
-
-
 
 
 /* MOVIE TABLE */
 
 -- all "movies"
-insert into movie
-select tconst, titletype, runtimeminutes
-from title_basics left join omdb_data using(tconst)
-where titletype in ('tvShort', 'movie', 'tvMovie', 'video', 'short');
+insert into movie;
+
+select distinct tconst
+from title_basics
+full join omdb_data using(tconst)
+where titletype in ('tvShort', 'movie', 'tvMovie', 'short') or type in ('movie');
 
 
+select * from title
+natural join movie;
 
 
 /* EPISODE TABLE */
 
 -- all "episodes"
 insert into episode
-select tconst, primarytitle, cast(nullif(season, 'N/A') as numeric),  cast(nullif(episode, 'N/A') as numeric), runtimeminutes, null
+select tconst, primarytitle, cast(nullif(season, 'N/A') as numeric),  cast(nullif(episode, 'N/A') as numeric)
 from title_basics left join omdb_data using(tconst)
 where titletype not in ('tvShort', 'movie', 'tvMovie', 'video', 'short', 'videoGame');
 
@@ -104,8 +106,6 @@ RELATION CREATION
 */
 
 
-
-
 /* PERSON_HAS_A TABLE */
 insert into person_has_a
 select unnest(string_to_array(name_basics.primaryprofession, ',')), nconst
@@ -117,7 +117,7 @@ from name_basics;
 
 /* PERSON_INVOLVED_TITLE TABLE */
 insert into person_involved_title (p_id, t_id, job)
-select nconst, tconst, category
+select nconst, tconst, category, character
 from title_principals;
 
 

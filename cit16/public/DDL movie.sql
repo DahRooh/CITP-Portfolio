@@ -6,6 +6,7 @@ drop table if exists title_is;
 drop table if exists type_award;
 drop table if exists mov_title;
 drop table if exists ep_title;
+drop table if exists rates;
 
 -- entities
 drop table if exists genre;
@@ -40,11 +41,11 @@ create table person_has_a(
 
 
 create table title(
-	t_id varchar(10) primary key,
+	t_id varchar(20) primary key,
 	title varchar(2000),
 	rating numeric (4,2),
 	type varchar(20),
-	isadult varchar(10),
+	isadult boolean,
 	released varchar(15),
 	language varchar(1000),
 	country varchar(1000),
@@ -70,8 +71,7 @@ create table episode(
 	ep_id varchar (10) references title(t_id),
 	ep_name varchar(1000),
 	season_num numeric(2,0),
-	ep_num numeric(4,0),
-	rating numeric(4,2)
+	ep_num numeric(4,0)
 );
 
 create table genre(
