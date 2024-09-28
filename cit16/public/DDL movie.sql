@@ -42,6 +42,7 @@ create table person_has_a(
 create table title(
 	t_id varchar(20) primary key,
 	title varchar(2000),
+	plot varchar,
 	rating numeric (4,2),
 	type varchar(20),
 	isadult boolean,
