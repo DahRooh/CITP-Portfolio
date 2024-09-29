@@ -18,9 +18,17 @@ names and titles. You could also consider developing functions for adding notes 
 names and for retrieving bookmarks as well as search history and rating history for users.*/
 
 
+/*
+SignUp()
+
+signIn()
+
+SignOff()
+
+*/
 
 
--- * sign up procedure *
+-- sign up procedure
 drop procedure if exists signup;
 
 create procedure signup(in username varchar(20), in password varchar(256), in email varchar(50), out results boolean)
@@ -45,7 +53,7 @@ do $$
 declare 
   results boolean;
 begin 
-  call signup('username2', 'hashed-password', 'mail2@mail.ok', results);
+  call signup('username', 'hashed-password', 'mail@mail.ok', results);
 END;
 $$;
 
@@ -56,7 +64,7 @@ select * from users;
 
 
 
--- * sign in function *
+-- sign in function
 drop function if exists login_user;
 
 create function login_user(p_username varchar, p_password varchar)
@@ -81,26 +89,10 @@ select * from login_user('username', 'hashed-password'); -- returns true if corr
 
 
 
-/* logout */
 -- logout function  (maybe if we create a session for the users)
--- to be done if at all
 
 
 
-
-/* User rate */
-drop procedure rate;
-create procedure rate(in u_id int, in t_id varchar(10), in rating numeric(4,2))
-language plpgsql as $$
-begin
-insert into rates values (t_id, u_id, rating);
-end;
-$$;
-
-
-call rate(1, 'tt2506874', 2);
-
-/* Rates trigger after insert */
 -- rate trigger. when a row is inserted into rates, then we update the rating for that title.;
 drop trigger if exists rate_title on rates;
 drop function rate_trigger;
@@ -108,17 +100,14 @@ drop function rate_trigger;
 create function rate_trigger() -- the trigger function
 returns trigger as $$
 begin
-  raise notice '%', new;
     update title
     set rating = (
       select avg(rating) 
       from rates where t_id = new.t_id)
       where t_id = new.t_id;
-      return null; -- need to return something
+    return;
 end; $$
 language plpgsql;
-
-
 
 
 create trigger rate_title -- the trigger (calling the trigger function)
@@ -126,25 +115,14 @@ after insert on rates
 for each row execute procedure rate_trigger(); -- for each new row
   
 
+insert into rates values ('tt2506874', 1, 7.7);
 
-
-
-/* get_bookmarks from user or webpage *
-
-
-
-
-
-
-
-
-
-
-
-
-
+select * from title where t_id = 'tt2506874';
 
 /*
+
+
+
 
 ListRelevantTitles() (overload/condition med serie/movie)
 
@@ -193,8 +171,6 @@ get\_bookmarks()
 
 
 findPerson()
-
-personKnownFor() -- √
 
 create or replace function List_relevant_titles()
 returns table (
@@ -248,6 +224,51 @@ end;
 $$;
 
 select person_known_for('Alan Ladd');
+
+
+-- find_person (halfway done)
+
+drop function if exists find_person;
+
+create function find_person (search_for_person varchar(100))
+returns table(id varchar(10), name varchar(100))
+language plpgsql as $$
+
+declare person_key varchar(100) := concat('%', search_for_person, '%');
+
+begin
+	return query
+		-- select part of name
+		select person.p_id, person.name from person
+		where lower(person.name) like person_key;
+		-- second part: what if the name of the person isn't spelled correctly?
+end;
+$$; 
+
+select * from find_person('red');
+select find_person('staire');
+
+-- find_entertainment (halfway done)
+
+drop function if exists find_entertainment;
+
+create function find_entertainment (search_for_entertainment varchar(100))
+returns table(id varchar(10), title varchar(2000))
+language plpgsql as $$
+
+declare title_key varchar(100) := concat('%', search_for_entertainment, '%');
+
+begin
+	return query
+		-- select part of name
+		select title.t_id, title.title from title
+		where lower(title.title) like title_key;
+		-- second part: what if the name of the title isn't spelled correctly?
+end;
+$$; 
+
+select find_entertainment('odfather');
+select find_entertainment('?');
 
 /* D.2
 Simple search: 
