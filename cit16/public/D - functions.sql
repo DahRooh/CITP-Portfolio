@@ -38,12 +38,30 @@ rate()
 
 findPerson()
 
-personKnownFor()
+personKnownFor() -- √
 
 get\_bookmarks()*/
 
+drop function if exists person_known_for;
 
+create function person_known_for (search_name varchar(100))
+returns table (title varchar(2000))
+language plpgsql as $$
 
+declare 
+	selected_name varchar(100) := search_name;
+
+begin
+		return query
+				
+				select distinct title.title from title
+				natural join person_involved_title join person using (p_id)
+				where person.name = initcap(selected_name);
+			
+end;
+$$;
+
+select person_known_for('Alan Ladd');
 
 /* D.2
 Simple search: 
