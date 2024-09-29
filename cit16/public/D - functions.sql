@@ -121,7 +121,42 @@ select * from title where t_id = 'tt2506874';
 
 /*
 
+
+
+
 ListRelevantTitles() (overload/condition med serie/movie)
+
+viewcount + rating of people/mov/serie
+
+*/
+
+create or replace function List_relevant_titles()
+returns table (
+  t_id varchar(10),
+  title varchar(100),
+  total_views numeric(9,0)
+)
+language plpgsql as $$
+begin 
+  return query
+  select title.t_id, title.title, sum(webpage.wp_view_count) as total_views
+  from title
+  left join webpage on title.t_id = webpage.p_t_id
+  left join wp_bookmarks on webpage.wp_id = wp_bookmarks.wp_id
+  group by title.t_id, title.title
+  order by total_views desc; 
+
+end;
+$$;
+
+select List_relevant_titles();
+
+update webpage
+set wp_view_count = 1
+where wp_id = 'wptt2506874';
+
+
+/*
 
 list\_relevant\_people() actors/actresses
 
@@ -138,6 +173,33 @@ get\_bookmarks()
 findPerson()
 
 personKnownFor() -- √
+
+create or replace function List_relevant_titles()
+returns table (
+  t_id varchar(10),
+  title varchar(100),
+  total_views numeric(9,0)
+)
+language plpgsql as $$
+begin 
+  return query
+  select title.t_id, title.title, sum(webpage.wp_view_count) as total_views
+  from title
+  left join webpage on title.t_id = webpage.p_t_id
+  left join wp_bookmarks on webpage.wp_id = wp_bookmarks.wp_id
+  group by title.t_id, title.title
+  order by total_views desc; 
+
+end;
+$$;
+
+select List_relevant_titles();
+
+update webpage
+set wp_view_count = 1
+where wp_id = 'wptt2506874';
+
+
 
 
 calculateRating() - trigger

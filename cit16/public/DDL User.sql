@@ -19,6 +19,9 @@ create table webpage
   url varchar(255) default null,
   wp_view_count numeric(9,0) default 0
 );
+select * from webpage
+where wp_id = 'wptt2506874';
+
 /*
 select * from title
 union 
