@@ -61,7 +61,7 @@ BOOKMARKS
 WP_BOOKMARKS
 */
 
-insert into bookmark (bookmark_timestamp) values (CURRENT_TIMESTAMP);
+insert into bookmark values (concat('1', 'wptt2506874'), CURRENT_TIMESTAMP);
 insert into bookmarks values (1, 1);
 insert into wp_bookmarks values (1, 'wptt2506874');
 

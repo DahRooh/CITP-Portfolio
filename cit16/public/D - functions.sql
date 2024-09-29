@@ -129,20 +129,74 @@ for each row execute procedure rate_trigger(); -- for each new row
 
 
 
-/* get_bookmarks from user or webpage *
+/* get_bookmarks from user or webpage */
 
 
 
+-- one function accepts varchars the other integers, the only difference.
+-- ints are for users, varchar is for webpages.
+drop function if exists get_bookmarks;
+create function get_bookmarks(p_wp_id varchar) 
+returns table (
+  bookmark_id int,
+  wp_id varchar,
+  u_id int,
+  created_at timestamp
+)
+language plpgsql as $$
+begin 
+  return query
+    select bookmark.bookmark_id, 
+           wp_bookmarks.wp_id, 
+           bookmarks.u_id, bookmark_timestamp
+    from bookmark natural join wp_bookmarks natural join bookmarks
+    where p_wp_id = wp_bookmarks.wp_id;
+end;
+$$;
 
 
+create function get_bookmarks(p_u_id int) 
+returns table (
+  bookmark_id int,
+  wp_id varchar,
+  u_id int,
+  created_at timestamp
+)
+language plpgsql as $$
+begin 
+  return query
+    select bookmark.bookmark_id, 
+           wp_bookmarks.wp_id, 
+           bookmarks.u_id, bookmark_timestamp
+    from bookmark natural join wp_bookmarks natural join bookmarks
+    where p_u_id = bookmarks.u_id;
+end;
+$$;
+
+select * from get_bookmarks('wptt2506874');
+select * from get_bookmarks(1);
 
 
+-- trigger for inserting into wp and bookmarks
+
+drop procedure insert_bookmark;
+
+create procedure insert_bookmark(in user_id int, in webpage_id varchar)
+language plpgsql as $$
+declare 
+  bookmark_id varchar := concat(user_id, webpage_id);
+begin
+  insert into bookmark values (bookmark_id, current_timestamp);
+  insert into bookmarks values (bookmark_id, user_id);
+  insert into wp_bookmarks values (bookmark_id, webpage_id);
+end;
+$$;
 
 
+call insert_bookmark(1, 'wptt2506874');
 
-
-
-
+select * from bookmark;
+select * from bookmark natural join bookmarks natural join wp_bookmarks;
 
 /*
 

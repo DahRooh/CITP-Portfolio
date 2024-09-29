@@ -19,8 +19,7 @@ create table webpage
   url varchar(255) default null,
   wp_view_count numeric(9,0) default 0
 );
-select * from webpage
-where wp_id = 'wptt2506874';
+
 
 /*
 select * from title
@@ -45,13 +44,13 @@ create table search
 
 create table bookmark
 (
-  bookmark_id serial primary key,
+  bookmark_id varchar primary key,
   bookmark_timestamp timestamp
 );
 
 create table bookmarks
 (
-	bookmark_id int,
+	bookmark_id varchar,
   u_id int not null,
   primary key(bookmark_id, u_id),
   foreign key (bookmark_id) references bookmark,
@@ -69,7 +68,7 @@ create table history
 
 create table wp_bookmarks
 (
-  bookmark_id int,
+  bookmark_id varchar,
   wp_id varchar(12) not null,
   primary key(bookmark_id, wp_id),
   foreign key (bookmark_id) references bookmark,
