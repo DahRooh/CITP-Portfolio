@@ -99,6 +99,10 @@ $$;
 
 
 call rate(1, 'tt2506874', 2);
+call rate(2, 'tt2506874', 7);
+call rate(3, 'tt25177208', 3);
+call rate(4, 'tt25177208', 10);
+
 
 /* Rates trigger after insert */
 -- rate trigger. when a row is inserted into rates, then we update the rating for that title.;
@@ -125,6 +129,7 @@ create trigger rate_title -- the trigger (calling the trigger function)
 after insert on rates
 for each row execute procedure rate_trigger(); -- for each new row
   
+
 
 
 
@@ -200,36 +205,48 @@ select * from bookmark natural join bookmarks natural join wp_bookmarks;
 
 /*
 
+SELECT * from title
+order by rating desc;
+
+
+/* get_bookmarks from user or webpage *
+
+
 ListRelevantTitles() (overload/condition med serie/movie)
 
 viewcount + rating of people/mov/serie
 
 */
 
-create or replace function List_relevant_titles()
+
+create or replace function list_relevant_titles()
 returns table (
   t_id varchar(10),
   title varchar(100),
+  rating numeric(4,2),
   total_views numeric(9,0)
 )
 language plpgsql as $$
 begin 
   return query
-  select title.t_id, title.title, sum(webpage.wp_view_count) as total_views
+  select title.t_id, title.title, title.rating, webpage.wp_view_count as total_views
   from title
   left join webpage on title.t_id = webpage.p_t_id
-  left join wp_bookmarks on webpage.wp_id = wp_bookmarks.wp_id
-  group by title.t_id, title.title
-  order by total_views desc; 
+  order by title.rating desc, total_views desc; 
 
 end;
 $$;
 
-select List_relevant_titles();
+select * from list_relevant_titles();
 
+/*
 update webpage
-set wp_view_count = 1
-where wp_id = 'wptt2506874';
+set wp_view_count = 8
+where wp_id = 'wptt25177208';
+*/
+
+
+
 
 
 /*
@@ -301,6 +318,7 @@ begin
 end;
 $$;
 
+
 select person_known_for('Alan Ladd');
 
 
@@ -346,6 +364,7 @@ $$;
 
 select find_entertainment('odfather');
 select find_entertainment('?');
+
 
 
 /* D.2

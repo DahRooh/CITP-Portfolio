@@ -20,7 +20,6 @@ create table webpage
   wp_view_count numeric(9,0) default 0
 );
 
-
 /*
 select * from title
 union 

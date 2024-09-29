@@ -52,7 +52,7 @@ select distinct unnest(string_to_array(name_basics.primaryprofession, ',')) from
  
  /* TITLE TABLE */
 insert into title
-select tconst, primarytitle, nullif(plot, 'N/A'), null, titletype, isadult, released, language, country, runtimeminutes, nullif(awards, 'N/A'), poster
+select tconst, primarytitle, nullif(plot, 'N/A'), 0, titletype, isadult, released, language, country, runtimeminutes, nullif(awards, 'N/A'), poster
 from title_basics left join omdb_data using(tconst);
 
 

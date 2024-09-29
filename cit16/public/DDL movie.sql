@@ -43,7 +43,7 @@ create table title(
 	t_id varchar(20) primary key,
 	title varchar(2000),
 	plot varchar,
-	rating numeric (4,2),
+	rating numeric(4,2) default 0,
 	type varchar(20),
 	isadult boolean,
 	released varchar(15),
