@@ -303,6 +303,51 @@ $$;
 
 select person_known_for('Alan Ladd');
 
+
+-- find_person (halfway done)
+
+drop function if exists find_person;
+
+create function find_person (search_for_person varchar(100))
+returns table(id varchar(10), name varchar(100))
+language plpgsql as $$
+
+declare person_key varchar(100) := concat('%', search_for_person, '%');
+
+begin
+	return query
+		-- select part of name
+		select person.p_id, person.name from person
+		where lower(person.name) like person_key;
+		-- second part: what if the name of the person isn't spelled correctly?
+end;
+$$; 
+
+select * from find_person('red');
+select find_person('staire');
+
+-- find_entertainment (halfway done)
+
+drop function if exists find_entertainment;
+
+create function find_entertainment (search_for_entertainment varchar(100))
+returns table(id varchar(10), title varchar(2000))
+language plpgsql as $$
+
+declare title_key varchar(100) := concat('%', search_for_entertainment, '%');
+begin
+	return query
+		-- select part of name
+		select title.t_id, title.title from title
+		where lower(title.title) like title_key;
+		-- second part: what if the name of the title isn't spelled correctly?
+end;
+$$; 
+
+select find_entertainment('odfather');
+select find_entertainment('?');
+
+
 /* D.2
 Simple search: 
 Develop a simple search function for instance called string_search(). 
