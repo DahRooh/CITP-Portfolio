@@ -48,7 +48,7 @@ insert into search (search_timestamp) values (CURRENT_TIMESTAMP);
 insert into history values (2, 1);
 insert into wp_search values (2, 'wptt2506874');
 
-
+select * from title where t_id = 'tt2506874';
 
 
 /*

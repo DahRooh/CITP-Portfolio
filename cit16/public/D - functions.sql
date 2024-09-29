@@ -18,7 +18,29 @@ names and titles. You could also consider developing functions for adding notes 
 names and for retrieving bookmarks as well as search history and rating history for users.*/
 
 
+/*SignUp()
 
+signIn()
+
+SignOff()
+
+%viewAListOfFamousMovSer() -> mostviewedMovSer()
+
+ListRelevantTitles() (overload/condition med serie/movie)
+
+list\_relevant\_people() actors/actresses
+
+view\_webpage(wpid)
+
+calculateRating() - trigger
+
+rate()
+
+findPerson()
+
+personKnownFor()
+
+get\_bookmarks()*/
 
 
 

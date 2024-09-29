@@ -34,7 +34,8 @@ create table users
 
 create table search
 (
-		search_id serial primary key,
+		search_id varchar primary key,
+    keyword varchar,
     search_timestamp timestamp	
 );
 
@@ -76,13 +77,9 @@ create table wp_bookmarks
 
 create table wp_search
 (
-  search_id int,
-  wp_id varchar(12) not null,
-  primary key(search_id, wp_id),
-  foreign key (search_id) references search,
+  search_id varchar primary key references search,
+  wp_id varchar(12),
   foreign key (wp_id) references webpage
- 
-
 );
 
 create table rates
