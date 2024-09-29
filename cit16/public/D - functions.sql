@@ -18,29 +18,131 @@ names and titles. You could also consider developing functions for adding notes 
 names and for retrieving bookmarks as well as search history and rating history for users.*/
 
 
-/*SignUp()
+/*
+SignUp()
 
 signIn()
 
 SignOff()
 
-%viewAListOfFamousMovSer() -> mostviewedMovSer()
+*/
+
+
+-- sign up procedure
+drop procedure if exists signup;
+
+create procedure signup(in username varchar(20), in password varchar(256), in email varchar(50), out results boolean)
+LANGUAGE plpgsql
+as $$
+declare results boolean;
+begin
+  begin 
+    insert into users (username, password, email) values(username, password, email);
+    results := true;
+    raise notice 'Sign up successful';
+  exception
+    when others then -- catches all exceptions
+      raise notice 'Cannot sign up';
+      results := false;
+  end;
+end;
+$$;
+
+-- call signup procedure example
+do $$
+declare 
+  results boolean;
+begin 
+  call signup('username', 'hashed-password', 'mail@mail.ok', results);
+END;
+$$;
+
+-- check signup
+select * from users;
+
+
+
+
+
+-- sign in function
+drop function if exists login_user;
+
+create function login_user(p_username varchar, p_password varchar)
+returns boolean
+language plpgsql as $$
+declare 
+  results int; 
+
+begin 
+  with login_try as (
+    select * from users 
+    where username = p_username and password = p_password )
+  
+  select count(*) into results from login_try;
+  return results;
+end;
+$$;
+
+
+select * from login_user('username', 'hashed-password'); -- returns true if correct else false
+
+
+
+
+-- logout function  (maybe if we create a session for the users)
+
+
+
+-- rate trigger. when a row is inserted into rates, then we update the rating for that title.;
+drop trigger if exists rate_title on rates;
+drop function rate_trigger;
+
+create function rate_trigger() -- the trigger function
+returns trigger as $$
+begin
+    update title
+    set rating = (
+      select avg(rating) 
+      from rates where t_id = new.t_id)
+      where t_id = new.t_id;
+    return;
+end; $$
+language plpgsql;
+
+
+create trigger rate_title -- the trigger (calling the trigger function)
+after insert on rates
+for each row execute procedure rate_trigger(); -- for each new row
+  
+
+insert into rates values ('tt2506874', 1, 7.7);
+
+select * from title where t_id = 'tt2506874';
+
+/*
 
 ListRelevantTitles() (overload/condition med serie/movie)
 
 list\_relevant\_people() actors/actresses
 
+
 view\_webpage(wpid)
 
-calculateRating() - trigger
 
-rate()
+
+
+
+get\_bookmarks()
+
 
 findPerson()
 
 personKnownFor() -- √
 
-get\_bookmarks()*/
+
+calculateRating() - trigger
+
+*/
 
 drop function if exists person_known_for;
 

@@ -42,9 +42,9 @@ WP_SEARCH
 
 SEARCH 
 */
+select * from users;
 
-
-insert into search (search_timestamp) values (CURRENT_TIMESTAMP);
+insert into search values (concat('1' CURRENT_TIMESTAMP), 'Zombies of Oz: Tin' ,CURRENT_TIMESTAMP);
 insert into history values (2, 1);
 insert into wp_search values (2, 'wptt2506874');
 

@@ -57,7 +57,7 @@ create table bookmarks
 
 create table history
 (
-	search_id int,
+	search_id varchar,
   u_id int not null,
   primary key(search_id, u_id),
   foreign key (search_id) references search,
