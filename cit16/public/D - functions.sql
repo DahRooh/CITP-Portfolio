@@ -459,6 +459,31 @@ select * from search natural join wp_search natural join history;
 select * from history natural join search;
 
 
+-- keyword varchar
+
+drop function if exists get_user_history;
+create function get_user_history(user_id int)
+returns table
+(
+	search_word varchar, time_searched timestamp
+)
+language plpgsql as 
+$$
+begin
+	return query
+	select keyword, search_timestamp from history natural join search
+	where u_id = user_id
+	order by search_timestamp desc;
+end;
+$$;
+
+select * from get_user_history(1);
+
+call insert_search('The Godfather', 1);
+call insert_search('Friends', 1);
+call insert_search('asd', 1);
+call insert_search('', 1);
+
 /* D.2
 Simple search: 
 Develop a simple search function for instance called string_search(). 
