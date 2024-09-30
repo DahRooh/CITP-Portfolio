@@ -41,13 +41,8 @@ end;
 $$;
 
 -- call signup procedure example
-do $$
-declare 
-  results boolean;
-begin 
-  call signup('username2', 'hashed-password', 'mail2@mail.ok', results);
-END;
-$$;
+call signup('username1', 'hashed-password', 'mail1@mail.ok', null);
+
 
 -- check signup
 select * from users;
@@ -203,13 +198,30 @@ call insert_bookmark(1, 'wptt2506874');
 select * from bookmark;
 select * from bookmark natural join bookmarks natural join wp_bookmarks;
 
+
+/* update viewcount */ -- SKAL BRUGE MERE IFHT SEARCH FØR VI KAN KØRE PÅ HER
+drop trigger view_count on wp_search;
+drop function update_view_count;
+
+create function update_view_count() -- VIRKER IKKE SKAL KIGGE PÅ SEARCH WP_ID ER DER IKKE MERE, HVORDAN KLIKKER VI PÅ EN WEBPAGE? HVORDAN BLIVER DET REGISTRERET? NY TABLE MED PAGE_VIEWED EFTER ET KLIK PÅ ET RESULTAT I WP_SEARCH???
+returns trigger as $$
+begin
+    if new.wp_id in (select wp_id from webpage) then
+      update webpage
+      set wp_view_count = (
+      select count(*) from wp_search
+      where wp_id = new.wp_id);
+    end if;
+    return null; -- need to return something
+end; $$
+language plpgsql;
+
+create trigger view_count 
+after insert on wp_search
+for each row execute procedure update_view_count();
+
+
 /*
-
-SELECT * from title
-order by rating desc;
-
-
-/* get_bookmarks from user or webpage *
 
 
 ListRelevantTitles() (overload/condition med serie/movie)
@@ -367,6 +379,60 @@ select find_entertainment('?');
 
 
 
+
+
+create function user_search(keyword varchar)
+  returns table (
+      displayname varchar(1000),
+      wp_id varchar(20)
+  )
+declare 
+  search_key varchar := concat('%',lower(keyword),'%');
+language plpgsql as $$
+begin
+  return query
+    select name_title, wp_id
+    from person_title_webpages
+    where name_title like search_key 
+    or (null is null and 
+        plot is not null and 
+        plot like search_key);
+end;
+$$;
+
+
+
+/* order of relevance: 
+    name -> how close is the search key to an actual value
+         -> plot vs title
+    rating -> (how many have voted, what rating)
+    viewcount -> from website
+*/
+
+
+
+drop view if exists person_title_webpages;
+
+create view person_title_webpages as (
+  select lower(name) as name_title, wp_id, url, null as plot from webpage join person on p_id = p_t_id
+  union
+  select lower(title) as name_title, wp_id, url, lower(plot) from webpage join title on t_id = p_t_id 
+  order by wp_id
+ );
+
+
+select * from person_title_webpages;
+
+select name_title, wp_id
+from person_title_webpages
+where name_title like '%god%' 
+or (null is null and 
+    plot is not null and 
+    plot like '%god%');
+
+
+
+
 /* D.2
 Simple search: 
 Develop a simple search function for instance called string_search(). 
@@ -401,7 +467,7 @@ $$;
 select string_search('and');
 
 
-
+select * from webpage;
 
 /*
 D.3
