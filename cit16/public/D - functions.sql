@@ -231,7 +231,7 @@ viewcount + rating of people/mov/serie
 */
 
 
-create or replace function list_relevant_titles()
+create or replace function list_relevant_titles()  -- REMEMBER RELEVANT PEOPLE
 returns table (
   t_id varchar(10),
   title varchar(100),
@@ -342,19 +342,26 @@ create function find_person (search_for_person varchar(100))
 returns table(id varchar(10), name varchar(100))
 language plpgsql as $$
 
-declare person_key varchar(100) := concat('%', search_for_person, '%');
+declare person_key varchar(100) := replace(concat('%', lower(search_for_person), '%'), ' ', '');
 
 begin
+	raise notice '%', person_key;
+	raise notice 'test';
+
 	return query
 		-- select part of name
 		select person.p_id, person.name from person
-		where lower(person.name) like person_key;
+		where replace(lower(person.name), ' ', '') like person_key;
 		-- second part: what if the name of the person isn't spelled correctly?
 end;
 $$; 
 
+select replace('hello there', ' ', '');
+
 select * from find_person('red');
 select find_person('staire');
+select find_person('Fred Astaire');
+select find_person('red Astaire');
 
 -- find_entertainment (halfway done)
 
@@ -364,18 +371,20 @@ create function find_entertainment (search_for_entertainment varchar(100))
 returns table(id varchar(10), title varchar(2000))
 language plpgsql as $$
 
-declare title_key varchar(100) := concat('%', search_for_entertainment, '%');
+declare title_key varchar(100) := replace(concat('%', lower(search_for_entertainment), '%'), ' ', '');
 begin
 	return query
 		-- select part of name
 		select title.t_id, title.title from title
-		where lower(title.title) like title_key;
+		where replace(lower(title.title), ' ', '') like title_key;
 		-- second part: what if the name of the title isn't spelled correctly?
 end;
 $$; 
 
 select find_entertainment('odfather');
 select find_entertainment('?');
+select find_entertainment('he godfat');
+
 
 
 
