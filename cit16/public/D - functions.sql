@@ -275,10 +275,6 @@ view\_webpage(wpid)
 get\_bookmarks()
 
 
-findPerson()
-
-personKnownFor() -- √
-
 create or replace function List_relevant_titles()
 returns table (
   t_id varchar(10),
@@ -356,12 +352,10 @@ begin
 end;
 $$; 
 
-select replace('hello there', ' ', '');
-
 select * from find_person('red');
 select find_person('staire');
 select find_person('Fred Astaire');
-select find_person('red Astaire');
+select find_person('red Astai');
 
 -- find_entertainment (halfway done)
 
@@ -389,22 +383,22 @@ select find_entertainment('he godfat');
 
 
 
-
+drop function if exists user_search; 
 create function user_search(keyword varchar)
   returns table (
       displayname varchar(1000),
-      wp_id varchar(20)
+      webp_id varchar(20)
   )
+	
+language plpgsql as $$
 declare 
   search_key varchar := concat('%',lower(keyword),'%');
-language plpgsql as $$
 begin
   return query
-    select name_title, wp_id
+    select name_title::varchar(1000), wp_id::varchar(1000)
     from person_title_webpages
     where name_title like search_key 
-    or (null is null and 
-        plot is not null and 
+    or (plot is not null and 
         plot like search_key);
 end;
 $$;
@@ -432,14 +426,37 @@ create view person_title_webpages as (
 
 select * from person_title_webpages;
 
-select name_title, wp_id
-from person_title_webpages
-where name_title like '%god%' 
-or (null is null and 
-    plot is not null and 
-    plot like '%god%');
 
 
+
+
+
+
+
+drop procedure insert_search;
+
+create procedure insert_search(in keyword varchar, in user_id int)
+language plpgsql as $$
+declare
+	now_timestamp timestamp := current_timestamp;
+	search_id varchar := concat(keyword, now_timestamp);
+
+begin
+	insert into search values (search_id, keyword, now_timestamp);
+	insert into history values (search_id, user_id);
+	insert into wp_search
+	select search_id, webp_id from user_search(keyword)
+	limit 100;
+end;
+$$;
+-- insert into wp_search
+select * from wp_search;
+select * from users;
+
+call insert_search('Friends', 1);
+
+select * from search natural join wp_search natural join history;
+select * from history natural join search;
 
 
 /* D.2
@@ -472,11 +489,12 @@ end;
 return search_key;
 $$;
 
-
 select string_search('and');
 
-
 select * from webpage;
+
+
+
 
 /*
 D.3

@@ -40,7 +40,6 @@ create table search
     search_timestamp timestamp	
 );
 
-
 create table bookmark
 (
   bookmark_id varchar primary key,
@@ -78,8 +77,10 @@ create table wp_bookmarks
 
 create table wp_search
 (
-  search_id varchar primary key references search,
+  search_id varchar,
   wp_id varchar(12),
+	primary key (search_id, wp_id),
+	foreign key (search_id) references search,
   foreign key (wp_id) references webpage
 );
 
