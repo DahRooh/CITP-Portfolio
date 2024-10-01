@@ -50,7 +50,6 @@ $$;
 select * from find_coactors('Ian McKellen');
 
 
-
 /*
 D.8. 
 Popular actors: Suggest and implement a function that makes use of the name ratings. 
@@ -60,9 +59,45 @@ One example could be a function that takes a movie and lists the actors of the m
 Another could be a similar function that takes an actor and lists the co-players in order of decreasing popularity.
 */
 
-
+-- 1)
+drop function if exists name_ratings;
 create function name_ratings(movie_title varchar)
+returns table (person_name varchar, avg_rating numeric)
+language plpgsql as $$
 
+begin
 
+	return query
 
+	select distinct name, person_rating
+	from person
+	natural join person_involved_title 
+	natural join title
+	where person_rating is not null
+	and title = movie_title
+	order by person_rating desc;
+end;
+$$;
 
+select * from name_ratings('The Hobbit: The Desolation of Smaug');
+
+-- 2)
+
+drop function if exists co_players_rating;
+create function co_players_rating(actor varchar)
+returns table (co_players_name varchar, avg_rating numeric)
+language plpgsql as $$
+
+begin
+	return query
+	
+	select name, person_rating 
+	from find_coactors(actor)
+	join person on person_id = p_id
+	order by person_rating desc;
+
+end;
+$$;
+
+select * from co_players_rating('Ian McKellen');
+select * from co_players_rating('Ken Stott');
