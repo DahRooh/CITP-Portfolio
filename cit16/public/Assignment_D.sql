@@ -522,22 +522,76 @@ D.9. Similar movies: Discuss and suggest a notion of similarity among movies. De
 */
 
 -- Finds all the movies/series that have the same genre as the input_title_id and user_id
+-- Finds all the movies/series that have the same genre as the input_title
+drop function if exists find_similar_titles(varchar); 
+create or replace function find_similar_titles(input_title varchar)
+returns table(
+  similar_title varchar,
+  genre_of_similar_title varchar
+)
+language plpgsql as $$
+begin
+  return query
+  select title as similar_title,
+         genre as genre_of_similar_title
+  from title
+  join title_is using(t_id)
+  where genre in (
+      select genre
+      from title_is
+      join title using(t_id)
+      where title = input_title)
+  
+  and title <> input_title;
+end;
+$$;
+
+
+
+
+
+-- Finds all the movies/series that have the same genre as the input_title_id
+drop function if exists find_similar_titles(varchar); 
+create or replace function find_similar_titles(input_title_id varchar)
+returns table(
+  similar_title varchar,
+  genre_of_similar_title varchar
+)
+language plpgsql as $$
+begin
+  return query
+  select title as similar_title,
+         genre as genre_of_similar_title
+  from title
+  join title_is using(t_id)
+  where genre in (
+      select genre
+      from title_is
+      where t_id = input_title_id)
+  and t_id <> input_title_id;
+end;
+$$;
+
+
+
+-- Finds all the movies/series that have the same genre as the input_title_id and user_id
 drop function if exists find_similar_titles(varchar, int); 
 
 create or replace function find_similar_titles(input_title_id varchar, user_id int)
 returns table(
   similar_title_id varchar,
   similar_title varchar,
-  genre_of_similar_title varchar,
-  is_bookmarked boolean
+  is_bookmarked boolean,
+  multiple_same_genre numeric
 )
 language plpgsql as $$
 begin
   return query
-  select t_id as similar_title_id,
+  select distinct t_id as similar_title_id,
          title as similar_title,
-         genre as genre_of_similar_title,
-         case when bookmark_id is not null then true else false end as is_bookmarked 
+         case when bookmark_id is not null then true else false end as is_bookmarked,
+         sum(case when (select count(distinct genre) from title_is) > 1 
+         then 1 else 0 end)::numeric as multiple_same_genre
   from title
   join title_is using(t_id)
   join webpage on t_id = p_t_id
@@ -549,15 +603,12 @@ begin
       where t_id = input_title_id)
   and t_id <> input_title_id
   and (u_id = user_id or u_id is null)
-  order by is_bookmarked desc;
+  group by similar_title_id, similar_title, is_bookmarked
+  order by multiple_same_genre desc, is_bookmarked desc;
 end;
 $$;
 
-
-
-select similar_title_id, similar_title, genre_of_similar_title, is_bookmarked 
-from find_similar_titles('tt0108778', 1);
-
+select * from find_similar_titles('tt0108778', 1);
 
 
 
