@@ -1,3 +1,6 @@
+-- view
+drop view if exists person_title_webpages; 
+
 -- relations
 drop table if exists bookmarks;
 drop table if exists history;
