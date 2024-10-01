@@ -52,6 +52,8 @@ begin
 end;
 $$;
 
+
+-- examples
 -- call signup procedure example
 call signup('username1', 'hashed-password', 'mail1@mail.ok', null);
 
@@ -82,7 +84,7 @@ begin
 end;
 $$;
 
-
+-- examples
 select * from login_user('username1', 'hashed-password'); -- User can login
 select * from login_user('username1', 'incorrect-password'); -- User cannot login
 
@@ -108,6 +110,8 @@ begin
 end;
 $$;
 
+
+-- examples
 -- insert into wp_search
 call insert_search('Zombies of Oz: Tin', 1);
 
@@ -136,13 +140,17 @@ begin
 end;
 $$;
 
+
+
+
+-- examples
+-- insert some searches then view
 call insert_search('The Godfather', 1);
 call insert_search('Friends', 1);
 call insert_search('asd', 1);
 call insert_search('', 1);
 
 select * from get_user_history(1);
-
 
 
 --------------------------------------------------------------------------------
@@ -162,6 +170,7 @@ end;
 $$;
 
 
+-- examples
 call insert_bookmark(1, 'wptt2506874');
 
 
@@ -212,6 +221,8 @@ begin
 end;
 $$;
 
+
+-- examples
 select * from get_bookmarks('wptt2506874');
 select * from get_bookmarks(1);
 
@@ -235,6 +246,8 @@ begin
 end;
 $$;
 
+
+-- examples
 select person_known_for('Fred Astaire');
 select person_known_for('Alfred Hitchcock');
 
@@ -260,20 +273,43 @@ select person_known_for('Alfred Hitchcock');
 
 
 
-/*D.2. Simple search: Develop a simple search function for instance called string_search(). This
-function should, given a search sting S as parameter, find all movies where S is a substring
-of the title or a substring of the plot description. For the movies found return id and title
-(tconst and primarytitle, if you kept the attribute names from the provided dataset). Make
-sure to bring the framework into play, such that the search history is updated as a side
-effect of the call of the search function.*/
+/*D.2. Simple search: 
+Develop a simple search function for instance called string_search(). 
+This function should, given a search sting S as parameter, find all movies where S is a substring of the title or a substring of the plot description. 
+
+For the movies found return id and title (tconst and primarytitle, if you kept the attribute names from the provided dataset). 
+Make sure to bring the framework into play, such that the search history is updated as a side effect of the call of the search function.*/
+
+-- return id title. show that update history after search is already done in trigger
+drop function if exists string_search;
+
+create function string_search(search_string varchar)
+returns table (
+  id varchar,
+  title_name varchar
+)
+language plpgsql as $$
+declare 
+  search_word varchar := concat('%', search_string, '%');
+begin
+  return query
+    select mov_id, title
+    from title join movie on mov_id = t_id
+    where title like search_word or (plot is not null and plot like search_word);
+
+end;
+$$;
+
+-- examples (how to do it in one line?)
+call insert_search('monkey', 1);
+select * from string_search('monkey');
+
+call insert_search('lord', 1);
+select * from string_search('lord');
 
 
--- not made
 
-
-
-
-
+select * from get_user_history(1);
 
 
 
@@ -331,7 +367,8 @@ create trigger rate_title -- the trigger (calling the trigger function)
 after insert or update on rates
 for each row execute procedure rate_trigger(); -- for each new row
   
-
+  
+-- examples
 truncate rates;
 
 call rate('tt0903624', 1, 6);
@@ -350,11 +387,39 @@ order by rating desc;
 
 
 /*
-D.4. Structured string search: Develop a search function, for instance called
-structured_string_search(), that take 4 string parameters and return titles that match these on the title, the plot, the characters and the person names involved respectively. Make the function flexible in the sense that it don’t care about case of letters and argument values are treated as substrings (to match they should just be included in the column value in question). For the movies found, return id and title (in the source data called tconst and primarytitle). Make sure to bring the framework into play, such that the search history is stored as a side effect of the call of the search function.
+D.4. Structured string search: 
+
+Develop a search function, for instance called structured_string_search(), that take 4 string parameters and return titles that match these on the 
+title, the plot, the characters and the person names involved respectively. 
+
+Make the function flexible in the sense that it don’t care about case of letters and argument values are treated as substrings (to match they should just be included in the column value in question). 
+
+-- For the movies found, return id and title (in the source data called tconst and primarytitle). 
+-- Make sure to bring the framework into play, such that the search history is stored as a side effect of the call of the search function.
 */
 
--- no
+-- in: 
+-- out: id, title
+
+
+create function structured_string_search(_title varchar, _plot varchar, _characters varchar, _people varchar)
+returns table(
+  id varchar,
+  title_name varchar
+)
+language plpgsql as $$
+declare 
+
+begin
+
+
+
+
+
+end;
+$$;
+
+
 
 
 
