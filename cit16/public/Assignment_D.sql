@@ -290,12 +290,12 @@ returns table (
 )
 language plpgsql as $$
 declare 
-  search_word varchar := concat('%', search_string, '%');
+  search_word varchar := concat('%', lower(search_string), '%');
 begin
   return query
     select mov_id, title
     from title join movie on mov_id = t_id
-    where title like search_word or (plot is not null and plot like search_word);
+    where lower(title) like search_word or (plot is not null and lower(plot) like search_word);
 end;
 $$;
 
@@ -385,6 +385,7 @@ order by rating desc;
 
 
 /*
+
 D.4. Structured string search: 
 
 Develop a search function, for instance called structured_string_search(), that take 4 string parameters and return titles that match these on the 
@@ -394,6 +395,7 @@ Make the function flexible in the sense that it don’t care about case of lette
 
 -- For the movies found, return id and title (in the source data called tconst and primarytitle). 
 -- Make sure to bring the framework into play, such that the search history is stored as a side effect of the call of the search function.
+
 */
 
 -- in: 
@@ -437,9 +439,39 @@ select * from structured_string_search('monKey', 'blob', 'Bilbo', 'Alfred');
 D.5. Finding names: The above search functions are focused on finding titles. Try to add to these by developing one or two functions aimed at finding names (of for instance actors).
 */
 
+drop function if exists simple_search_person(varchar);
+create function simple_search_person(search_string varchar)
+returns table(
+  person_id varchar,
+  person_name varchar
+)
+language plpgsql as $$
+declare 
+  search_word varchar := concat('%', lower(search_string), '%');
+
+begin
+  return query
+  select distinct p_id, name
+  from person_involved_title
+  natural join person
+  natural join title    
+  where lower(title) like search_word or (plot is not null and lower(plot) like search_word);
+    
+end;
+$$;
+
+-- example
+select * from simple_search_person('friends'); 
+call insert_search('friends', 1);
+select * from get_user_history(1);
 
 
 
+-- examples (how to do it in one line?)
+select * from string_search('monkey');
+
+call insert_search('lord', 1);
+select * from string_search('lord');
 
 
 
@@ -586,10 +618,10 @@ D.9. Similar movies: Discuss and suggest a notion of similarity among movies. De
 
 */
 
--- Finds all the movies/series that have the same genre as the input_title_id and user_id
--- Finds all the movies/series that have the same genre as the input_title
-drop function if exists find_similar_titles(varchar); 
-create or replace function find_similar_titles(input_title varchar)
+
+-- Find all the movies/series that have the same genre as the input_title
+drop function if exists find_similar_titles_via_title(varchar); 
+create or replace function find_similar_titles_via_title(input_title varchar)
 returns table(
   similar_title varchar,
   genre_of_similar_title varchar
@@ -615,9 +647,9 @@ $$;
 
 
 
--- Finds all the movies/series that have the same genre as the input_title_id
-drop function if exists find_similar_titles(varchar); 
-create or replace function find_similar_titles(input_title_id varchar)
+-- Find all the movies/series that have the same genre as the input_title_id
+drop function if exists find_similar_titles_via_title_id(varchar); 
+create or replace function find_similar_titles_via_title_id(input_title_id varchar)
 returns table(
   similar_title varchar,
   genre_of_similar_title varchar
@@ -639,10 +671,10 @@ $$;
 
 
 
--- Finds all the movies/series that have the same genre as the input_title_id and user_id
-drop function if exists find_similar_titles(varchar, int); 
+-- Find all the movies/series that have the same genre as the input_title_id and user_id
+drop function if exists find_similar_titles_via_title_id_and_user_id(varchar, int); 
 
-create or replace function find_similar_titles(input_title_id varchar, user_id int)
+create or replace function find_similar_titles_via_title_id_and_user_id(input_title_id varchar, user_id int)
 returns table(
   similar_title_id varchar,
   similar_title varchar,
@@ -673,7 +705,7 @@ begin
 end;
 $$;
 
-select * from find_similar_titles('tt0108778', 1);
+select * from find_similar_titles_via_title_id_and_user_id('tt0108778', 1);
 
 
 
