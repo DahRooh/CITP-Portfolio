@@ -296,7 +296,6 @@ begin
     select mov_id, title
     from title join movie on mov_id = t_id
     where title like search_word or (plot is not null and plot like search_word);
-
 end;
 $$;
 
@@ -306,7 +305,6 @@ select * from string_search('monkey');
 
 call insert_search('lord', 1);
 select * from string_search('lord');
-
 
 
 select * from get_user_history(1);
@@ -401,34 +399,36 @@ Make the function flexible in the sense that it don’t care about case of lette
 -- in: 
 -- out: id, title
 
+drop function if exists structured_string_search;
 
-create function structured_string_search(_title varchar, _plot varchar, _characters varchar, _people varchar)
+create function structured_string_search(_title varchar, _plot varchar, _characters varchar, _person varchar)
 returns table(
   id varchar,
   title_name varchar
 )
 language plpgsql as $$
 declare 
+  title_search varchar := concat('%', lower(_title), '%');
+  plot_search varchar := concat('%', lower(_plot), '%');
+  character_search varchar := concat('%', lower(_characters), '%');
+  person_search varchar := concat('%', lower(_person), '%');
 
 begin
-
-
-
-
-
+  return query
+    select distinct t_id, title
+      from person 
+      natural join person_involved_title 
+      natural join title
+      where lower(title) like title_search
+      or lower(plot) like plot_search
+      or lower(character) like character_search
+      or lower(name) like person_search;
 end;
 $$;
 
 
-
-
-
-
-
-
-
-
-
+-- example
+select * from structured_string_search('monKey', 'blob', 'Bilbo', 'Alfred');
 
 
 
