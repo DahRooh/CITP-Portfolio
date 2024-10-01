@@ -444,6 +444,141 @@ for each row execute procedure update_view_count();
 
 
 
+/*Alternative search*/
+
+
+drop function if exists find_entertainment_and_rates; -- WHAT IF IT IS SPELLED WRONG?
+
+create function find_entertainment_and_rates (search_for_entertainment varchar(100))
+returns table (
+  id varchar(10),
+  title_name varchar(100),
+  title_rating numeric(4,2),
+  total_views numeric(9,0)
+)
+language plpgsql as $$
+
+declare title_key varchar(100) := replace(concat('%', lower(search_for_entertainment), '%'), ' ', '');
+begin
+	raise notice '%', title_key;
+	raise notice 'test';
+	return query
+
+		select t_id, title, rating, webpage.wp_view_count as total_views
+		from title
+		left join webpage on t_id = p_t_id
+		where replace(lower(title.title), ' ', '') like title_key
+		order by title.rating desc, total_views desc; 
+	
+end;
+$$;
+
+select find_entertainment_and_rates('Friends');
+
+--------------------------------------------------
+--------------------------------------------------
+--------------------------------------------------
+
+
+
+
+drop function if exists find_people_and_rates; -- WHAT IF IT IS SPELLED WRONG?
+
+create function find_people_and_rates (search_for_people varchar(100))
+returns table(id varchar(10), name varchar(100)
+)
+
+language plpgsql as $$
+
+declare people_key varchar(100) := replace(concat('%', lower(search_for_people), '%'), ' ', '');
+begin
+	raise notice '%', people_key;
+	raise notice 'test';
+	return query
+
+		select person.p_id, person.name
+		--t_id, title, rating, webpage.wp_view_count as total_views
+		--from title
+		from person 
+		-- left join person_involved_title using ()
+		-- title har rating - skal bruge t_id
+		-- person_involved_title har p_id og t_id
+		left join title_cast
+		where replace(lower(person.name), ' ', '') like people_key
+		order by title_cast.rating desc;-- total_views desc; 
+end;
+$$;
+
+select person.p_id, person.name
+from person 
+left join title_cast
+where replace(lower(person.name), ' ', '') like people_key
+order by title_cast.rating desc;-- total_views desc; 
+
+
+/*
+drop view if exists title_cast;
+create view title_cast as (
+    select p_id, name, t_id, title, character, rating
+    from person_involved_title natural join title natural join person
+    where character is not null
+);
+*/
+
+select.p_id, person.name
+from person
+
+select * from title_cast;
+
+call rate('tt0903624', 1, 6);
+call rate('tt21832076', 1, 7);
+call rate('tt21824192', 1, 8);
+call rate('tt1170358', 1, 9);
+
+-- D7!
+
+create view person_rated as 
+	(with temp_test as (
+	select distinct name, title, rating
+	from title_cast)
+		select name, round(sum(rating) / count(title), 3) as rating
+		from temp_test
+		group by name
+		order by rating desc
+);
+
+alter table person
+add person_rating numeric(8,3);
+
+update person
+set person_rating = rating
+from person_rated
+where person.name = person_rated.name;
+
+select * from person
+where person_rating is not null
+order by person_rating desc;
+
+
+
+
+
+
+select * from find_people_and_rates('red');
+select find_people_and_rates('staire');
+select find_people_and_rates('Fred Astaire');
+select find_people_and_rates('red Astai');
+
+--------------------------------------------------
+--------------------------------------------------
+--------------------------------------------------
+
+
+
+
+
+
+
 
 
 
@@ -454,10 +589,9 @@ for each row execute procedure update_view_count();
 
 /*Alternative search*/
 
-
 -- find_person (halfway done)
 
-drop function if exists find_person;
+drop function if exists find_person_and_rates;
 
 create function find_person (search_for_person varchar(100))
 returns table(id varchar(10), name varchar(100))
@@ -484,28 +618,45 @@ select find_person('red Astai');
 
 -- find_entertainment (halfway done)
 
-drop function if exists find_entertainment;
 
-create function find_entertainment (search_for_entertainment varchar(100))
-returns table(id varchar(10), title varchar(2000))
-language plpgsql as $$
 
-declare title_key varchar(100) := replace(concat('%', lower(search_for_entertainment), '%'), ' ', '');
-begin
-	return query
-		-- select part of name
-		select title.t_id, title.title from title
-		where replace(lower(title.title), ' ', '') like title_key;
-		-- second part: what if the name of the title isn't spelled correctly?
-end;
-$$; 
+
+-------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------------
+
 
 select find_entertainment('odfather');
 select find_entertainment('?');
 select find_entertainment('he godfat');
 
 
+-------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------------
 
+
+drop function if exists list_relevant_titles(); 
+create or replace function list_relevant_titles()  -- REMEMBER RELEVANT PEOPLE
+returns table (
+  id varchar(10),
+  title_name varchar(100),
+  title_rating numeric(4,2),
+  total_views numeric(9,0)
+)
+language plpgsql as $$
+begin 
+  return query
+  select t_id, title, rating, webpage.wp_view_count as total_views
+  from title
+  left join webpage on t_id = p_t_id
+  order by title.rating desc, total_views desc; 
+
+end;
+$$;
+
+select * from list_relevant_titles(); -- a list of "popular" titles
+-------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------------
 
 
 
@@ -520,9 +671,13 @@ create view person_title_webpages as (
   order by wp_id
  );
 
-
 select * from person_title_webpages;
 
 
 
-
+drop view if exists title_cast;
+create view title_cast as (
+    select p_id, name, t_id, title, character, rating 
+    from person_involved_title natural join title natural join person
+    where character is not null
+);
