@@ -54,8 +54,8 @@ create table bookmarks
 	bookmark_id varchar,
   u_id int not null,
   primary key(bookmark_id, u_id),
-  foreign key (bookmark_id) references bookmark,
-  foreign key (u_id) references users
+  foreign key (bookmark_id) references bookmark on delete cascade,
+  foreign key (u_id) references users on delete cascade
 );
 
 create table history
@@ -63,8 +63,8 @@ create table history
 	search_id varchar,
   u_id int not null,
   primary key(search_id, u_id),
-  foreign key (search_id) references search,
-  foreign key (u_id) references users
+  foreign key (search_id) references search on delete cascade,
+  foreign key (u_id) references users on delete cascade
 );
 
 create table wp_bookmarks
@@ -72,8 +72,8 @@ create table wp_bookmarks
   bookmark_id varchar,
   wp_id varchar(12) not null,
   primary key(bookmark_id, wp_id),
-  foreign key (bookmark_id) references bookmark,
-  foreign key (wp_id) references webpage
+  foreign key (bookmark_id) references bookmark on delete cascade,
+  foreign key (wp_id) references webpage on delete cascade
 
 );
 
@@ -83,8 +83,8 @@ create table wp_search
   search_id varchar,
   wp_id varchar(12),
 	primary key (search_id, wp_id),
-	foreign key (search_id) references search,
-  foreign key (wp_id) references webpage
+	foreign key (search_id) references search on delete cascade,  
+  foreign key (wp_id) references webpage on delete cascade
 );
 
 create table rates
@@ -92,9 +92,10 @@ create table rates
   t_id varchar(10),
   u_id int,
   rating numeric(4,2),
+  timestamps timestamp,
   primary key(t_id, u_id),
-  foreign key (t_id) references title,
-  foreign key (u_id) references users
+  foreign key (t_id) references title on delete cascade,
+  foreign key (u_id) references users on delete cascade
 );
 
 

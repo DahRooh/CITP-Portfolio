@@ -44,11 +44,29 @@ SEARCH
 */
 select * from users;
 
-insert into search values (concat('1' CURRENT_TIMESTAMP), 'Zombies of Oz: Tin' ,CURRENT_TIMESTAMP);
-insert into history values (2, 1);
+insert into search values (concat('1', CURRENT_TIMESTAMP), 'Zombies of Oz: Tin' ,CURRENT_TIMESTAMP);
+insert into history values ('12024-10-02 17:15:01.784764+02', 2);
 insert into wp_search values (2, 'wptt2506874');
 
 select * from title where t_id = 'tt2506874';
+select * from title where title = 'Friends';
+
+
+
+/*
+Nothing Like Dreaming : tt2506874
+Friends   :   tt0108778
+Zombies of Oz: Tin   : tt2506874
+*/
+select * from search;
+select * from history;
+
+
+
+select * from title
+where type = 'movie';
+
+
 
 
 /*
@@ -61,9 +79,17 @@ BOOKMARKS
 WP_BOOKMARKS
 */
 
-insert into bookmark values (concat('1', 'wptt2506874'), CURRENT_TIMESTAMP);
-insert into bookmarks values (1, 1);
+insert into bookmark values (concat('1', 'wptt0108778'), CURRENT_TIMESTAMP);
+insert into bookmarks values ('1wptt2506874', 2);
 insert into wp_bookmarks values (1, 'wptt2506874');
+
+select * from bookmark;
+select * from bookmarks;
+
+
+
+
+
 
 
 -- all user bookmarks

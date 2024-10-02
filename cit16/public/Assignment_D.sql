@@ -22,14 +22,26 @@ create view person_title_webpages as (
   select lower(title) as name_title, wp_id, url, lower(plot) from webpage join title on t_id = p_t_id 
   order by wp_id
  );
-
-
+ 
+drop view if exists person_rated;
 drop view if exists title_cast;
 create view title_cast as (
     select p_id, name, t_id, title, character, rating 
     from person_involved_title natural join title natural join person
     where character is not null
 );
+
+create view person_rated as 
+    (with temp_test as (
+    select distinct name, title, rating
+    from title_cast)
+        select name, round(sum(rating) / count(title), 3) as rating
+        from temp_test
+        group by name
+        order by rating desc
+);
+
+
 
 --------------------------------------------------------------------------------
 -- sign up procedure 
@@ -271,6 +283,78 @@ select person_known_for('Alfred Hitchcock');
 
 
 
+--------------------------------------------------------------------------------
+
+-- delete user
+
+create procedure delete_user(in user_id int)
+language plpgsql as $$
+begin
+  delete from users
+  where u_id = user_id;
+end;
+$$;
+
+
+
+
+--------------------------------------------------------------------------------
+
+-- delete bookmark
+
+create procedure delete_bookmark(in user_bookmark_id int, in user_id int)
+language plpgsql as $$
+begin
+  delete from bookmark
+  where bookmark_id = user_bookmark_id 
+  and u_id = user_id;
+end;
+$$;
+
+
+
+
+
+--------------------------------------------------------------------------------
+
+-- clear_history
+
+
+drop procedure clear_history;
+
+create procedure clear_history(in user_id int)
+language plpgsql as $$
+begin
+delete from 
+  search where search_id in (
+                      select search_id 
+                      from search natural join history
+                      where u_id = 1
+                      );
+end;
+$$;
+
+
+-- example
+call clear_history(1);
+
+
+-- nothing from user where id = 1
+select * from history;
+select * from wp_search;
+select * from search;
+
+select * from wp_search natural join search natural join history;
+
+-- show we retain ids from other users
+call insert_search('asd', 1);
+call insert_search('', 1);
+
+select * from wp_search natural join search natural join history;
+call clear_history(1);
+select * from wp_search natural join search natural join history;
+
+
 
 
 
@@ -337,10 +421,10 @@ language plpgsql as $$
 begin
   if title_id in (select t_id from rates where u_id = user_id) then
     update rates 
-    set rating = user_rating
+    set rating = user_rating, timestamps = current_timestamp
     where t_id = title_id;
   else 
-    insert into rates values (title_id, user_id, user_rating);
+    insert into rates values (title_id, user_id, user_rating, current_timestamp);
   end if;
 end;
 $$;
@@ -383,6 +467,31 @@ order by rating desc;
 
 
 
+
+--------------------------------------------------------------------------------
+
+-- get user rating
+
+drop function if exists get_user_rating;
+create function get_user_rating(user_id int)
+returns table (
+    title_name varchar(2000),
+    user_rating numeric(4,2),
+    rating_timestamp timestamp
+)
+language plpgsql as $$
+
+begin
+    return query
+        select title.title, rates.rating, timestamps
+        from title
+        join rates using (t_id)
+    order by timestamps desc;
+end;
+$$;
+
+-- example
+select * from get_user_rating(1);
 
 
 
@@ -535,15 +644,6 @@ Make sure to give higher influence to titles with more votes in the calculation.
 You can do this by calculating a weighted average of the averagerating for the titles, where the numvotes is used as weight.
 */
 
-create view person_rated as 
-	(with temp_test as (
-	select distinct name, title, rating
-	from title_cast)
-		select name, round(sum(rating) / count(title), 3) as rating
-		from temp_test
-		group by name
-		order by rating desc
-);
 
 alter table person
 add person_rating numeric(8,3);
