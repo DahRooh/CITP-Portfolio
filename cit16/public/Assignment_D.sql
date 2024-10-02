@@ -258,10 +258,13 @@ select person_known_for('Alfred Hitchcock');
 
 
 --to make
--- delete user (cascades on ddl)
--- delete bookmark (cascades)
--- clear history (cascades)
--- get user ratings
+-- delete user -> bookmarks, searches, rates (cascades on ddl)
+-- delete bookmark -> wp_bookmark, bookmarks (cascades)
+
+-- clear history (maybe cascades)
+
+-- get user ratings -> add time_stamp to table and order
+
 -- logout?? if needed (session)
 
 
@@ -830,7 +833,7 @@ begin
     
     query := query || ' select title, count(title)
     from title join wi on t_id = tconst
-    where lower(word) like '''||keyword||'''
+    where lower(word) like '''||lower(keyword)||'''
     group by title
     union';
 
@@ -860,7 +863,9 @@ select * from best_match('dog', 'king', 'monkey');
 
 
 /*
-D.13. Word-to-words querying: An alternative, to providing search results as ranked lists of posts, is to provide answers in the form of ranked lists of words. These would then be weighted keyword lists with weights indicating relevance to the query. Develop functionality to provide such lists as answer. 
+D.13. Word-to-words querying: An alternative, to providing search results as ranked lists of posts, is to provide answers in the form of ranked lists of words. These would then be weighted keyword lists with weights indicating relevance to the query. 
+
+Develop functionality to provide such lists as answer. 
 
 One option to do this is the following:
 1) Evaluate the keyword query and derive the set of all matching titles, 
@@ -869,6 +874,20 @@ One option to do this is the following:
 
 3) provide the most frequent words (in decreasing order) as an answer (the frequency is thus the weight here)
 */
+
+
+
+with titles_from_keyword as (
+  select t_id from wi join title on tconst = t_id
+  where lower(word) like 'geller'
+)
+select word, count(word) 
+from titles_from_keyword join wi on tconst = t_id
+GROUP BY word
+order by count desc;
+
+
+
 
 
 
