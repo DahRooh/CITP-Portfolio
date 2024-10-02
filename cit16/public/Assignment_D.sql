@@ -713,10 +713,44 @@ select * from find_similar_titles_via_title_id_and_user_id('tt0108778', 1);
 
 
 /*
-D.10. Frequent person words: The wi table provides an inverted index for titles using the 4 columns: primarytitle, plot and, from persons involved in the title, characters and primaryname. So, given a title, we can from wi get a lot of words, that are somehow characteristic for the title. To retrieve a list of words that are characteristic for a person we can do the following: find the titles the person has been involved in, and find all words associated with these titles (using wi). To get a list of unique words, you can just group by word in an aggregation by count(). Thereby you'll get a list of words together with their frequencies in all titles the person has been involved in. Use this principle in a function person_words() that takes a person name as parameter and returns a list of words in decreasing frequency order, limited to fixed length (e.g. 10). 
+D.10. Frequent person words: 
+The wi table provides an inverted index for titles using the 4 columns: 
+primarytitle, plot and, character and primaryname.
+
+So, given a title, we can from wi get a lot of words, that are somehow characteristic for the title. 
+
+To retrieve a list of words that are characteristic for a person we can do the following: 
+
+find the titles the person has been involved in, and find all words associated with these titles (using wi). 
+To get a list of unique words, you can just group by word in an aggregation by count(). 
+
+Thereby you'll get a list of words together with their frequencies in all titles the person has been involved in. Use this principle in a function person_words() that takes a person name as parameter and returns a list of words in decreasing frequency order, limited to fixed length (e.g. 10). 
 
 Optionally, add a parameter to the function to set a maximum for the length of the list. You can consider the frequency to be a weight, where higher weight means more importance in the characteristics of the person.
 */
+drop function if exists person_words;
+
+create function person_words(person_name varchar, list_length int)
+returns table (wi_word text, frequency bigint)
+language plpgsql as $$
+begin
+  return query
+    select word, count(word)
+      from person
+      natural join person_involved_title 
+      natural join title
+      join wi on t_id = tconst
+      where name = person_name
+      group by word
+      order by count desc
+      limit list_length;
+end;
+$$;
+  
+-- example
+select * from person_words('Ian McKellen', 30);
+
+
 
 
 
@@ -731,6 +765,39 @@ Introduce an exact-match querying function that takes one or more keywords as ar
 Use the inverted index wi for this purpose. You can find inspiration on how to do that in the slides on Textual Data and IR.
 */
 
+drop function if exists exact_match;
+create function exact_match(variadic keywords text[])
+returns table (t_title varchar)
+language plpgsql as $$
+
+declare
+  query varchar := '';
+  keyword varchar;
+
+begin
+  foreach keyword in array keywords
+  loop
+    
+    query := query || ' select title
+    from title join wi on t_id = tconst
+    where lower(word) like '''||keyword||'''
+    intersect';
+
+  end loop;
+  
+  
+  query := ' select title as title from ('||query||') as foo';
+  
+
+  return query execute query;
+end;
+$$;
+
+
+
+-- example
+select * from exact_match('tribbiani', 'aniston', 'geller');
+select * from exact_match('tribbiani', 'aniston', 'yeller');
 
 
 
@@ -748,9 +815,42 @@ A best-match ranking simply means: the more keywords that match, the higher the 
 See also the Textual Data and IR slides for hints.
 */
 
+drop function if exists best_match;
+create function best_match(variadic keywords text[])
+returns table (t_title varchar, frequency bigint)
+language plpgsql as $$
+declare 
+query text := '';
+keyword text;
+
+begin
+
+  foreach keyword in array keywords
+  loop
+    
+    query := query || ' select title, count(title)
+    from title join wi on t_id = tconst
+    where lower(word) like '''||keyword||'''
+    group by title
+    union';
+
+    
+  end loop;
+  raise notice 'before: %', query;
+  query := ' select title as title, count as frequency from ('||query||') as foo
+  order by frequency desc';
+  
+  raise notice 'after: %', query;
+  query := replace(query, 'union)', ')');
+  
+  return query execute query;
+  
+end;
+$$;
 
 
-
+-- example
+select * from best_match('dog', 'king', 'monkey');
 
 
 
