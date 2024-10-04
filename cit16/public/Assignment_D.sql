@@ -12,6 +12,15 @@ You could also consider developing functions for adding notes to titles and name
 -- 
 
 
+/*
+WEBPAGE
+*/
+insert into webpage (wp_id, p_t_id)
+select concat('wp', t_id), t_id from title
+union
+select concat('wp', p_id), p_id from person;
+
+
 /* Views */
 
 drop view if exists person_title_webpages;
