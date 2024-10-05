@@ -1,5 +1,5 @@
 -- view
-drop view if exists person_title_webpages; 
+drop view person_title_webpages;
 
 -- relations
 drop table if exists bookmarks;
@@ -99,9 +99,18 @@ create table rates
 );
 
 
+insert into webpage (wp_id, p_t_id)
+select concat('wp', t_id), t_id from title
+union
+select concat('wp', p_id), p_id from person;
 
 
-
+create view person_title_webpages as (
+  select lower(name) as name_title, wp_id, url, null as plot from webpage join person on p_id = p_t_id
+  union
+  select lower(title) as name_title, wp_id, url, lower(plot) from webpage join title on t_id = p_t_id 
+  order by wp_id
+ );
 
 
 

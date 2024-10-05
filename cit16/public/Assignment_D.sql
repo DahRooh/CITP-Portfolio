@@ -310,16 +310,15 @@ $$;
 --------------------------------------------------------------------------------
 
 -- delete bookmark
+drop procedure delete_bookmark;
 
-create procedure delete_bookmark(in user_bookmark_id int, in user_id int)
+create procedure delete_bookmark(in user_bookmark_id varchar)
 language plpgsql as $$
 begin
   delete from bookmark
-  where bookmark_id = user_bookmark_id 
-  and u_id = user_id;
+  where bookmark_id = user_bookmark_id;
 end;
 $$;
-
 
 
 
