@@ -115,7 +115,7 @@ $$;
 
 
 
-
+-- get session
 drop function if exists get_session;
 create function get_session(p_user_id int)
 returns table(
@@ -140,7 +140,7 @@ $$;
 
 
 
-
+-- start session
 drop procedure if exists start_session;
 create procedure start_session(in user_id int)
 language plpgsql as $$
@@ -170,7 +170,7 @@ $$;
 
 
 
-
+-- sign off session
 drop procedure if exists sign_off; -- end session thats it.
 create procedure sign_off(in user_id int)
 language plpgsql as $$
@@ -190,8 +190,8 @@ $$;
 
 
 
-
-
+-- to run rest of selects used for temp.
+call signup('username1', 'hashed-password', 'mail1@mail.ok', null);
 
 
 --------------------------------------------------------------------------------
@@ -209,6 +209,25 @@ begin
   insert into wp_bookmarks values (bookmark_id, webpage_id);
 end;
 $$;
+
+
+-- insert all titles into bookmarks on user 1.
+/*
+delete from bookmark;
+do $$
+declare 
+  title_record record;
+begin
+  for title_record in 
+    select t_id
+    from title
+  loop 
+  call insert_bookmark(1, 'wp'||title_record.t_id);
+  end loop;
+end;
+$$ language plpgsql;*/
+
+
 
 ------------------------------------------
 -- get bookmarks
@@ -228,7 +247,7 @@ begin
   return query
     select bookmark.bookmark_id, 
            wp_bookmarks.wp_id, 
-           user_bookmarks.u_id, bookmark_timestamp
+           user_bookmarks.u_id, bookmarked_at
     from bookmark natural join wp_bookmarks natural join user_bookmarks
     where p_wp_id = wp_bookmarks.wp_id;
 end;
@@ -251,7 +270,7 @@ begin
   return query
     select bookmark.bookmark_id, 
            wp_bookmarks.wp_id, 
-           user_bookmarks.u_id, bookmark_timestamp
+           user_bookmarks.u_id, bookmarked_at
     from bookmark natural join wp_bookmarks natural join user_bookmarks
     where p_u_id = user_bookmarks.u_id;
 end;
@@ -386,9 +405,9 @@ language plpgsql as
 $$
 begin
 	return query
-	select keyword, search_timestamp from history natural join search
+	select keyword, searched_at from history natural join search
 	where u_id = user_id
-	order by search_timestamp desc;
+	order by searched_at desc;
 end;
 $$;
 
@@ -429,20 +448,78 @@ average rating appropriately.
 */
 
 
+
+
+
 /* User rate */
 drop procedure if exists rate;
-create procedure rate(in title_id varchar(10), in user_id int, in user_rating numeric(4,2))
+create procedure rate(in title_id varchar(10), in user_id int, in user_rating numeric(4,2), in in_review varchar(256))
 language plpgsql as $$
+declare review_id int;
+new_rev_id int;
 begin
+  select rev_id into review_id from rates where u_id = user_id;
+  
   if title_id in (select t_id from rates where u_id = user_id) then
     update rates 
-    set rating = user_rating, timestamps = current_timestamp
+    set rating = user_rating, rated_at = current_timestamp
     where t_id = title_id;
+    if in_review is not null then 
+      update review 
+      set review = in_review
+      where rev_id = review_id;
+    end if;
   else 
-    insert into rates values (title_id, user_id, user_rating, current_timestamp);
+    insert into review (review, likes) 
+    values (in_review, default)
+    returning rev_id into new_rev_id;
+
+    
+    insert into rates values (title_id, user_id, new_rev_id, user_rating, current_timestamp);
+    
   end if;
 end;
 $$;
+
+call rate('tt2506874', 1, 6, 'This is very good');
+select * from review natural join rates;
+
+call rate('tt2506874', 1, 3, 'This is not very good');
+select * from review natural join rates;
+
+
+
+
+-- liking reviews
+drop procedure if exists like_review;
+create procedure like_review(in user_id int, in in_rev_id int, in in_liked boolean)
+language plpgsql as $$
+begin
+  if (select count(*) 
+      from review 
+      where rev_id = in_rev_id) > 0
+      then 
+        update likes
+        set liked = in_liked
+        where u_id = user_id and rev_id = in_rev_id;
+      else 
+        insert into likes values (user_id, in_rev_id, in_liked);
+      end if;
+end;
+$$;
+
+call signup('username2', 'hashed-password', 'mail2@mail.ok', null);
+
+select * from users;
+
+select * from review;
+
+call like_review(2, 1, true);
+
+-- trigger for calculating likes:
+
+
+
 
 
 /* Rates trigger after insert */
@@ -458,7 +535,7 @@ begin
       select avg(rating) 
       from rates where t_id = new.t_id)
       where t_id = new.t_id;
-      
+
     
     return null; -- need to return something
 end; $$
@@ -486,10 +563,10 @@ language plpgsql as $$
 
 begin
     return query
-        select title.title, rates.rating, timestamps
+        select title.title, rates.rating, rated_at
         from title
         join rates using (t_id)
-    order by timestamps desc;
+    order by rated_at desc;
 end;
 $$;
 

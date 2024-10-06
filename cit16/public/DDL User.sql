@@ -8,8 +8,14 @@ drop table if exists user_bookmarks;
 drop table if exists history;
 drop table if exists rates;
 drop table if exists wp_bookmarks;
+drop table if exists likes;
 drop table if exists wp_search;
+
+
+drop table if exists bookmarks;
+
 -- entities
+drop table if exists review;
 drop table if exists webpage;
 drop table if exists users;
 drop table if exists search;
@@ -41,16 +47,16 @@ create table search
 (
 		search_id varchar primary key,
     keyword varchar,
-    search_timestamp timestamp	
+    searched_at timestamp	
 );
 
 create table bookmark
 (
   bookmark_id varchar primary key,
-  bookmark_timestamp timestamp
+  bookmarked_at timestamp
 );
 
-create table bookmarks
+create table user_bookmarks
 (
 	bookmark_id varchar,
   u_id int not null,
@@ -88,16 +94,38 @@ create table wp_search
   foreign key (wp_id) references webpage on delete cascade
 );
 
+create table review (
+  rev_id serial primary key,
+  review varchar(256) default null,
+  likes int default 0
+);
+
 create table rates
 (
   t_id varchar(10),
   u_id int,
+  rev_id int,
   rating numeric(4,2),
-  timestamps timestamp,
+  rated_at timestamp,
   primary key(t_id, u_id),
   foreign key (t_id) references title on delete cascade,
-  foreign key (u_id) references users on delete cascade
+  foreign key (u_id) references users on delete cascade,
+  foreign key (rev_id) references review on delete cascade
+  
 );
+
+
+create table likes
+(
+  u_id int,
+  rev_id int,
+  liked boolean,
+  primary key(u_id, rev_id),
+  foreign key (u_id) references users on delete cascade,
+  foreign key (rev_id) references review on delete cascade
+)
+
+
 
 
 
