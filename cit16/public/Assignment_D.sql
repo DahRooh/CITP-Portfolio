@@ -4,21 +4,23 @@ You will need functions for managing users and for bookmarking names and titles.
 You could also consider developing functions for adding notes to titles and names and for retrieving bookmarks as well as search history and rating history for users.*/
 
 
---we got:
--- signup
--- login
--- inserts for. bookmark, search (relations)
--- known for
--- 
-
 
 /*
 WEBPAGE
 */
-insert into webpage (wp_id, p_t_id)
-select concat('wp', t_id), t_id from title
-union
-select concat('wp', p_id), p_id from person;
+do $$
+begin
+  if (select count(*) from webpage) = 0 then
+
+    insert into webpage (wp_id, p_t_id)
+    select concat('wp', t_id), t_id from title
+    union
+    select concat('wp', p_id), p_id from person;
+  end if;
+end;
+$$ language plpgsql;
+
+
 
 
 /* Views */
@@ -44,11 +46,12 @@ create view person_rated as
     (with temp_test as (
     select distinct name, title, rating
     from title_cast)
-        select name, round(sum(rating) / count(title), 3) as rating
+        select name, round(sum(rating) / count(title), 2) as rating
         from temp_test
         group by name
         order by rating desc
 );
+
 
 
 
@@ -59,7 +62,6 @@ drop procedure if exists signup;
 create procedure signup(in username varchar(20), in password varchar(256), in email varchar(50), out results boolean)
 LANGUAGE plpgsql
 as $$
-declare results boolean;
 begin
   begin 
     insert into users (username, password, email) values(username, password, email);
@@ -70,17 +72,11 @@ begin
       raise notice 'Cannot sign up';
       results := false;
   end;
+  raise notice 'results %', results;
 end;
 $$;
 
 
--- examples
--- call signup procedure example
-call signup('username1', 'hashed-password', 'mail1@mail.ok', null);
-
-
--- check signup
-select * from users;
 
 
 
@@ -93,91 +89,115 @@ create function login_user(p_username varchar, p_password varchar)
 returns boolean
 language plpgsql as $$
 declare 
-  results int; 
-
+  results int;
+  user_id int;
 begin 
-  with login_try as (
-    select * from users 
-    where username = p_username and password = p_password )
+  select u_id into user_id
+  from users 
+  where username = p_username;
   
-  select count(*) into results from login_try;
+
+  select count(*) into results
+  from users 
+  where username = p_username and password = p_password;
+
+  
+  if results > 0 then 
+    call start_session(user_id); 
+  end if;
   return results;
 end;
 $$;
 
--- examples
-select * from login_user('username1', 'hashed-password'); -- User can login
-select * from login_user('username1', 'incorrect-password'); -- User cannot login
 
 
 
---------------------------------------------------------------------------------
--- Procedure for insert_search
-
-drop procedure insert_search;
-
-create procedure insert_search(in keyword varchar, in user_id int)
-language plpgsql as $$
-declare
-	now_timestamp timestamp := current_timestamp;
-	search_id varchar := concat(keyword, now_timestamp);
-
-begin
-	insert into search values (search_id, keyword, now_timestamp);
-	insert into history values (search_id, user_id);
-	insert into wp_search
-	select search_id, webp_id from user_search(keyword)
-	limit 100;
-end;
-$$;
-
-
--- examples
--- insert into wp_search
-call insert_search('Zombies of Oz: Tin', 1);
-
-select * from history 
-natural join wp_search
-natural join search;
 
 
 
-------------------------------------------
--- get_user_history 
 
-drop function if exists get_user_history;
-create function get_user_history(user_id int)
-returns table
-(
-	search_word varchar, time_searched timestamp
+drop function if exists get_session;
+create function get_session(p_user_id int)
+returns table(
+  session_id int, 
+  user_id int,
+  timecreated timestamp,
+  timeended timestamp,
+  expired varchar
 )
-language plpgsql as 
-$$
-begin
-	return query
-	select keyword, search_timestamp from history natural join search
-	where u_id = user_id
-	order by search_timestamp desc;
+language plpgsql as $$
+begin 
+  return query
+    select session.session_id, u_id, session_start, session_end, expiration from session natural join user_session
+    where u_id = p_user_id 
+    order by session_start desc;
 end;
 $$;
 
 
 
 
--- examples
--- insert some searches then view
-call insert_search('The Godfather', 1);
-call insert_search('Friends', 1);
-call insert_search('asd', 1);
-call insert_search('', 1);
 
-select * from get_user_history(1);
+
+
+
+drop procedure if exists start_session;
+create procedure start_session(in user_id int)
+language plpgsql as $$
+declare 
+  sess_id int;
+  last_session_ended timestamp;
+  last_session_id int;
+  
+begin
+  select timeended, session_id 
+  into last_session_ended, last_session_id
+  from get_session(user_id);
+  
+
+  
+  if last_session_ended is null then 
+    call sign_off(user_id);
+  end if;
+
+  insert into session (session_start, session_end, expiration) 
+  values(default, null, 'not made yet') returning session_id into sess_id;
+  
+  insert into user_session values (user_id, sess_id);
+end;
+$$;
+
+
+
+
+
+drop procedure if exists sign_off; -- end session thats it.
+create procedure sign_off(in user_id int)
+language plpgsql as $$
+declare 
+  sess_id int;
+
+  
+begin
+  select session_id into sess_id from get_session(1) limit 1;
+  
+  update session 
+  set session_end = current_timestamp
+  where session_id = sess_id;
+end;
+$$;
+
+
+
+
+
+
 
 
 --------------------------------------------------------------------------------
 -- procedure for inserting into wp and bookmarks
 
-drop procedure insert_bookmark;
+drop procedure if exists insert_bookmark;
 
 create procedure insert_bookmark(in user_id int, in webpage_id varchar)
 language plpgsql as $$
@@ -189,11 +209,6 @@ begin
   insert into wp_bookmarks values (bookmark_id, webpage_id);
 end;
 $$;
-
-
--- examples
-call insert_bookmark(1, 'wptt2506874');
-
 
 ------------------------------------------
 -- get bookmarks
@@ -243,11 +258,6 @@ end;
 $$;
 
 
--- examples
-select * from get_bookmarks('wptt2506874');
-select * from get_bookmarks(1);
-
-
 
 --------------------------------------------------------------------------------
 -- Person known for
@@ -268,26 +278,6 @@ end;
 $$;
 
 
--- examples
-select person_known_for('Fred Astaire');
-select person_known_for('Alfred Hitchcock');
-
-
-
-
-
-
-
---to make
--- delete user -> bookmarks, searches, rates (cascades on ddl)
--- delete bookmark -> wp_bookmark, bookmarks (cascades)
-
--- clear history (maybe cascades)
-
--- get user ratings -> add time_stamp to table and order
-
--- logout?? if needed (session)
-
 
 
 
@@ -295,7 +285,7 @@ select person_known_for('Alfred Hitchcock');
 --------------------------------------------------------------------------------
 
 -- delete user
-
+drop procedure if exists delete_user;
 create procedure delete_user(in user_id int)
 language plpgsql as $$
 begin
@@ -310,57 +300,16 @@ $$;
 --------------------------------------------------------------------------------
 
 -- delete bookmark
-drop procedure delete_bookmark;
+drop procedure if exists delete_bookmark;
 
-create procedure delete_bookmark(in user_bookmark_id varchar)
+create procedure delete_bookmark(in user_bookmark_id int, in user_id int)
 language plpgsql as $$
 begin
   delete from bookmark
-  where bookmark_id = user_bookmark_id;
+  where bookmark_id = user_bookmark_id 
+  and u_id = user_id;
 end;
 $$;
-
-
-
-
---------------------------------------------------------------------------------
-
--- clear_history
-
-
-drop procedure clear_history;
-
-create procedure clear_history(in user_id int)
-language plpgsql as $$
-begin
-delete from 
-  search where search_id in (
-                      select search_id 
-                      from search natural join history
-                      where u_id = 1
-                      );
-end;
-$$;
-
-
--- example
-call clear_history(1);
-
-
--- nothing from user where id = 1
-select * from history;
-select * from wp_search;
-select * from search;
-
-select * from wp_search natural join search natural join history;
-
--- show we retain ids from other users
-call insert_search('asd', 1);
-call insert_search('', 1);
-
-select * from wp_search natural join search natural join history;
-call clear_history(1);
-select * from wp_search natural join search natural join history;
 
 
 
@@ -394,17 +343,75 @@ begin
 end;
 $$;
 
--- examples (how to do it in one line?)
-call insert_search('monkey', 1);
-select * from string_search('monkey');
-
-call insert_search('lord', 1);
-select * from string_search('lord');
 
 
-select * from get_user_history(1);
+
+--------------------------------------------------------------------------------
+-- Procedure for insert_search
+  
+
+drop procedure if exists insert_search;
+
+create procedure insert_search(in keyword varchar, in user_id int)
+language plpgsql as $$
+declare
+	now_timestamp timestamp := current_timestamp;
+	search_id varchar := concat(keyword, now_timestamp);
+  search_words text[] := string_to_array(keyword, ' ');
+  
+begin
+  raise notice 'array: %', search_words;
+
+	insert into search values (search_id, keyword, now_timestamp);
+	insert into history values (search_id, user_id);
+	insert into wp_search
+	select search_id, wp_id from best_match(variadic search_words)
+	limit 100;
+end;
+$$;
 
 
+
+
+------------------------------------------
+-- get_user_history 
+
+drop function if exists get_user_history;
+create function get_user_history(user_id int)
+returns table
+(
+	search_word varchar, time_searched timestamp
+)
+language plpgsql as 
+$$
+begin
+	return query
+	select keyword, search_timestamp from history natural join search
+	where u_id = user_id
+	order by search_timestamp desc;
+end;
+$$;
+
+
+
+--------------------------------------------------------------------------------
+
+-- clear_history
+
+
+drop procedure if exists clear_history;
+
+create procedure clear_history(in user_id int)
+language plpgsql as $$
+begin
+delete from 
+  search where search_id in (
+                      select search_id 
+                      from search natural join history
+                      where u_id = 1
+                      );
+end;
+$$;
 
 
 /*
@@ -423,7 +430,7 @@ average rating appropriately.
 
 
 /* User rate */
-drop procedure rate;
+drop procedure if exists rate;
 create procedure rate(in title_id varchar(10), in user_id int, in user_rating numeric(4,2))
 language plpgsql as $$
 begin
@@ -441,7 +448,7 @@ $$;
 /* Rates trigger after insert */
 -- rate trigger. when a row is inserted into rates, then we update the rating for that title.;
 drop trigger if exists rate_title on rates;
-drop function rate_trigger;
+drop function if exists rate_trigger;
 
 create function rate_trigger() -- the trigger function
 returns trigger as $$
@@ -451,28 +458,16 @@ begin
       select avg(rating) 
       from rates where t_id = new.t_id)
       where t_id = new.t_id;
-      return null; -- need to return something
+      
+    
+    return null; -- need to return something
 end; $$
 language plpgsql;
 
 
 create trigger rate_title -- the trigger (calling the trigger function)
-after insert or update on rates
+after delete or insert or update on rates
 for each row execute procedure rate_trigger(); -- for each new row
-  
-  
--- examples
-truncate rates;
-
-call rate('tt0903624', 1, 6);
-call rate('tt21832076', 1, 7);
-call rate('tt21824192', 1, 8);
-call rate('tt1170358', 1, 9);
-call rate('tt2506874', 1, 10);
--- Check rating
-select * from title 
-order by rating desc;
-
 
 
 
@@ -497,9 +492,6 @@ begin
     order by timestamps desc;
 end;
 $$;
-
--- example
-select * from get_user_rating(1);
 
 
 
@@ -549,11 +541,6 @@ end;
 $$;
 
 
--- example
-select * from structured_string_search('monKey', 'blob', 'Bilbo', 'Alfred');
-
-
-
 
 /*
 D.5. Finding names: The above search functions are focused on finding titles. Try to add to these by developing one or two functions aimed at finding names (of for instance actors).
@@ -580,20 +567,6 @@ begin
 end;
 $$;
 
--- example
-select * from simple_search_person('friends'); 
-call insert_search('friends', 1);
-select * from get_user_history(1);
-
-
-
--- examples (how to do it in one line?)
-select * from string_search('monkey');
-
-call insert_search('lord', 1);
-select * from string_search('lord');
-
-
 
 
 
@@ -604,14 +577,6 @@ played).
 
 Hint: You may for this as well as for other purposes find a view helpful to make query expressions easier (to express and to read). An example of such a view could be one that collects the most important columns from title, principals and name in a single virtual table.
 */
-
-
-drop view if exists title_cast;
-create view title_cast as (
-    select p_id, name, t_id, title, character, rating
-    from person_involved_title natural join title natural join person
-    where character is not null
-);
 
 
 
@@ -635,11 +600,6 @@ end;
 $$;
 
 
-select * from find_coactors('Ian McKellen');
-
-
-
-
 
 /*
 D.7. Name rating: 
@@ -652,20 +612,38 @@ Make sure to give higher influence to titles with more votes in the calculation.
 You can do this by calculating a weighted average of the averagerating for the titles, where the numvotes is used as weight.
 */
 
+do $$
+declare rating_exists boolean;
 
-alter table person
-add person_rating numeric(8,3);
+begin
+select exists ( -- check if column has been made
+    select 1 
+    from information_schema.columns 
+    where table_name = 'person' 
+      and column_name = 'person_rating'
+) into rating_exists;
 
-update person
-set person_rating = rating
-from person_rated
-where person.name = person_rated.name;
+if not rating_exists then -- if not make it
+  alter table person
+  add person_rating numeric(8,3);
+  
+end if;
+end;
+$$ language plpgsql;
 
-select * from person
-where person_rating is not null
-order by person_rating desc;
 
+drop procedure if exists update_all_people_rating;
+create procedure update_all_people_rating()
+language plpgsql as $$
+begin
+  update person
+  set person_rating = rating
+  from person_rated
+  where person.name = person_rated.name;
+end;
+$$;
 
+-- call update_all_people_rating();
 
 
 /*
@@ -696,7 +674,6 @@ begin
 end;
 $$;
 
-select * from name_ratings('The Hobbit: The Desolation of Smaug');
 
 -- 2)
 
@@ -715,11 +692,6 @@ begin
 
 end;
 $$;
-
-select * from co_players_rating('Ian McKellen');
-select * from co_players_rating('Ken Stott');
-
-
 
 
 
@@ -816,9 +788,6 @@ begin
 end;
 $$;
 
-select * from find_similar_titles_via_title_id_and_user_id('tt0108778', 1);
-
-
 
 
 
@@ -858,13 +827,6 @@ begin
 end;
 $$;
   
--- example
-select * from person_words('Ian McKellen', 30);
-
-
-
-
-
 
 
 
@@ -895,7 +857,9 @@ begin
     intersect';
 
   end loop;
-  
+  if query != '' then
+        query := left(query, length(query) - 9); 
+  end if;
   
   query := ' select title as title from ('||query||') as foo';
   
@@ -903,14 +867,6 @@ begin
   return query execute query;
 end;
 $$;
-
-
-
--- example
-select * from exact_match('tribbiani', 'aniston', 'geller');
-select * from exact_match('tribbiani', 'aniston', 'yeller');
-
-
 
 
 
@@ -928,44 +884,41 @@ See also the Textual Data and IR slides for hints.
 
 drop function if exists best_match;
 create function best_match(variadic keywords text[])
-returns table (t_title varchar, frequency bigint)
+returns table (title varchar, wp_id varchar, frequency bigint)
 language plpgsql as $$
 declare 
 query text := '';
 keyword text;
 
 begin
+  if (array_length(keywords, 1) > 0 and keywords[1] <> '') then
+    foreach keyword in array keywords
+    loop
 
-  foreach keyword in array keywords
-  loop
-    
-    query := query || ' select title, count(title)
-    from title join wi on t_id = tconst
-    where lower(word) like '''||lower(keyword)||'''
-    group by title
-    union';
+      query := query || ' select title, wp_id, count(t_id)
+      from title join wi on t_id = tconst 
+      join webpage on tconst = p_t_id
+      where lower(word) like '''||lower(keyword)||'''
+      group by title, wp_id
+      union all';
 
+      
+    end loop;
     
-  end loop;
-  raise notice 'before: %', query;
-  query := ' select title as title, count as frequency from ('||query||') as foo
-  order by frequency desc';
-  
-  raise notice 'after: %', query;
-  query := replace(query, 'union)', ')');
-  
-  return query execute query;
-  
+
+    query := left(query, length(query) - 10);   
+    
+    query := 'with key_words_match as ('||query||')
+    select title, wp_id, count as frequency 
+    from key_words_match
+    order by frequency desc';
+    
+
+
+    return query execute query;
+  end if;
 end;
 $$;
-
-
--- example
-select * from best_match('dog', 'king', 'monkey');
-
-
-
-
 
 
 
@@ -983,27 +936,22 @@ One option to do this is the following:
 3) provide the most frequent words (in decreasing order) as an answer (the frequency is thus the weight here)
 */
 
-
-
-with titles_from_keyword as (
-  select t_id from wi join title on tconst = t_id
-  where lower(word) like 'geller'
-)
-select word, count(word) 
-from titles_from_keyword join wi on tconst = t_id
-GROUP BY word
-order by count desc;
-
-
-
-
-
-
-
-
-
-
-
+drop function if exists word_to_words;
+create function word_to_words(keyword varchar)
+returns table (wi_word text, counter bigint)
+language plpgsql as $$
+begin
+  return query
+    with titles_from_keyword as (
+      select t_id from wi join title on tconst = t_id
+      where lower(word) like keyword
+    )
+    select word, count(word) 
+    from titles_from_keyword join wi on tconst = t_id
+    GROUP BY word
+    order by count desc;
+end;
+$$;
 
 /*
 Consider, if time allows, the following issues.
@@ -1015,7 +963,93 @@ weighted indexing.
 Finally, feel free to elaborate.
 */
 
+/*
+drop function if exists relevance_ranking;
+create function relevance_ranking(variadic query text[])
+returns table (t_id varchar, word text, appears bigint)
+language plpgsql as $$
+declare 
+  title_record record;
+begin
 
+  
+
+
+  for title_record in 
+    select title.t_id, wi.word, count(wi.word) as term_appears
+    from title join wi on title.t_id = tconst 
+    group by title.t_id, wi.word
+    order by term_appears desc
+  loop 
+    raise notice 'word: % appears: %', title_record.word, title_record.term_appears;
+    return query select title_record.t_id, title_record.word, title_record.term_appears;
+  end loop;
+
+end;
+$$;
+
+
+select * from relevance_ranking('monkey');
+*/
+
+
+
+
+
+/*
+create table new_wi(
+  word varchar not null,
+  t_id varchar,
+  field char
+);
+
+truncate new_wi;
+with word_list_plots as (
+select t_id, unnest(string_to_array(regexp_replace(lower(plot), '[,.;:?!-"%''&#]', '', 'g'), ' ')) as word 
+from title
+)
+insert into new_wi 
+select t_id, word, 'p' as field
+from word_list_plots
+where word <> ''
+order by word;
+
+
+with word_list_titles as (
+select t_id, unnest(string_to_array(regexp_replace(lower(title), '[,.;:?!-"%''&#]', '', 'g'), ' ')) as word 
+from title
+)
+insert into new_wi 
+select t_id, word, 't' as field
+from word_list_titles
+where word <> ''
+order by word;
+
+
+with word_list_people as (
+select t_id, unnest(string_to_array(regexp_replace(lower(name), '[,.;:?!-"%''&#]', '', 'g'), ' ')) as word 
+from title natural join person_involved_title natural join person
+)
+insert into new_wi 
+select t_id, word, 'n' as field
+from word_list_people
+where word <> ''
+order by word;
+
+
+with word_list_characters as (
+select 
+  t_id, 
+  character, 
+  
+  unnest(string_to_array(trim(both '''' from left(right(character, length(character) - 1), length(character) - 2)), ' ')) AS word
+  
+from title natural join person_involved_title
+)
+insert into new_wi 
+select t_id, word, 'c' as field
+from word_list_characters
+where word <> '';*/
 
 
 
@@ -1026,22 +1060,16 @@ Finally, feel free to elaborate.
 /*
 D.15. Own ideas [OPTIONAL] 
 If you have some ideas of your own, you can plug them in here.
+
+session -> get session, start session
+
+sign off
+
+rate includes comment
+
+users can like or dislike a comment
+
 */
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
