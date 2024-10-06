@@ -205,7 +205,7 @@ declare
   bookmark_id varchar := concat(user_id, webpage_id);
 begin
   insert into bookmark values (bookmark_id, current_timestamp);
-  insert into bookmarks values (bookmark_id, user_id);
+  insert into user_bookmarks values (bookmark_id, user_id);
   insert into wp_bookmarks values (bookmark_id, webpage_id);
 end;
 $$;
@@ -228,8 +228,8 @@ begin
   return query
     select bookmark.bookmark_id, 
            wp_bookmarks.wp_id, 
-           bookmarks.u_id, bookmark_timestamp
-    from bookmark natural join wp_bookmarks natural join bookmarks
+           user_bookmarks.u_id, bookmark_timestamp
+    from bookmark natural join wp_bookmarks natural join user_bookmarks
     where p_wp_id = wp_bookmarks.wp_id;
 end;
 $$;
@@ -251,9 +251,9 @@ begin
   return query
     select bookmark.bookmark_id, 
            wp_bookmarks.wp_id, 
-           bookmarks.u_id, bookmark_timestamp
-    from bookmark natural join wp_bookmarks natural join bookmarks
-    where p_u_id = bookmarks.u_id;
+           user_bookmarks.u_id, bookmark_timestamp
+    from bookmark natural join wp_bookmarks natural join user_bookmarks
+    where p_u_id = user_bookmarks.u_id;
 end;
 $$;
 
@@ -776,7 +776,7 @@ begin
   join title_is using(t_id)
   join webpage on t_id = p_t_id
   left join wp_bookmarks using(wp_id)
-  left join bookmarks using(bookmark_id)
+  left join user_bookmarks using(bookmark_id)
   where genre in (
       select genre
       from title_is

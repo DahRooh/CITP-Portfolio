@@ -2,13 +2,13 @@
 drop view if exists person_title_webpages; 
 drop view if exists person_rated;
 drop view if exists title_cast;
+
 -- relations
-drop table if exists bookmarks;
+drop table if exists user_bookmarks;
 drop table if exists history;
 drop table if exists rates;
 drop table if exists wp_bookmarks;
 drop table if exists wp_search;
-
 -- entities
 drop table if exists webpage;
 drop table if exists users;
