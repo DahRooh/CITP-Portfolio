@@ -18,12 +18,11 @@ call signup('username1', 'hashed-password', 'mail1@mail.ok', null);
 select * from users;
 
 
-
-
 /*Testing: Login*/
 
 -- 1: Testing if a user can login
 select * from login_user('username1', 'hashed-password'); -- User can login
+
 
 select * from login_user('username1', 'incorrect-password'); -- User cannot login
 

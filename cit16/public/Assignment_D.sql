@@ -460,7 +460,7 @@ declare
 begin
   select rev_id into review_id 
   from rates 
-  where u_id = user_id and rev_id = review_id;
+  where u_id = user_id;
   
   if title_id in 
   (select t_id from rates where u_id = user_id) 
@@ -468,8 +468,11 @@ begin
     update rates 
     set rating = user_rating, rated_at = current_timestamp
     where t_id = title_id;
-    if in_review is not null then 
-      update review 
+    raise notice ' check %', review_id;
+
+    if in_review is not null then
+      raise notice ' check ';
+      update review
       set review = in_review
       where rev_id = review_id;
     end if;
@@ -514,12 +517,13 @@ call signup('username2', 'hashed-password', 'mail2@mail.ok', null);
 call signup('username3', 'hashed-password', 'mail3@mail.ok', null);
 
 
+-- title_id, user_id, rating, review of title
 call rate('tt2506874', 1, 1, 'hate comment');
 
 
 call like_review(1, 1, 1); 
-call like_review(2, 1, 1);
-call like_review(3, 1, 1);
+call like_review(2, 1, -1);
+call like_review(3, 1, -1);
 
 select * from review join rates using(rev_id);
 
