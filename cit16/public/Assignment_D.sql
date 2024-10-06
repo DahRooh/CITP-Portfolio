@@ -812,38 +812,9 @@ D.9. Similar movies: Discuss and suggest a notion of similarity among movies. De
 
 */
 
-
--- Find all the movies/series that have the same genre as the input_title
-drop function if exists find_similar_titles_via_title(varchar); 
-create or replace function find_similar_titles_via_title(input_title varchar)
-returns table(
-  similar_title varchar,
-  genre_of_similar_title varchar
-)
-language plpgsql as $$
-begin
-  return query
-  select title as similar_title,
-         genre as genre_of_similar_title
-  from title
-  join title_is using(t_id)
-  where genre in (
-      select genre
-      from title_is
-      join title using(t_id)
-      where title = input_title)
-  
-  and title <> input_title;
-end;
-$$;
-
-
-
-
-
 -- Find all the movies/series that have the same genre as the input_title_id
-drop function if exists find_similar_titles_via_title_id(varchar); 
-create or replace function find_similar_titles_via_title_id(input_title_id varchar)
+drop function if exists find_similar_titles(varchar); 
+create or replace function find_similar_titles(input_title_id varchar)
 returns table(
   similar_title varchar,
   genre_of_similar_title varchar
@@ -862,44 +833,6 @@ begin
   and t_id <> input_title_id;
 end;
 $$;
-
-
-
--- Find all the movies/series that have the same genre as the input_title_id and user_id
-drop function if exists find_similar_titles_via_title_id_and_user_id(varchar, int); 
-
-create or replace function find_similar_titles_via_title_id_and_user_id(input_title_id varchar, user_id int)
-returns table(
-  similar_title_id varchar,
-  similar_title varchar,
-  is_bookmarked boolean,
-  multiple_same_genre numeric
-)
-language plpgsql as $$
-begin
-  return query
-  select distinct t_id as similar_title_id,
-         title as similar_title,
-         case when bookmark_id is not null then true else false end as is_bookmarked,
-         sum(case when (select count(distinct genre) from title_is) > 1 
-         then 1 else 0 end)::numeric as multiple_same_genre
-  from title
-  join title_is using(t_id)
-  join webpage on t_id = p_t_id
-  left join wp_bookmarks using(wp_id)
-  left join user_bookmarks using(bookmark_id)
-  where genre in (
-      select genre
-      from title_is
-      where t_id = input_title_id)
-  and t_id <> input_title_id
-  and (u_id = user_id or u_id is null)
-  group by similar_title_id, similar_title, is_bookmarked
-  order by multiple_same_genre desc, is_bookmarked desc;
-end;
-$$;
-
-
 
 
 
