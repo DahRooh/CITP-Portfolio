@@ -155,13 +155,12 @@ begin
   from get_session(user_id);
   
 
-  
   if last_session_ended is null then 
     call sign_off(user_id);
   end if;
 
   insert into session (session_start, session_end, expiration) 
-  values(default, null, 'not made yet') returning session_id into sess_id;
+  values(default, default, default) returning session_id into sess_id;
   
   insert into user_session values (user_id, sess_id);
 end;
@@ -455,12 +454,17 @@ average rating appropriately.
 drop procedure if exists rate;
 create procedure rate(in title_id varchar(10), in user_id int, in user_rating numeric(4,2), in in_review varchar(256))
 language plpgsql as $$
-declare review_id int;
-new_rev_id int;
+declare 
+  review_id int;
+  new_rev_id int;
 begin
-  select rev_id into review_id from rates where u_id = user_id;
+  select rev_id into review_id 
+  from rates 
+  where u_id = user_id and rev_id = review_id;
   
-  if title_id in (select t_id from rates where u_id = user_id) then
+  if title_id in 
+  (select t_id from rates where u_id = user_id) 
+  then -- update current rating and review
     update rates 
     set rating = user_rating, rated_at = current_timestamp
     where t_id = title_id;
@@ -469,56 +473,79 @@ begin
       set review = in_review
       where rev_id = review_id;
     end if;
-  else 
+  else -- create new rating/review
     insert into review (review, likes) 
     values (in_review, default)
     returning rev_id into new_rev_id;
 
-    
-    insert into rates values (title_id, user_id, new_rev_id, user_rating, current_timestamp);
+    insert into rates 
+    values (title_id, user_id, new_rev_id, user_rating, current_timestamp);
     
   end if;
 end;
 $$;
 
-call rate('tt2506874', 1, 6, 'This is very good');
-select * from review natural join rates;
-
-call rate('tt2506874', 1, 3, 'This is not very good');
-select * from review natural join rates;
 
 
 
 
 -- liking reviews
 drop procedure if exists like_review;
-create procedure like_review(in user_id int, in in_rev_id int, in in_liked boolean)
+create procedure like_review(in user_id int, in in_rev_id int, in in_liked int)
 language plpgsql as $$
 begin
   if (select count(*) 
-      from review 
-      where rev_id = in_rev_id) > 0
+      from likes l join review r on l.rev_id = r.rev_id
+      where l.u_id = user_id) > 0
       then 
         update likes
         set liked = in_liked
         where u_id = user_id and rev_id = in_rev_id;
+        raise notice 'update!!';
       else 
+        raise notice 'insert!!';
         insert into likes values (user_id, in_rev_id, in_liked);
       end if;
 end;
 $$;
 
+call signup('username1', 'hashed-password', 'mail1@mail.ok', null);
 call signup('username2', 'hashed-password', 'mail2@mail.ok', null);
+call signup('username3', 'hashed-password', 'mail3@mail.ok', null);
 
-select * from users;
 
-select * from review;
+call rate('tt2506874', 1, 1, 'hate comment');
 
-call like_review(2, 1, true);
+
+call like_review(1, 1, 1); 
+call like_review(2, 1, 1);
+call like_review(3, 1, 1);
+
+select * from review join rates using(rev_id);
 
 -- trigger for calculating likes:
+drop trigger if exists update_likes on likes;
+drop function if exists calculate_likes;
+
+create function calculate_likes() 
+returns trigger as $$
+declare
+  in_rev_id int;
+begin
+    update review
+    set likes = (
+    select sum(liked) 
+    from review join likes using(rev_id) 
+    where rev_id = new.rev_id);
+
+    return null; 
+end; $$
+language plpgsql;
 
 
+create trigger update_likes
+after insert or update on likes
+for each row execute procedure calculate_likes();
 
 
 

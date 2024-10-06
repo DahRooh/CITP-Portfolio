@@ -32,7 +32,7 @@ $$;*/
 ENTITIES CREATION
 */
 
-
+select * from session;
 
 
 /* PERSON TABLE */

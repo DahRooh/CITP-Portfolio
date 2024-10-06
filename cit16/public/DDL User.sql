@@ -10,11 +10,12 @@ drop table if exists rates;
 drop table if exists wp_bookmarks;
 drop table if exists likes;
 drop table if exists wp_search;
-
+drop table if exists user_session;
 
 drop table if exists bookmarks;
 
 -- entities
+drop table if exists session;
 drop table if exists review;
 drop table if exists webpage;
 drop table if exists users;
@@ -119,15 +120,27 @@ create table likes
 (
   u_id int,
   rev_id int,
-  liked boolean,
+  liked int,
   primary key(u_id, rev_id),
   foreign key (u_id) references users on delete cascade,
   foreign key (rev_id) references review on delete cascade
-)
+);
 
 
+create table session (
+  session_id serial primary key,
+  session_start timestamp default current_timestamp,
+  session_end timestamp default null,
+  expiration varchar default 'not made yet'
+);
 
-
+create table user_session(
+  u_id int,
+  session_id int,
+  primary key (u_id, session_id),
+  foreign key (u_id) references users,
+  foreign key (session_id) references session
+);
 
 
 
