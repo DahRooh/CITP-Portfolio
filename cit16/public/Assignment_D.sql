@@ -203,9 +203,15 @@ language plpgsql as $$
 declare 
   bookmark_id varchar := concat(user_id, webpage_id);
 begin
-  insert into bookmark values (bookmark_id, current_timestamp);
-  insert into user_bookmarks values (bookmark_id, user_id);
-  insert into wp_bookmarks values (bookmark_id, webpage_id);
+  begin
+    insert into bookmark values (bookmark_id, current_timestamp);
+    insert into user_bookmarks values (bookmark_id, user_id);
+    insert into wp_bookmarks values (bookmark_id, webpage_id);
+
+    exception
+      when others then
+        raise notice 'Already bookmarked.';
+  end;
 end;
 $$;
 
@@ -320,12 +326,11 @@ $$;
 -- delete bookmark
 drop procedure if exists delete_bookmark;
 
-create procedure delete_bookmark(in user_bookmark_id int, in user_id int)
+create procedure delete_bookmark(in user_bookmark_id varchar, in user_id int)
 language plpgsql as $$
 begin
   delete from bookmark
-  where bookmark_id = user_bookmark_id 
-  and u_id = user_id;
+  where bookmark_id = user_bookmark_id;
 end;
 $$;
 
@@ -574,13 +579,11 @@ language plpgsql;
 
 
 create trigger rate_title -- the trigger (calling the trigger function)
-after delete or insert or update on rates
+after insert or update on rates
 for each row execute procedure rate_trigger(); -- for each new row
 
 
-
 --------------------------------------------------------------------------------
-
 -- get user rating
 
 drop function if exists get_user_rating;

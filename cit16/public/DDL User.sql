@@ -138,7 +138,7 @@ create table user_session(
   u_id int,
   session_id int,
   primary key (u_id, session_id),
-  foreign key (u_id) references users,
+  foreign key (u_id) references users on delete cascade,
   foreign key (session_id) references session
 );
 
