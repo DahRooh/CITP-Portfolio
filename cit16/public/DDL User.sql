@@ -90,6 +90,7 @@ create table wp_search
 (
   search_id varchar,
   wp_id varchar(12),
+  frequency numeric,
 	primary key (search_id, wp_id),
 	foreign key (search_id) references search on delete cascade,  
   foreign key (wp_id) references webpage on delete cascade

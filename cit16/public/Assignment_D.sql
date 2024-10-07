@@ -981,11 +981,11 @@ create function searching_algorithm(variadic keywords text[])
 returns table (id varchar, title varchar,keyword text, appears numeric, results numeric)
 language plpgsql as $$
 declare 
-  keyword text; -- givet
-  keyword_appears numeric; -- fundet
-  total_words numeric; -- fundet
-  total_webpages numeric; -- fundet
-  title_with_keyword numeric; -- fundet
+  keyword text;
+  keyword_appears numeric; 
+  total_words numeric; 
+  total_webpages numeric; 
+  title_with_keyword numeric; 
   
   web_page record;
   
@@ -995,7 +995,7 @@ begin
   -- total amount of documents
   select count(wp_id) into total_webpages from webpage;
 
-  foreach keyword in array keywords -- vend loops om????
+  foreach keyword in array keywords
   loop
     keyword := lower(keyword);
     
@@ -1025,22 +1025,23 @@ begin
       where lower(word) = keyword 
       and title.t_id = web_page.t_id;
 
-
       select ((keyword_appears / total_words) 
               * log(total_webpages/title_with_keyword)) into results;
       return query 
           select web_page.t_id, web_page.title, keyword, keyword_appears, round(results, 10);
     end loop;
-  
-
   end loop;
   end;
 $$;
 
 
-select * from searching_algorithm('lord', 'of', 'the', 'rings')
-order by results desc
+
+select 'lord of the rings' as search_id, 'wp'||id as wp_id
+from searching_algorithm('lord', 'of', 'the', 'rings')
+group by search_id, wp_id
+order by sum(results) desc
 limit 50;
+
 
 
 
@@ -1070,22 +1071,49 @@ users can like or dislike a comment
 
 drop procedure if exists insert_search;
 
-create procedure insert_search(in keyword varchar, in user_id int)
+create procedure insert_search(in keyword text, in user_id int, out new_search_id varchar)
 language plpgsql as $$
 declare
 	now_timestamp timestamp := current_timestamp;
 	search_id varchar := concat(keyword, now_timestamp);
-  search_words text[] := string_to_array(keyword, ' ');
+  variadic_keyword text[] := string_to_array(keyword, ' ');
   
 begin
-  raise notice 'array: %', search_words;
-
+  new_search_id := search_id;
 	insert into search values (search_id, keyword, now_timestamp);
 	insert into history values (search_id, user_id);
 	insert into wp_search
-	select search_id, wp_id from best_match(variadic search_words)
-	limit 100;
+    select search_id, 'wp'||id as wp_id, sum(results)
+    from searching_algorithm(variadic variadic_keyword)
+    group by search_id, wp_id
+    order by sum desc
+    limit 50;
 end;
 $$;
+
+
+
+call insert_search('lord of the rings the two towers abe kat', 1, null);
+
+-- get just made search
+select title, frequency 
+from wp_search natural join webpage natural join title
+where search_id = 'null'
+order by frequency desc;
+
+
+
+
+
+select * 
+from wp_search;
+natural join history 
+natural join search 
+order by frequency desc;
+
+select * from get_user_history(1);
+
+call clear_history(1);
+
 
 
