@@ -1,3 +1,9 @@
+/*
+
+GROUP: cit16, MEMBERS: Andreas Moosdorf, Dagmar Ree, Eray Erkul 
+
+*/
+
 
 
 /*This is our test file.
@@ -30,13 +36,10 @@ select * from get_session(1); -- no session started
 call login_user('username1', 'hashed-password', null); -- User can login (session start)
 
 select * from get_session(1); -- session has been started
--- skal med i rapport (ikke skrevet om denne)
 
 call sign_off(1); -- user signs off (session stops)
--- skal med i rapport (ikke skrevet om denne)
 
 select * from get_session(1); -- session has ended (as seen my by timeended, not expired)
--- skal med i rapport (ikke skrevet om denne)
 
 call login_user('username1', 'hashed-password', null); -- User logs in again
 
@@ -44,10 +47,7 @@ call login_user('username1', 'hashed-password', null); -- User logs in again
 
 
 
--- TO-DO:
 /*Testing: Search*/
-
-
 /*Following section is centered upon searching algorithms*/
 
 -- The following is not used in the program:

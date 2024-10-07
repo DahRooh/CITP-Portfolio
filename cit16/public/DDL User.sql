@@ -1,3 +1,11 @@
+/*
+
+GROUP: cit16, MEMBERS: Andreas Moosdorf, Dagmar Ree, Eray Erkul 
+
+*/
+
+
+
 -- view
 drop view if exists person_title_webpages; 
 drop view if exists person_rated;
@@ -31,11 +39,7 @@ create table webpage
   wp_view_count numeric(9,0) default 0
 );
 
-/*
-select * from title
-union 
-select concat('wp', t_id) from title;
-*/
+
 create table users
 (
 		u_id serial primary key,

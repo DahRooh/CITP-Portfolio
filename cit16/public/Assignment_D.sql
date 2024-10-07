@@ -1,3 +1,12 @@
+/*
+
+GROUP: cit16, MEMBERS: Andreas Moosdorf, Dagmar Ree, Eray Erkul 
+
+*/
+
+
+
+
 /*D.1. Basic framework functionality: 
 Consider what is needed to support the framework anddevelop functions for that. 
 You will need functions for managing users and for bookmarking names and titles. 
@@ -6,7 +15,7 @@ You could also consider developing functions for adding notes to titles and name
 
 
 /*
-WEBPAGE
+WEBPAGE creation
 */
 do $$
 begin
@@ -171,7 +180,7 @@ $$;
 
 
 -- sign off session
-drop procedure if exists sign_off; -- end session thats it.
+drop procedure if exists sign_off; -- end session thats it
 create procedure sign_off(in user_id int)
 language plpgsql as $$
 declare 
@@ -215,21 +224,6 @@ end;
 $$;
 
 
--- insert all titles into bookmarks on user 1.
-/*
-delete from bookmark;
-do $$
-declare 
-  title_record record;
-begin
-  for title_record in 
-    select t_id
-    from title
-  loop 
-  call insert_bookmark(1, 'wp'||title_record.t_id);
-  end loop;
-end;
-$$ language plpgsql;*/
 
 
 
@@ -397,9 +391,7 @@ $$;
 
 -- clear_history
 
-
 drop procedure if exists clear_history;
-
 create procedure clear_history(in user_id int)
 language plpgsql as $$
 begin
@@ -452,7 +444,7 @@ begin
     set rating = user_rating, rated_at = current_timestamp
     where t_id = title_id;
     if in_review is not null then
-      raise notice 'update review aswell';
+      raise notice 'update review as well';
 
       update review
       set review = in_review
@@ -489,9 +481,9 @@ begin
         update likes
           set liked = in_liked
           where u_id = user_id and rev_id = in_rev_id;
-          raise notice 'update!!';
+          raise notice 'update like';
       else 
-        raise notice 'insert!!';
+        raise notice 'insert like';
         insert into likes values (user_id, in_rev_id, in_liked);
       end if;
 end;
@@ -508,7 +500,7 @@ returns trigger as $$
 declare
   in_rev_id int;
 begin
-    raise notice 'recalculate likes! new % ', new.rev_id;
+    raise notice 'recalculate likes on review: %', new.rev_id;
     update review
     set likes = (
       select coalesce(sum(liked), 0)
@@ -528,27 +520,28 @@ for each row execute procedure calculate_likes();
 
 /* Rates trigger after insert */
 -- rate trigger. when a row is inserted into rates, then we update the rating for that title.;
+
 drop trigger if exists rate_title on rates;
 drop function if exists rate_trigger;
 
 create function rate_trigger() -- the trigger function
 returns trigger as $$
 begin
-    raise notice 'new: %', new;
+    raise notice 'recalculate likes on %', new.rev_id;
     update title
     set rating = (
       select avg(rating) 
       from rates 
       where rev_id = new.rev_id);
 
-    return null; -- need to return something
+    return new; 
 end; $$
 language plpgsql;
 
 
 create trigger rate_title -- the trigger (calling the trigger function)
 after insert or update on rates
-for each row execute procedure rate_trigger(); -- for each new row
+for each row execute procedure rate_trigger(); -- for each new row run function
 
 
 --------------------------------------------------------------------------------
@@ -589,11 +582,8 @@ Make the function flexible in the sense that it don’t care about case of lette
 
 */
 
--- in: 
--- out: id, title
 
 drop function if exists structured_string_search;
-
 create function structured_string_search(_title varchar, _plot varchar, _characters varchar, _person varchar)
 returns table(
   id varchar,
@@ -686,7 +676,7 @@ Derive a rating of names (just actors or all names, as you prefer) based on rati
 
 Modify the database to store also these name ratings.
 
--- not made yet v
+-- not made yet, will be added in next revision.
 Make sure to give higher influence to titles with more votes in the calculation.
 You can do this by calculating a weighted average of the averagerating for the titles, where the numvotes is used as weight.
 */
@@ -702,7 +692,7 @@ select exists ( -- check if column has been made
       and column_name = 'person_rating'
 ) into rating_exists;
 
-if not rating_exists then -- if not make it
+if not rating_exists then -- if not, make it
   alter table person
   add person_rating numeric(8,3);
   
@@ -722,7 +712,7 @@ begin
 end;
 $$;
 
--- call update_all_people_rating();
+call update_all_people_rating();
 
 
 /*
@@ -733,7 +723,7 @@ co-players in order of decreasing popularity.
 */
 
 
--- 1)
+-- 1) find all names' rating based on their respective rating in a title
 drop function if exists name_ratings;
 create function name_ratings(movie_title varchar)
 returns table (person_name varchar, avg_rating numeric)
@@ -754,8 +744,7 @@ end;
 $$;
 
 
--- 2)
-
+-- 2) find all co-actors rating based on their respective rating
 drop function if exists co_players_rating;
 create function co_players_rating(actor varchar)
 returns table (co_players_name varchar, avg_rating numeric)
@@ -779,10 +768,9 @@ $$;
 D.9. Similar movies: Discuss and suggest a notion of similarity among movies. Design and implement a function that, given a movie as input, will provide a list of other movies that are similar.
 
 */
+-- Find all the movies/series that have the same genre as the input_title_id, rank by how many
 
--- Find all the movies/series that have the same genre as the input_title_id
 drop function if exists find_similar_titles; 
-
 create or replace function find_similar_titles(input_title_id varchar)
 returns table(
   similar_title_id varchar,
@@ -825,8 +813,8 @@ Thereby you'll get a list of words together with their frequencies in all titles
 
 Optionally, add a parameter to the function to set a maximum for the length of the list. You can consider the frequency to be a weight, where higher weight means more importance in the characteristics of the person.
 */
-drop function if exists person_words;
 
+drop function if exists person_words;
 create function person_words(person_name varchar, list_length int)
 returns table (wi_word text, frequency bigint)
 language plpgsql as $$
@@ -988,15 +976,15 @@ create function searching_algorithm(variadic keywords text[])
 returns table (id varchar, title varchar,keyword text, appears numeric, results numeric)
 language plpgsql as $$
 declare 
-  keyword text;
-  keyword_appears numeric; 
-  total_words numeric; 
-  total_webpages numeric; 
-  title_with_keyword numeric; 
+  keyword text; 
+  keyword_appears numeric; -- used in tf
+  total_words numeric;  -- used in tf
+  total_webpages numeric; -- used in idf
+  title_with_keyword numeric; -- used in idf 
   
   web_page record;
   
-  results numeric;
+  results numeric; -- result of equation tf-idf
   
 begin
   -- total amount of documents
@@ -1032,7 +1020,7 @@ begin
       where lower(word) = keyword 
       and title.t_id = web_page.t_id;
 
-      select ((keyword_appears / total_words) 
+      select ((keyword_appears / total_words) -- equation
               * log(total_webpages/title_with_keyword)) into results;
       return query 
           select web_page.t_id, web_page.title, keyword, keyword_appears, round(results, 10);
@@ -1063,9 +1051,8 @@ users can like or dislike a comment
 --------------------------------------------------------------------------------
 -- Procedure for insert_search
   
-
+-- insert search into all the tables related
 drop procedure if exists insert_search;
-
 create procedure insert_search(in keyword text, in user_id int, out new_search_id varchar)
 language plpgsql as $$
 declare
@@ -1087,6 +1074,7 @@ end;
 $$;
 
 
+-- temp function to call insert and obtain the result
 drop function if exists make_search;
 create function make_search(keyword varchar, user_id int) 
 returns table (webpage_id varchar, relevance numeric)

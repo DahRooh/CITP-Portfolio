@@ -1,3 +1,11 @@
+/*
+
+GROUP: cit16, MEMBERS: Andreas Moosdorf, Dagmar Ree, Eray Erkul 
+
+*/
+
+
+
 -- view
 drop view if exists person_title_webpages; 
 drop view if exists person_rated;
@@ -93,34 +101,3 @@ create table title_is(
 	foreign key(t_id) references title
 );
 
-
-
-/*
-create table award(
-	a_id varchar(10) primary key,
-	award_type varchar(30),
-	won varchar(1)
-);
-create table title_award(
-	a_id varchar(10),
-	t_id varchar(10),
-	primary key(a_id, t_id),
-	foreign key(a_id) references award,
-	foreign key (t_id) references title
-);
-
-create table mov_title(
-	t_id varchar(10) not null,
-	mov_id varchar(10),
-	primary key(t_id, mov_id),
-	foreign key(t_id) references title,
-	foreign key(mov_id) references movie
-);
-
-create table ep_title(
-	ep_id varchar(10),
-	t_id varchar(10) not null,
-	primary key(ep_id, t_id),
-	foreign key(ep_id) references episode, 
-	foreign key(t_id) references title 
-);*/
