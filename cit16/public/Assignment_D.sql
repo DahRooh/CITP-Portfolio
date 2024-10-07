@@ -774,24 +774,29 @@ D.9. Similar movies: Discuss and suggest a notion of similarity among movies. De
 */
 
 -- Find all the movies/series that have the same genre as the input_title_id
-drop function if exists find_similar_titles(varchar); 
+drop function if exists find_similar_titles; 
+
 create or replace function find_similar_titles(input_title_id varchar)
 returns table(
+  similar_title_id varchar,
   similar_title varchar,
-  genre_of_similar_title varchar
+  multiple_same_genre numeric
 )
 language plpgsql as $$
 begin
   return query
-  select title as similar_title,
-         genre as genre_of_similar_title
+  select distinct t_id as similar_title_id,
+         title as similar_title,
+         sum(case when (select count(genre) from title_is where title_is.genre = genre) > 1 then 1 else 0 end)::numeric as multiple_same_genre
   from title
   join title_is using(t_id)
   where genre in (
       select genre
       from title_is
       where t_id = input_title_id)
-  and t_id <> input_title_id;
+  and t_id <> input_title_id
+  group by similar_title_id, similar_title 
+  order by multiple_same_genre desc;
 end;
 $$;
 

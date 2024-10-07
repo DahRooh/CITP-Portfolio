@@ -220,7 +220,19 @@ select * from name_ratings('The Hobbit: The Desolation of Smaug');
 -- Finds rating of co-actors to the specified actor/actress
 select * from co_players_rating('Ian McKellen');
 
--- find_similar_titles!!!
+-- find_similar_titles
+-- Showing all the similar titles
+select * from find_similar_titles('tt2506874');
+
+-- Checking what genre 'tt2506874' has
+select * from title_is
+where t_id = 'tt2506874';
+
+-- Comparing if the outcome of find_similar_titles is correct
+select * from title_is
+where t_id = 'tt0483702'; -- It is correct
+
+
 
 /*Testing_ person_words*/
 -- Finds most frequent words related to the name passed to the function. 
