@@ -82,10 +82,10 @@ $$;
 
 
 --------------------------------------------------------------------------------
--- sign in function 
+-- sign in procedure 
 drop procedure if exists login_user;
 
-create procedure login_user(in p_username varchar, in p_password varchar, out results boolean)
+create procedure login_user(in p_username varchar, in p_password varchar, out logged_in boolean)
 language plpgsql as $$
 declare 
   results int;
@@ -103,9 +103,9 @@ begin
   
   if results > 0 then 
     call start_session(user_id); 
-    results := true;
+    logged_in := true;
   else 
-    results := false;
+    logged_in := false;
   end if;
 end;
 $$;
@@ -208,6 +208,7 @@ begin
 
     exception
       when others then
+        raise notice 'Error: %', sqlerrm;
         raise notice 'Already bookmarked.';
   end;
 end;
@@ -446,16 +447,21 @@ begin
   if title_id in 
   (select t_id from rates where u_id = user_id) 
   then -- update current rating and review
+    raise notice 'update current rating';
     update rates 
     set rating = user_rating, rated_at = current_timestamp
     where t_id = title_id;
     if in_review is not null then
+      raise notice 'update review aswell';
+
       update review
       set review = in_review
       where rev_id = review_id;
     end if;
     
   else -- create new rating/review
+    raise notice 'creating new rating/review';
+
     insert into review (review, likes) 
     values (in_review, default)
     returning rev_id into new_rev_id;
@@ -477,13 +483,13 @@ create procedure like_review(in user_id int, in in_rev_id int, in in_liked int)
 language plpgsql as $$
 begin
   if (select count(*) 
-      from likes l join review r on l.rev_id = r.rev_id
-      where l.u_id = user_id) > 0
+      from likes l 
+      where l.u_id = user_id and l.rev_id = in_rev_id) > 0
       then 
         update likes
-        set liked = in_liked
-        where u_id = user_id and rev_id = in_rev_id;
-        raise notice 'update!!';
+          set liked = in_liked
+          where u_id = user_id and rev_id = in_rev_id;
+          raise notice 'update!!';
       else 
         raise notice 'insert!!';
         insert into likes values (user_id, in_rev_id, in_liked);
@@ -502,16 +508,17 @@ returns trigger as $$
 declare
   in_rev_id int;
 begin
+    raise notice 'recalculate likes! new % ', new.rev_id;
     update review
     set likes = (
-    select sum(liked) 
-    from review join likes using(rev_id) 
-    where rev_id = new.rev_id);
+      select coalesce(sum(liked), 0)
+      from likes 
+      where rev_id = new.rev_id)
+      where rev_id = new.rev_id;
 
-    return null; 
+    return new; 
 end; $$
 language plpgsql;
-
 
 create trigger update_likes
 after insert or update on likes
@@ -527,13 +534,13 @@ drop function if exists rate_trigger;
 create function rate_trigger() -- the trigger function
 returns trigger as $$
 begin
+    raise notice 'new: %', new;
     update title
     set rating = (
       select avg(rating) 
-      from rates where t_id = new.t_id)
-      where t_id = new.t_id;
+      from rates 
+      where rev_id = new.rev_id);
 
-    
     return null; -- need to return something
 end; $$
 language plpgsql;

@@ -54,8 +54,10 @@ call login_user('username1', 'hashed-password', null); -- User logs in again
 -- Finds movies in which the following substring is part of either the movie/series title or the plot description.
 -- It is a simple function which we expand upon later.
 select * from string_search('Godfath');
+
 -- A structured search algorithm. Finds titles.
 select * from structured_string_search('monKey', 'blob', 'Bilbo', 'Alfred');
+
 -- Following is based on "string_search". Finds prople instead of titles.
 select * from simple_search_person('friends');
 
@@ -64,7 +66,8 @@ select * from simple_search_person('friends');
 -- The fewer the keywords, the more results, and the other way around. 
 -- The keywords must be exact.
 select * from exact_match('monkey', 'king', 'queen'); -- returns titles
-select * from exact_match('monkey', 'king', 'queen', 'dog'); -- does not return titles due to 'dog'
+
+select * from exact_match('monkey', 'king', 'queen', 'dog'); -- does not return titles due to 'dog'. Not all specified keywords match a title.
 
 -- Returns the titles which are related to the specified keywords in descending order.
 select * from best_match('cat', 'mouse');
@@ -79,13 +82,13 @@ select * from word_to_words('monkey');
 -- Overall searching algorithm
 -- The higher the frequence, the better match for the title (in regards of the arguments passed to the function).
 -- The following is created from eq: tf-idf 
-select title, sum(results) as frequency
+select id, sum(results) as frequency
 from searching_algorithm('lord', 'of', 'the', 'rings', 'towers')
-group by title
+group by id
 order by frequency desc
 limit 50;
 
--- testing of search algorithm
+-- testing user search. This is the result the user would obtain 
 select title, relevance from make_search('hermione granger harry potter rupert grint', 1) 
 join title on t_id = substring(webpage_id, 3,10);
 
@@ -93,18 +96,18 @@ join title on t_id = substring(webpage_id, 3,10);
 select * from get_user_history(1);
 
 -- 2: User searches
-select * from make_search('Zombies of Oz: Tin', 1);
+select * from make_search('Zombies of Oz: Tin', 1); -- returns the webpages in order of relevance
 select * from make_search('Friends', 1);
 
--- 3: Check if the functionality works
+-- 3: The user now have a search history
 select * from get_user_history(1);
 
 /*Testing: Delete search */
 
-select * from get_user_history(1);
-
+-- we can delete the history with a call to clear_history
 call clear_history(1);
 
+-- now empty
 select * from get_user_history(1);
 
 
@@ -128,6 +131,7 @@ call insert_bookmark(1, 'wpnm0000001');
 
 -- 3: User has bookmarked, obtain all its bookmarks. get_bookmarks obtains the data from the bookmark, wp_bookmarks and user_bookmarks relation.
 select * from get_bookmarks(1);
+select * from get_bookmarks(2);
 
 -- 4: The function is overloaded and can also check how many users have bookmarked a specific webpage
 select * from get_bookmarks('wptt0108778'); 
@@ -136,10 +140,11 @@ select * from get_bookmarks('wptt0108778');
 -- 1: Checking that we can display more than one bookmark per webpage using the overloaded function, creating new user (user 2)
 call signup('username2', 'hashed-password', 'mail2m@mail.ok', null);
 
+delete from  bookmark;
 -- 2: User 2 bookmarks the same webpage as user one
 -- if a user tries to bookmark the same webpage, an exception is caught. 
-call insert_bookmark(2, 'wptt0108778'); 
-call insert_bookmark(2, 'wptt0108778'); 
+call insert_bookmark(3, 'wptt0108778'); 
+call insert_bookmark(3, 'wptt0108778'); 
 
 -- 3: Check that both User 1 & User 2 has bookmarked the same webpage
 select * from get_bookmarks('wptt0108778'); 
@@ -184,22 +189,25 @@ call rate('tt21050232', 1, 2, 'Bad movie');
 select * from review
 natural join rates;
 
-
--- 2 other user can like the review -- fejl
+-- 2 other user can like the review 
 call like_review(1,3,1); -- user 1 likes review 3. 1 for like -1 for dislike.
-call like_review(2,3,-1); 
+call like_review(2,3,1); 
+select * from review; 
+
 
 -- 3 a user can change the like to a dislike or remove it
 call like_review(1,3,-1); 
-select * from review; -- fejl
+select * from review; 
 
 call like_review(1,3,null); 
-select * from review; -- fejl
+select * from review; 
 
 
 -- 4 User can edit his old review
 call rate('tt21050232', 1, 7, 'Better');
 
+select * from review
+natural join rates;
 
 
 
