@@ -31,7 +31,6 @@ $$ language plpgsql;
 
 
 
-
 /* Views */
 
 drop view if exists person_title_webpages;
