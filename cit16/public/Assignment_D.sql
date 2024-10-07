@@ -83,10 +83,9 @@ $$;
 
 --------------------------------------------------------------------------------
 -- sign in function 
-drop function if exists login_user;
+drop procedure if exists login_user;
 
-create function login_user(p_username varchar, p_password varchar)
-returns boolean
+create procedure login_user(in p_username varchar, in p_password varchar, out results boolean)
 language plpgsql as $$
 declare 
   results int;
@@ -104,8 +103,10 @@ begin
   
   if results > 0 then 
     call start_session(user_id); 
+    results := true;
+  else 
+    results := false;
   end if;
-  return results;
 end;
 $$;
 
@@ -188,9 +189,6 @@ $$;
 
 
 
-
--- to run rest of selects used for temp.
-call signup('username1', 'hashed-password', 'mail1@mail.ok', null);
 
 
 --------------------------------------------------------------------------------
@@ -369,29 +367,6 @@ $$;
 
 
 
---------------------------------------------------------------------------------
--- Procedure for insert_search
-  
-
-drop procedure if exists insert_search;
-
-create procedure insert_search(in keyword varchar, in user_id int)
-language plpgsql as $$
-declare
-	now_timestamp timestamp := current_timestamp;
-	search_id varchar := concat(keyword, now_timestamp);
-  search_words text[] := string_to_array(keyword, ' ');
-  
-begin
-  raise notice 'array: %', search_words;
-
-	insert into search values (search_id, keyword, now_timestamp);
-	insert into history values (search_id, user_id);
-	insert into wp_search
-	select search_id, wp_id from best_match(variadic search_words)
-	limit 100;
-end;
-$$;
 
 
 
@@ -463,9 +438,10 @@ declare
   review_id int;
   new_rev_id int;
 begin
-  select rev_id into review_id 
-  from rates 
-  where u_id = user_id;
+
+  select rev_id into review_id
+  from rates join review using(rev_id)
+  where u_id = user_id and t_id = title_id;
   
   if title_id in 
   (select t_id from rates where u_id = user_id) 
@@ -473,14 +449,12 @@ begin
     update rates 
     set rating = user_rating, rated_at = current_timestamp
     where t_id = title_id;
-    raise notice ' check %', review_id;
-
     if in_review is not null then
-      raise notice ' check ';
       update review
       set review = in_review
       where rev_id = review_id;
     end if;
+    
   else -- create new rating/review
     insert into review (review, likes) 
     values (in_review, default)
@@ -517,20 +491,7 @@ begin
 end;
 $$;
 
-call signup('username1', 'hashed-password', 'mail1@mail.ok', null);
-call signup('username2', 'hashed-password', 'mail2@mail.ok', null);
-call signup('username3', 'hashed-password', 'mail3@mail.ok', null);
 
-
--- title_id, user_id, rating, review of title
-call rate('tt2506874', 1, 1, 'hate comment');
-
-
-call like_review(1, 1, 1); 
-call like_review(2, 1, -1);
-call like_review(3, 1, -1);
-
-select * from review join rates using(rev_id);
 
 -- trigger for calculating likes:
 drop trigger if exists update_likes on likes;
@@ -1007,94 +968,74 @@ weighted indexing.
 Finally, feel free to elaborate.
 */
 
-/*
-drop function if exists relevance_ranking;
-create function relevance_ranking(variadic query text[])
-returns table (t_id varchar, word text, appears bigint)
+
+
+
+drop function if exists searching_algorithm;
+create function searching_algorithm(variadic keywords text[])
+returns table (id varchar, title varchar,keyword text, appears numeric, results numeric)
 language plpgsql as $$
 declare 
-  title_record record;
+  keyword text; -- givet
+  keyword_appears numeric; -- fundet
+  total_words numeric; -- fundet
+  total_webpages numeric; -- fundet
+  title_with_keyword numeric; -- fundet
+  
+  web_page record;
+  
+  results numeric;
+  
 begin
+  -- total amount of documents
+  select count(wp_id) into total_webpages from webpage;
 
+  foreach keyword in array keywords -- vend loops om????
+  loop
+    keyword := lower(keyword);
+    
+    -- title_with_keyword
+    select distinct count(t_id) into title_with_keyword
+    from wi 
+    join title on title.t_id = tconst
+    where lower(word) = keyword;
+    
+    for web_page in
+      select distinct t_id, title.title
+      from wi 
+      join title on t_id = tconst
+      where lower(word) = keyword
+    loop
+    
+      -- total words in document
+      select count(word) into total_words 
+      from wi 
+      join title on tconst = title.t_id
+      where title.t_id = web_page.t_id;
+      
+      -- keyword_appears
+      select count(word) into keyword_appears
+      from wi 
+      join title on title.t_id = tconst
+      where lower(word) = keyword 
+      and title.t_id = web_page.t_id;
+
+
+      select ((keyword_appears / total_words) 
+              * log(total_webpages/title_with_keyword)) into results;
+      return query 
+          select web_page.t_id, web_page.title, keyword, keyword_appears, round(results, 10);
+    end loop;
   
 
-
-  for title_record in 
-    select title.t_id, wi.word, count(wi.word) as term_appears
-    from title join wi on title.t_id = tconst 
-    group by title.t_id, wi.word
-    order by term_appears desc
-  loop 
-    raise notice 'word: % appears: %', title_record.word, title_record.term_appears;
-    return query select title_record.t_id, title_record.word, title_record.term_appears;
   end loop;
-
-end;
+  end;
 $$;
 
 
-select * from relevance_ranking('monkey');
-*/
-
-
-
-
-
-/*
-create table new_wi(
-  word varchar not null,
-  t_id varchar,
-  field char
-);
-
-truncate new_wi;
-with word_list_plots as (
-select t_id, unnest(string_to_array(regexp_replace(lower(plot), '[,.;:?!-"%''&#]', '', 'g'), ' ')) as word 
-from title
-)
-insert into new_wi 
-select t_id, word, 'p' as field
-from word_list_plots
-where word <> ''
-order by word;
-
-
-with word_list_titles as (
-select t_id, unnest(string_to_array(regexp_replace(lower(title), '[,.;:?!-"%''&#]', '', 'g'), ' ')) as word 
-from title
-)
-insert into new_wi 
-select t_id, word, 't' as field
-from word_list_titles
-where word <> ''
-order by word;
-
-
-with word_list_people as (
-select t_id, unnest(string_to_array(regexp_replace(lower(name), '[,.;:?!-"%''&#]', '', 'g'), ' ')) as word 
-from title natural join person_involved_title natural join person
-)
-insert into new_wi 
-select t_id, word, 'n' as field
-from word_list_people
-where word <> ''
-order by word;
-
-
-with word_list_characters as (
-select 
-  t_id, 
-  character, 
-  
-  unnest(string_to_array(trim(both '''' from left(right(character, length(character) - 1), length(character) - 2)), ' ')) AS word
-  
-from title natural join person_involved_title
-)
-insert into new_wi 
-select t_id, word, 'c' as field
-from word_list_characters
-where word <> '';*/
-
+select * from searching_algorithm('lord', 'of', 'the', 'rings')
+order by results desc
+limit 50;
 
 
 
@@ -1118,12 +1059,28 @@ users can like or dislike a comment
 
 
 
+--------------------------------------------------------------------------------
+-- Procedure for insert_search
+  
 
+drop procedure if exists insert_search;
 
+create procedure insert_search(in keyword varchar, in user_id int)
+language plpgsql as $$
+declare
+	now_timestamp timestamp := current_timestamp;
+	search_id varchar := concat(keyword, now_timestamp);
+  search_words text[] := string_to_array(keyword, ' ');
+  
+begin
+  raise notice 'array: %', search_words;
 
-
-
-
-
+	insert into search values (search_id, keyword, now_timestamp);
+	insert into history values (search_id, user_id);
+	insert into wp_search
+	select search_id, wp_id from best_match(variadic search_words)
+	limit 100;
+end;
+$$;
 
 
