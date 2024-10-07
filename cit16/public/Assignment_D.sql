@@ -1036,18 +1036,6 @@ $$;
 
 
 
-select 'lord of the rings' as search_id, 'wp'||id as wp_id
-from searching_algorithm('lord', 'of', 'the', 'rings')
-group by search_id, wp_id
-order by sum(results) desc
-limit 50;
-
-
-
-
-
-
-
 /*
 D.15. Own ideas [OPTIONAL] 
 If you have some ideas of your own, you can plug them in here.
@@ -1092,28 +1080,27 @@ end;
 $$;
 
 
+drop function if exists make_search;
+create function make_search(keyword varchar, user_id int) 
+returns table (webpage_id varchar, relevance numeric)
+language plpgsql as $$
 
-call insert_search('lord of the rings the two towers abe kat', 1, null);
+declare new_search_id varchar;
 
--- get just made search
-select title, frequency 
-from wp_search natural join webpage natural join title
-where search_id = 'null'
-order by frequency desc;
+begin
+		call insert_search(keyword, user_id, new_search_id);
+		return query
+			select wp_id, frequency 
+			from wp_search 
+			where search_id = new_search_id
+			order by frequency desc
+			limit 30;
+end;
+$$;
 
 
 
 
-
-select * 
-from wp_search;
-natural join history 
-natural join search 
-order by frequency desc;
-
-select * from get_user_history(1);
-
-call clear_history(1);
 
 
 

@@ -1,4 +1,5 @@
 
+
 /*This is our test file.
   We will be testing our functions and producures determine if the they work correcly 
 
@@ -46,13 +47,54 @@ call login_user('username1', 'hashed-password', null); -- User logs in again
 -- TO-DO:
 /*Testing: Search*/
 
+
+/*Following section is centered upon searching algorithms*/
+
+-- The following is not used in the program:
+-- Finds movies in which the following substring is part of either the movie/series title or the plot description.
+-- It is a simple function which we expand upon later.
+select * from string_search('Godfath');
+-- A structured search algorithm. Finds titles.
+select * from structured_string_search('monKey', 'blob', 'Bilbo', 'Alfred');
+-- Following is based on "string_search". Finds prople instead of titles.
+select * from simple_search_person('friends');
+
+
+-- All movies displayed are in some way related to all passed words. 
+-- The fewer the keywords, the more results, and the other way around. 
+-- The keywords must be exact.
+select * from exact_match('monkey', 'king', 'queen'); -- returns titles
+select * from exact_match('monkey', 'king', 'queen', 'dog'); -- does not return titles due to 'dog'
+
+-- Returns the titles which are related to the specified keywords in descending order.
+select * from best_match('cat', 'mouse');
+
+-- The argument passed to the function finds related titles to that argument. 
+-- From that, all the most words with the highest frequence from each title are extracted and counted. 
+-- If several titles' highest count of words are identical, these will be added to each other. 
+-- The final result is all related words to movies, in which the passed argument appear as a relevant word.
+select * from word_to_words('monkey');
+
+
+-- Overall searching algorithm
+-- The higher the frequence, the better match for the title (in regards of the arguments passed to the function).
+-- The following is created from eq: tf-idf 
+select title, sum(results) as frequency
+from searching_algorithm('lord', 'of', 'the', 'rings', 'towers')
+group by title
+order by frequency desc
+limit 50;
+
+-- testing of search algorithm
+select title, relevance from make_search('hermione granger harry potter rupert grint', 1) 
+join title on t_id = substring(webpage_id, 3,10);
+
 -- 1: Check if user has any search history
 select * from get_user_history(1);
 
 -- 2: User searches
-call insert_search('Zombies of Oz: Tin', 1);
-call insert_search('Friends', 1);
-call insert_search('The Godfather', 1);
+select * from make_search('Zombies of Oz: Tin', 1);
+select * from make_search('Friends', 1);
 
 -- 3: Check if the functionality works
 select * from get_user_history(1);
@@ -65,16 +107,10 @@ call clear_history(1);
 
 select * from get_user_history(1);
 
-/*Following section is centered upon searching algorithms*/
 
--- The following is not used in the program:
--- Finds movies in which the following substring is part of either the movie/series title or the plot description.
--- It is a simple function which we expand upon later.
-select * from string_search('Godfath');
--- A structured search algorithm. Finds titles.
-select * from structured_string_search('monKey', 'blob', 'Bilbo', 'Alfred');
--- Following is based on "string_search". Finds prople instead of titles.
-select * from simple_search_person('friends');
+
+
+
 
 
 
@@ -168,15 +204,6 @@ call rate('tt21050232', 1, 7, 'Better');
 
 
 
-
-
-
-
-
-
-
-
-
 /*Testing: Delete user*/
 
 -- all users still exist
@@ -220,7 +247,8 @@ select * from name_ratings('The Hobbit: The Desolation of Smaug');
 -- Finds rating of co-actors to the specified actor/actress
 select * from co_players_rating('Ian McKellen');
 
--- find_similar_titles
+/*Testing: find_similar_titles*/
+
 -- Showing all the similar titles
 select * from find_similar_titles('tt2506874');
 
@@ -233,21 +261,10 @@ select * from title_is
 where t_id = 'tt0483702'; -- It is correct
 
 
-
-/*Testing_ person_words*/
+/*Testing: person_words*/
 -- Finds most frequent words related to the name passed to the function. 
 -- The interger determines the amount of words.
 select * from person_words('Ian McKellen', 10);
-
-/*Testing: exact_match*/
--- All movies displayed are in some way related to all passed words. 
--- The fewer the keywords, the more results, and the other way around. 
-
-select * from exact_match('monkey', 'king', 'queen'); -- returns titles
-select * from exact_match('monkey', 'king', 'queen', 'dog'); -- does not return titles due to 'dog'
-
-
-
 
 
 
