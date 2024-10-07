@@ -12,6 +12,16 @@ Consider what is needed to support the framework anddevelop functions for that.
 You will need functions for managing users and for bookmarking names and titles. 
 You could also consider developing functions for adding notes to titles and names and for retrieving bookmarks as well as search history and rating history for users.*/
 
+/*
+drop table title_akas;
+drop table title_basics;
+drop table title_count;
+drop table title_crew;
+drop table title_episode;
+drop table title_principals;
+drop table title_ratings;
+drop table omdb_data;
+drop table name_basics;*/
 
 
 /*
