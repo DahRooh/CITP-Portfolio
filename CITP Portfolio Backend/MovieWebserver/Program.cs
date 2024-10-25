@@ -3,11 +3,12 @@ using DataLayer;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddTransient<ITitleDataService, TitleDataService>();
+builder.Services.AddTransient<IPersonDataService, PersonDataService>();
 
 var ds = new PersonDataService();
 var people = ds.GetPeople();
-foreach (var person in people)
-{
+
+foreach (var person in people) { 
     Console.WriteLine(person.Name);
 }
 

@@ -1,5 +1,15 @@
 [
   {
+    "ContainingType": "MovieWebserver.Controllers.PersonController",
+    "Method": "GetPeople",
+    "RelativePath": "api/person",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "MovieWebserver.Controllers.TitleController",
     "Method": "GetTitles",
     "RelativePath": "api/titles",

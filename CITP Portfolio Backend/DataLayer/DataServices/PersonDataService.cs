@@ -1,3 +1,5 @@
+using Microsoft.EntityFrameworkCore;
+
 namespace DataLayer;
 
 public class PersonDataService : IPersonDataService
@@ -7,7 +9,11 @@ public class PersonDataService : IPersonDataService
     public IList<Person> GetPeople()
     {
         db = new MVContext();
-        var people = db.People.Take(5).ToList();
+        var people = db.People
+            .Include(p => p.Profession)
+            .Include(p => p.InvolvedIn)
+            .ThenInclude(x => x.Title)
+            .OrderBy(p => p.Id).Take(5).ToList();
 
         if (people == null || people.Count == 0)
         {

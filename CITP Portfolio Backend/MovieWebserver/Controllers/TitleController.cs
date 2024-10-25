@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using MovieWebserver.Model;
 using DataLayer;
+using MovieWebserver.Model.Title;
 namespace MovieWebserver.Controllers;
 
 [ApiController]

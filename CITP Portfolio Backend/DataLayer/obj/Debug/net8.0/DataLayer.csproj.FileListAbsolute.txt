@@ -23,3 +23,16 @@ C:/Users/Moosdorf/source/repos/CITP Portfolio Backend/DataLayer/obj/Debug/net8.0
 /Users/dagmarree/Documents/GitHub/CITP-Portfolio/CITP Portfolio Backend/DataLayer/obj/Debug/net8.0/refint/DataLayer.dll
 /Users/dagmarree/Documents/GitHub/CITP-Portfolio/CITP Portfolio Backend/DataLayer/obj/Debug/net8.0/DataLayer.pdb
 /Users/dagmarree/Documents/GitHub/CITP-Portfolio/CITP Portfolio Backend/DataLayer/obj/Debug/net8.0/ref/DataLayer.dll
+C:\Users\Moosdorf\Desktop\sem1\CITP-Portfolio\CITP Portfolio Backend\DataLayer\bin\Debug\net8.0\DataLayer.deps.json
+C:\Users\Moosdorf\Desktop\sem1\CITP-Portfolio\CITP Portfolio Backend\DataLayer\bin\Debug\net8.0\DataLayer.dll
+C:\Users\Moosdorf\Desktop\sem1\CITP-Portfolio\CITP Portfolio Backend\DataLayer\bin\Debug\net8.0\DataLayer.pdb
+C:\Users\Moosdorf\Desktop\sem1\CITP-Portfolio\CITP Portfolio Backend\DataLayer\obj\Debug\net8.0\DataLayer.csproj.AssemblyReference.cache
+C:\Users\Moosdorf\Desktop\sem1\CITP-Portfolio\CITP Portfolio Backend\DataLayer\obj\Debug\net8.0\DataLayer.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Moosdorf\Desktop\sem1\CITP-Portfolio\CITP Portfolio Backend\DataLayer\obj\Debug\net8.0\DataLayer.AssemblyInfoInputs.cache
+C:\Users\Moosdorf\Desktop\sem1\CITP-Portfolio\CITP Portfolio Backend\DataLayer\obj\Debug\net8.0\DataLayer.AssemblyInfo.cs
+C:\Users\Moosdorf\Desktop\sem1\CITP-Portfolio\CITP Portfolio Backend\DataLayer\obj\Debug\net8.0\DataLayer.csproj.CoreCompileInputs.cache
+C:\Users\Moosdorf\Desktop\sem1\CITP-Portfolio\CITP Portfolio Backend\DataLayer\obj\Debug\net8.0\DataLayer.sourcelink.json
+C:\Users\Moosdorf\Desktop\sem1\CITP-Portfolio\CITP Portfolio Backend\DataLayer\obj\Debug\net8.0\DataLayer.dll
+C:\Users\Moosdorf\Desktop\sem1\CITP-Portfolio\CITP Portfolio Backend\DataLayer\obj\Debug\net8.0\refint\DataLayer.dll
+C:\Users\Moosdorf\Desktop\sem1\CITP-Portfolio\CITP Portfolio Backend\DataLayer\obj\Debug\net8.0\DataLayer.pdb
+C:\Users\Moosdorf\Desktop\sem1\CITP-Portfolio\CITP Portfolio Backend\DataLayer\obj\Debug\net8.0\ref\DataLayer.dll

@@ -4,17 +4,17 @@ public class Person
 {
     public string Id { get; set; }
     public string Name { get; set; } = string.Empty;
-    public int BirthYear { get; set; }
-    public int DeathYear { get; set; }
-    public int Age { get; set; }
-    public double Rating { get; set; }
-    public List<Profession> Professions { get; set; }
+    public int? BirthYear { get; set; }
+    public int? DeathYear { get; set; }
+    // public int Age { get; set; }
+    public double? Rating { get; set; } = 0;
+    public List<Profession> Profession { get; set; }
 
     public List<string> ProfessionNames
     {
         get
         {
-            return Professions.Select(x => x.Name).ToList();
+            return Profession.Select(x => x.Name).ToList();
         }
     }
     public List<PersonInvolvedIn> InvolvedIn { get; set; }

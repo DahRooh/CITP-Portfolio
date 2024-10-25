@@ -10,4 +10,5 @@ public class Title
 {
     public string Id { get; set; }
     public string _Title { get; set; } = string.Empty;
+    public List<PersonInvolvedIn> peopleInvolved { get; set; }
 }
