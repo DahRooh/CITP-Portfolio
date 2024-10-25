@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using DataLayer;
 using MovieWebserver.Model.Title;
+using Mapster;
 namespace MovieWebserver.Controllers;
 
 [ApiController]
@@ -32,7 +33,7 @@ public class TitleController : ControllerBase
             return null;
         }
 
-        var newTitle = new TitleModel { Title = title._Title };
+        var newTitle = title.Adapt<TitleModel>();
         return newTitle;
     }
 

@@ -19,6 +19,7 @@ public class MVContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        MapGenre(modelBuilder);
         MapTitles(modelBuilder);
         MapPerson(modelBuilder);
         MapProfession(modelBuilder);
@@ -32,11 +33,53 @@ public class MVContext : DbContext
 
         modelBuilder.Entity<Title>().Property(x => x.Id).HasColumnName("t_id");
         modelBuilder.Entity<Title>().Property(x => x._Title).HasColumnName("title");
+        modelBuilder.Entity<Title>().Property(x => x.Plot).HasColumnName("plot");
+        modelBuilder.Entity<Title>().Property(x => x.Rating).HasColumnName("rating");
+        modelBuilder.Entity<Title>().Property(x => x.Type).HasColumnName("type");
+        modelBuilder.Entity<Title>().Property(x => x.IsAdult).HasColumnName("isadult");
+        modelBuilder.Entity<Title>().Property(x => x.Released).HasColumnName("released");
+        modelBuilder.Entity<Title>().Property(x => x.Language).HasColumnName("language");
+        modelBuilder.Entity<Title>().Property(x => x.Country).HasColumnName("country");
+        modelBuilder.Entity<Title>().Property(x => x.RunTime).HasColumnName("runtime");
+        modelBuilder.Entity<Title>().Property(x => x.Poster).HasColumnName("poster");
 
         modelBuilder.Entity<Title>()
-                    .HasMany(p => p.peopleInvolved)
+                    .HasMany(p => p.PeopleInvolved)
                     .WithOne(pi => pi.Title)
                     .HasForeignKey(pi => pi.TitleId);
+
+
+
+        modelBuilder.Entity<Title>()
+            .HasMany(t => t.Genres)
+            .WithMany(g => g.Titles)
+            .UsingEntity<Dictionary<string, string>>(
+                "title_is",
+
+                g => g.HasOne<Genre>()
+                      .WithMany()
+                      .HasForeignKey("genre")
+                      .HasPrincipalKey(g => g._Genre),
+
+                t => t.HasOne<Title>()
+                      .WithMany()
+                      .HasForeignKey("t_id")
+                      .HasPrincipalKey(t => t.Id),
+
+                j =>
+                {
+                    j.HasKey("t_id", "genre");
+                });
+    }
+
+    private static void MapGenre(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<Genre>().ToTable("genre")
+                                    .HasKey(x => x._Genre);
+
+        modelBuilder.Entity<Genre>().Property(x => x._Genre).HasColumnName("genre");
+
+
     }
 
     private static void MapProfession(ModelBuilder modelBuilder)
@@ -73,22 +116,22 @@ public class MVContext : DbContext
         modelBuilder.Entity<Person>()
             .HasMany(p => p.Profession)
             .WithMany(pr => pr.Persons)
-            .UsingEntity<Dictionary<string, object>>(
-            "person_has_a", 
-            j => j.HasOne<Profession>()
-                  .WithMany()
-                  .HasForeignKey("profession") 
-                  .HasPrincipalKey(pr => pr.Name), 
+            .UsingEntity<Dictionary<string, string>>(
+                "person_has_a", 
+                pr => pr.HasOne<Profession>()
+                      .WithMany()
+                      .HasForeignKey("profession") 
+                      .HasPrincipalKey(pr => pr.Name), 
 
-            j => j.HasOne<Person>()
-                  .WithMany()
-                  .HasForeignKey("p_id") 
-                  .HasPrincipalKey(p => p.Id), 
+                p => p.HasOne<Person>()
+                      .WithMany()
+                      .HasForeignKey("p_id") 
+                      .HasPrincipalKey(p => p.Id), 
 
-            j =>
-            {
-                j.HasKey("p_id", "profession"); 
-            });
+                j =>
+                {
+                    j.HasKey("p_id", "profession"); 
+                });
 
 
 
@@ -96,14 +139,6 @@ public class MVContext : DbContext
             .HasMany(p => p.InvolvedIn)
             .WithOne(pi => pi.Person)
             .HasForeignKey(pi => pi.PersonId);
-
-
-
-
-
-
-
-
 
     }
 }
