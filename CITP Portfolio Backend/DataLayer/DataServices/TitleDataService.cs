@@ -15,7 +15,6 @@ public class TitleDataService : ITitleDataService
         db = new MVContext();
         var titles = db.Titles.Take(5).ToList();
 
-
         if (titles == null || titles.Count() == 0)
         {
             return null;
@@ -23,7 +22,4 @@ public class TitleDataService : ITitleDataService
 
         return titles;
     }
-
-
-
 }

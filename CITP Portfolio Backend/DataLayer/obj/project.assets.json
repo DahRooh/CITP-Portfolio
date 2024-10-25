@@ -1265,27 +1265,24 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Moosdorf\\.nuget\\packages\\": {}
+    "/Users/dagmarree/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Moosdorf\\source\\repos\\CITP Portfolio Backend\\DataLayer\\DataLayer.csproj",
+      "projectUniqueName": "/Users/dagmarree/Documents/GitHub/CITP-Portfolio/CITP Portfolio Backend/DataLayer/DataLayer.csproj",
       "projectName": "DataLayer",
-      "projectPath": "C:\\Users\\Moosdorf\\source\\repos\\CITP Portfolio Backend\\DataLayer\\DataLayer.csproj",
-      "packagesPath": "C:\\Users\\Moosdorf\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Moosdorf\\source\\repos\\CITP Portfolio Backend\\DataLayer\\obj\\",
+      "projectPath": "/Users/dagmarree/Documents/GitHub/CITP-Portfolio/CITP Portfolio Backend/DataLayer/DataLayer.csproj",
+      "packagesPath": "/Users/dagmarree/.nuget/packages/",
+      "outputPath": "/Users/dagmarree/Documents/GitHub/CITP-Portfolio/CITP Portfolio Backend/DataLayer/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\Moosdorf\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        "/Users/dagmarree/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net8.0"
       ],
       "sources": {
-        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-        "c:\\program files\\dotnet\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -1362,7 +1359,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "c:\\program files\\dotnet\\sdk\\8.0.403/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/8.0.403/PortableRuntimeIdentifierGraph.json"
       }
     }
   }
