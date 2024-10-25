@@ -1,0 +1,248 @@
+/*
+
+GROUP: cit16, MEMBERS: Andreas Moosdorf, Dagmar Ree, Eray Erkul 
+
+*/
+
+
+
+call signup('username1', 'hashed-password', 'mail1@mail.ok', null);
+ results 
+---------
+ t
+(1 row)
+
+
+call login_user('username1', 'hashed-password', null);
+ logged_in 
+-----------
+ t
+(1 row)
+
+
+select * from get_session(1) limit 1; 
+ session_id | user_id |        timecreated         | timeended |   expired    
+------------+---------+----------------------------+-----------+--------------
+          1 |       1 | 2024-10-07 18:53:02.419803 |           | not made yet
+(1 row)
+
+
+select * from string_search('Godfath') limit 1;
+    id     | title_name 
+-----------+------------
+ tt0485881 | Clejani
+(1 row)
+
+
+select * from structured_string_search('monKey', 'blob', 'Bilbo', 'Alfred') limit 1;
+    id     |     title_name      
+-----------+---------------------
+ tt0226525 | Through a Blue Lens
+(1 row)
+
+
+select * from simple_search_person('friends') limit 1;
+ person_id |  person_name   
+-----------+----------------
+ nm0000009 | Richard Burton
+(1 row)
+
+
+select * from exact_match('monkey', 'king', 'queen') limit 1;
+    t_title    
+---------------
+ Amnesia Rules
+(1 row)
+
+
+select * from best_match('cat', 'mouse') limit 1;
+      title      |    wp_id     | frequency 
+-----------------+--------------+-----------
+ Christmas Mouse | wptt21602764 |         3
+(1 row)
+
+
+select * from word_to_words('monkey') limit 1;
+ wi_word | counter 
+---------+---------
+ monkey  |     199
+(1 row)
+
+
+select id, sum(results) as frequency
+from searching_algorithm('lord', 'of', 'the', 'rings', 'towers')
+group by id
+order by frequency desc
+limit 1;
+     id     |  frequency   
+------------+--------------
+ tt29102731 | 1.3412843047
+(1 row)
+
+
+select title, relevance from make_search('hermione granger', 1) 
+join title on t_id = substring(webpage_id, 3,10);
+                      title                      |  relevance   
+-------------------------------------------------+--------------
+ The Potions Master                              | 0.2745293304
+ The Sorting Hat                                 | 0.2583805463
+ Journey to Platform 9 3/4                       | 0.2509982450
+ The Prowler                                     | 0.2491564544
+ The Winter's Tale from the Royal Ballet         | 0.1819711539
+ September                                       | 0.1802408394
+ Birthday Trip                                   | 0.1568762861
+ Lego Harry Potter and the Philosopher's Stone   | 0.1440153865
+ Lets Play                                       | 0.1411886575
+ Uninvited                                       | 0.1366341847
+ Facing Cancer                                   | 0.1366341847
+ Harry Potter and the Deathly Hallows: Part 2    | 0.1346890649
+ Harry Potter and the Deathly Hallows: Part 1    | 0.1320219547
+ Against All Odds, the Making of DEUCE of SPADES | 0.1283533250
+ The Biology Exam                                | 0.1245782272
+ Buddha in Suburbia                              | 0.1229534824
+ Full Disclosure                                 | 0.1144772899
+ Branagh Theatre Live: The Winter's Tale         | 0.1022309854
+ Lirium                                          | 0.0941257717
+ Harry Potter and the Half-Blood Prince          | 0.0905663770
+ From Seed to Seed                               | 0.0882429109
+ No Company                                      | 0.0864420352
+ A Crack in the Mountain                         | 0.0830521515
+ Chained                                         | 0.0814549947
+ James Hemings: Ghost in America's Kitchen       | 0.0743098197
+ Pour Retourner                                  | 0.0705943288
+ Hamlin Pond                                     | 0.0705943288
+ Lead and Follow                                 | 0.0694370447
+ Richard Attenborough: A Life                    | 0.0678996843
+ Harry Potter and the Goblet of Fire             | 0.0641236393
+(30 rows)
+
+
+select * from get_user_history(1) limit 1;
+   search_word    |       time_searched        
+------------------+----------------------------
+ hermione granger | 2024-10-07 18:53:20.697104
+(1 row)
+
+
+select * from make_search('Friends', 1) limit 1;
+  webpage_id  |  relevance   
+--------------+--------------
+ wptt27690121 | 1.1435535239
+(1 row)
+
+
+call clear_history(1);
+CALL
+
+call insert_bookmark(1, 'wptt2506874');
+CALL
+
+select * from get_bookmarks(1) limit 1;
+ bookmark_id  |    wp_id    | u_id |         created_at         
+--------------+-------------+------+----------------------------
+ 1wptt2506874 | wptt2506874 |    1 | 2024-10-07 18:53:27.575394
+(1 row)
+
+
+select * from get_bookmarks('wptt0108778') limit 1; 
+ bookmark_id | wp_id | u_id | created_at 
+-------------+-------+------+------------
+(0 rows)
+
+
+call delete_bookmark('1wptt2506874', 1);
+CALL
+
+call rate('tt21050232', 1, 2, 'Bad movie');
+CALL
+
+call like_review(1, 1, -1);
+CALL
+
+select likes from review limit 1;
+ likes 
+-------
+     0
+(1 row)
+
+
+select rating from title where t_id = 'tt21050232' limit 1;
+ rating 
+--------
+   7.00
+(1 row)
+
+
+call insert_search('king', 1, null);
+         new_search_id          
+--------------------------------
+ king2024-10-07 18:53:27.741471
+(1 row)
+
+
+select * from get_user_rating(1) limit 1;
+     title_name      | user_rating |      rating_timestamp      
+---------------------+-------------+----------------------------
+ Bugs Bunny Builders |        2.00 | 2024-10-07 18:53:27.664362
+(1 row)
+
+
+call like_review(1,1,1); 
+CALL
+
+call sign_off(1);
+CALL
+
+call start_session(1);
+CALL
+
+call delete_user(1);
+CALL
+
+select person_known_for('Fred Astaire') limit 1;
+                                          person_known_for                                          
+----------------------------------------------------------------------------------------------------
+ Keeping In Rhythm with Damien Chazelle: The Fantastically Talented Oscar Winning Director's Movies
+(1 row)
+
+
+select * from find_coactors('Ian McKellen') limit 1;
+ person_id |    co_actor     | counted 
+-----------+-----------------+---------
+ nm0456270 | William Kircher |       4
+(1 row)
+
+
+select * from co_players_rating('Ian McKellen') limit 1;
+ co_players_name | avg_rating 
+-----------------+------------
+ William Kircher |      7.000
+(1 row)
+
+
+select * from find_similar_titles('tt2506874') limit 1;
+ similar_title_id | similar_title | multiple_same_genre 
+------------------+---------------+---------------------
+ tt0483702        | Katalog       |                   3
+(1 row)
+
+
+select * from person_words('Ian McKellen', 1) limit 1; 
+ wi_word | frequency 
+---------+-----------
+ ian     |        28
+(1 row)
+
+
+call update_all_people_rating();
+CALL
+
+select * from name_ratings('The Hobbit: The Desolation of Smaug') limit 1;
+ person_name  | avg_rating 
+--------------+------------
+ Aidan Turner |      7.000
+(1 row)
+
+
+
+

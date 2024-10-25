@@ -1,0 +1,12 @@
+[
+  {
+    "ContainingType": "MovieWebserver.Controllers.TitleController",
+    "Method": "GetTitles",
+    "RelativePath": "api/titles",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  }
+]

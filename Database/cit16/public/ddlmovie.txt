@@ -1,0 +1,113 @@
+/*
+
+GROUP: cit16, MEMBERS: Andreas Moosdorf, Dagmar Ree, Eray Erkul 
+
+*/
+
+
+
+-- view
+drop view if exists person_title_webpages; 
+DROP VIEW
+drop view if exists person_rated;
+DROP VIEW
+drop view if exists title_cast;
+DROP VIEW
+-- relations
+drop table if exists person_has_a;
+DROP TABLE
+drop table if exists person_involved_title;
+DROP TABLE
+drop table if exists title_is;
+DROP TABLE
+drop table if exists type_award;
+DROP TABLE
+drop table if exists mov_title;
+DROP TABLE
+drop table if exists ep_title;
+DROP TABLE
+drop table if exists rates;
+DROP TABLE
+-- entities
+drop table if exists genre;
+DROP TABLE
+drop table if exists award;
+DROP TABLE
+drop table if exists movie;
+DROP TABLE
+drop table if exists episode;
+DROP TABLE
+drop table if exists title;
+DROP TABLE
+drop table if exists profession;
+DROP TABLE
+drop table if exists person;
+DROP TABLE
+create table profession(
+	profession varchar(40) primary key not null
+);
+CREATE TABLE
+create table person(
+	p_id varchar(10) primary key,
+	name varchar(100),
+	birth_year numeric(4,0),
+	death_year numeric(4,0)
+);
+CREATE TABLE
+create table person_has_a(
+	profession varchar(40), 
+	p_id varchar(10),
+	primary key(p_id, profession),
+	foreign key (profession) references profession on update cascade,
+	foreign key (p_id) references person
+);
+CREATE TABLE
+create table title(
+	t_id varchar(20) primary key,
+	title varchar(2000),
+	plot varchar,
+	rating numeric(4,2) default 0,
+	type varchar(20),
+	isadult boolean,
+	released varchar(15),
+	language varchar(1000),
+	country varchar(1000),
+  runtime numeric(5,0),
+  awards varchar(500),
+	poster varchar(1000)
+);
+CREATE TABLE
+create table person_involved_title(
+  pit_id serial,
+	p_id varchar(10),
+	t_id varchar(10),
+	job varchar(30),
+  character varchar(500) default null,
+  primary key(pit_id, p_id, t_id),
+  foreign key(p_id) references person,
+  foreign key(t_id) references title
+);
+CREATE TABLE
+create table movie(
+	mov_id varchar (10) references title(t_id)
+);
+CREATE TABLE
+create table episode(
+	ep_id varchar (10) references title(t_id),
+	ep_name varchar(1000),
+	season_num numeric(2,0),
+	ep_num numeric(4,0)
+);
+CREATE TABLE
+create table genre(
+	genre varchar(30) primary key
+);
+CREATE TABLE
+create table title_is(
+	genre varchar(30),
+  t_id varchar(10),
+	primary key(genre, t_id),
+	foreign key(genre) references genre on update cascade,
+	foreign key(t_id) references title
+);
+CREATE TABLE
