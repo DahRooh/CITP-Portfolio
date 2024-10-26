@@ -31,16 +31,16 @@ public class MVContext : DbContext
         MapPersonProfession(modelBuilder);
         MapTitleGenre(modelBuilder);
         MapReview(modelBuilder);
+        MapSession(modelBuilder);
 
      //   MapEpisode(modelBuilder);
         MapPersonInvolvedTitle(modelBuilder);
         MapUsers(modelBuilder);
         MapUserReview(modelBuilder);
-
+        MapUserLikes(modelBuilder);
+        MapUserSession(modelBuilder);
     }
-
-
-
+    
     private static void MapUsers(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<User>().ToTable("users")
@@ -49,12 +49,6 @@ public class MVContext : DbContext
         modelBuilder.Entity<User>().Property(x => x.Id).HasColumnName("u_id");
         modelBuilder.Entity<User>().Property(x => x.Username).HasColumnName("username");
         modelBuilder.Entity<User>().Property(x => x.Email).HasColumnName("email");
-
-        /*modelBuilder.Entity<User>()
-            .HasMany(u => u.reviews)
-            .WithOne(r => r.)
-            .HasForeignKey(r => r.)*/
-
     }
 
     private static void MapReview(ModelBuilder modelBuilder)
@@ -83,9 +77,7 @@ public class MVContext : DbContext
                                     .HasKey(x => x._Genre);
 
         modelBuilder.Entity<Genre>().Property(x => x._Genre).HasColumnName("genre");
-
-
-
+        
     }
 
     private static void MapTitles(ModelBuilder modelBuilder)
@@ -131,6 +123,18 @@ public class MVContext : DbContext
 
         modelBuilder.Entity<Profession>().Property(x => x.Name).HasColumnName("profession");
 
+    }
+
+    private static void MapSession(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<Session>().ToTable("session")
+            .ToTable("session")
+            .HasKey(x => x.Id);
+        
+        modelBuilder.Entity<Session>().Property(x => x.Id).HasColumnName("session_id");
+        modelBuilder.Entity<Session>().Property(x => x.SessionStart).HasColumnName("session_start");
+        modelBuilder.Entity<Session>().Property(x => x.SessionEnd).HasColumnName("session_end");
+        modelBuilder.Entity<Session>().Property(x => x.Expiration).HasColumnName("expiration");
     }
 
 
@@ -187,7 +191,7 @@ public class MVContext : DbContext
     }
 
 
-    private void MapTitleGenre(ModelBuilder modelBuilder)
+    private static void MapTitleGenre(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<TitleGenre>().ToTable("title_is")
              .HasKey(x => new { x.TitleId, x.GenreName });
@@ -210,31 +214,78 @@ public class MVContext : DbContext
             .OnDelete(DeleteBehavior.Cascade);
     }
 
-    private void MapUserReview(ModelBuilder modelBuilder)
+    private static void MapUserReview(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<UserReview>().ToTable("rates")
-             .HasKey(x => new { x.ReviewId, x.UserId });
+        modelBuilder.Entity<UserTitleReview>().ToTable("rates")
+             .HasKey(x => new { x.ReviewId, x.UserId, x.TitleId });
 
-        modelBuilder.Entity<UserReview>().Property(x => x.ReviewId).HasColumnName("rev_id");
-        modelBuilder.Entity<UserReview>().Property(x => x.UserId).HasColumnName("u_id");
+        modelBuilder.Entity<UserTitleReview>().Property(x => x.ReviewId).HasColumnName("rev_id");
+        modelBuilder.Entity<UserTitleReview>().Property(x => x.UserId).HasColumnName("u_id");
+        modelBuilder.Entity<UserTitleReview>().Property(x => x.Rating).HasColumnName("rating");
 
 
-        modelBuilder.Entity<UserReview>()
+        modelBuilder.Entity<UserTitleReview>()
                     .HasOne(x => x.Review)
                     .WithOne(p => p.createdBy)
-                    .HasForeignKey<UserReview>(x => x.ReviewId)
+                    .HasForeignKey<UserTitleReview>(x => x.ReviewId)
                     .OnDelete(DeleteBehavior.Cascade);
 
 
-        modelBuilder.Entity<UserReview>()
+        modelBuilder.Entity<UserTitleReview>()
                     .HasOne(x => x.User)
                     .WithMany(p => p.Reviews)
                     .HasForeignKey(x => x.UserId)
                     .OnDelete(DeleteBehavior.Cascade); 
+        
+        modelBuilder.Entity<UserTitleReview>()
+                    .HasOne(x => x.Title)
+                    .WithMany(p => p.Reviews)
+                    .HasForeignKey(x => x.TitleId)
+                    .OnDelete(DeleteBehavior.Cascade);
     }
 
+    private static void MapUserLikes(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<UserLikesReview>().ToTable("likes")
+            .HasKey(x => new { x.ReviewId, x.UserId });
 
+        modelBuilder.Entity<UserLikesReview>().Property(x => x.UserId).HasColumnName("u_id");
+        modelBuilder.Entity<UserLikesReview>().Property(x => x.ReviewId).HasColumnName("rev_id");
+        modelBuilder.Entity<UserLikesReview>().Property(x => x.Liked).HasColumnName("liked");
+        
+        modelBuilder.Entity<UserLikesReview>()
+            .HasOne(x => x.Review)
+            .WithMany(r => r.UserLikes)
+            .HasForeignKey(x => x.ReviewId)
+            .OnDelete(DeleteBehavior.Cascade);
+        
+        modelBuilder.Entity<UserLikesReview>()
+            .HasOne(x => x.User)
+            .WithMany(u => u.UserLikes)
+            .HasForeignKey(x => x.UserId)
+            .OnDelete(DeleteBehavior.Cascade);
+    }
 
+    public static void MapUserSession(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<UserSession>().ToTable("user_sessions")
+            .HasKey(x => new { x.SessionId, x.UserId });
+        
+        modelBuilder.Entity<UserSession>().Property(x => x.SessionId).HasColumnName("session_id");
+        modelBuilder.Entity<UserSession>().Property(x => x.UserId).HasColumnName("u_id");
+        
+        modelBuilder.Entity<UserSession>()
+            .HasOne(x => x.Session)
+            .WithMany(Us => Us.UserSessions)
+            .HasForeignKey(x => x.SessionId)
+            .OnDelete(DeleteBehavior.Cascade);
+        
+        modelBuilder.Entity<UserSession>()
+            .HasOne(x => x.User)
+            .WithMany(Us => Us.UserSessions)
+            .HasForeignKey(x => x.UserId)
+            .OnDelete(DeleteBehavior.Cascade);
+    }
 }
 /* INHERITANCE STARTUP NEED SOMETHING
         modelBuilder.Entity<Title>().HasDiscriminator<string>("type")

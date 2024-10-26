@@ -9,9 +9,10 @@ namespace DataLayer.DomainObjects.Relations
     public class TitleGenre
     {
         public string TitleId { get; set; }
-        public Title Title { get; set; }
-            
         public string GenreName { get; set; }
+        
+        
+        public Title Title { get; set; }
         public Genre Genre { get; set; }
     }
 }
