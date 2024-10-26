@@ -1,6 +1,8 @@
 ﻿using DataLayer;
+using MovieWebserver.Model.Person;
 
 namespace MovieWebserver.Model.Title;
+
 
 public class TitleModel
 {
@@ -15,6 +17,8 @@ public class TitleModel
     public string? Country { get; set; }
     public int? RunTime { get; set; }
     public string? Poster { get; set; }
+
+    public List<PersonModel> people { get; set; }
 
 
 }

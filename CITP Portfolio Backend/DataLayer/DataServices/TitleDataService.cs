@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using DataLayer.DomainObjects;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,7 +16,7 @@ public class TitleDataService : ITitleDataService
     {
         db = new MVContext();
         var titles = db.Titles
-            .Include(x => x.Genres)
+            .Include(x => x.Genres) 
             .Include(x => x.PeopleInvolved)
             .Take(5).ToList();
 
@@ -29,7 +30,8 @@ public class TitleDataService : ITitleDataService
 
     public IList<Movie> GetMovies()
     {
-        db = new MVContext();
-        return db.Titles.OfType<Movie>().ToList();
+        throw new NotImplementedException();
+        /*db = new MVContext();
+        return db.Titles.OfType<Movie>().ToList();*/
     }
 }

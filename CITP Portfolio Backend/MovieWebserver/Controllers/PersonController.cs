@@ -2,6 +2,7 @@
 using MovieWebserver.Model;
 using DataLayer;
 using MovieWebserver.Model.Person;
+using DataLayer.DomainObjects;
 
 namespace MovieWebserver.Controllers;
 

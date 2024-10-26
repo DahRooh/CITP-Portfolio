@@ -1,14 +1,17 @@
-﻿using System;
+﻿using DataLayer.DomainObjects.Relations;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DataLayer;
+namespace DataLayer.DomainObjects;
 
 public class Title
 {
-    public string Id { get; set; }
+    [Column("t_id")]
+    public string TitleId { get; set; }
     public string _Title { get; set; } = string.Empty;
     public string? Plot { get; set; }
     public double? Rating { get; set; } = 0;
@@ -22,7 +25,11 @@ public class Title
 
 
     // from relations
+    public IList<TitleGenre> Genres { get; set; } = new List<TitleGenre>();
 
-    public List<Genre> Genres { get; set; }
-    public List<PersonInvolvedIn> PeopleInvolved { get; set; }
+    public IList<PersonInvolvedIn>? PeopleInvolved { get; set; } = new List<PersonInvolvedIn>();
+
+
+
+
 }

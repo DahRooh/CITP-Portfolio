@@ -2,6 +2,7 @@
 using DataLayer;
 using MovieWebserver.Model.Title;
 using Mapster;
+using DataLayer.DomainObjects;
 namespace MovieWebserver.Controllers;
 
 [ApiController]

@@ -1,4 +1,4 @@
-namespace DataLayer;
+namespace DataLayer.DomainObjects;
 
 public class Episode : Title
 {
