@@ -10,4 +10,5 @@ public interface ITitleDataService
 {
     //string GetTitle(string title);
     IList<Title> GetTitles();
+    IList<Movie> GetMovies();
 }

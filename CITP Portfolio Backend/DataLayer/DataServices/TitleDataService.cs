@@ -26,4 +26,10 @@ public class TitleDataService : ITitleDataService
 
         return titles;
     }
+
+    public IList<Movie> GetMovies()
+    {
+        db = new MVContext();
+        return db.Titles.OfType<Movie>().ToList();
+    }
 }

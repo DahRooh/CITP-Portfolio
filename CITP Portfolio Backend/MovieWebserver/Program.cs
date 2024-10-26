@@ -5,11 +5,11 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddTransient<ITitleDataService, TitleDataService>();
 builder.Services.AddTransient<IPersonDataService, PersonDataService>();
 
-var ds = new PersonDataService();
-var people = ds.GetPeople();
+var ds = new TitleDataService();
+var movies = ds.GetMovies();
 
-foreach (var person in people) { 
-    Console.WriteLine(person.Name);
+foreach (var item in movies) { 
+    Console.WriteLine(item._Title);
 }
 
 

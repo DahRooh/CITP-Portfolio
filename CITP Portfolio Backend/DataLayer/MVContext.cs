@@ -10,6 +10,7 @@ public class MVContext : DbContext
     public DbSet<Person> People { get; set; }
     // public DbSet<User> Users { get; set; }
     // public DbSet<Bookmark> Bookmarks { get; set; }
+    
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         optionsBuilder.EnableSensitiveDataLogging();
@@ -20,12 +21,33 @@ public class MVContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         MapGenre(modelBuilder);
+        MapUsers(modelBuilder);
+     //   MapEpisode(modelBuilder);
         MapTitles(modelBuilder);
         MapPerson(modelBuilder);
         MapProfession(modelBuilder);
         MapPersonInvolvedTitle(modelBuilder);
     }
 
+    private static void MapUsers(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<User>().ToTable("users").HasKey(x => x.Id);
+
+        modelBuilder.Entity<User>().Property(x => x.Id).HasColumnName("u_id");
+        modelBuilder.Entity<User>().Property(x => x.Username).HasColumnName("username");
+        modelBuilder.Entity<User>().Property(x => x.Email).HasColumnName("email");
+    }
+
+    private static void MapEpisode(ModelBuilder modelBuilder)
+    {
+        
+        modelBuilder.Entity<Episode>().ToTable("episodes")
+                                      .HasKey(x => x.Id);
+        
+        modelBuilder.Entity<Episode>().Property(x => x.SeasonNumber).HasColumnName("season_num");
+        modelBuilder.Entity<Episode>().Property(x => x.EpisodeNumber).HasColumnName("ep_num");
+    }
+    
     private static void MapTitles(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Title>().ToTable("title")
@@ -42,6 +64,18 @@ public class MVContext : DbContext
         modelBuilder.Entity<Title>().Property(x => x.Country).HasColumnName("country");
         modelBuilder.Entity<Title>().Property(x => x.RunTime).HasColumnName("runtime");
         modelBuilder.Entity<Title>().Property(x => x.Poster).HasColumnName("poster");
+
+/*
+        modelBuilder.Entity<Title>().HasDiscriminator<string>("type")
+            .HasValue<Movie>("tvShort")
+            .HasValue<Movie>("movie")
+            .HasValue<Movie>("tvMovie")
+            .HasValue<Movie>("short")
+            .HasValue<Episode>("tvMiniSeries")
+            .HasValue<Episode>("tvEpisode")
+            .HasValue<Episode>("tvSpecial")
+            .HasValue<Episode>("tvSeries");
+*/
 
         modelBuilder.Entity<Title>()
                     .HasMany(p => p.PeopleInvolved)
