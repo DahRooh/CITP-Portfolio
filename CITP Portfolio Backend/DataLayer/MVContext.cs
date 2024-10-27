@@ -73,10 +73,10 @@ public class MVContext : DbContext
 
     private static void MapTitles(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<Title>().ToTable("title").HasKey(x => x.TitleId);;
+        modelBuilder.Entity<Title>().ToTable("title").HasKey(x => x.Id);;
 
 
-        modelBuilder.Entity<Title>().Property(x => x.TitleId).HasColumnName("t_id");
+        modelBuilder.Entity<Title>().Property(x => x.Id).HasColumnName("t_id");
         modelBuilder.Entity<Title>().Property(x => x._Title).HasColumnName("title");
         modelBuilder.Entity<Title>().Property(x => x.Plot).HasColumnName("plot");
         modelBuilder.Entity<Title>().Property(x => x.Rating).HasColumnName("rating");
@@ -126,9 +126,9 @@ public class MVContext : DbContext
     private static void MapPerson(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Person>().ToTable("person")
-                                     .HasKey(x => x.PersonId);
+                                     .HasKey(x => x.Id);
 
-        modelBuilder.Entity<Person>().Property(x => x.PersonId).HasColumnName("p_id");
+        modelBuilder.Entity<Person>().Property(x => x.Id).HasColumnName("p_id");
         modelBuilder.Entity<Person>().Property(x => x.Name).HasColumnName("name");
         modelBuilder.Entity<Person>().Property(x => x.BirthYear).HasColumnName("birth_year");
         modelBuilder.Entity<Person>().Property(x => x.DeathYear).HasColumnName("death_year");

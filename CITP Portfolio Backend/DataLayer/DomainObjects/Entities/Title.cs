@@ -11,7 +11,7 @@ namespace DataLayer.DomainObjects;
 public class Title 
 {
     [Column("t_id")]
-    public string TitleId { get; set; }
+    public string Id { get; set; }
     public string _Title { get; set; } = string.Empty;
     public string? Plot { get; set; }
     public double? Rating { get; set; } = 0;

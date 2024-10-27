@@ -2,6 +2,7 @@
 using MovieWebserver.Model;
 using DataLayer;
 using MovieWebserver.Model.Person;
+using Mapster;
 using DataLayer.DomainObjects;
 
 namespace MovieWebserver.Controllers;
@@ -12,11 +13,11 @@ namespace MovieWebserver.Controllers;
 public class PersonController : ControllerBase
 {
     IPersonDataService _dataService;
-    LinkGenerator _linkGenerator;
-    public PersonController(IPersonDataService dataService, LinkGenerator linkGenerator)
+    private readonly GetUrl _getUrl;
+    public PersonController(IPersonDataService dataService, GetUrl getUrl)
     {
         _dataService = dataService;
-        _linkGenerator = linkGenerator;
+        _getUrl = getUrl;
     }
 
     [HttpGet]
@@ -26,11 +27,92 @@ public class PersonController : ControllerBase
         return Ok(people);
     }
 
-    private PersonModel CreatePersonModel(Person x)
+    [HttpGet("{id}", Name = nameof(GetPeople))]
+    public IActionResult GetPerson(string id)
     {
-        return new PersonModel()
+        var person = _dataService.GetPeople().FirstOrDefault(x => x.Id == id);
+        if (person == null)
         {
-            Name = x.Name
-        };
+            return NotFound();
+        }
+        return Ok(CreatePersonModel(person));
     }
+
+
+    [HttpGet("actor")]
+    public IActionResult GetActors()
+    {
+        var actors = _dataService.GetActors().Select(x => CreatePersonModel(x)).ToList();
+        return Ok(actors);
+    }
+
+
+    [HttpPost]
+    public IActionResult CreatePerson(PersonModel personModel)
+    {
+        if (personModel == null)
+        {
+            return NotFound();
+        }
+
+        var person = new Person
+        {
+            Name = personModel.Name,
+            BirthYear = personModel.BirthYear,
+            DeathYear = personModel.DeathYear,
+
+        };
+
+        var newPerson = _dataService.AddNewPerson(person);
+        return Created(nameof(GetPerson), CreatePersonModel(newPerson));
+    }
+
+
+    [HttpPut("{id}")]
+    public IActionResult UpdatePerson(string id, PersonModel personModel)
+    {
+        if (personModel == null)
+        {
+            return NotFound();
+        }
+
+
+        var existingPerson = _dataService.GetPeople().FirstOrDefault(x => x.Id == id);
+        if (existingPerson == null)
+        {
+            return NotFound();
+        }
+
+        var UpdateThePerson = new Person
+        {
+            Id = id,
+            Name = personModel.Name,
+            BirthYear = personModel.BirthYear,
+            DeathYear = personModel.DeathYear,
+        };
+
+        var updatingPerson = _dataService.UpdatePerson(UpdateThePerson);
+        if (!updatingPerson)
+        {
+            return NotFound();
+        }
+
+        return Ok(CreatePersonModel(existingPerson));
+    }
+
+
+
+    private PersonModel? CreatePersonModel(Person? person)
+    {
+        if (person == null)
+        {
+            return null;
+        }
+
+        var model = person.Adapt<PersonModel>();
+        model.Url = _getUrl.GetWebpageUrl(HttpContext, person.Id, nameof(GetPeople)); // Initializing the Url property
+        return model;
+    }
+
+
 }

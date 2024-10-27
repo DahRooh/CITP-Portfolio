@@ -9,13 +9,13 @@ namespace MovieWebserver.Controllers;
 [Route("api/titles")]
 public class TitleController : ControllerBase
 {
-    readonly LinkGenerator _linkGenerator;
-    readonly ITitleDataService _ds; 
+    private readonly ITitleDataService _ds; 
+    private readonly GetUrl _getUrl;
 
-    public TitleController(ITitleDataService ds, LinkGenerator linkGenerator)
+    public TitleController(ITitleDataService ds, GetUrl getUrl)
     {
-        _linkGenerator = linkGenerator;
         _ds = ds;
+        _getUrl = getUrl;
     }
 
     [HttpGet]
@@ -26,6 +26,16 @@ public class TitleController : ControllerBase
         return Ok(titles);
     }
 
+    [HttpGet("{id}", Name = nameof(GetTitles))]
+    public IActionResult GetTitle(string id)
+    {
+        var title = _ds.GetTitles().FirstOrDefault(x => x.Id == id);
+        if (title == null)
+        {
+            return NotFound();
+        }
+        return Ok(CreateTitleModel(title));
+    }
 
     private TitleModel? CreateTitleModel(Title? title)
     {
@@ -35,7 +45,9 @@ public class TitleController : ControllerBase
         }
 
         var newTitle = title.Adapt<TitleModel>();
+        newTitle.Url = _getUrl.GetWebpageUrl(HttpContext, title.Id, nameof(GetTitles));
         return newTitle;
     }
+
 
 }

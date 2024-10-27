@@ -1,16 +1,21 @@
 using Mapster;
 using DataLayer;
+using MovieWebserver.Controllers;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddTransient<ITitleDataService, TitleDataService>();
 builder.Services.AddTransient<IPersonDataService, PersonDataService>();
+builder.Services.AddTransient<GetUrl>();
 
-var ds = new TitleDataService();
+/*
+var ds = new PersonDataService();
+var people = ds.GetPeople();
 
 var people = ds.GetTitles();
 foreach (var item in people) { 
     Console.WriteLine(item._Title);
 }
+*/
 
 
 

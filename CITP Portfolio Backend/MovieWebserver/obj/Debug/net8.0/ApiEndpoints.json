@@ -10,6 +10,70 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "MovieWebserver.Controllers.PersonController",
+    "Method": "CreatePerson",
+    "RelativePath": "api/person",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "personModel",
+        "Type": "MovieWebserver.Model.Person.PersonModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MovieWebserver.Controllers.PersonController",
+    "Method": "GetPerson",
+    "RelativePath": "api/person/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [],
+    "EndpointName": "GetPeople"
+  },
+  {
+    "ContainingType": "MovieWebserver.Controllers.PersonController",
+    "Method": "UpdatePerson",
+    "RelativePath": "api/person/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "personModel",
+        "Type": "MovieWebserver.Model.Person.PersonModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MovieWebserver.Controllers.PersonController",
+    "Method": "GetActors",
+    "RelativePath": "api/person/actor",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "MovieWebserver.Controllers.TitleController",
     "Method": "GetTitles",
     "RelativePath": "api/titles",
@@ -18,5 +82,22 @@
     "Order": 0,
     "Parameters": [],
     "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MovieWebserver.Controllers.TitleController",
+    "Method": "GetTitle",
+    "RelativePath": "api/titles/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [],
+    "EndpointName": "GetTitles"
   }
 ]
