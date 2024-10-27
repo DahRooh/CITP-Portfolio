@@ -3,12 +3,40 @@
   "WorkspaceRootPath": "C:\\Users\\Moosdorf\\Desktop\\sem1\\CITP-Portfolio\\CITP Portfolio Backend\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{5DA7B075-B011-42E9-BF5B-F35DCC9DC82D}|DataLayer\\DataLayer.csproj|c:\\users\\moosdorf\\desktop\\sem1\\citp-portfolio\\citp portfolio backend\\datalayer\\domainobjects\\relations\\personinvolvedin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{5DA7B075-B011-42E9-BF5B-F35DCC9DC82D}|DataLayer\\DataLayer.csproj|solutionrelative:datalayer\\domainobjects\\relations\\personinvolvedin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{5DA7B075-B011-42E9-BF5B-F35DCC9DC82D}|DataLayer\\DataLayer.csproj|c:\\users\\moosdorf\\desktop\\sem1\\citp-portfolio\\citp portfolio backend\\datalayer\\domainobjects\\entities\\episode.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5DA7B075-B011-42E9-BF5B-F35DCC9DC82D}|DataLayer\\DataLayer.csproj|solutionrelative:datalayer\\domainobjects\\entities\\episode.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5DA7B075-B011-42E9-BF5B-F35DCC9DC82D}|DataLayer\\DataLayer.csproj|c:\\users\\moosdorf\\desktop\\sem1\\citp-portfolio\\citp portfolio backend\\datalayer\\domainobjects\\entities\\movie.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5DA7B075-B011-42E9-BF5B-F35DCC9DC82D}|DataLayer\\DataLayer.csproj|solutionrelative:datalayer\\domainobjects\\entities\\movie.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{5DA7B075-B011-42E9-BF5B-F35DCC9DC82D}|DataLayer\\DataLayer.csproj|c:\\users\\moosdorf\\desktop\\sem1\\citp-portfolio\\citp portfolio backend\\datalayer\\mvcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{5DA7B075-B011-42E9-BF5B-F35DCC9DC82D}|DataLayer\\DataLayer.csproj|solutionrelative:datalayer\\mvcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5DA7B075-B011-42E9-BF5B-F35DCC9DC82D}|DataLayer\\DataLayer.csproj|c:\\users\\moosdorf\\desktop\\sem1\\citp-portfolio\\citp portfolio backend\\datalayer\\domainobjects\\entities\\title.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5DA7B075-B011-42E9-BF5B-F35DCC9DC82D}|DataLayer\\DataLayer.csproj|solutionrelative:datalayer\\domainobjects\\entities\\title.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C3EC427E-3067-4C8E-97FB-A4C03A122EE3}|MovieWebserver\\MovieWebserver.csproj|c:\\users\\moosdorf\\desktop\\sem1\\citp-portfolio\\citp portfolio backend\\moviewebserver\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C3EC427E-3067-4C8E-97FB-A4C03A122EE3}|MovieWebserver\\MovieWebserver.csproj|solutionrelative:moviewebserver\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5DA7B075-B011-42E9-BF5B-F35DCC9DC82D}|DataLayer\\DataLayer.csproj|c:\\users\\moosdorf\\desktop\\sem1\\citp-portfolio\\citp portfolio backend\\datalayer\\domainobjects\\relations\\usersearch.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5DA7B075-B011-42E9-BF5B-F35DCC9DC82D}|DataLayer\\DataLayer.csproj|solutionrelative:datalayer\\domainobjects\\relations\\usersearch.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5DA7B075-B011-42E9-BF5B-F35DCC9DC82D}|DataLayer\\DataLayer.csproj|c:\\users\\moosdorf\\desktop\\sem1\\citp-portfolio\\citp portfolio backend\\datalayer\\domainobjects\\entities\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5DA7B075-B011-42E9-BF5B-F35DCC9DC82D}|DataLayer\\DataLayer.csproj|solutionrelative:datalayer\\domainobjects\\entities\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5DA7B075-B011-42E9-BF5B-F35DCC9DC82D}|DataLayer\\DataLayer.csproj|c:\\users\\moosdorf\\desktop\\sem1\\citp-portfolio\\citp portfolio backend\\datalayer\\dataservices\\persondataservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5DA7B075-B011-42E9-BF5B-F35DCC9DC82D}|DataLayer\\DataLayer.csproj|solutionrelative:datalayer\\dataservices\\persondataservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5DA7B075-B011-42E9-BF5B-F35DCC9DC82D}|DataLayer\\DataLayer.csproj|c:\\users\\moosdorf\\desktop\\sem1\\citp-portfolio\\citp portfolio backend\\datalayer\\domainobjects\\entities\\person.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5DA7B075-B011-42E9-BF5B-F35DCC9DC82D}|DataLayer\\DataLayer.csproj|solutionrelative:datalayer\\domainobjects\\entities\\person.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -18,8 +46,22 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 4,
           "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Title.cs",
+              "DocumentMoniker": "C:\\Users\\Moosdorf\\Desktop\\sem1\\CITP-Portfolio\\CITP Portfolio Backend\\DataLayer\\DomainObjects\\Entities\\Title.cs",
+              "RelativeDocumentMoniker": "DataLayer\\DomainObjects\\Entities\\Title.cs",
+              "ToolTip": "C:\\Users\\Moosdorf\\Desktop\\sem1\\CITP-Portfolio\\CITP Portfolio Backend\\DataLayer\\DomainObjects\\Entities\\Title.cs",
+              "RelativeToolTip": "DataLayer\\DomainObjects\\Entities\\Title.cs",
+              "ViewState": "AgIAABEAAAAAAAAAAAAIwB8AAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-27T09:31:32.003Z",
+              "IsPinned": true,
+              "EditorCaption": ""
+            },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
@@ -30,26 +72,104 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "PersonInvolvedIn.cs",
-              "DocumentMoniker": "C:\\Users\\Moosdorf\\Desktop\\sem1\\CITP-Portfolio\\CITP Portfolio Backend\\DataLayer\\DomainObjects\\Relations\\PersonInvolvedIn.cs",
-              "RelativeDocumentMoniker": "DataLayer\\DomainObjects\\Relations\\PersonInvolvedIn.cs",
-              "ToolTip": "C:\\Users\\Moosdorf\\Desktop\\sem1\\CITP-Portfolio\\CITP Portfolio Backend\\DataLayer\\DomainObjects\\Relations\\PersonInvolvedIn.cs",
-              "RelativeToolTip": "DataLayer\\DomainObjects\\Relations\\PersonInvolvedIn.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAASAAAAAAAAAA==",
+              "DocumentIndex": 1,
+              "Title": "Movie.cs",
+              "DocumentMoniker": "C:\\Users\\Moosdorf\\Desktop\\sem1\\CITP-Portfolio\\CITP Portfolio Backend\\DataLayer\\DomainObjects\\Entities\\Movie.cs",
+              "RelativeDocumentMoniker": "DataLayer\\DomainObjects\\Entities\\Movie.cs",
+              "ToolTip": "C:\\Users\\Moosdorf\\Desktop\\sem1\\CITP-Portfolio\\CITP Portfolio Backend\\DataLayer\\DomainObjects\\Entities\\Movie.cs*",
+              "RelativeToolTip": "DataLayer\\DomainObjects\\Entities\\Movie.cs*",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAqwAIAAAATAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-26T15:01:53.329Z",
+              "WhenOpened": "2024-10-27T09:31:25.712Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 0,
+              "Title": "Episode.cs",
+              "DocumentMoniker": "C:\\Users\\Moosdorf\\Desktop\\sem1\\CITP-Portfolio\\CITP Portfolio Backend\\DataLayer\\DomainObjects\\Entities\\Episode.cs",
+              "RelativeDocumentMoniker": "DataLayer\\DomainObjects\\Entities\\Episode.cs",
+              "ToolTip": "C:\\Users\\Moosdorf\\Desktop\\sem1\\CITP-Portfolio\\CITP Portfolio Backend\\DataLayer\\DomainObjects\\Entities\\Episode.cs*",
+              "RelativeToolTip": "DataLayer\\DomainObjects\\Entities\\Episode.cs*",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAAUAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-27T09:31:27.845Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "Person.cs",
+              "DocumentMoniker": "C:\\Users\\Moosdorf\\Desktop\\sem1\\CITP-Portfolio\\CITP Portfolio Backend\\DataLayer\\DomainObjects\\Entities\\Person.cs",
+              "RelativeDocumentMoniker": "DataLayer\\DomainObjects\\Entities\\Person.cs",
+              "ToolTip": "C:\\Users\\Moosdorf\\Desktop\\sem1\\CITP-Portfolio\\CITP Portfolio Backend\\DataLayer\\DomainObjects\\Entities\\Person.cs",
+              "RelativeToolTip": "DataLayer\\DomainObjects\\Entities\\Person.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAABAAAAAjAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-27T11:21:43.493Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\Moosdorf\\Desktop\\sem1\\CITP-Portfolio\\CITP Portfolio Backend\\MovieWebserver\\Program.cs",
+              "RelativeDocumentMoniker": "MovieWebserver\\Program.cs",
+              "ToolTip": "C:\\Users\\Moosdorf\\Desktop\\sem1\\CITP-Portfolio\\CITP Portfolio Backend\\MovieWebserver\\Program.cs",
+              "RelativeToolTip": "MovieWebserver\\Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAAxAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-27T11:19:33.242Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "PersonDataService.cs",
+              "DocumentMoniker": "C:\\Users\\Moosdorf\\Desktop\\sem1\\CITP-Portfolio\\CITP Portfolio Backend\\DataLayer\\DataServices\\PersonDataService.cs",
+              "RelativeDocumentMoniker": "DataLayer\\DataServices\\PersonDataService.cs",
+              "ToolTip": "C:\\Users\\Moosdorf\\Desktop\\sem1\\CITP-Portfolio\\CITP Portfolio Backend\\DataLayer\\DataServices\\PersonDataService.cs",
+              "RelativeToolTip": "DataLayer\\DataServices\\PersonDataService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAqwBIAAAAYAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-27T09:36:13.881Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "User.cs",
+              "DocumentMoniker": "C:\\Users\\Moosdorf\\Desktop\\sem1\\CITP-Portfolio\\CITP Portfolio Backend\\DataLayer\\DomainObjects\\Entities\\User.cs",
+              "RelativeDocumentMoniker": "DataLayer\\DomainObjects\\Entities\\User.cs",
+              "ToolTip": "C:\\Users\\Moosdorf\\Desktop\\sem1\\CITP-Portfolio\\CITP Portfolio Backend\\DataLayer\\DomainObjects\\Entities\\User.cs",
+              "RelativeToolTip": "DataLayer\\DomainObjects\\Entities\\User.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAA2AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-26T15:07:04.943Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "UserSearch.cs",
+              "DocumentMoniker": "C:\\Users\\Moosdorf\\Desktop\\sem1\\CITP-Portfolio\\CITP Portfolio Backend\\DataLayer\\DomainObjects\\Relations\\UserSearch.cs",
+              "RelativeDocumentMoniker": "DataLayer\\DomainObjects\\Relations\\UserSearch.cs",
+              "ToolTip": "C:\\Users\\Moosdorf\\Desktop\\sem1\\CITP-Portfolio\\CITP Portfolio Backend\\DataLayer\\DomainObjects\\Relations\\UserSearch.cs",
+              "RelativeToolTip": "DataLayer\\DomainObjects\\Relations\\UserSearch.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAARAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-26T15:04:26.756Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
               "Title": "MVContext.cs",
               "DocumentMoniker": "C:\\Users\\Moosdorf\\Desktop\\sem1\\CITP-Portfolio\\CITP Portfolio Backend\\DataLayer\\MVContext.cs",
               "RelativeDocumentMoniker": "DataLayer\\MVContext.cs",
               "ToolTip": "C:\\Users\\Moosdorf\\Desktop\\sem1\\CITP-Portfolio\\CITP Portfolio Backend\\DataLayer\\MVContext.cs",
               "RelativeToolTip": "DataLayer\\MVContext.cs",
-              "ViewState": "AgIAACgBAAAAAAAAAAAQwDkBAAArAAAAAAAAAA==",
+              "ViewState": "AgIAAFUAAAAAAAAAAAAowGIAAAAIAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-10-26T14:59:30.017Z",
               "EditorCaption": ""

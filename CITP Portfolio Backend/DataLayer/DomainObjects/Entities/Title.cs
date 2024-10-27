@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace DataLayer.DomainObjects;
 
-public class Title
+public class Title 
 {
     [Column("t_id")]
     public string TitleId { get; set; }
@@ -28,4 +28,7 @@ public class Title
     public IList<TitleGenre> Genres { get; set; } = new List<TitleGenre>();
     public IList<PersonInvolvedIn>? PeopleInvolved { get; set; } = new List<PersonInvolvedIn>();
     public IList<UserTitleReview>? Reviews { get; set; }
+
+   // public Title MovieOrTitle { get; set; }
+
 }

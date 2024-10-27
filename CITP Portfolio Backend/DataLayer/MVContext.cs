@@ -10,6 +10,8 @@ namespace DataLayer;
 public class MVContext : DbContext
 {
     public DbSet<Title> Titles { get; set; }
+    public DbSet<Movie> Movies { get; set; }
+    public DbSet<Episode> Episodes { get; set; }
     public DbSet<Person> People { get; set; }
     // public DbSet<User> Users { get; set; }
     // public DbSet<Bookmark> Bookmarks { get; set; }
@@ -33,7 +35,8 @@ public class MVContext : DbContext
         MapReview(modelBuilder);
         MapSession(modelBuilder);
 
-     //   MapEpisode(modelBuilder);
+        MapEpisodeAndMovie(modelBuilder);
+
         MapPersonInvolvedTitle(modelBuilder);
         MapUsers(modelBuilder);
         MapUserReview(modelBuilder);
@@ -45,8 +48,7 @@ public class MVContext : DbContext
     
     private static void MapUsers(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<User>().ToTable("users")
-                                    .HasKey(x => x.Id);
+        modelBuilder.Entity<User>().ToTable("users").HasKey(x => x.Id);
 
         modelBuilder.Entity<User>().Property(x => x.Id).HasColumnName("u_id");
         modelBuilder.Entity<User>().Property(x => x.Username).HasColumnName("username");
@@ -55,37 +57,24 @@ public class MVContext : DbContext
 
     private static void MapReview(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<Review>().ToTable("review")
-        .HasKey(x => x.Id);
+        modelBuilder.Entity<Review>().ToTable("review").HasKey(x => x.Id);
 
         modelBuilder.Entity<Review>().Property(x => x.Id).HasColumnName("rev_id");
         modelBuilder.Entity<Review>().Property(x => x.Likes).HasColumnName("likes");
         modelBuilder.Entity<Review>().Property(x => x.Text).HasColumnName("review");
     }
 
-    private static void MapEpisode(ModelBuilder modelBuilder)
-    {
-        
-        modelBuilder.Entity<Episode>().ToTable("episodes")
-                                      .HasKey(x => x.TitleId);
-        
-        modelBuilder.Entity<Episode>().Property(x => x.SeasonNumber).HasColumnName("season_num");
-        modelBuilder.Entity<Episode>().Property(x => x.EpisodeNumber).HasColumnName("ep_num");
-    }
-
     private static void MapGenre(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<Genre>().ToTable("genre")
-                                    .HasKey(x => x._Genre);
+        modelBuilder.Entity<Genre>().ToTable("genre").HasKey(x => x._Genre);
 
-        modelBuilder.Entity<Genre>().Property(x => x._Genre).HasColumnName("genre");
-        
+        modelBuilder.Entity<Genre>().Property(x => x._Genre).HasColumnName("genre");  
     }
 
     private static void MapTitles(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<Title>().ToTable("title")
-                                    .HasKey(x => x.TitleId);
+        modelBuilder.Entity<Title>().ToTable("title").HasKey(x => x.TitleId);;
+
 
         modelBuilder.Entity<Title>().Property(x => x.TitleId).HasColumnName("t_id");
         modelBuilder.Entity<Title>().Property(x => x._Title).HasColumnName("title");
@@ -101,8 +90,39 @@ public class MVContext : DbContext
 
 
 
+    }
+
+   private static void MapEpisodeAndMovie(ModelBuilder modelBuilder)
+    {
+        // movies
+
+        modelBuilder.Entity<Movie>().ToTable("movie").HasKey(x => x.Id);
+        modelBuilder.Entity<Movie>().Property(x => x.TitleId).HasColumnName("t_id");
+        modelBuilder.Entity<Movie>().Property(x => x.Id).HasColumnName("mov_id");
+
+
+        modelBuilder.Entity<Movie>()
+               .HasOne(x => x.Title)
+               .WithOne()
+               .HasForeignKey<Movie>(e => e.TitleId);
+
+
+        // episodes
+        modelBuilder.Entity<Episode>().ToTable("episode").HasKey(x => x.Id);
+
+        modelBuilder.Entity<Episode>().Property(x => x.TitleId).HasColumnName("t_id");
+        modelBuilder.Entity<Episode>().Property(x => x.Id).HasColumnName("ep_id");
+        modelBuilder.Entity<Episode>().Property(x => x.SeasonNumber).HasColumnName("season_num");
+        modelBuilder.Entity<Episode>().Property(x => x.EpisodeNumber).HasColumnName("ep_num");
+
+        modelBuilder.Entity<Episode>()
+                       .HasOne(x => x.Title)
+                       .WithOne()
+                       .HasForeignKey<Episode>(e => e.TitleId);
+
 
     }
+
     private static void MapPerson(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Person>().ToTable("person")
@@ -113,25 +133,18 @@ public class MVContext : DbContext
         modelBuilder.Entity<Person>().Property(x => x.BirthYear).HasColumnName("birth_year");
         modelBuilder.Entity<Person>().Property(x => x.DeathYear).HasColumnName("death_year");
         modelBuilder.Entity<Person>().Property(x => x.Rating).HasColumnName("person_rating");
-
-
     }
+
 
     private static void MapProfession(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<Profession>()
-                             .ToTable("profession")
-                             .HasKey(x => x.Name);
-
+        modelBuilder.Entity<Profession>().ToTable("profession").HasKey(x => x.Name);
         modelBuilder.Entity<Profession>().Property(x => x.Name).HasColumnName("profession");
-
     }
 
     private static void MapSession(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<Session>()
-            .ToTable("session")
-            .HasKey(x => x.Id);
+        modelBuilder.Entity<Session>().ToTable("session").HasKey(x => x.Id);
         
         modelBuilder.Entity<Session>().Property(x => x.Id).HasColumnName("session_id");
         modelBuilder.Entity<Session>().Property(x => x.SessionStart).HasColumnName("session_start");
@@ -141,9 +154,7 @@ public class MVContext : DbContext
 
     private static void MapBookmark(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<Bookmark>()
-                    .ToTable("bookmark")
-                    .HasKey(x => x.Id);
+        modelBuilder.Entity<Bookmark>().ToTable("bookmark").HasKey(x => x.Id);
 
         modelBuilder.Entity<Bookmark>().Property(x => x.Id).HasColumnName("session_id");
         modelBuilder.Entity<Bookmark>().Property(x => x.CreatedAt).HasColumnName("session_end");
@@ -156,9 +167,7 @@ public class MVContext : DbContext
 
     private static void MapPersonInvolvedTitle(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<PersonInvolvedIn>()
-                     .ToTable("person_involved_title")
-                     .HasKey(x => new { x.PersonId, x.TitleId});
+        modelBuilder.Entity<PersonInvolvedIn>().ToTable("person_involved_title").HasKey(x => new { x.PersonId, x.TitleId});
 
         modelBuilder.Entity<PersonInvolvedIn>().Property(x => x.PersonId).HasColumnName("p_id");
         modelBuilder.Entity<PersonInvolvedIn>().Property(x => x.TitleId).HasColumnName("t_id");
@@ -182,8 +191,7 @@ public class MVContext : DbContext
     }
     private static void MapPersonProfession(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<PersonProfession>().ToTable("person_has_a")
-                                        .HasKey(x => new { x.ProfessionName, x.PersonId });
+        modelBuilder.Entity<PersonProfession>().ToTable("person_has_a").HasKey(x => new { x.ProfessionName, x.PersonId });
 
         modelBuilder.Entity<PersonProfession>().Property(x => x.PersonId).HasColumnName("p_id");
         modelBuilder.Entity<PersonProfession>().Property(x => x.ProfessionName).HasColumnName("profession");
@@ -207,8 +215,7 @@ public class MVContext : DbContext
 
     private static void MapTitleGenre(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<TitleGenre>().ToTable("title_is")
-             .HasKey(x => new { x.TitleId, x.GenreName });
+        modelBuilder.Entity<TitleGenre>().ToTable("title_is").HasKey(x => new { x.TitleId, x.GenreName });
 
         modelBuilder.Entity<TitleGenre>().Property(x => x.GenreName).HasColumnName("genre");
         modelBuilder.Entity<TitleGenre>().Property(x => x.TitleId).HasColumnName("t_id");
@@ -230,8 +237,7 @@ public class MVContext : DbContext
 
     private static void MapUserReview(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<UserTitleReview>().ToTable("rates")
-             .HasKey(x => new { x.ReviewId, x.UserId, x.TitleId });
+        modelBuilder.Entity<UserTitleReview>().ToTable("rates").HasKey(x => new { x.ReviewId, x.UserId, x.TitleId });
 
         modelBuilder.Entity<UserTitleReview>().Property(x => x.ReviewId).HasColumnName("rev_id");
         modelBuilder.Entity<UserTitleReview>().Property(x => x.UserId).HasColumnName("u_id");
@@ -260,8 +266,7 @@ public class MVContext : DbContext
 
     private static void MapUserLikes(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<UserLikesReview>().ToTable("likes")
-            .HasKey(x => new { x.ReviewId, x.UserId });
+        modelBuilder.Entity<UserLikesReview>().ToTable("likes").HasKey(x => new { x.ReviewId, x.UserId });
 
         modelBuilder.Entity<UserLikesReview>().Property(x => x.UserId).HasColumnName("u_id");
         modelBuilder.Entity<UserLikesReview>().Property(x => x.ReviewId).HasColumnName("rev_id");
@@ -282,8 +287,7 @@ public class MVContext : DbContext
 
     public static void MapUserSession(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<UserSession>().ToTable("user_sessions")
-            .HasKey(x => new { x.SessionId, x.UserId });
+        modelBuilder.Entity<UserSession>().ToTable("user_sessions").HasKey(x => new { x.SessionId, x.UserId });
         
         modelBuilder.Entity<UserSession>().Property(x => x.SessionId).HasColumnName("session_id");
         modelBuilder.Entity<UserSession>().Property(x => x.UserId).HasColumnName("u_id");
@@ -303,9 +307,7 @@ public class MVContext : DbContext
 
     public static void MapUserBookmark(ModelBuilder modelBuilder)
     {
-
-        modelBuilder.Entity<UserBookmark>().ToTable("user_bookmarks")
-                    .HasKey(x => new { x.BookmarkId, x.UserId });
+        modelBuilder.Entity<UserBookmark>().ToTable("user_bookmarks").HasKey(x => new { x.BookmarkId, x.UserId });
 
         modelBuilder.Entity<UserBookmark>().Property(x => x.BookmarkId).HasColumnName("bookmark_id");
         modelBuilder.Entity<UserBookmark>().Property(x => x.UserId).HasColumnName("u_id");
@@ -326,8 +328,7 @@ public class MVContext : DbContext
     public static void MapUserSearch(ModelBuilder modelBuilder)
     {
 
-        modelBuilder.Entity<UserSearch>().ToTable("history")
-                    .HasKey(x => new { x.SearchId, x.UserId });
+        modelBuilder.Entity<UserSearch>().ToTable("history").HasKey(x => new { x.SearchId, x.UserId });
 
         modelBuilder.Entity<UserSearch>().Property(x => x.SearchId).HasColumnName("search_id");
         modelBuilder.Entity<UserSearch>().Property(x => x.UserId).HasColumnName("u_id");

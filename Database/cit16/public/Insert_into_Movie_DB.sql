@@ -24,16 +24,18 @@ insert into title
 select tconst, primarytitle, nullif(plot, 'N/A'), 0, titletype, isadult, released, language, country, runtimeminutes, nullif(awards, 'N/A'), poster
 from title_basics left join omdb_data using(tconst);
 
-
+select * from title;
 
 /* MOVIE TABLE */
 
 -- all "movies"
 insert into movie
-select distinct tconst
+select distinct tconst, tconst, 'movie'
 from title_basics
 full join omdb_data using(tconst)
-where titletype in ('tvShort', 'movie', 'tvMovie', 'short') or type in ('movie');
+where titletype in ('tvShort', 'movie', 'tvMovie', 'short');
+
+
 
 
 
@@ -41,9 +43,23 @@ where titletype in ('tvShort', 'movie', 'tvMovie', 'short') or type in ('movie')
 
 -- all "episodes"
 insert into episode
-select tconst, primarytitle, cast(nullif(season, 'N/A') as numeric),  cast(nullif(episode, 'N/A') as numeric)
+select tconst, tconst, 'episode', cast(nullif(season, 'N/A') as numeric),  cast(nullif(episode, 'N/A') as numeric)
 from title_basics left join omdb_data using(tconst)
 where titletype not in ('tvShort', 'movie', 'tvMovie', 'video', 'short', 'videoGame');
+
+-- alter title to add new column (specific type: episode/movie)
+
+alter table title 
+add titletype varchar;
+
+update title
+set titletype = ('movie')
+where type in ('tvShort', 'movie', 'tvMovie', 'short');
+
+update title
+set titletype = ('episode')
+where type not in ('tvShort', 'movie', 'tvMovie', 'short');
+
 
 
 /* GENRE TABLE */ 

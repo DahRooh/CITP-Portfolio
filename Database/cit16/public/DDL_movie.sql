@@ -67,6 +67,27 @@ create table title(
 	poster varchar(1000)
 );
 
+create table movie(
+	t_id varchar (10),
+	mov_id varchar (10),
+  titletype varchar(20),
+  primary key (mov_id),
+  foreign key (t_id) references title
+);
+
+create table episode(
+	t_id varchar (10),
+	ep_id varchar (10),
+  titletype varchar(20),
+
+	season_num numeric(2,0),
+	ep_num numeric(4,0),
+  
+  primary key (ep_id),
+  foreign key (t_id) references title
+
+);
+
 create table person_involved_title(
   pit_id serial,
 	p_id varchar(10),
@@ -78,16 +99,7 @@ create table person_involved_title(
   foreign key(t_id) references title
 );
 
-create table movie(
-	mov_id varchar (10) references title(t_id)
-);
 
-create table episode(
-	ep_id varchar (10) references title(t_id),
-	ep_name varchar(1000),
-	season_num numeric(2,0),
-	ep_num numeric(4,0)
-);
 
 create table genre(
 	genre varchar(30) primary key
