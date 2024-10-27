@@ -10,14 +10,14 @@ namespace MovieWebserver.Controllers;
 
 [ApiController]
 [Route("api/person")]
-public class PersonController : ControllerBase
+public class PersonController : BaseController
 {
     IPersonDataService _dataService;
-    private readonly GetUrl _getUrl;
-    public PersonController(IPersonDataService dataService, GetUrl getUrl)
+    private readonly LinkGenerator _linkGenerator;
+    public PersonController(IPersonDataService dataService, LinkGenerator linkGenerator) : base(linkGenerator)
     {
         _dataService = dataService;
-        _getUrl = getUrl;
+        _linkGenerator = linkGenerator;
     }
 
     [HttpGet]
@@ -110,7 +110,7 @@ public class PersonController : ControllerBase
         }
 
         var model = person.Adapt<PersonModel>();
-        model.Url = _getUrl.GetWebpageUrl(HttpContext, person.Id, nameof(GetPeople)); // Initializing the Url property
+        model.Url = GetWebpageUrl(nameof(GetPeople), person.Id); // Initializing the Url property
         return model;
     }
 
