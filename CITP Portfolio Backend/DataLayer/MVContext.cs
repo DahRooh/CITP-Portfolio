@@ -39,6 +39,8 @@ public class MVContext : DbContext
         MapUserReview(modelBuilder);
         MapUserLikes(modelBuilder);
         MapUserSession(modelBuilder);
+        MapUserBookmark(modelBuilder);
+        MapUserSearch(modelBuilder);
     }
     
     private static void MapUsers(ModelBuilder modelBuilder)
@@ -127,7 +129,7 @@ public class MVContext : DbContext
 
     private static void MapSession(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<Session>().ToTable("session")
+        modelBuilder.Entity<Session>()
             .ToTable("session")
             .HasKey(x => x.Id);
         
@@ -136,6 +138,18 @@ public class MVContext : DbContext
         modelBuilder.Entity<Session>().Property(x => x.SessionEnd).HasColumnName("session_end");
         modelBuilder.Entity<Session>().Property(x => x.Expiration).HasColumnName("expiration");
     }
+
+    private static void MapBookmark(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<Bookmark>()
+                    .ToTable("bookmark")
+                    .HasKey(x => x.Id);
+
+        modelBuilder.Entity<Bookmark>().Property(x => x.Id).HasColumnName("session_id");
+        modelBuilder.Entity<Bookmark>().Property(x => x.CreatedAt).HasColumnName("session_end");
+    }
+
+
 
 
     // RELATIONS 
@@ -276,16 +290,66 @@ public class MVContext : DbContext
         
         modelBuilder.Entity<UserSession>()
             .HasOne(x => x.Session)
-            .WithMany(Us => Us.UserSessions)
-            .HasForeignKey(x => x.SessionId)
+            .WithOne(us => us.UserSessions)
+            .HasForeignKey<UserSession>(x => x.SessionId)
             .OnDelete(DeleteBehavior.Cascade);
         
         modelBuilder.Entity<UserSession>()
             .HasOne(x => x.User)
-            .WithMany(Us => Us.UserSessions)
+            .WithMany(us => us.UserSessions)
             .HasForeignKey(x => x.UserId)
             .OnDelete(DeleteBehavior.Cascade);
     }
+
+    public static void MapUserBookmark(ModelBuilder modelBuilder)
+    {
+
+        modelBuilder.Entity<UserBookmark>().ToTable("user_bookmarks")
+                    .HasKey(x => new { x.BookmarkId, x.UserId });
+
+        modelBuilder.Entity<UserBookmark>().Property(x => x.BookmarkId).HasColumnName("bookmark_id");
+        modelBuilder.Entity<UserBookmark>().Property(x => x.UserId).HasColumnName("u_id");
+
+        modelBuilder.Entity<UserBookmark>()
+            .HasOne(x => x.Bookmark)
+            .WithOne(us => us.BookmarkedBy)
+            .HasForeignKey<UserBookmark>(x => x.BookmarkId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        modelBuilder.Entity<UserBookmark>()
+            .HasOne(x => x.User)
+            .WithMany(us => us.UserBookmarks)
+            .HasForeignKey(x => x.UserId)
+            .OnDelete(DeleteBehavior.Cascade);
+    }
+
+    public static void MapUserSearch(ModelBuilder modelBuilder)
+    {
+
+        modelBuilder.Entity<UserSearch>().ToTable("history")
+                    .HasKey(x => new { x.SearchId, x.UserId });
+
+        modelBuilder.Entity<UserSearch>().Property(x => x.SearchId).HasColumnName("search_id");
+        modelBuilder.Entity<UserSearch>().Property(x => x.UserId).HasColumnName("u_id");
+
+        modelBuilder.Entity<UserSearch>()
+            .HasOne(x => x.Search)
+            .WithOne(us => us.UserSearch)
+            .HasForeignKey<UserSearch>(x => x.SearchId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        modelBuilder.Entity<UserSearch>()
+            .HasOne(x => x.User)
+            .WithMany(us => us.Searches)
+            .HasForeignKey(x => x.UserId)
+            .OnDelete(DeleteBehavior.Cascade);
+    }
+
+
+
+
+
+
 }
 /* INHERITANCE STARTUP NEED SOMETHING
         modelBuilder.Entity<Title>().HasDiscriminator<string>("type")

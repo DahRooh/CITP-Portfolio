@@ -8,5 +8,5 @@ public class Session
     public DateTime SessionStart { get; set; }
     public DateTime SessionEnd { get; set; }
     public string Expiration { get; set; }
-    public IList<UserSession>? UserSessions { get; set; }
+    public UserSession? UserSessions { get; set; }
 }

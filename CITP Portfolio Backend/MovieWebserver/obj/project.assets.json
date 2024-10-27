@@ -1287,32 +1287,35 @@
     ]
   },
   "packageFolders": {
-    "/Users/dagmarree/.nuget/packages/": {}
+    "C:\\Users\\Moosdorf\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/dagmarree/Documents/GitHub/CITP-Portfolio/CITP Portfolio Backend/MovieWebserver/MovieWebserver.csproj",
+      "projectUniqueName": "C:\\Users\\Moosdorf\\Desktop\\sem1\\CITP-Portfolio\\CITP Portfolio Backend\\MovieWebserver\\MovieWebserver.csproj",
       "projectName": "MovieWebserver",
-      "projectPath": "/Users/dagmarree/Documents/GitHub/CITP-Portfolio/CITP Portfolio Backend/MovieWebserver/MovieWebserver.csproj",
-      "packagesPath": "/Users/dagmarree/.nuget/packages/",
-      "outputPath": "/Users/dagmarree/Documents/GitHub/CITP-Portfolio/CITP Portfolio Backend/MovieWebserver/obj/",
+      "projectPath": "C:\\Users\\Moosdorf\\Desktop\\sem1\\CITP-Portfolio\\CITP Portfolio Backend\\MovieWebserver\\MovieWebserver.csproj",
+      "packagesPath": "C:\\Users\\Moosdorf\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Moosdorf\\Desktop\\sem1\\CITP-Portfolio\\CITP Portfolio Backend\\MovieWebserver\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "/Users/dagmarree/.nuget/NuGet/NuGet.Config"
+        "C:\\Users\\Moosdorf\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "net8.0"
       ],
       "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "c:\\program files\\dotnet\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "/Users/dagmarree/Documents/GitHub/CITP-Portfolio/CITP Portfolio Backend/DataLayer/DataLayer.csproj": {
-              "projectPath": "/Users/dagmarree/Documents/GitHub/CITP-Portfolio/CITP Portfolio Backend/DataLayer/DataLayer.csproj"
+            "C:\\Users\\Moosdorf\\Desktop\\sem1\\CITP-Portfolio\\CITP Portfolio Backend\\DataLayer\\DataLayer.csproj": {
+              "projectPath": "C:\\Users\\Moosdorf\\Desktop\\sem1\\CITP-Portfolio\\CITP Portfolio Backend\\DataLayer\\DataLayer.csproj"
             }
           }
         }
@@ -1368,7 +1371,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/8.0.403/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "c:\\program files\\dotnet\\sdk\\8.0.403/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

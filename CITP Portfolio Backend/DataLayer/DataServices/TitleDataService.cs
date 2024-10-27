@@ -18,7 +18,9 @@ public class TitleDataService : ITitleDataService
         var titles = db.Titles
             .Include(x => x.Genres) 
             .Include(x => x.PeopleInvolved)
-            .Take(5).ToList();
+            .Take(5)
+            .AsSplitQuery()
+            .ToList();
 
         if (titles == null || titles.Count() == 0)
         {

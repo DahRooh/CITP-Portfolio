@@ -9,7 +9,9 @@ public class User
     public string Email { get; set; }
 
     
-    public List<UserTitleReview> Reviews { get; set; }
+    public IList<UserTitleReview> Reviews { get; set; }
+    public IList<UserSearch> Searches { get; set; }
     public IList<UserLikesReview> UserLikes { get; set; } = new List<UserLikesReview>();
     public IList<UserSession>? UserSessions { get; set; }
+    public IList<UserBookmark> UserBookmarks { get; internal set; }
 }
