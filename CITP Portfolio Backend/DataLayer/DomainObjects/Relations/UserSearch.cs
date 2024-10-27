@@ -8,6 +8,9 @@ namespace DataLayer.DomainObjects;
 
 public class UserSearch
 {
+    public int UserId { get; set; }
+    public int SearchId { get; set; }
+
     public User User { get; set; }
     public Search Search { get; set; }
 }
