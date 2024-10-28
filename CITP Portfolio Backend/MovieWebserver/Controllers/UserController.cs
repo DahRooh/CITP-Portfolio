@@ -98,7 +98,8 @@ public class UserController : BaseController
     [HttpGet("{userId}/Reviews/{reviewId}", Name = nameof(GetUserReviewWithId))]
     public IActionResult GetUserReviewWithId(int userId, int reviewId)
     {
-        var review = _ds.GetReview(reviewId);
+        throw new NotImplementedException();
+        //var review = _ds.GetReview(reviewId);
 
     }
 

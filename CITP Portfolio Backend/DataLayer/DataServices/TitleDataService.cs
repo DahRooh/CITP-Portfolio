@@ -1,4 +1,6 @@
 ﻿using DataLayer.DomainObjects;
+using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -12,28 +14,70 @@ public class TitleDataService : ITitleDataService
 {
     private MVContext db;
 
-    public IList<Title> GetTitles()
+    public int NumberOfMovies()
     {
         db = new MVContext();
-        var titles = db.Titles
-            .Include(x => x.Genres) 
-            .Include(x => x.PeopleInvolved)
-            .Take(5)
-            .AsSplitQuery()
+        var count = db.Movies.Count();
+        return count;
+    }
+
+    public IList<Episode> GetEpisodes(int page, int pageSize)
+    {
+        db = new MVContext();
+        var serie = db.Episodes
+            .Include(x => x.Title)
+            .Skip(page * pageSize).Take(pageSize)
             .ToList();
 
-        if (titles == null || titles.Count() == 0)
+        if (serie == null || serie.Count() == 0)
         {
             return null;
         }
 
+        return serie;
+    }
+
+    public Episode GetEpisode(string id)
+    {
+        db = new MVContext();
+        var serie = db.Episodes
+            .Include(x => x.Title)
+            .FirstOrDefault(x => x.Id == id);
+
+        if (serie == null)
+        {
+            return null;
+        }
+
+        return serie;
+    }
+
+    public int NumberOfSeries()
+    {
+        db = new MVContext();
+        var count = db.Episodes.Count();
+        return count;
+    }
+
+    public IList<Movie> GetMovies(int page, int pageSize)
+    {
+        db = new MVContext();
+        var titles = db.Movies.Include(x => x.Title).Skip(page * pageSize).Take(pageSize).ToList();
         return titles;
     }
 
-    public IList<Movie> GetMovies()
+    public Movie? GetMovie(string id)
     {
         db = new MVContext();
-        var titles = db.Movies.Include(x => x.Title).ToList();
-        return titles;
+        var movie = db.Movies.Include(x => x.Title).FirstOrDefault(x => x.Id == id);
+        
+        if (movie == null)
+        {
+            return null;
+        }
+
+        return movie;
     }
+
+
 }
