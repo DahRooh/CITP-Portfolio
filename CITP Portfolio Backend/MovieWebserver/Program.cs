@@ -11,20 +11,26 @@ builder.Services.AddTransient<IUserDataService, UserDataService>();
 builder.Services.AddTransient<GetUrl>();
 
 
-var ds = new TitleDataService();
-var people = ds.GetMovies();
+var ds = new UserDataService();
+var people = ds.GetUsers();
 
-foreach (var item in people) { 
-    Console.WriteLine(item.Title._Title);
-}
 
-/*
+var people1 = ds.GetUser(2);
+
+
+    Console.WriteLine("username= " + people1.Username);
+    Console.WriteLine("id= " + people1.Id);
+
+
 var ds1 = new UserDataService();
 
 var result = ds1.GetSessions(2);
-Console.WriteLine(result[0].Id);
-Console.WriteLine(result[0].UserId);
-*/
+
+foreach (var item in result)
+{
+    Console.WriteLine(item);
+}
+
 
 
 

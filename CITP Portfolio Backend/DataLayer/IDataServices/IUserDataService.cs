@@ -1,4 +1,5 @@
 ﻿using DataLayer.DomainObjects;
+using DataLayer.DomainObjects.FunctionResults;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,12 +13,14 @@ namespace DataLayer.IDataServices
         public bool CreateReview(string titleId, string ReviewText);
 
 
-        public List<User> GetUser();
+        public List<User> GetUsers();
         public User GetUser(int userId);
         public List<Search> GetHistory(int userId);
         public List<Bookmark> GetBookmarks(int userId);
-        public Session GetCurrentSession(int userId);
-        public List<Session> GetSessions(int userId);
+        public Review GetReview(int reviewId);
+        public List<Review> GetReviews(string titleId);
+        public UserSessionsHistory GetCurrentSession(int userId);
+        public List<UserSessionsHistory> GetSessions(int userId);
         public List<(Title, int)> GetLikeHistory(int userId);
 
         public bool CreateBookmark(string titleId, int userId);

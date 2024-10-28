@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 using DataLayer.HelperMethods;
 using Microsoft.EntityFrameworkCore;
 using Npgsql;
+using DataLayer.DomainObjects.FunctionResults;
+using Microsoft.AspNetCore.Http;
 
 namespace DataLayer.DataServices
 {
@@ -44,50 +46,66 @@ namespace DataLayer.DataServices
             throw new NotImplementedException();
         }
 
-        public List<Session> GetSessions(int userId)
+        public List<UserSessionsHistory> GetSessions(int userId)
         {
-            Console.WriteLine("diin");
-            var result = new List<Session>();
             db = new MVContext();
-            var connection = (NpgsqlConnection)db.Database.GetDbConnection();
 
-            var results = Helpers.ExecuteFunctionSQL(connection, $"select * from get_session({userId})");
+            var results = db.SessionHistory.FromSqlInterpolated($"select * from get_session({userId})").ToList();
 
-            Console.WriteLine("WOWO");
-            foreach (var resultitem in results)
-            {
-                var session = new Session()
-                {
-                    Id = (int)resultitem["session_id"],
-                    UserId = (int)resultitem["user_id"],
 
-                };
-                result.Add(session);
-            }
-            return result;
-
+            return results;
         }
 
-        public List<User> GetUser()
+        public List<User> GetUsers()
         {
-            throw new NotImplementedException();
+            db = new MVContext();
+            var users = db.Users.ToList();
+            return users;
         }
 
         public User GetUser(int userId)
         {
-            throw new NotImplementedException();
+            db = new MVContext();
+            Console.WriteLine("userid" + userId);
+            var users = db.Users.Where(x => x.Id == userId).FirstOrDefault();
+            return users;
         }
 
         public List<Bookmark> GetBookmarks(int userId)
         {
-            throw new NotImplementedException();
+            db = new MVContext();
+            return db.Bookmarks.Where(x => x.Id == userId).ToList();
+
         }
 
-        public Session GetCurrentSession(int userId)
+        public UserSessionsHistory GetCurrentSession(int userId)
+        {
+            db = new MVContext();
+
+            var session = db.SessionHistory.FromSqlInterpolated($"select * from get_session({userId}) limit 1").First();
+
+
+            return session;
+        }
+
+        public Review GetReview(int reviewId)
+        {
+            db = new MVContext();
+            var review = db.Reviews.Where(x => x.Id == reviewId).FirstOrDefault();
+
+            if (review == null)
+            {
+                return null;
+            }
+
+            return review;
+        }
+
+
+        public List<Review> GetReviews(string titleId)
         {
             throw new NotImplementedException();
         }
-
 
         public bool DeleteUser(int userId)
         {
@@ -116,9 +134,11 @@ namespace DataLayer.DataServices
         {
             throw new NotImplementedException();
 
-            //            db = new MVContext();
-            //           var sql = "select * from {}"
-            //         Helpers.ExecuteFunctionSQL(db, sql);
+            db = new MVContext();
+
+            db.Database.ExecuteSqlInterpolated($"call signup({username},{password},{email})");
         }
+
+
     }
 }

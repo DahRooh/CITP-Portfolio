@@ -1,4 +1,5 @@
 ﻿using DataLayer.DomainObjects;
+using DataLayer.DomainObjects.FunctionResults;
 using DataLayer.DomainObjects.Relations;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
@@ -11,11 +12,13 @@ public class MVContext : DbContext
 {
     public DbSet<Title> Titles { get; set; }
     public DbSet<Movie> Movies { get; set; }
-    public DbSet<Session> Sessions { get; set; }
+    public DbSet<UserSessionsHistory> SessionHistory { get; set; }
     public DbSet<Episode> Episodes { get; set; }
     public DbSet<Person> People { get; set; }
-    // public DbSet<User> Users { get; set; }
-    // public DbSet<Bookmark> Bookmarks { get; set; }
+    public DbSet<User> Users { get; set; }
+    public DbSet<Bookmark> Bookmarks { get; set; }
+    public DbSet<Review> Reviews { get; set; }
+
     
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -145,8 +148,14 @@ public class MVContext : DbContext
 
     private static void MapSession(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<UserSessionsHistory>().HasNoKey();
+        modelBuilder.Entity<UserSessionsHistory>().Property(x => x.Id).HasColumnName("session_id");
+        modelBuilder.Entity<UserSessionsHistory>().Property(x => x.UserId).HasColumnName("user_id");
+        modelBuilder.Entity<UserSessionsHistory>().Property(x => x.SessionStart).HasColumnName("timecreated");
+        modelBuilder.Entity<UserSessionsHistory>().Property(x => x.SessionEnd).HasColumnName("timeended");
+        modelBuilder.Entity<UserSessionsHistory>().Property(x => x.Expiration).HasColumnName("expired");
+
         modelBuilder.Entity<Session>().ToTable("session").HasKey(x => x.Id);
-        
         modelBuilder.Entity<Session>().Property(x => x.Id).HasColumnName("session_id");
         modelBuilder.Entity<Session>().Property(x => x.SessionStart).HasColumnName("session_start");
         modelBuilder.Entity<Session>().Property(x => x.SessionEnd).HasColumnName("session_end");

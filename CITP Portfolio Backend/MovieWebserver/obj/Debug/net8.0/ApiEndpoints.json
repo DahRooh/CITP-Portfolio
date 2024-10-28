@@ -101,5 +101,84 @@
     ],
     "ReturnTypes": [],
     "EndpointName": "GetTitles"
+  },
+  {
+    "ContainingType": "MovieWebserver.Controllers.UserController",
+    "Method": "GetUsers",
+    "RelativePath": "api/user",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [],
+    "EndpointName": "GetUsers"
+  },
+  {
+    "ContainingType": "MovieWebserver.Controllers.UserController",
+    "Method": "GetUser",
+    "RelativePath": "api/user/{userId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [],
+    "EndpointName": "GetUser"
+  },
+  {
+    "ContainingType": "MovieWebserver.Controllers.UserController",
+    "Method": "GetUserBookmarks",
+    "RelativePath": "api/user/{userId}/bookmarks",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [],
+    "EndpointName": "GetUserBookmarks"
+  },
+  {
+    "ContainingType": "MovieWebserver.Controllers.UserController",
+    "Method": "GetCurrentUserSessions",
+    "RelativePath": "api/user/{userId}/current_session",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [],
+    "EndpointName": "GetCurrentUserSessions"
+  },
+  {
+    "ContainingType": "MovieWebserver.Controllers.UserController",
+    "Method": "GetUserSessions",
+    "RelativePath": "api/user/{userId}/sessions",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [],
+    "EndpointName": "GetUserSessions"
   }
 ]
