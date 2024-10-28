@@ -20,6 +20,30 @@ public class UserController : BaseController
     {
         _ds = ds;
     }
+    [HttpPost("CreateReview")]
+    public IActionResult CreateReview(ReviewModel review) 
+    {
+        var result = _ds.CreateReview(review);
+
+        if (result != null)
+        {
+            NotFound();
+        }
+
+        return Ok(result);
+    }
+
+    [HttpPost("CreateUser")]
+    public IActionResult CreateUser([FromBody] UserModel userModel)
+    {
+        var result = _ds.CreateUser(userModel);
+        if (result != null) 
+        {
+            NotFound();
+        }
+
+        return Ok(result);
+    }
 
     [HttpGet("{userId}", Name = nameof(GetUser))]
     public IActionResult GetUser(int userId)
@@ -95,16 +119,34 @@ public class UserController : BaseController
 
         return Ok(bookmarks);
     }
-    [HttpGet("{userId}/Reviews/{reviewId}", Name = nameof(GetUserReviewWithId))]
-    public IActionResult GetUserReviewWithId(int userId, int reviewId)
+    [HttpGet("{userId}/Reviews", Name = nameof(GetUserReviews))]
+    public IActionResult GetUserReviews(int userId)
     {
-        throw new NotImplementedException();
-        //var review = _ds.GetReview(reviewId);
+        var reviews = _ds.GetReviews(userId).Select(x => CreateReviewModel(x)).ToList();
+
+        if (reviews.Count() == 0)
+        {
+            return NotFound();
+        }
+
+        return Ok(reviews);
 
     }
 
+    public static ReviewModel CreateReviewModel(UserTitleReview review)
+    {
+        var model = review.Adapt<ReviewModel>();
+        model.Title = CreateTitleModel(review.Title);
 
-    private UserModel CreateUserModel(User user)
+        var allUsersThatLiked = review.Review.UserLikes.Select(x => CreateUserModel(x.User)).ToList();
+        model.UserLikes = allUsersThatLiked;
+
+        model.createdBy = CreateUserModel(review.User);
+
+
+        return model;
+    }
+    public static UserModel CreateUserModel(User user)
     {
         return user.Adapt<UserModel>();
     }
@@ -118,11 +160,10 @@ public class UserController : BaseController
     {
         return bookmark.Adapt<BookmarkModel>();
     }
-    public static ReviewModel CreateReviewModel(Review review)
+
+
+    private static TitleModel CreateTitleModel(Title title)
     {
-        return review.Adapt<ReviewModel>();
+        return title.Adapt<TitleModel>();
     }
-
-
-
 }

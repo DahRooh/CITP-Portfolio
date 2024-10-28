@@ -1004,40 +1004,50 @@ begin
     keyword := lower(keyword);
     
     -- title_with_keyword
-    select distinct count(t_id) into title_with_keyword
+    select count(distinct t_id) into title_with_keyword
     from wi 
     join title on title.t_id = tconst
     where lower(word) = keyword;
     
-    for web_page in
-      select distinct t_id, title.title
-      from wi 
-      join title on t_id = tconst
-      where lower(word) = keyword
-    loop
+    if title_with_keyword > 0 then
     
-      -- total words in document
-      select count(word) into total_words 
-      from wi 
-      join title on tconst = title.t_id
-      where title.t_id = web_page.t_id;
+        for web_page in
+          select distinct t_id, title.title
+          from wi 
+          join title on t_id = tconst
+          where lower(word) = keyword
+          loop
+        
+            -- total words in document
+            select count(word) into total_words 
+            from wi 
+            join title on tconst = title.t_id
+            where title.t_id = web_page.t_id;
+            
+            -- keyword_appears
+            select count(word) into keyword_appears
+            from wi 
+            join title on title.t_id = tconst
+            where lower(word) = keyword 
+            and title.t_id = web_page.t_id;
+  
+  
+            if total_words > 0 and title_with_keyword > 0 then
+              -- equation
+              results := ((keyword_appears / total_words) 
+                    * log(total_webpages / title_with_keyword));
+            else 
+              results := 0;
+            end if;
+            
+            return query 
+                select web_page.t_id, web_page.title, keyword, keyword_appears, round(results, 10);
+          end loop;
+        end if; 
+      end loop;
       
-      -- keyword_appears
-      select count(word) into keyword_appears
-      from wi 
-      join title on title.t_id = tconst
-      where lower(word) = keyword 
-      and title.t_id = web_page.t_id;
-
-      select ((keyword_appears / total_words) -- equation
-              * log(total_webpages/title_with_keyword)) into results;
-      return query 
-          select web_page.t_id, web_page.title, keyword, keyword_appears, round(results, 10);
-    end loop;
-  end loop;
   end;
 $$;
-
 
 
 /*

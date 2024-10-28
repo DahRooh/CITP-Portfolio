@@ -8,28 +8,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddTransient<ITitleDataService, TitleDataService>();
 builder.Services.AddTransient<IPersonDataService, PersonDataService>();
 builder.Services.AddTransient<IUserDataService, UserDataService>();
-builder.Services.AddTransient<GetUrl>();
 
 
-var ds = new UserDataService();
-var people = ds.GetUsers();
-
-
-var people1 = ds.GetUser(2);
-
-
-    Console.WriteLine("username= " + people1.Username);
-    Console.WriteLine("id= " + people1.Id);
-
-
-var ds1 = new UserDataService();
-
-var result = ds1.GetSessions(2);
-
-foreach (var item in result)
-{
-    Console.WriteLine(item);
-}
 
 
 

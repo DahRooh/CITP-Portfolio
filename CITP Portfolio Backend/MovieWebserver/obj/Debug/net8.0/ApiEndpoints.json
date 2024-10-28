@@ -155,6 +155,22 @@
   },
   {
     "ContainingType": "MovieWebserver.Controllers.UserController",
+    "Method": "CreateReview",
+    "RelativePath": "api/user",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "review",
+        "Type": "MovieWebserver.Model.Title.ReviewModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MovieWebserver.Controllers.UserController",
     "Method": "GetUsers",
     "RelativePath": "api/user",
     "HttpMethod": "GET",
@@ -217,8 +233,8 @@
   },
   {
     "ContainingType": "MovieWebserver.Controllers.UserController",
-    "Method": "GetUserReviewWithId",
-    "RelativePath": "api/user/{userId}/Reviews/{reviewId}",
+    "Method": "GetUserReviews",
+    "RelativePath": "api/user/{userId}/Reviews",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -227,15 +243,10 @@
         "Name": "userId",
         "Type": "System.Int32",
         "IsRequired": true
-      },
-      {
-        "Name": "reviewId",
-        "Type": "System.Int32",
-        "IsRequired": true
       }
     ],
     "ReturnTypes": [],
-    "EndpointName": "GetUserReviewWithId"
+    "EndpointName": "GetUserReviews"
   },
   {
     "ContainingType": "MovieWebserver.Controllers.UserController",
@@ -253,5 +264,21 @@
     ],
     "ReturnTypes": [],
     "EndpointName": "GetUserSessions"
+  },
+  {
+    "ContainingType": "MovieWebserver.Controllers.UserController",
+    "Method": "CreateUser",
+    "RelativePath": "api/user/CreateUser",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userModel",
+        "Type": "MovieWebserver.Model.User.UserModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
   }
 ]

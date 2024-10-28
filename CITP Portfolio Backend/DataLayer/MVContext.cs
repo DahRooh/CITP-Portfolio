@@ -17,7 +17,7 @@ public class MVContext : DbContext
     public DbSet<Person> People { get; set; }
     public DbSet<User> Users { get; set; }
     public DbSet<Bookmark> Bookmarks { get; set; }
-    public DbSet<Review> Reviews { get; set; }
+    public DbSet<UserTitleReview> UserReviews { get; set; }
 
     
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -250,6 +250,7 @@ public class MVContext : DbContext
         modelBuilder.Entity<UserTitleReview>().ToTable("rates").HasKey(x => new { x.ReviewId, x.UserId, x.TitleId });
 
         modelBuilder.Entity<UserTitleReview>().Property(x => x.ReviewId).HasColumnName("rev_id");
+        modelBuilder.Entity<UserTitleReview>().Property(x => x.TitleId).HasColumnName("t_id");
         modelBuilder.Entity<UserTitleReview>().Property(x => x.UserId).HasColumnName("u_id");
         modelBuilder.Entity<UserTitleReview>().Property(x => x.Rating).HasColumnName("rating");
 

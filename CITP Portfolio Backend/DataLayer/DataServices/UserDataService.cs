@@ -1,15 +1,10 @@
 ﻿using DataLayer.DomainObjects;
 using DataLayer.IDataServices;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using DataLayer.HelperMethods;
 using Microsoft.EntityFrameworkCore;
-using Npgsql;
 using DataLayer.DomainObjects.FunctionResults;
-using Microsoft.AspNetCore.Http;
+using MovieWebserver.Model.User;
+using MovieWebserver.Model.Title;
+
 
 namespace DataLayer.DataServices
 {
@@ -23,9 +18,32 @@ namespace DataLayer.DataServices
             throw new NotImplementedException();
         }
 
-        public bool CreateReview(string titleId, string ReviewText)
+        public User CreateUser(UserModel user)
         {
-            throw new NotImplementedException();
+            db = new MVContext();
+
+            var doesUserExist = db.Users.Where(x => x.Username == user.Username).FirstOrDefault();
+
+            Console.WriteLine(doesUserExist);
+            if (doesUserExist == null)
+            {
+                db.Database.ExecuteSqlRaw("call signup({0}, {1}, {2}, {3})", user.Username, user.Password, user.Email, null);
+                var newUser = db.Users.Where(x => x.Username == user.Username).First();
+                return newUser;
+            } 
+            else
+            {
+                return null;
+            }
+            
+            
+        }
+        public UserTitleReview CreateReview(ReviewModel review)
+        {
+            db = new MVContext();
+
+            db.Database.ExecuteSqlRaw("call rate({0}, {1}, {2}, {3})", review.TitleId, review.createdBy.Id, review.Liked, review.Text);
+            return db.UserReviews.Where(x => x.TitleId == review.TitleId & x.UserId == review.createdBy.Id).First();
         }
 
 
@@ -88,10 +106,10 @@ namespace DataLayer.DataServices
             return session;
         }
 
-        public Review GetReview(int reviewId)
+        public UserTitleReview GetReview(int reviewId)
         {
             db = new MVContext();
-            var review = db.Reviews.Where(x => x.Id == reviewId).FirstOrDefault();
+            var review = db.UserReviews.Where(x => x.ReviewId == reviewId).FirstOrDefault();
 
             if (review == null)
             {
@@ -101,8 +119,13 @@ namespace DataLayer.DataServices
             return review;
         }
 
-
-        public List<Review> GetReviews(string titleId)
+        public List<UserTitleReview> GetReviews(int userId)
+        {
+            db = new MVContext();
+            var reviews = db.UserReviews.Include(x => x.User).Include(x => x.Title).Include(x => x.Review).ThenInclude(x => x.UserLikes).ToList();
+            return reviews;
+        }
+        public Bookmark CreateBookmark()
         {
             throw new NotImplementedException();
         }
@@ -130,14 +153,7 @@ namespace DataLayer.DataServices
         {
             throw new NotImplementedException();
         }
-        public bool CreateUser(string username, string email, string password)
-        {
-            throw new NotImplementedException();
 
-            db = new MVContext();
-
-            db.Database.ExecuteSqlInterpolated($"call signup({username},{password},{email})");
-        }
 
 
     }
