@@ -1,1 +1,30 @@
 .vs/
+*.dll
+*.cache
+*.cs
+CITP Portfolio Backend/.vs/CITP Portfolio Backend/v17/.suo
+CITP Portfolio Backend/.vs/CITP Portfolio Backend/v17/DocumentLayout.backup.json
+CITP Portfolio Backend/DataLayer/bin/Debug/net8.0/DataLayer.dll
+CITP Portfolio Backend/DataLayer/bin/Debug/net8.0/DataLayer.pdb
+CITP Portfolio Backend/DataLayer/obj/Debug/net8.0/DataLayer.AssemblyInfo.cs
+CITP Portfolio Backend/DataLayer/obj/Debug/net8.0/DataLayer.AssemblyInfoInputs.cache
+CITP Portfolio Backend/DataLayer/obj/Debug/net8.0/DataLayer.dll
+CITP Portfolio Backend/DataLayer/obj/Debug/net8.0/DataLayer.pdb
+CITP Portfolio Backend/DataLayer/obj/Debug/net8.0/DataLayer.sourcelink.json
+CITP Portfolio Backend/DataLayer/obj/Debug/net8.0/ref/DataLayer.dll
+CITP Portfolio Backend/DataLayer/obj/Debug/net8.0/refint/DataLayer.dll
+CITP Portfolio Backend/MovieWebserver/bin/Debug/net8.0/DataLayer.dll
+CITP Portfolio Backend/MovieWebserver/bin/Debug/net8.0/DataLayer.pdb
+CITP Portfolio Backend/MovieWebserver/bin/Debug/net8.0/MovieWebserver.dll
+CITP Portfolio Backend/MovieWebserver/bin/Debug/net8.0/MovieWebserver.exe
+CITP Portfolio Backend/MovieWebserver/bin/Debug/net8.0/MovieWebserver.pdb
+CITP Portfolio Backend/MovieWebserver/obj/Debug/net8.0/ApiEndpoints.json
+CITP Portfolio Backend/MovieWebserver/obj/Debug/net8.0/apphost.exe
+CITP Portfolio Backend/MovieWebserver/obj/Debug/net8.0/MovieWebserver.AssemblyInfo.cs
+CITP Portfolio Backend/MovieWebserver/obj/Debug/net8.0/MovieWebserver.AssemblyInfoInputs.cache
+CITP Portfolio Backend/MovieWebserver/obj/Debug/net8.0/MovieWebserver.csproj.AssemblyReference.cache
+CITP Portfolio Backend/MovieWebserver/obj/Debug/net8.0/MovieWebserver.dll
+CITP Portfolio Backend/MovieWebserver/obj/Debug/net8.0/MovieWebserver.pdb
+CITP Portfolio Backend/MovieWebserver/obj/Debug/net8.0/MovieWebserver.sourcelink.json
+CITP Portfolio Backend/MovieWebserver/obj/Debug/net8.0/ref/MovieWebserver.dll
+CITP Portfolio Backend/MovieWebserver/obj/Debug/net8.0/refint/MovieWebserver.dll
