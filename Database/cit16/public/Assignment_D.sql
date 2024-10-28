@@ -363,7 +363,7 @@ declare
 begin
   return query
     select mov_id, title
-    from title join movie on mov_id = t_id
+    from title join movie on mov_id = title.t_id
     where lower(title) like search_word or (plot is not null and lower(plot) like search_word);
 end;
 $$;

@@ -1,9 +1,11 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
+using Microsoft.EntityFrameworkCore;
+using Npgsql;
 namespace MovieWebserver.Controllers;
 
 [ApiController]
-public class BaseController : ControllerBase
+public abstract class BaseController : ControllerBase
 {
     private readonly LinkGenerator _linkGenerator;
 
@@ -12,16 +14,19 @@ public class BaseController : ControllerBase
         _linkGenerator = linkGenerator;
     }
 
+    [NonAction]
     public string? GetWebpageUrl(string entityName, object args) // Update order here
     {
         return _linkGenerator.GetUriByName(HttpContext, entityName, args);
     }
 
+    [NonAction]
     public string? GetPageLink(string entityName, object args)
     {
         return GetWebpageUrl(entityName, args);
     }
 
+    [NonAction]
     public object CreatePaging<T>(string entityName, int page, int pageSize, int total, IEnumerable<T?> items)
     {
         const int MaxItemPerPage = 20;
@@ -45,4 +50,6 @@ public class BaseController : ControllerBase
         };
         return result;
     }
+
+
 }

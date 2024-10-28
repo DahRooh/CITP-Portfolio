@@ -11,6 +11,7 @@ public class MVContext : DbContext
 {
     public DbSet<Title> Titles { get; set; }
     public DbSet<Movie> Movies { get; set; }
+    public DbSet<Session> Sessions { get; set; }
     public DbSet<Episode> Episodes { get; set; }
     public DbSet<Person> People { get; set; }
     // public DbSet<User> Users { get; set; }

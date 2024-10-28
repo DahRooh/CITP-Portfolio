@@ -3,7 +3,7 @@
 GROUP: cit16, MEMBERS: Andreas Moosdorf, Dagmar Ree, Eray Erkul 
 
 */
-
+select * from users;
 
 
 call signup('username1', 'hashed-password', 'mail1@mail.ok', null);

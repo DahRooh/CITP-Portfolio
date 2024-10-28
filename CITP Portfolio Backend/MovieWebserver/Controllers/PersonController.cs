@@ -20,14 +20,14 @@ public class PersonController : BaseController
         _linkGenerator = linkGenerator;
     }
 
-    [HttpGet]
+    [HttpGet (Name = nameof(GetPeople))]
     public IActionResult GetPeople()
     {
         var people = _dataService.GetPeople().Select(x => CreatePersonModel(x)).ToList();
         return Ok(people);
     }
 
-    [HttpGet("{id}", Name = nameof(GetPeople))]
+    [HttpGet("{id}", Name = nameof(GetPerson))]
     public IActionResult GetPerson(string id)
     {
         var person = _dataService.GetPeople().FirstOrDefault(x => x.Id == id);
@@ -39,7 +39,7 @@ public class PersonController : BaseController
     }
 
 
-    [HttpGet("actor")]
+    [HttpGet("actor", Name = nameof(GetActors))]
     public IActionResult GetActors()
     {
         var actors = _dataService.GetActors().Select(x => CreatePersonModel(x)).ToList();

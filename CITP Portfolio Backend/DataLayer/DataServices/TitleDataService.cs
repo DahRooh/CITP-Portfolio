@@ -32,8 +32,8 @@ public class TitleDataService : ITitleDataService
 
     public IList<Movie> GetMovies()
     {
-        throw new NotImplementedException();
-        /*db = new MVContext();
-        return db.Titles.OfType<Movie>().ToList();*/
+        db = new MVContext();
+        var titles = db.Movies.Include(x => x.Title).ToList();
+        return titles;
     }
 }

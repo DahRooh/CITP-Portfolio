@@ -1,78 +1,30 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\eray2\\Documents\\Github\\semester1\\Portfolio\\CITP-Portfolio\\CITP Portfolio Backend\\",
+  "WorkspaceRootPath": "C:\\Users\\Moosdorf\\Desktop\\sem1\\CITP-Portfolio\\CITP Portfolio Backend\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{5DA7B075-B011-42E9-BF5B-F35DCC9DC82D}|DataLayer\\DataLayer.csproj|c:\\users\\eray2\\documents\\github\\semester1\\portfolio\\citp-portfolio\\citp portfolio backend\\datalayer\\domainobjects\\entities\\person.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{5DA7B075-B011-42E9-BF5B-F35DCC9DC82D}|DataLayer\\DataLayer.csproj|solutionrelative:datalayer\\domainobjects\\entities\\person.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{5DA7B075-B011-42E9-BF5B-F35DCC9DC82D}|DataLayer\\DataLayer.csproj|c:\\users\\eray2\\documents\\github\\semester1\\portfolio\\citp-portfolio\\citp portfolio backend\\datalayer\\mvcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{5DA7B075-B011-42E9-BF5B-F35DCC9DC82D}|DataLayer\\DataLayer.csproj|solutionrelative:datalayer\\mvcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{C3EC427E-3067-4C8E-97FB-A4C03A122EE3}|MovieWebserver\\MovieWebserver.csproj|c:\\users\\eray2\\documents\\github\\semester1\\portfolio\\citp-portfolio\\citp portfolio backend\\moviewebserver\\model\\person\\personmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C3EC427E-3067-4C8E-97FB-A4C03A122EE3}|MovieWebserver\\MovieWebserver.csproj|solutionrelative:moviewebserver\\model\\person\\personmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{5DA7B075-B011-42E9-BF5B-F35DCC9DC82D}|DataLayer\\DataLayer.csproj|c:\\users\\eray2\\documents\\github\\semester1\\portfolio\\citp-portfolio\\citp portfolio backend\\datalayer\\dataservices\\persondataservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{5DA7B075-B011-42E9-BF5B-F35DCC9DC82D}|DataLayer\\DataLayer.csproj|solutionrelative:datalayer\\dataservices\\persondataservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{C3EC427E-3067-4C8E-97FB-A4C03A122EE3}|MovieWebserver\\MovieWebserver.csproj|c:\\users\\eray2\\documents\\github\\semester1\\portfolio\\citp-portfolio\\citp portfolio backend\\moviewebserver\\controllers\\titlecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C3EC427E-3067-4C8E-97FB-A4C03A122EE3}|MovieWebserver\\MovieWebserver.csproj|solutionrelative:moviewebserver\\controllers\\titlecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{C3EC427E-3067-4C8E-97FB-A4C03A122EE3}|MovieWebserver\\MovieWebserver.csproj|c:\\users\\eray2\\documents\\github\\semester1\\portfolio\\citp-portfolio\\citp portfolio backend\\moviewebserver\\controllers\\personcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C3EC427E-3067-4C8E-97FB-A4C03A122EE3}|MovieWebserver\\MovieWebserver.csproj|solutionrelative:moviewebserver\\controllers\\personcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{5DA7B075-B011-42E9-BF5B-F35DCC9DC82D}|DataLayer\\DataLayer.csproj|c:\\users\\eray2\\documents\\github\\semester1\\portfolio\\citp-portfolio\\citp portfolio backend\\datalayer\\domainobjects\\entities\\episode.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{5DA7B075-B011-42E9-BF5B-F35DCC9DC82D}|DataLayer\\DataLayer.csproj|solutionrelative:datalayer\\domainobjects\\entities\\episode.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{5DA7B075-B011-42E9-BF5B-F35DCC9DC82D}|DataLayer\\DataLayer.csproj|c:\\users\\eray2\\documents\\github\\semester1\\portfolio\\citp-portfolio\\citp portfolio backend\\datalayer\\domainobjects\\entities\\bookmark.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{5DA7B075-B011-42E9-BF5B-F35DCC9DC82D}|DataLayer\\DataLayer.csproj|solutionrelative:datalayer\\domainobjects\\entities\\bookmark.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{C3EC427E-3067-4C8E-97FB-A4C03A122EE3}|MovieWebserver\\MovieWebserver.csproj|c:\\users\\eray2\\documents\\github\\semester1\\portfolio\\citp-portfolio\\citp portfolio backend\\moviewebserver\\helpermethods\\geturl.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C3EC427E-3067-4C8E-97FB-A4C03A122EE3}|MovieWebserver\\MovieWebserver.csproj|solutionrelative:moviewebserver\\helpermethods\\geturl.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{C3EC427E-3067-4C8E-97FB-A4C03A122EE3}|MovieWebserver\\MovieWebserver.csproj|c:\\users\\eray2\\documents\\github\\semester1\\portfolio\\citp-portfolio\\citp portfolio backend\\moviewebserver\\moviewebserver.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
-      "RelativeMoniker": "D:0:0:{C3EC427E-3067-4C8E-97FB-A4C03A122EE3}|MovieWebserver\\MovieWebserver.csproj|solutionrelative:moviewebserver\\moviewebserver.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{C3EC427E-3067-4C8E-97FB-A4C03A122EE3}|MovieWebserver\\MovieWebserver.csproj|c:\\users\\eray2\\documents\\github\\semester1\\portfolio\\citp-portfolio\\citp portfolio backend\\moviewebserver\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C3EC427E-3067-4C8E-97FB-A4C03A122EE3}|MovieWebserver\\MovieWebserver.csproj|solutionrelative:moviewebserver\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{5DA7B075-B011-42E9-BF5B-F35DCC9DC82D}|DataLayer\\DataLayer.csproj|c:\\users\\eray2\\documents\\github\\semester1\\portfolio\\citp-portfolio\\citp portfolio backend\\datalayer\\dataservices\\titledataservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{5DA7B075-B011-42E9-BF5B-F35DCC9DC82D}|DataLayer\\DataLayer.csproj|c:\\users\\moosdorf\\desktop\\sem1\\citp-portfolio\\citp portfolio backend\\datalayer\\dataservices\\titledataservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{5DA7B075-B011-42E9-BF5B-F35DCC9DC82D}|DataLayer\\DataLayer.csproj|solutionrelative:datalayer\\dataservices\\titledataservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{5DA7B075-B011-42E9-BF5B-F35DCC9DC82D}|DataLayer\\DataLayer.csproj|c:\\users\\eray2\\documents\\github\\semester1\\portfolio\\citp-portfolio\\citp portfolio backend\\datalayer\\domainobjects\\relations\\search_result.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{5DA7B075-B011-42E9-BF5B-F35DCC9DC82D}|DataLayer\\DataLayer.csproj|solutionrelative:datalayer\\domainobjects\\relations\\search_result.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{C3EC427E-3067-4C8E-97FB-A4C03A122EE3}|MovieWebserver\\MovieWebserver.csproj|c:\\users\\moosdorf\\desktop\\sem1\\citp-portfolio\\citp portfolio backend\\moviewebserver\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C3EC427E-3067-4C8E-97FB-A4C03A122EE3}|MovieWebserver\\MovieWebserver.csproj|solutionrelative:moviewebserver\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{5DA7B075-B011-42E9-BF5B-F35DCC9DC82D}|DataLayer\\DataLayer.csproj|c:\\users\\eray2\\documents\\github\\semester1\\portfolio\\citp-portfolio\\citp portfolio backend\\datalayer\\domainobjects\\relations\\bookmarked.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{5DA7B075-B011-42E9-BF5B-F35DCC9DC82D}|DataLayer\\DataLayer.csproj|solutionrelative:datalayer\\domainobjects\\relations\\bookmarked.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{5DA7B075-B011-42E9-BF5B-F35DCC9DC82D}|DataLayer\\DataLayer.csproj|c:\\users\\moosdorf\\desktop\\sem1\\citp-portfolio\\citp portfolio backend\\datalayer\\mvcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5DA7B075-B011-42E9-BF5B-F35DCC9DC82D}|DataLayer\\DataLayer.csproj|solutionrelative:datalayer\\mvcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{5DA7B075-B011-42E9-BF5B-F35DCC9DC82D}|DataLayer\\DataLayer.csproj|c:\\users\\eray2\\documents\\github\\semester1\\portfolio\\citp-portfolio\\citp portfolio backend\\datalayer\\domainobjects\\entities\\movie.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{5DA7B075-B011-42E9-BF5B-F35DCC9DC82D}|DataLayer\\DataLayer.csproj|solutionrelative:datalayer\\domainobjects\\entities\\movie.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{5DA7B075-B011-42E9-BF5B-F35DCC9DC82D}|DataLayer\\DataLayer.csproj|c:\\users\\moosdorf\\desktop\\sem1\\citp-portfolio\\citp portfolio backend\\datalayer\\dataservices\\userdataservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5DA7B075-B011-42E9-BF5B-F35DCC9DC82D}|DataLayer\\DataLayer.csproj|solutionrelative:datalayer\\dataservices\\userdataservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{5DA7B075-B011-42E9-BF5B-F35DCC9DC82D}|DataLayer\\DataLayer.csproj|c:\\users\\eray2\\documents\\github\\semester1\\portfolio\\citp-portfolio\\citp portfolio backend\\datalayer\\domainobjects\\entities\\title.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{5DA7B075-B011-42E9-BF5B-F35DCC9DC82D}|DataLayer\\DataLayer.csproj|solutionrelative:datalayer\\domainobjects\\entities\\title.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{5DA7B075-B011-42E9-BF5B-F35DCC9DC82D}|DataLayer\\DataLayer.csproj|c:\\users\\moosdorf\\desktop\\sem1\\citp-portfolio\\citp portfolio backend\\datalayer\\helpermethods\\helpers.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5DA7B075-B011-42E9-BF5B-F35DCC9DC82D}|DataLayer\\DataLayer.csproj|solutionrelative:datalayer\\helpermethods\\helpers.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{5DA7B075-B011-42E9-BF5B-F35DCC9DC82D}|DataLayer\\DataLayer.csproj|c:\\users\\eray2\\documents\\github\\semester1\\portfolio\\citp-portfolio\\citp portfolio backend\\datalayer\\domainobjects\\relations\\usersearch.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{5DA7B075-B011-42E9-BF5B-F35DCC9DC82D}|DataLayer\\DataLayer.csproj|solutionrelative:datalayer\\domainobjects\\relations\\usersearch.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{5DA7B075-B011-42E9-BF5B-F35DCC9DC82D}|DataLayer\\DataLayer.csproj|c:\\users\\eray2\\documents\\github\\semester1\\portfolio\\citp-portfolio\\citp portfolio backend\\datalayer\\domainobjects\\entities\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{5DA7B075-B011-42E9-BF5B-F35DCC9DC82D}|DataLayer\\DataLayer.csproj|solutionrelative:datalayer\\domainobjects\\entities\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{5DA7B075-B011-42E9-BF5B-F35DCC9DC82D}|DataLayer\\DataLayer.csproj|c:\\users\\moosdorf\\desktop\\sem1\\citp-portfolio\\citp portfolio backend\\datalayer\\domainobjects\\entities\\session.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5DA7B075-B011-42E9-BF5B-F35DCC9DC82D}|DataLayer\\DataLayer.csproj|solutionrelative:datalayer\\domainobjects\\entities\\session.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -82,7 +34,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 8,
+          "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Bookmark",
@@ -94,233 +46,81 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "PersonModel.cs",
-              "DocumentMoniker": "C:\\Users\\eray2\\Documents\\Github\\semester1\\Portfolio\\CITP-Portfolio\\CITP Portfolio Backend\\MovieWebserver\\Model\\Person\\PersonModel.cs",
-              "RelativeDocumentMoniker": "MovieWebserver\\Model\\Person\\PersonModel.cs",
-              "ToolTip": "C:\\Users\\eray2\\Documents\\Github\\semester1\\Portfolio\\CITP-Portfolio\\CITP Portfolio Backend\\MovieWebserver\\Model\\Person\\PersonModel.cs",
-              "RelativeToolTip": "MovieWebserver\\Model\\Person\\PersonModel.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-27T14:13:56.609Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 0,
               "Title": "TitleDataService.cs",
-              "DocumentMoniker": "C:\\Users\\eray2\\Documents\\Github\\semester1\\Portfolio\\CITP-Portfolio\\CITP Portfolio Backend\\DataLayer\\DataServices\\TitleDataService.cs",
+              "DocumentMoniker": "C:\\Users\\Moosdorf\\Desktop\\sem1\\CITP-Portfolio\\CITP Portfolio Backend\\DataLayer\\DataServices\\TitleDataService.cs",
               "RelativeDocumentMoniker": "DataLayer\\DataServices\\TitleDataService.cs",
-              "ToolTip": "C:\\Users\\eray2\\Documents\\Github\\semester1\\Portfolio\\CITP-Portfolio\\CITP Portfolio Backend\\DataLayer\\DataServices\\TitleDataService.cs",
+              "ToolTip": "C:\\Users\\Moosdorf\\Desktop\\sem1\\CITP-Portfolio\\CITP Portfolio Backend\\DataLayer\\DataServices\\TitleDataService.cs",
               "RelativeToolTip": "DataLayer\\DataServices\\TitleDataService.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAA4AAAAAAAAAAAAQwCIAAAAdAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-27T14:02:03.011Z",
+              "WhenOpened": "2024-10-28T10:21:54.871Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 5,
-              "Title": "PersonController.cs",
-              "DocumentMoniker": "C:\\Users\\eray2\\Documents\\Github\\semester1\\Portfolio\\CITP-Portfolio\\CITP Portfolio Backend\\MovieWebserver\\Controllers\\PersonController.cs",
-              "RelativeDocumentMoniker": "MovieWebserver\\Controllers\\PersonController.cs",
-              "ToolTip": "C:\\Users\\eray2\\Documents\\Github\\semester1\\Portfolio\\CITP-Portfolio\\CITP Portfolio Backend\\MovieWebserver\\Controllers\\PersonController.cs",
-              "RelativeToolTip": "MovieWebserver\\Controllers\\PersonController.cs",
-              "ViewState": "AgIAABMAAAAAAAAAAAAAAB8AAABEAAAAAAAAAA==",
+              "Title": "Session.cs",
+              "DocumentMoniker": "C:\\Users\\Moosdorf\\Desktop\\sem1\\CITP-Portfolio\\CITP Portfolio Backend\\DataLayer\\DomainObjects\\Entities\\Session.cs",
+              "RelativeDocumentMoniker": "DataLayer\\DomainObjects\\Entities\\Session.cs",
+              "ToolTip": "C:\\Users\\Moosdorf\\Desktop\\sem1\\CITP-Portfolio\\CITP Portfolio Backend\\DataLayer\\DomainObjects\\Entities\\Session.cs",
+              "RelativeToolTip": "DataLayer\\DomainObjects\\Entities\\Session.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAEAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-27T13:56:42.667Z",
+              "WhenOpened": "2024-10-28T09:47:30.765Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
-              "Title": "Search_result.cs",
-              "DocumentMoniker": "C:\\Users\\eray2\\Documents\\Github\\semester1\\Portfolio\\CITP-Portfolio\\CITP Portfolio Backend\\DataLayer\\DomainObjects\\Relations\\Search_result.cs",
-              "RelativeDocumentMoniker": "DataLayer\\DomainObjects\\Relations\\Search_result.cs",
-              "ToolTip": "C:\\Users\\eray2\\Documents\\Github\\semester1\\Portfolio\\CITP-Portfolio\\CITP Portfolio Backend\\DataLayer\\DomainObjects\\Relations\\Search_result.cs",
-              "RelativeToolTip": "DataLayer\\DomainObjects\\Relations\\Search_result.cs",
-              "ViewState": "AgIAAAMAAAAAAAAAAAAAABUAAAAAAAAAAAAAAA==",
+              "DocumentIndex": 2,
+              "Title": "MVContext.cs",
+              "DocumentMoniker": "C:\\Users\\Moosdorf\\Desktop\\sem1\\CITP-Portfolio\\CITP Portfolio Backend\\DataLayer\\MVContext.cs",
+              "RelativeDocumentMoniker": "DataLayer\\MVContext.cs",
+              "ToolTip": "C:\\Users\\Moosdorf\\Desktop\\sem1\\CITP-Portfolio\\CITP Portfolio Backend\\DataLayer\\MVContext.cs",
+              "RelativeToolTip": "DataLayer\\MVContext.cs",
+              "ViewState": "AgIAAEMAAAAAAAAAAAAYwE4AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-27T13:56:33.333Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "Episode.cs",
-              "DocumentMoniker": "C:\\Users\\eray2\\Documents\\Github\\semester1\\Portfolio\\CITP-Portfolio\\CITP Portfolio Backend\\DataLayer\\DomainObjects\\Entities\\Episode.cs",
-              "RelativeDocumentMoniker": "DataLayer\\DomainObjects\\Entities\\Episode.cs",
-              "ToolTip": "C:\\Users\\eray2\\Documents\\Github\\semester1\\Portfolio\\CITP-Portfolio\\CITP Portfolio Backend\\DataLayer\\DomainObjects\\Entities\\Episode.cs",
-              "RelativeToolTip": "DataLayer\\DomainObjects\\Entities\\Episode.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-27T13:56:33.337Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 10,
-              "Title": "Program.cs",
-              "DocumentMoniker": "C:\\Users\\eray2\\Documents\\Github\\semester1\\Portfolio\\CITP-Portfolio\\CITP Portfolio Backend\\MovieWebserver\\Program.cs",
-              "RelativeDocumentMoniker": "MovieWebserver\\Program.cs",
-              "ToolTip": "C:\\Users\\eray2\\Documents\\Github\\semester1\\Portfolio\\CITP-Portfolio\\CITP Portfolio Backend\\MovieWebserver\\Program.cs",
-              "RelativeToolTip": "MovieWebserver\\Program.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-27T13:56:33.34Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "Person.cs",
-              "DocumentMoniker": "C:\\Users\\eray2\\Documents\\Github\\semester1\\Portfolio\\CITP-Portfolio\\CITP Portfolio Backend\\DataLayer\\DomainObjects\\Entities\\Person.cs",
-              "RelativeDocumentMoniker": "DataLayer\\DomainObjects\\Entities\\Person.cs",
-              "ToolTip": "C:\\Users\\eray2\\Documents\\Github\\semester1\\Portfolio\\CITP-Portfolio\\CITP Portfolio Backend\\DataLayer\\DomainObjects\\Entities\\Person.cs",
-              "RelativeToolTip": "DataLayer\\DomainObjects\\Entities\\Person.cs",
-              "ViewState": "AgIAAAYAAAAAAAAAAAAAAAwAAAAUAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-27T13:56:33.339Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "MovieWebserver",
-              "DocumentMoniker": "C:\\Users\\eray2\\Documents\\Github\\semester1\\Portfolio\\CITP-Portfolio\\CITP Portfolio Backend\\MovieWebserver\\MovieWebserver.csproj",
-              "RelativeDocumentMoniker": "MovieWebserver\\MovieWebserver.csproj",
-              "ToolTip": "C:\\Users\\eray2\\Documents\\Github\\semester1\\Portfolio\\CITP-Portfolio\\CITP Portfolio Backend\\MovieWebserver\\MovieWebserver.csproj",
-              "RelativeToolTip": "MovieWebserver\\MovieWebserver.csproj",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
-              "WhenOpened": "2024-10-27T14:06:59.326Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "PersonDataService.cs",
-              "DocumentMoniker": "C:\\Users\\eray2\\Documents\\Github\\semester1\\Portfolio\\CITP-Portfolio\\CITP Portfolio Backend\\DataLayer\\DataServices\\PersonDataService.cs",
-              "RelativeDocumentMoniker": "DataLayer\\DataServices\\PersonDataService.cs",
-              "ToolTip": "C:\\Users\\eray2\\Documents\\Github\\semester1\\Portfolio\\CITP-Portfolio\\CITP Portfolio Backend\\DataLayer\\DataServices\\PersonDataService.cs",
-              "RelativeToolTip": "DataLayer\\DataServices\\PersonDataService.cs",
-              "ViewState": "AgIAAAwAAAAAAAAAAAAewB4AAAAIAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-27T13:56:33.342Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "TitleController.cs",
-              "DocumentMoniker": "C:\\Users\\eray2\\Documents\\Github\\semester1\\Portfolio\\CITP-Portfolio\\CITP Portfolio Backend\\MovieWebserver\\Controllers\\TitleController.cs",
-              "RelativeDocumentMoniker": "MovieWebserver\\Controllers\\TitleController.cs",
-              "ToolTip": "C:\\Users\\eray2\\Documents\\Github\\semester1\\Portfolio\\CITP-Portfolio\\CITP Portfolio Backend\\MovieWebserver\\Controllers\\TitleController.cs",
-              "RelativeToolTip": "MovieWebserver\\Controllers\\TitleController.cs",
-              "ViewState": "AgIAACIAAAAAAAAAAAAAwC8AAABCAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-27T14:11:36.688Z",
+              "WhenOpened": "2024-10-28T09:40:47.592Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "MVContext.cs",
-              "DocumentMoniker": "C:\\Users\\eray2\\Documents\\Github\\semester1\\Portfolio\\CITP-Portfolio\\CITP Portfolio Backend\\DataLayer\\MVContext.cs",
-              "RelativeDocumentMoniker": "DataLayer\\MVContext.cs",
-              "ToolTip": "C:\\Users\\eray2\\Documents\\Github\\semester1\\Portfolio\\CITP-Portfolio\\CITP Portfolio Backend\\DataLayer\\MVContext.cs",
-              "RelativeToolTip": "DataLayer\\MVContext.cs",
-              "ViewState": "AgIAAHkAAAAAAAAAAAAAwIAAAAA1AAAAAAAAAA==",
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\Moosdorf\\Desktop\\sem1\\CITP-Portfolio\\CITP Portfolio Backend\\MovieWebserver\\Program.cs",
+              "RelativeDocumentMoniker": "MovieWebserver\\Program.cs",
+              "ToolTip": "C:\\Users\\Moosdorf\\Desktop\\sem1\\CITP-Portfolio\\CITP Portfolio Backend\\MovieWebserver\\Program.cs",
+              "RelativeToolTip": "MovieWebserver\\Program.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAswBAAAAAcAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-27T13:56:33.345Z",
+              "WhenOpened": "2024-10-28T09:26:30.647Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "GetUrl.cs",
-              "DocumentMoniker": "C:\\Users\\eray2\\Documents\\Github\\semester1\\Portfolio\\CITP-Portfolio\\CITP Portfolio Backend\\MovieWebserver\\HelperMethods\\GetUrl.cs",
-              "RelativeDocumentMoniker": "MovieWebserver\\HelperMethods\\GetUrl.cs",
-              "ToolTip": "C:\\Users\\eray2\\Documents\\Github\\semester1\\Portfolio\\CITP-Portfolio\\CITP Portfolio Backend\\MovieWebserver\\HelperMethods\\GetUrl.cs",
-              "RelativeToolTip": "MovieWebserver\\HelperMethods\\GetUrl.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAAFAAAAAAAAAA==",
+              "DocumentIndex": 4,
+              "Title": "Helpers.cs",
+              "DocumentMoniker": "C:\\Users\\Moosdorf\\Desktop\\sem1\\CITP-Portfolio\\CITP Portfolio Backend\\DataLayer\\HelperMethods\\Helpers.cs",
+              "RelativeDocumentMoniker": "DataLayer\\HelperMethods\\Helpers.cs",
+              "ToolTip": "C:\\Users\\Moosdorf\\Desktop\\sem1\\CITP-Portfolio\\CITP Portfolio Backend\\DataLayer\\HelperMethods\\Helpers.cs",
+              "RelativeToolTip": "DataLayer\\HelperMethods\\Helpers.cs",
+              "ViewState": "AgIAAAcAAAAAAAAAAAAAABIAAAAuAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-27T14:07:29.546Z",
+              "WhenOpened": "2024-10-28T09:02:47.974Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "Bookmark.cs",
-              "DocumentMoniker": "C:\\Users\\eray2\\Documents\\Github\\semester1\\Portfolio\\CITP-Portfolio\\CITP Portfolio Backend\\DataLayer\\DomainObjects\\Entities\\Bookmark.cs",
-              "RelativeDocumentMoniker": "DataLayer\\DomainObjects\\Entities\\Bookmark.cs",
-              "ToolTip": "C:\\Users\\eray2\\Documents\\Github\\semester1\\Portfolio\\CITP-Portfolio\\CITP Portfolio Backend\\DataLayer\\DomainObjects\\Entities\\Bookmark.cs",
-              "RelativeToolTip": "DataLayer\\DomainObjects\\Entities\\Bookmark.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "DocumentIndex": 3,
+              "Title": "UserDataService.cs",
+              "DocumentMoniker": "C:\\Users\\Moosdorf\\Desktop\\sem1\\CITP-Portfolio\\CITP Portfolio Backend\\DataLayer\\DataServices\\UserDataService.cs",
+              "RelativeDocumentMoniker": "DataLayer\\DataServices\\UserDataService.cs",
+              "ToolTip": "C:\\Users\\Moosdorf\\Desktop\\sem1\\CITP-Portfolio\\CITP Portfolio Backend\\DataLayer\\DataServices\\UserDataService.cs",
+              "RelativeToolTip": "DataLayer\\DataServices\\UserDataService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAD0AAAAyAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-27T14:09:19.664Z",
+              "WhenOpened": "2024-10-28T08:43:58.736Z",
               "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 17,
-              "Title": "User.cs",
-              "DocumentMoniker": "C:\\Users\\eray2\\Documents\\Github\\semester1\\Portfolio\\CITP-Portfolio\\CITP Portfolio Backend\\DataLayer\\DomainObjects\\Entities\\User.cs",
-              "RelativeDocumentMoniker": "DataLayer\\DomainObjects\\Entities\\User.cs",
-              "ToolTip": "C:\\Users\\eray2\\Documents\\Github\\semester1\\Portfolio\\CITP-Portfolio\\CITP Portfolio Backend\\DataLayer\\DomainObjects\\Entities\\User.cs",
-              "RelativeToolTip": "DataLayer\\DomainObjects\\Entities\\User.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAA2AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-27T13:56:33.343Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 14,
-              "Title": "Movie.cs",
-              "DocumentMoniker": "C:\\Users\\eray2\\Documents\\Github\\semester1\\Portfolio\\CITP-Portfolio\\CITP Portfolio Backend\\DataLayer\\DomainObjects\\Entities\\Movie.cs",
-              "RelativeDocumentMoniker": "DataLayer\\DomainObjects\\Entities\\Movie.cs",
-              "ToolTip": "C:\\Users\\eray2\\Documents\\Github\\semester1\\Portfolio\\CITP-Portfolio\\CITP Portfolio Backend\\DataLayer\\DomainObjects\\Entities\\Movie.cs",
-              "RelativeToolTip": "DataLayer\\DomainObjects\\Entities\\Movie.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAqwAIAAAATAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-27T13:56:33.336Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 13,
-              "Title": "Bookmarked.cs",
-              "DocumentMoniker": "C:\\Users\\eray2\\Documents\\Github\\semester1\\Portfolio\\CITP-Portfolio\\CITP Portfolio Backend\\DataLayer\\DomainObjects\\Relations\\Bookmarked.cs",
-              "RelativeDocumentMoniker": "DataLayer\\DomainObjects\\Relations\\Bookmarked.cs",
-              "ToolTip": "C:\\Users\\eray2\\Documents\\Github\\semester1\\Portfolio\\CITP-Portfolio\\CITP Portfolio Backend\\DataLayer\\DomainObjects\\Relations\\Bookmarked.cs",
-              "RelativeToolTip": "DataLayer\\DomainObjects\\Relations\\Bookmarked.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-27T13:56:33.335Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 15,
-              "Title": "Title.cs",
-              "DocumentMoniker": "C:\\Users\\eray2\\Documents\\Github\\semester1\\Portfolio\\CITP-Portfolio\\CITP Portfolio Backend\\DataLayer\\DomainObjects\\Entities\\Title.cs",
-              "RelativeDocumentMoniker": "DataLayer\\DomainObjects\\Entities\\Title.cs",
-              "ToolTip": "C:\\Users\\eray2\\Documents\\Github\\semester1\\Portfolio\\CITP-Portfolio\\CITP Portfolio Backend\\DataLayer\\DomainObjects\\Entities\\Title.cs",
-              "RelativeToolTip": "DataLayer\\DomainObjects\\Entities\\Title.cs",
-              "ViewState": "AgIAABEAAAAAAAAAAAAIwB8AAAAFAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-27T13:56:33.325Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 16,
-              "Title": "UserSearch.cs",
-              "DocumentMoniker": "C:\\Users\\eray2\\Documents\\Github\\semester1\\Portfolio\\CITP-Portfolio\\CITP Portfolio Backend\\DataLayer\\DomainObjects\\Relations\\UserSearch.cs",
-              "RelativeDocumentMoniker": "DataLayer\\DomainObjects\\Relations\\UserSearch.cs",
-              "ToolTip": "C:\\Users\\eray2\\Documents\\Github\\semester1\\Portfolio\\CITP-Portfolio\\CITP Portfolio Backend\\DataLayer\\DomainObjects\\Relations\\UserSearch.cs",
-              "RelativeToolTip": "DataLayer\\DomainObjects\\Relations\\UserSearch.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAARAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-27T13:56:33.344Z"
             }
           ]
         }
