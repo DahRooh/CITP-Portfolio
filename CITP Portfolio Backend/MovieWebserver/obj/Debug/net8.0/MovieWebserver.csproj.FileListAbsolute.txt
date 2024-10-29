@@ -196,3 +196,4 @@ C:\Users\Moosdorf\Desktop\sem1\CITP-Portfolio\CITP Portfolio Backend\MovieWebser
 C:\Users\Moosdorf\Desktop\sem1\CITP-Portfolio\CITP Portfolio Backend\MovieWebserver\obj\Debug\net8.0\MovieWebserver.pdb
 C:\Users\Moosdorf\Desktop\sem1\CITP-Portfolio\CITP Portfolio Backend\MovieWebserver\obj\Debug\net8.0\MovieWebserver.genruntimeconfig.cache
 C:\Users\Moosdorf\Desktop\sem1\CITP-Portfolio\CITP Portfolio Backend\MovieWebserver\obj\Debug\net8.0\ref\MovieWebserver.dll
+C:\Users\Moosdorf\Desktop\sem1\CITP-Portfolio\CITP Portfolio Backend\MovieWebserver\obj\Debug\net8.0\MovieWebserver.MvcApplicationPartsAssemblyInfo.cs

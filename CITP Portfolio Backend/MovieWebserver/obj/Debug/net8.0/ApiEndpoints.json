@@ -98,6 +98,7 @@
     "EndpointName": "GetActors"
   },
   {
+<<<<<<< Updated upstream
     "ContainingType": "MovieWebserver.Controllers.TitleController",
     "Method": "GetEpisode",
     "RelativePath": "api/title/episode/{id}",
@@ -176,6 +177,8 @@
     "EndpointName": "GetMovies"
   },
   {
+=======
+>>>>>>> Stashed changes
     "ContainingType": "MovieWebserver.Controllers.UserController",
     "Method": "GetUsers",
     "RelativePath": "api/user",

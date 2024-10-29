@@ -1,4 +1,5 @@
 ﻿using DataLayer.DomainObjects;
+using DataLayer.DomainObjects.Entities;
 using DataLayer.DomainObjects.FunctionResults;
 using DataLayer.DomainObjects.Relations;
 using Microsoft.EntityFrameworkCore;
@@ -16,7 +17,7 @@ public class MVContext : DbContext
     public DbSet<Episode> Episodes { get; set; }
     public DbSet<Person> People { get; set; }
     public DbSet<User> Users { get; set; }
-    public DbSet<Bookmark> Bookmarks { get; set; }
+    public DbSet<UserBookmark> Bookmarks { get; set; }
     public DbSet<UserTitleReview> UserReviews { get; set; }
 
     
@@ -48,8 +49,61 @@ public class MVContext : DbContext
         MapUserSession(modelBuilder);
         MapUserBookmark(modelBuilder);
         MapUserSearch(modelBuilder);
+
+        MapWebpage(modelBuilder);
+
     }
-    
+
+    private void MapWebpage(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<Webpage>().ToTable("Webpage").HasKey(x => x.Id);
+        modelBuilder.Entity<Webpage>().Property(x => x.Id).HasColumnName("wp_id");
+        modelBuilder.Entity<Webpage>().Property(x => x.RelationId).HasColumnName("p_t_id");
+        modelBuilder.Entity<Webpage>().Property(x => x.Url).HasColumnName("url");
+        modelBuilder.Entity<Webpage>().Property(x => x.ViewCount).HasColumnName("wp_view_count");
+
+        modelBuilder.Entity<Webpage>()
+            .HasOne(x => x.Person)
+            .WithOne()
+            .HasForeignKey<Webpage>(x => x.RelationId);
+
+        modelBuilder.Entity<Webpage>()
+            .HasOne(x => x.Title)
+            .WithOne()
+            .HasForeignKey<Webpage>(x => x.RelationId);
+
+
+        modelBuilder.Entity<WebpageSearch>().ToTable("wp_search").HasKey(x => new { x.Search, x.WebpageId });
+        modelBuilder.Entity<WebpageSearch>().Property(x => x.SearchId).HasColumnName("search_id");
+        modelBuilder.Entity<WebpageSearch>().Property(x => x.WebpageId).HasColumnName("wp_id");
+        modelBuilder.Entity<WebpageSearch>().Property(x => x.Frequency).HasColumnName("frequency");
+
+
+        modelBuilder.Entity<WebpageSearch>()
+            .HasOne(x => x.Search)
+            .WithOne()
+            .HasForeignKey<WebpageSearch>(x => x.SearchId);
+
+        modelBuilder.Entity<WebpageSearch>()
+            .HasOne(x => x.Webpage)
+            .WithOne()
+            .HasForeignKey<WebpageSearch>(x => x.WebpageId);
+
+        modelBuilder.Entity<WebpageBookmark>().ToTable("wp_bookmarks").HasKey(x => new { x.BookmarkId, x.WebpageId });
+        modelBuilder.Entity<WebpageBookmark>().Property(x => x.BookmarkId).HasColumnName("bookmark_id");
+        modelBuilder.Entity<WebpageBookmark>().Property(x => x.WebpageId).HasColumnName("wp_id");
+
+        modelBuilder.Entity<WebpageBookmark>()
+            .HasOne(x => x.Bookmark)
+            .WithOne()
+            .HasForeignKey<WebpageBookmark>(x => x.BookmarkId);
+
+        modelBuilder.Entity<WebpageBookmark>()
+            .HasOne(x => x.Webpage)
+            .WithOne()
+            .HasForeignKey<WebpageBookmark>(x => x.WebpageId);
+    }
+
     private static void MapUsers(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<User>().ToTable("users").HasKey(x => x.Id);
@@ -363,14 +417,3 @@ public class MVContext : DbContext
 
 
 }
-/* INHERITANCE STARTUP NEED SOMETHING
-        modelBuilder.Entity<Title>().HasDiscriminator<string>("type")
-            .HasValue<Movie>("tvShort")
-            .HasValue<Movie>("movie")
-            .HasValue<Movie>("tvMovie")
-            .HasValue<Movie>("short")
-            .HasValue<Episode>("tvMiniSeries")
-            .HasValue<Episode>("tvEpisode")
-            .HasValue<Episode>("tvSpecial")
-            .HasValue<Episode>("tvSeries");
-*/

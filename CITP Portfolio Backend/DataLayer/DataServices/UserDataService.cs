@@ -42,8 +42,8 @@ namespace DataLayer.DataServices
         {
             db = new MVContext();
 
-            db.Database.ExecuteSqlRaw("call rate({0}, {1}, {2}, {3})", review.TitleId, review.createdBy.Id, review.Liked, review.Text);
-            return db.UserReviews.Where(x => x.TitleId == review.TitleId & x.UserId == review.createdBy.Id).First();
+            db.Database.ExecuteSqlRaw("call rate({0}, {1}, {2}, {3})", review.TitleId, review.CreatedBy.Id, review.Liked, review.Text);
+            return db.UserReviews.Where(x => x.TitleId == review.TitleId & x.UserId == review.CreatedBy.Id).First();
         }
 
 
@@ -89,10 +89,10 @@ namespace DataLayer.DataServices
             return users;
         }
 
-        public List<Bookmark> GetBookmarks(int userId)
+        public List<UserBookmark> GetBookmarks(int userId)
         {
             db = new MVContext();
-            return db.Bookmarks.Where(x => x.Id == userId).ToList();
+            return db.Bookmarks.Where(x => x.UserId == userId).ToList();
 
         }
 

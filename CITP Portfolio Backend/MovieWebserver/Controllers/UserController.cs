@@ -77,7 +77,6 @@ public class UserController : BaseController
         {
             var user = CreateUserModel(_ds.GetUser(session.UserId));
             session.User = user;
-            Console.WriteLine(session.User);
             return session;
                 
         });
@@ -141,7 +140,7 @@ public class UserController : BaseController
         var allUsersThatLiked = review.Review.UserLikes.Select(x => CreateUserModel(x.User)).ToList();
         model.UserLikes = allUsersThatLiked;
 
-        model.createdBy = CreateUserModel(review.User);
+        model.CreatedBy = CreateUserModel(review.User);
 
 
         return model;
@@ -156,7 +155,7 @@ public class UserController : BaseController
         return session.Adapt<SessionModel>();
     }
 
-    public static BookmarkModel CreateBookmarkModel(Bookmark bookmark)
+    public static BookmarkModel CreateBookmarkModel(UserBookmark bookmark)
     {
         return bookmark.Adapt<BookmarkModel>();
     }
