@@ -13,6 +13,6 @@ public class Review
     public string Text { get; set; }
     public int Likes { get; set; }
     public IList<UserLikesReview> UserLikes { get; set; }
-
     public UserTitleReview createdBy { get; set; }
+
 }

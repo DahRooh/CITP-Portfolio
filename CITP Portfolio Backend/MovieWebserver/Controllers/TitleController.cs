@@ -5,10 +5,11 @@ using Mapster;
 using DataLayer.DomainObjects;
 using MovieWebserver.Model.Person;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.Runtime.InteropServices;
 namespace MovieWebserver.Controllers;
 
 [ApiController]
-[Route("api/")]
+[Route("api/title")]
 public class TitleController : BaseController
 {
     private readonly ITitleDataService _ds;
@@ -45,9 +46,7 @@ public class TitleController : BaseController
             return NotFound();
         }
 
-        var model = CreateMovieModel(movie);
-
-        return Ok(model);
+        return Ok(movie);
 
     }
 
@@ -56,7 +55,7 @@ public class TitleController : BaseController
     {
         var episodes = _ds.GetEpisodes(page, pageSize).Select(x => CreateEpisodeModel(x));
 
-        var numberOfItems = _ds.NumberOfSeries();
+        var numberOfItems = _ds.NumberOfEpisodes();
 
         object result = CreatePaging(
             nameof(GetEpisodes),
@@ -81,52 +80,62 @@ public class TitleController : BaseController
         return Ok(episode);
 
     }
+   
 
+        private Model? CreateModel<Model, Entity>(Entity entity, string entityName, object args) where Model : class // where Model : class: Generic constraint, specifies that the type parameter Model must be a reference type (i.e., a class)
+    {
+        if (entity == null) return null;
+
+        var model = entity.Adapt<Model>();
+        var url = GetWebpageUrl(entityName, args);
+
+        if (model is MovieModel movieModel && entity is Movie movie)
+        {
+            MovieModel(movieModel, movie, url);
+        }
+        else if (model is EpisodeModel episodeModel && entity is Episode episode)
+        {
+            EpisodeModel(episodeModel, episode, url);
+        }
+
+        return model;
+    }
+
+    private void MovieModel(MovieModel movieModel, Movie movie, string url)
+    {
+        movieModel.Url = url;
+        movieModel.IsAdult = movie.Title.IsAdult;
+        movieModel.Released = movie.Title.Released;
+        movieModel.Language = movie.Title.Language;
+        movieModel.Country = movie.Title.Country;
+        movieModel.RunTime = movie.Title.RunTime;
+        movieModel.Poster = movie.Title.Poster;
+    }
+
+    private void EpisodeModel(EpisodeModel episodeModel, Episode episode, string url)
+    {
+        episodeModel.Url = url;
+        episodeModel.Name = episode.Title._Title;
+        episodeModel.Plot = episode.Title.Plot;
+        episodeModel.Rating = episode.Title.Rating;
+        episodeModel.IsAdult = episode.Title.IsAdult;
+        episodeModel.Released = episode.Title.Released;
+        episodeModel.Language = episode.Title.Language;
+        episodeModel.Country = episode.Title.Country;
+        episodeModel.RunTime = episode.Title.RunTime;
+        episodeModel.Poster = episode.Title.Poster;
+    }
 
     private MovieModel? CreateMovieModel(Movie movie)
     {
-        if(movie == null)
-        {
-            return null;
-        }
-
-        var newMovie = movie.Adapt<MovieModel>();
-        newMovie.Url = GetWebpageUrl(nameof(GetMovie), new { movie.Id });
-
-        newMovie.IsAdult = movie.Title.IsAdult;
-        newMovie.Released = movie.Title.Released;
-        newMovie.Language = movie.Title.Language;
-        newMovie.Country = movie.Title.Country;
-        newMovie.RunTime = movie.Title.RunTime;
-        newMovie.Poster = movie.Title.Poster;
-
-        return newMovie;
+        return CreateModel<MovieModel, Movie>(movie, nameof(GetMovie), new { movie.Id });
     }
 
     private EpisodeModel? CreateEpisodeModel(Episode episode)
     {
-        if (episode == null)
-        {
-            return null;
-        }
-
-        var newSerie = episode.Adapt<EpisodeModel>();
-        newSerie.Url = GetWebpageUrl(nameof(GetEpisode), new { episode.Id});
-
-        newSerie.Name = episode.Title._Title;
-        newSerie.Plot = episode.Title.Plot;
-        newSerie.Rating = episode.Title.Rating;
-        newSerie.IsAdult = episode.Title.IsAdult;
-        newSerie.Released = episode.Title.Released;
-        newSerie.Language = episode.Title.Language;
-        newSerie.Country = episode.Title.Country;
-        newSerie.RunTime = episode.Title.RunTime;
-        newSerie.Poster = episode.Title.Poster;
-
-        return newSerie;
+        return CreateModel<EpisodeModel, Episode>(episode, nameof(GetEpisode), new { episode.Id });
     }
 
-
-
-
 }
+
+

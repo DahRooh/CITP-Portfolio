@@ -1,5 +1,6 @@
 using DataLayer.DomainObjects;
 using Microsoft.EntityFrameworkCore;
+using System;
 
 namespace DataLayer;
 
@@ -7,32 +8,23 @@ public class PersonDataService : IPersonDataService
 {
     private MVContext db;
 
-    /*
-    public IList<Person> GetPeople()
+
+    public int NumberOfPeople()
     {
         db = new MVContext();
-        var people = db.People
-            .Include(p => p.Profession)
-            .Include(p => p.InvolvedIn)
-            .ThenInclude(x => x.Title)
-            .OrderBy(p => p.Id).Where(p => p.Id == "nm9993711" | p.Id == "nm9993710").ToList();
-
-        if (people == null || people.Count() == 0)
-        {
-            return null;
-        }
-
-        return people;
+        var count = db.People.Count();
+        return count;
     }
-    */
-    public IList<Person> GetPeople()
+
+    public IList<Person> GetPeople(int page, int pageSize)
     {
         db = new MVContext();
         var people = db.People
             .Include(p => p.Professions)
             .Include(p => p.InvolvedIn)
             .ThenInclude(x => x.Title)
-            .OrderBy(p => p.Id).Take(5)
+            .OrderBy(p => p.Id)
+            .Skip(page * pageSize).Take(pageSize)
             .ToList();
 
 
@@ -44,14 +36,50 @@ public class PersonDataService : IPersonDataService
         return people;
     }
 
-    public IList<Person> GetActors()
+
+    public Person GetPerson(string id)
+    {
+        db = new MVContext();
+        var person = db.People
+            .Include(p => p.Professions)
+            .Include(p => p.InvolvedIn)
+            .ThenInclude(x => x.Title)
+            .FirstOrDefault(x => x.Id == id);
+
+        if (person == null)
+        {
+            return null;
+        }
+
+        return person;
+
+
+
+    }
+
+
+
+
+    public int NumberOfActors()
+    {
+        db = new MVContext();
+        var count = db.People
+            .Include(p => p.Professions)
+            .Where(p => p.Professions.Any(pr => pr.ProfessionName == "actor"))
+            .Count();
+        return count;
+    }
+
+
+    public IList<Person> GetActors(int page, int pageSize)
     {
         db = new MVContext();
         var actors = db.People
-                       .Include(p => p.Professions)
-                       .Where(p => p.Professions.Any(pr => pr.ProfessionName == "actor"))
-                       .OrderBy(p => p.Id)
-                       .ToList();
+                        .Include(p => p.Professions)
+                        .Where(p => p.Professions.Any(pr => pr.ProfessionName == "actor"))
+                        .OrderBy(p => p.Id)
+                        .Skip(page * pageSize).Take(pageSize)
+                        .ToList();
 
         if (actors == null || actors.Count == 0)
         {
@@ -77,7 +105,7 @@ public class PersonDataService : IPersonDataService
 
         do // Loop to find a new ID that is not already in use
         {
-            number++; 
+            number++;
             newId = $"{prefix}{number}"; // String concatenation -> giving a new ID
 
         } while (!db.People.Any(x => x.Id == newId));
@@ -116,5 +144,5 @@ public class PersonDataService : IPersonDataService
         return true;
     }
 
-
+    
 }

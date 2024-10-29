@@ -52,7 +52,7 @@ public class TitleDataService : ITitleDataService
         return serie;
     }
 
-    public int NumberOfSeries()
+    public int NumberOfEpisodes()
     {
         db = new MVContext();
         var count = db.Episodes.Count();
@@ -70,14 +70,13 @@ public class TitleDataService : ITitleDataService
     {
         db = new MVContext();
         var movie = db.Movies.Include(x => x.Title).FirstOrDefault(x => x.Id == id);
-        
-        if (movie == null)
-        {
-            return null;
-        }
 
         return movie;
     }
+
+
+
+
 
 
 }

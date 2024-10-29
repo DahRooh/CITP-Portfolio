@@ -4,6 +4,7 @@ using DataLayer;
 using MovieWebserver.Model.Person;
 using Mapster;
 using DataLayer.DomainObjects;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace MovieWebserver.Controllers;
 
@@ -12,25 +13,35 @@ namespace MovieWebserver.Controllers;
 [Route("api/person")]
 public class PersonController : BaseController
 {
-    IPersonDataService _dataService;
+    private readonly IPersonDataService _ds;
     private readonly LinkGenerator _linkGenerator;
-    public PersonController(IPersonDataService dataService, LinkGenerator linkGenerator) : base(linkGenerator)
+
+    public PersonController(IPersonDataService ds, LinkGenerator linkGenerator) : base(linkGenerator)
     {
-        _dataService = dataService;
+        _ds = ds;
         _linkGenerator = linkGenerator;
     }
 
     [HttpGet (Name = nameof(GetPeople))]
-    public IActionResult GetPeople()
+    public IActionResult GetPeople(int page, int pageSize)
     {
-        var people = _dataService.GetPeople().Select(x => CreatePersonModel(x)).ToList();
+        var people = _ds.GetPeople(page, pageSize).Select(x => CreatePersonModel(x)).ToList();
+        var numberOfItems = _ds.NumberOfPeople();
+
+        object result = CreatePaging(
+            nameof(GetPeople),
+            page,
+            pageSize,
+            numberOfItems,
+            people);
+
         return Ok(people);
     }
 
     [HttpGet("{id}", Name = nameof(GetPerson))]
     public IActionResult GetPerson(string id)
     {
-        var person = _dataService.GetPeople().FirstOrDefault(x => x.Id == id);
+        var person = _ds.GetPerson(id);
         if (person == null)
         {
             return NotFound();
@@ -39,10 +50,18 @@ public class PersonController : BaseController
     }
 
 
+
     [HttpGet("actor", Name = nameof(GetActors))]
-    public IActionResult GetActors()
+    public IActionResult GetActors(int page, int pageSize)
     {
-        var actors = _dataService.GetActors().Select(x => CreatePersonModel(x)).ToList();
+        var actors = _ds.GetActors(page, pageSize).Select(x => CreatePersonModel(x)).ToList();
+        var numberOfItems = _ds.NumberOfActors();
+        object result = CreatePaging(
+            nameof(GetPeople),
+            page,
+            pageSize,
+            numberOfItems,
+            actors);
         return Ok(actors);
     }
 
@@ -63,7 +82,7 @@ public class PersonController : BaseController
 
         };
 
-        var newPerson = _dataService.AddNewPerson(person);
+        var newPerson = _ds.AddNewPerson(person);
         return Created(nameof(GetPerson), CreatePersonModel(newPerson));
     }
 
@@ -77,7 +96,7 @@ public class PersonController : BaseController
         }
 
 
-        var existingPerson = _dataService.GetPeople().FirstOrDefault(x => x.Id == id);
+        var existingPerson = _ds.GetPerson(id);
         if (existingPerson == null)
         {
             return NotFound();
@@ -91,7 +110,7 @@ public class PersonController : BaseController
             DeathYear = personModel.DeathYear,
         };
 
-        var updatingPerson = _dataService.UpdatePerson(UpdateThePerson);
+        var updatingPerson = _ds.UpdatePerson(UpdateThePerson);
         if (!updatingPerson)
         {
             return NotFound();

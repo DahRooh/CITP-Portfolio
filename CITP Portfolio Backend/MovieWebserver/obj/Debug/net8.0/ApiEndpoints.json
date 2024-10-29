@@ -1,90 +1,23 @@
 [
   {
-    "ContainingType": "MovieWebserver.Controllers.TitleController",
-    "Method": "GetEpisode",
-    "RelativePath": "api/episode/{id}",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.String",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": [],
-    "EndpointName": "GetEpisode"
-  },
-  {
-    "ContainingType": "MovieWebserver.Controllers.TitleController",
-    "Method": "GetEpisodes",
-    "RelativePath": "api/episodes",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "page",
-        "Type": "System.Int32",
-        "IsRequired": false
-      },
-      {
-        "Name": "pageSize",
-        "Type": "System.Int32",
-        "IsRequired": false
-      }
-    ],
-    "ReturnTypes": [],
-    "EndpointName": "GetEpisodes"
-  },
-  {
-    "ContainingType": "MovieWebserver.Controllers.TitleController",
-    "Method": "GetMovie",
-    "RelativePath": "api/movie/{id}",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.String",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": [],
-    "EndpointName": "GetMovie"
-  },
-  {
-    "ContainingType": "MovieWebserver.Controllers.TitleController",
-    "Method": "GetMovies",
-    "RelativePath": "api/movies",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "page",
-        "Type": "System.Int32",
-        "IsRequired": false
-      },
-      {
-        "Name": "pageSize",
-        "Type": "System.Int32",
-        "IsRequired": false
-      }
-    ],
-    "ReturnTypes": [],
-    "EndpointName": "GetMovies"
-  },
-  {
     "ContainingType": "MovieWebserver.Controllers.PersonController",
     "Method": "GetPeople",
     "RelativePath": "api/person",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
-    "Parameters": [],
+    "Parameters": [
+      {
+        "Name": "page",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "pageSize",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
     "ReturnTypes": [],
     "EndpointName": "GetPeople"
   },
@@ -149,25 +82,98 @@
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
-    "Parameters": [],
+    "Parameters": [
+      {
+        "Name": "page",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "pageSize",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
     "ReturnTypes": [],
     "EndpointName": "GetActors"
   },
   {
-    "ContainingType": "MovieWebserver.Controllers.UserController",
-    "Method": "CreateReview",
-    "RelativePath": "api/user",
-    "HttpMethod": "POST",
+    "ContainingType": "MovieWebserver.Controllers.TitleController",
+    "Method": "GetEpisode",
+    "RelativePath": "api/title/episode/{id}",
+    "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "review",
-        "Type": "MovieWebserver.Model.Title.ReviewModel",
+        "Name": "id",
+        "Type": "System.String",
         "IsRequired": true
       }
     ],
-    "ReturnTypes": []
+    "ReturnTypes": [],
+    "EndpointName": "GetEpisode"
+  },
+  {
+    "ContainingType": "MovieWebserver.Controllers.TitleController",
+    "Method": "GetEpisodes",
+    "RelativePath": "api/title/episodes",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "page",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "pageSize",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [],
+    "EndpointName": "GetEpisodes"
+  },
+  {
+    "ContainingType": "MovieWebserver.Controllers.TitleController",
+    "Method": "GetMovie",
+    "RelativePath": "api/title/movie/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [],
+    "EndpointName": "GetMovie"
+  },
+  {
+    "ContainingType": "MovieWebserver.Controllers.TitleController",
+    "Method": "GetMovies",
+    "RelativePath": "api/title/movies",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "page",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "pageSize",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [],
+    "EndpointName": "GetMovies"
   },
   {
     "ContainingType": "MovieWebserver.Controllers.UserController",
@@ -264,6 +270,22 @@
     ],
     "ReturnTypes": [],
     "EndpointName": "GetUserSessions"
+  },
+  {
+    "ContainingType": "MovieWebserver.Controllers.UserController",
+    "Method": "CreateReview",
+    "RelativePath": "api/user/CreateReview",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "review",
+        "Type": "MovieWebserver.Model.Title.ReviewModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
   },
   {
     "ContainingType": "MovieWebserver.Controllers.UserController",
