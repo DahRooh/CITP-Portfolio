@@ -162,8 +162,7 @@ public class TitleController : BaseController
         episodeModel.Poster = episode.Title.Poster;
     }
 
-    private void PersonInvolvedTitleModel(PersonInvolvedTitleModel personInvolvedTitleModel,
-        PersonInvolvedIn personInvolvedIn)
+    private void PersonInvolvedTitleModel(PersonInvolvedTitleModel personInvolvedTitleModel, PersonInvolvedIn personInvolvedIn)
     {
         personInvolvedTitleModel.TitleName = personInvolvedIn.Title._Title;
         personInvolvedTitleModel.Person = personInvolvedIn.Person.Name;

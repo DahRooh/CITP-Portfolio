@@ -38,6 +38,7 @@ namespace DataLayer.DataServices
             
             
         }
+        /* this to the title data service, a user can create a review on the title, not from the user route
         public UserTitleReview CreateReview(ReviewModel review)
         {
             db = new MVContext();
@@ -45,18 +46,24 @@ namespace DataLayer.DataServices
             db.Database.ExecuteSqlRaw("call rate({0}, {1}, {2}, {3})", review.TitleId, review.CreatedBy.Id, review.Liked, review.Text);
             return db.UserReviews.Where(x => x.TitleId == review.TitleId & x.UserId == review.CreatedBy.Id).First();
         }
+        */
 
-
-
+        // also to title?
         public bool LikeReview(int reviewId, int userId, int like)
         {
             throw new NotImplementedException();
         }
 
 
-        public List<Search> GetHistory(int userId)
+        public List<UserSearch> GetHistory(int userId)
         {
-            throw new NotImplementedException();
+            db = new MVContext();
+            User user = db.Users.Where(x => x.Id == userId).FirstOrDefault();
+            if (user == null)
+            {
+                return null;
+            }
+            return db.UserSearches.Include(x => x.Search).Where(x => x.UserId == userId).ToList();
         }
 
         public List<(Title, int)> GetLikeHistory(int userId)

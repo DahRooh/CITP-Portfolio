@@ -17,10 +17,9 @@ public interface IUserDataService
 
     public List<User> GetUsers();
     public User GetUser(int userId);
-    public List<Search> GetHistory(int userId);
+    public List<UserSearch> GetHistory(int userId);
     public List<UserBookmark> GetBookmarks(int userId);
     public Bookmark CreateBookmark();
-    public UserTitleReview CreateReview(ReviewModel reviewModel);
     public User CreateUser(UserModel userModel);
 
     public List<UserTitleReview> GetReviews(int userId);

@@ -11,16 +11,23 @@ namespace DataLayer;
 
 public class MVContext : DbContext
 {
+    // entities
     public DbSet<Title> Titles { get; set; }
     public DbSet<Movie> Movies { get; set; }
-    public DbSet<UserSessionsHistory> SessionHistory { get; set; }
     public DbSet<Episode> Episodes { get; set; }
     public DbSet<Person> People { get; set; }
     public DbSet<User> Users { get; set; }
+
+
+    // relations (mostly used)
+    public DbSet<UserSessionsHistory> SessionHistory { get; set; }
+
     public DbSet<UserBookmark> Bookmarks { get; set; }
     public DbSet<UserTitleReview> UserReviews { get; set; }
     public DbSet<PersonInvolvedIn> PersonInvolvedIn { get; set; }
     public DbSet<TitleGenre> TitlesGenres { get; set; }
+    public DbSet<UserSearch> UserSearches { get; set; }
+
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -83,7 +90,7 @@ public class MVContext : DbContext
         modelBuilder.Entity<WebpageSearch>()
             .HasOne(x => x.Search)
             .WithOne()
-            .HasForeignKey<WebpageSearch>(x => x.SearchId);
+            .HasForeignKey<Search>(x => x.Id);
 
         modelBuilder.Entity<WebpageSearch>()
             .HasOne(x => x.Webpage)

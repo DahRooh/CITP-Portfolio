@@ -98,7 +98,23 @@
     "EndpointName": "GetActors"
   },
   {
-<<<<<<< Updated upstream
+    "ContainingType": "MovieWebserver.Controllers.TitleController",
+    "Method": "GetCast",
+    "RelativePath": "api/title/cast/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [],
+    "EndpointName": "GetCast"
+  },
+  {
     "ContainingType": "MovieWebserver.Controllers.TitleController",
     "Method": "GetEpisode",
     "RelativePath": "api/title/episode/{id}",
@@ -136,6 +152,23 @@
     ],
     "ReturnTypes": [],
     "EndpointName": "GetEpisodes"
+  },
+  {
+    "ContainingType": "MovieWebserver.Controllers.TitleController",
+    "Method": "GetGenre",
+    "RelativePath": "api/title/genre/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [],
+    "EndpointName": "GetGenre"
   },
   {
     "ContainingType": "MovieWebserver.Controllers.TitleController",
@@ -177,8 +210,23 @@
     "EndpointName": "GetMovies"
   },
   {
-=======
->>>>>>> Stashed changes
+    "ContainingType": "MovieWebserver.Controllers.TitleController",
+    "Method": "GetPeopleInvolvedIn",
+    "RelativePath": "api/title/personInvolvedInTitle/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [],
+    "EndpointName": "GetPeopleInvolvedIn"
+  },
+  {
     "ContainingType": "MovieWebserver.Controllers.UserController",
     "Method": "GetUsers",
     "RelativePath": "api/user",
@@ -259,6 +307,23 @@
   },
   {
     "ContainingType": "MovieWebserver.Controllers.UserController",
+    "Method": "GetUserHistory",
+    "RelativePath": "api/user/{userId}/search_history",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [],
+    "EndpointName": "GetUserHistory"
+  },
+  {
+    "ContainingType": "MovieWebserver.Controllers.UserController",
     "Method": "GetUserSessions",
     "RelativePath": "api/user/{userId}/sessions",
     "HttpMethod": "GET",
@@ -273,22 +338,6 @@
     ],
     "ReturnTypes": [],
     "EndpointName": "GetUserSessions"
-  },
-  {
-    "ContainingType": "MovieWebserver.Controllers.UserController",
-    "Method": "CreateReview",
-    "RelativePath": "api/user/CreateReview",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "review",
-        "Type": "MovieWebserver.Model.Title.ReviewModel",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
   },
   {
     "ContainingType": "MovieWebserver.Controllers.UserController",

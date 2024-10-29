@@ -8,6 +8,7 @@ using DataLayer.DomainObjects.FunctionResults;
 using MovieWebserver.Model;
 using MovieWebserver.Model.User;
 using DataLayer.DomainObjects.Relations;
+using DataLayer.Model.User;
 
 namespace MovieWebserver.Controllers;
 
@@ -20,18 +21,7 @@ public class UserController : BaseController
     {
         _ds = ds;
     }
-    [HttpPost("CreateReview")]
-    public IActionResult CreateReview(ReviewModel review) 
-    {
-        var result = _ds.CreateReview(review);
 
-        if (result != null)
-        {
-            NotFound();
-        }
-
-        return Ok(result);
-    }
 
     [HttpPost("CreateUser")]
     public IActionResult CreateUser([FromBody] UserModel userModel)
@@ -132,6 +122,22 @@ public class UserController : BaseController
 
     }
 
+    [HttpGet("{userId}/search_history", Name = nameof(GetUserHistory))]
+    public IActionResult GetUserHistory(int userId)
+    {
+        var searches = _ds.GetHistory(userId).Select(x => CreateSearchModel(x)).ToList();
+
+        if (searches.Count() == 0)
+        {
+            return NotFound();
+        }
+
+        return Ok(searches);
+
+    }
+
+
+    // models
     public static ReviewModel CreateReviewModel(UserTitleReview review)
     {
         var model = review.Adapt<ReviewModel>();
@@ -144,6 +150,11 @@ public class UserController : BaseController
 
 
         return model;
+    }
+
+    private SearchModel CreateSearchModel(UserSearch userSearch)
+    {
+        return userSearch.Adapt<SearchModel>();
     }
     public static UserModel CreateUserModel(User user)
     {
