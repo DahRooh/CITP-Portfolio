@@ -19,8 +19,9 @@ public class MVContext : DbContext
     public DbSet<User> Users { get; set; }
     public DbSet<UserBookmark> Bookmarks { get; set; }
     public DbSet<UserTitleReview> UserReviews { get; set; }
+    public DbSet<PersonInvolvedIn> PersonInvolvedIn { get; set; }
+    public DbSet<TitleGenre> TitlesGenres { get; set; }
 
-    
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         optionsBuilder.EnableSensitiveDataLogging();
@@ -146,8 +147,6 @@ public class MVContext : DbContext
         modelBuilder.Entity<Title>().Property(x => x.RunTime).HasColumnName("runtime");
         modelBuilder.Entity<Title>().Property(x => x.Poster).HasColumnName("poster");
 
-
-
     }
 
    private static void MapEpisodeAndMovie(ModelBuilder modelBuilder)
@@ -166,6 +165,7 @@ public class MVContext : DbContext
 
 
         // episodes
+        
         modelBuilder.Entity<Episode>().ToTable("episode").HasKey(x => x.Id);
 
         modelBuilder.Entity<Episode>().Property(x => x.TitleId).HasColumnName("t_id");

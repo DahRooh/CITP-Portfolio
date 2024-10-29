@@ -78,10 +78,42 @@ public class TitleController : BaseController
         }
 
         return Ok(episode);
-
     }
-   
 
+    [HttpGet("personInvolvedInTitle/{id}", Name = nameof(GetPeopleInvolvedIn))]
+    public IActionResult GetPeopleInvolvedIn(string id)
+    {
+        var peopleInvolvedIn = _ds.GetPersonInvolvedIn(id).Select(x => CreatePersonInvolvedTitleModel(x));
+
+        if (peopleInvolvedIn == null)
+        {
+            return NotFound();
+        }
+        return Ok(peopleInvolvedIn);
+    }
+
+    [HttpGet("cast/{id}", Name = nameof(GetCast))]
+    public IActionResult GetCast(string id)
+    {
+        var cast = _ds.GetCast(id);
+        if (cast == null)
+        {
+            return NotFound();
+        }
+        return Ok(cast);
+    }
+
+    [HttpGet("genre/{id}", Name = nameof(GetGenre))]
+    public IActionResult GetGenre(string id)
+    {
+        var genre = _ds.GetGenre(id);
+        if (genre == null)
+        {
+            return NotFound();
+        }
+        return Ok(genre);
+    }
+    
         private Model? CreateModel<Model, Entity>(Entity entity, string entityName, object args) where Model : class // where Model : class: Generic constraint, specifies that the type parameter Model must be a reference type (i.e., a class)
     {
         if (entity == null) return null;
@@ -97,7 +129,11 @@ public class TitleController : BaseController
         {
             EpisodeModel(episodeModel, episode, url);
         }
-
+        else if (model is PersonInvolvedTitleModel personInvolvedTitleModel &&
+                 entity is PersonInvolvedIn personInvolvedIn)
+        {
+            PersonInvolvedTitleModel(personInvolvedTitleModel, personInvolvedIn);
+        }
         return model;
     }
 
@@ -126,6 +162,13 @@ public class TitleController : BaseController
         episodeModel.Poster = episode.Title.Poster;
     }
 
+    private void PersonInvolvedTitleModel(PersonInvolvedTitleModel personInvolvedTitleModel,
+        PersonInvolvedIn personInvolvedIn)
+    {
+        personInvolvedTitleModel.TitleName = personInvolvedIn.Title._Title;
+        personInvolvedTitleModel.Person = personInvolvedIn.Person.Name;
+    }
+
     private MovieModel? CreateMovieModel(Movie movie)
     {
         return CreateModel<MovieModel, Movie>(movie, nameof(GetMovie), new { movie.Id });
@@ -134,6 +177,12 @@ public class TitleController : BaseController
     private EpisodeModel? CreateEpisodeModel(Episode episode)
     {
         return CreateModel<EpisodeModel, Episode>(episode, nameof(GetEpisode), new { episode.Id });
+    }
+
+    private PersonInvolvedTitleModel? CreatePersonInvolvedTitleModel(PersonInvolvedIn personInvolvedIn)
+    {
+        return CreateModel<PersonInvolvedTitleModel, PersonInvolvedIn>(personInvolvedIn, nameof(GetPeopleInvolvedIn),
+            new { personInvolvedIn.TitleId });
     }
 
 }

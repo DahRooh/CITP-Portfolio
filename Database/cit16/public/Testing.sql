@@ -276,4 +276,7 @@ select * from person_words('Ian McKellen', 10);
 
 
 
-
+select t_id, count(genre) 
+from title NATURAL join title_is
+GROUP BY t_id
+order by count desc;

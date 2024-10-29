@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DataLayer.DomainObjects;
+using DataLayer.DomainObjects.Relations;
 
 
 namespace DataLayer;
@@ -16,7 +17,8 @@ public interface ITitleDataService
     int NumberOfMovies();
     IList<Movie> GetMovies(int page, int pageSize);
     Movie? GetMovie(string id);
+    IList<PersonInvolvedIn> GetPersonInvolvedIn(string id);
+    IList<PersonInvolvedIn> GetCast(string id);
 
-
-
+    IList<TitleGenre> GetGenre(string id);
 }

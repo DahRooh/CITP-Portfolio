@@ -3,10 +3,12 @@ using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DataLayer.DomainObjects.Relations;
 
 namespace DataLayer;
 
@@ -52,6 +54,39 @@ public class TitleDataService : ITitleDataService
         return serie;
     }
 
+    public IList<PersonInvolvedIn> GetPersonInvolvedIn(string id)
+    {
+        db = new MVContext();
+        var personInvolvedIn = db.PersonInvolvedIn
+            .Include(x => x.Title)
+            .Include(x => x.Person)
+            .Where(x => x.TitleId == id).ToList();
+
+        return personInvolvedIn;
+    }
+
+    public IList<PersonInvolvedIn> GetCast(string id)
+    {
+        db = new MVContext();
+        var cast = db.PersonInvolvedIn
+            .Include(x => x.Title)
+            .Include(x => x.Person)
+            .Where(x => x.TitleId == id)
+            .Where(x => x.Character != null).ToList();
+        //.Any(p => p.ProfessionName == "actor" || p.ProfessionName == "actress")).ToList();
+
+        return cast;
+    }
+
+    public IList<TitleGenre> GetGenre(string id)
+    {
+        db = new MVContext();
+        var genre = db.TitlesGenres.Include(x => x.Genre)
+            .Where(x => x.TitleId == id).ToList();
+        
+        return genre;
+    }
+
     public int NumberOfEpisodes()
     {
         db = new MVContext();
@@ -73,10 +108,5 @@ public class TitleDataService : ITitleDataService
 
         return movie;
     }
-
-
-
-
-
-
 }
+
