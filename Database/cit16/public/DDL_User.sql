@@ -90,17 +90,6 @@ create table wp_bookmarks
 
 );
 
-
-create table wp_search
-(
-  search_id varchar,
-  wp_id varchar(12),
-  frequency numeric,
-	primary key (search_id, wp_id),
-	foreign key (search_id) references search on delete cascade,  
-  foreign key (wp_id) references webpage on delete cascade
-);
-
 create table review (
   rev_id serial primary key,
   review varchar(256) default null,
@@ -118,7 +107,6 @@ create table rates
   foreign key (t_id) references title on delete cascade,
   foreign key (u_id) references users on delete cascade,
   foreign key (rev_id) references review on delete cascade
-  
 );
 
 

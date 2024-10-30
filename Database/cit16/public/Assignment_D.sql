@@ -1084,38 +1084,37 @@ begin
   new_search_id := search_id;
 	insert into search values (search_id, keyword, now_timestamp);
 	insert into history values (search_id, user_id);
-	insert into wp_search
-    select search_id, 'wp'||id as wp_id, sum(results)
-    from searching_algorithm(variadic variadic_keyword)
-    group by search_id, wp_id
-    order by sum desc
-    limit 50;
+
 end;
 $$;
 
 
 -- temp function to call insert and obtain the result
 drop function if exists make_search;
-create function make_search(keyword varchar, user_id int) 
-returns table (webpage_id varchar, relevance numeric)
+create function make_search(keyword varchar, take int, skip int default 0) 
+returns table (webpage_id text, relevance numeric)
 language plpgsql as $$
 
-declare new_search_id varchar;
+declare new_search_id varchar; variadic_keyword text[];
 
 begin
-		call insert_search(keyword, user_id, new_search_id);
+		
+		variadic_keyword = string_to_array(keyword, ' ');
+
 		return query
 			select wp_id, frequency 
-			from wp_search 
-			where search_id = new_search_id
-			order by frequency desc
-			limit 30;
+			from 
+			(	
+				select 'wp'|| id as wp_id, sum(results) as frequency
+				from searching_algorithm(variadic variadic_keyword)
+				group by wp_id
+				order by frequency desc
+				limit take offset skip		
+			) as results
+			
+			order by frequency desc;
 end;
 $$;
 
-
-
-
-
-
+select * from make_search('big monkey', 20);
 

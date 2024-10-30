@@ -25,7 +25,8 @@ public class SearchController : BaseController
     public IActionResult GetSearches([FromQuery] string keyword)
     {
         Console.WriteLine(keyword);
-
-        return Ok(keyword);
+        var results = _ds.Search(keyword, 10);
+        
+        return Ok(results);
     }
 }

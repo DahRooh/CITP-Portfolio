@@ -27,6 +27,7 @@ public class MVContext : DbContext
     public DbSet<PersonInvolvedIn> PersonInvolvedIn { get; set; }
     public DbSet<TitleGenre> TitlesGenres { get; set; }
     public DbSet<UserSearch> UserSearches { get; set; }
+    public DbSet<SearchResult> SearchResults { get; set; }
 
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -59,6 +60,7 @@ public class MVContext : DbContext
         MapUserSearch(modelBuilder);
 
         MapWebpage(modelBuilder);
+        MapSearchResults(modelBuilder);
 
     }
 
@@ -83,24 +85,7 @@ public class MVContext : DbContext
             .HasOne(x => x.Title)
             .WithMany()
             .HasForeignKey(x => x.TitleId).IsRequired(false);
-
-
-        modelBuilder.Entity<SearchResult>().ToTable("wp_search").HasKey(x => new { x.WebpageId, x.SearchId });
-        modelBuilder.Entity<SearchResult>().Property(x => x.WebpageId).HasColumnName("wp_id");
-        modelBuilder.Entity<SearchResult>().Property(x => x.SearchId).HasColumnName("search_id");
-        modelBuilder.Entity<SearchResult>().Property(x => x.Frequency).HasColumnName("frequency");
-
-
-        modelBuilder.Entity<SearchResult>()
-            .HasOne(x => x.Search)
-            .WithMany(x => x.Webpages)
-            .HasForeignKey(x => x.SearchId);
-
-        modelBuilder.Entity<SearchResult>()
-            .HasOne(x => x.Webpage)
-            .WithMany(x => x.Searches)
-            .HasForeignKey(x => x.WebpageId);
-
+        
         modelBuilder.Entity<WebpageBookmark>().ToTable("wp_bookmarks").HasKey(x => new { x.BookmarkId, x.WebpageId });
         modelBuilder.Entity<WebpageBookmark>().Property(x => x.BookmarkId).HasColumnName("bookmark_id");
         modelBuilder.Entity<WebpageBookmark>().Property(x => x.WebpageId).HasColumnName("wp_id");
@@ -123,6 +108,14 @@ public class MVContext : DbContext
         modelBuilder.Entity<User>().Property(x => x.Id).HasColumnName("u_id");
         modelBuilder.Entity<User>().Property(x => x.Username).HasColumnName("username");
         modelBuilder.Entity<User>().Property(x => x.Email).HasColumnName("email");
+    }
+
+    private static void MapSearchResults(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<SearchResult>().HasNoKey();
+        
+        modelBuilder.Entity<SearchResult>().Property(x => x.Relevance).HasColumnName("relevance");
+        modelBuilder.Entity<SearchResult>().Property(x => x.WebpageId).HasColumnName("webpage_id");
     }
 
     private static void MapReview(ModelBuilder modelBuilder)
@@ -421,10 +414,5 @@ public class MVContext : DbContext
             .HasForeignKey(x => x.UserId)
             .OnDelete(DeleteBehavior.Cascade);
     }
-
-
-
-
-
 
 }

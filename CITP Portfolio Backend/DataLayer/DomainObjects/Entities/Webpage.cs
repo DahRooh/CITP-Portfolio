@@ -18,9 +18,7 @@ namespace DataLayer.DomainObjects.Entities
         public string TitleId { get; set; } // person or title, dont matter
         public string PersonId { get; set; } // person or title, dont matter
 
-
-
-        public IList<SearchResult> Searches;
+        
         public IList<WebpageBookmark> Bookmarks;
         public string? Url { get; set; } = null;
 

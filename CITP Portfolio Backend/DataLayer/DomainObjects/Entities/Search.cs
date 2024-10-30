@@ -12,8 +12,8 @@ public class Search
 {
     public string Id { get; set; }
     public string Keyword { get; set; }
-    public DateTime CreatedAt { get; set; }
     
-    public IList<SearchResult> Webpages { get; set; }
+    
+    public DateTime CreatedAt { get; set; }
     public UserSearch UserSearch { get; set; }
 }

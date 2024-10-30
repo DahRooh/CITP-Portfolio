@@ -9,5 +9,5 @@ namespace DataLayer.IDataServices;
 
 public interface ISearchDataService
 {
-    public IList<SearchResult> Search(string keyword);
+    public IList<SearchResult> Search(string keyword, int take, int skip = 0, int userId = -1);
 }
