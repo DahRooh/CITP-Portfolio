@@ -14,10 +14,12 @@ namespace DataLayer.DataServices
     public class SearchDataService : ISearchDataService
     {
         private MVContext db;
-        public IList<SearchResult> Search(string keyword, int take, int skip = 0, int userId = -1)
+        public IList<SearchResult> Search(string keyword, int page, int pageSize, int userId = -1)
         {
             db = new MVContext();
             var user = db.Users.Where(x => x.Id == userId).FirstOrDefault();
+            
+            var skip = pageSize*page;
 
             if (user != null)
             {
@@ -25,9 +27,13 @@ namespace DataLayer.DataServices
             }
 
             var results = db.SearchResults.
-                FromSqlRaw("select * from make_search({0}, {1}, {2})", keyword, take, skip).ToList();
+                FromSqlRaw("select * from make_search({0}, {1}, {2})", keyword, pageSize, skip).ToList();
 
             return results;
+        }
+        public int SearchCount(string keyword)
+        {
+            return db.SearchResults.FromSqlRaw("select * from make_search({0})", keyword).Count();
         }
 
         public Webpage GetWebpage(string webpageId)

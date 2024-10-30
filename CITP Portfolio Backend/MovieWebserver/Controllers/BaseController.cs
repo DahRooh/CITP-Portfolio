@@ -15,32 +15,51 @@ public abstract class BaseController : ControllerBase
     }
 
     [NonAction]
-    public string? GetWebpageUrl(string entityName, object args) // Update order here
+    public string? GetWebpageUrl(string entityName, string controllerName, object args) // Update order here
     {
-        var url = _linkGenerator.GetUriByName(HttpContext, entityName, args);
+        var url = _linkGenerator.GetUriByAction(
+                    action: entityName,
+                    controller: controllerName,
+                    values: args,
+                    httpContext: HttpContext);
         
         return url;
     }
-    
+
     [NonAction]
-    public string? GetPageLink(string entityName, object args)
+    public string? GetWebpageUrlByAction(string nameOf, string id, string controller) 
     {
-        return GetWebpageUrl(entityName, args);
+        var url = _linkGenerator.GetUriByAction(
+                    action: nameOf,
+                    controller: controller,
+                    values: new { id },
+                    httpContext: HttpContext
+                    );
+
+        return url;
     }
 
     [NonAction]
-    public object CreatePaging<T>(string entityName, int page, int pageSize, int total, IEnumerable<T?> items)
+    public string? GetPageLink(string entityName, string controller, object args)
+    {
+        return GetWebpageUrl(entityName, controller, args);
+    }
+
+    [NonAction]
+    public object CreatePaging<T>(string entityName, string controller, int page, int pageSize, int total, IEnumerable<T?> items, string args = null)
     {
         const int MaxItemPerPage = 20;
         pageSize = pageSize > MaxItemPerPage ? MaxItemPerPage : pageSize;
         int TotalNumberOfPages = (int)Math.Ceiling((double)total / pageSize);
         int nextPageNumber = page + 1;
         int previousPageNumber = page - 1;
-        
-        var CurrentPage = GetPageLink(entityName, new { page, pageSize });
-        var PreviousPage = previousPageNumber < 0 ? null : GetPageLink(entityName, new { previousPageNumber, pageSize });
-        var NextPage = nextPageNumber > TotalNumberOfPages ? null : GetPageLink(entityName, new { nextPageNumber, pageSize });
 
+
+        var CurrentPage = GetPageLink(entityName, controller, new { keywords = args, page, pageSize });
+        var PreviousPage = previousPageNumber < 1 ? null : GetPageLink(entityName, controller, new { keywords = args, page = previousPageNumber, pageSize });
+        var NextPage = nextPageNumber > TotalNumberOfPages ? null : GetPageLink(entityName, controller, new { keywords = args, page = nextPageNumber, pageSize });
+
+        Console.WriteLine("entity name " + entityName);
         var result = new
         {
             CurrentPage = CurrentPage,

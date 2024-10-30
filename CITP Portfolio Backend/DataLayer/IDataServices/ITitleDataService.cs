@@ -14,6 +14,7 @@ public interface ITitleDataService
     int NumberOfEpisodes();
     IList<Episode> GetEpisodes(int page, int pageSize);
     Episode GetEpisode(string id);
+    Title GetTitle(string id);
     int NumberOfMovies();
     IList<Movie> GetMovies(int page, int pageSize);
     Movie? GetMovie(string id);

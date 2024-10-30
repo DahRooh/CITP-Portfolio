@@ -30,6 +30,7 @@ public class PersonController : BaseController
 
         object result = CreatePaging(
             nameof(GetPeople),
+            "Person",
             page,
             pageSize,
             numberOfItems,
@@ -58,6 +59,7 @@ public class PersonController : BaseController
         var numberOfItems = _ds.NumberOfActors();
         object result = CreatePaging(
             nameof(GetPeople),
+            "Person",
             page,
             pageSize,
             numberOfItems,
@@ -129,7 +131,7 @@ public class PersonController : BaseController
         }
 
         var model = person.Adapt<PersonModel>();
-        model.Url = GetWebpageUrl(nameof(GetPeople), person.Id); // Initializing the Url property
+        model.Url = GetWebpageUrl(nameof(GetPeople), "Person", person.Id); // Initializing the Url property
         return model;
     }
 

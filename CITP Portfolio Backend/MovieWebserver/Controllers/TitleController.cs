@@ -30,6 +30,7 @@ public class TitleController : BaseController
 
         object result = CreatePaging(
             nameof(GetMovies),
+            "Title",
             page,
             pageSize,
             numberOfItems,
@@ -50,6 +51,19 @@ public class TitleController : BaseController
 
     }
 
+    [HttpGet("{id}", Name = nameof(GetTitle))]
+    public IActionResult GetTitle(string id)
+    {
+        var title = _ds.GetTitle(id);
+        if (title == null)
+        {
+            return NotFound();
+        }
+
+        return Ok(title);
+
+    }
+
     [HttpGet("episodes", Name = nameof(GetEpisodes))]
     public IActionResult GetEpisodes(int page, int pageSize)
     {
@@ -59,6 +73,7 @@ public class TitleController : BaseController
 
         object result = CreatePaging(
             nameof(GetEpisodes),
+            "Title",
             page,
             pageSize,
             numberOfItems,
@@ -119,7 +134,7 @@ public class TitleController : BaseController
         if (entity == null) return null;
 
         var model = entity.Adapt<Model>();
-        var url = GetWebpageUrl(entityName, args);
+        var url = GetWebpageUrl(entityName, "Title", args);
 
         if (model is MovieModel movieModel && entity is Movie movie)
         {

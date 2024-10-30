@@ -54,6 +54,21 @@ public class TitleDataService : ITitleDataService
         return serie;
     }
 
+    public Title GetTitle(string id)
+    {
+        db = new MVContext();
+        var title = db.Titles
+            .Where(x => x.Id == id)
+            .FirstOrDefault();
+
+        if (title == null)
+        {
+            return null;
+        }
+
+        return title;
+    }
+
     public IList<PersonInvolvedIn> GetPersonInvolvedIn(string id)
     {
         db = new MVContext();

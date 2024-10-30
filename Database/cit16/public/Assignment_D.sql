@@ -1090,7 +1090,7 @@ $$;
 
 
 -- temp function to call insert and obtain the result
-drop function if exists make_search;
+drop function if exists make_search(varchar, int, int);
 create function make_search(keyword varchar, take int, skip int default 0) 
 returns table (webpage_id text, relevance numeric)
 language plpgsql as $$
@@ -1116,5 +1116,30 @@ begin
 end;
 $$;
 
-select * from make_search('big monkey', 20);
+drop function if exists make_search(varchar);
+create function make_search(keyword varchar) 
+returns table (webpage_id text, relevance numeric)
+language plpgsql as $$
+
+declare new_search_id varchar; variadic_keyword text[];
+
+begin
+		
+		variadic_keyword = string_to_array(keyword, ' ');
+
+		return query
+			select wp_id, frequency 
+			from 
+			(	
+				select 'wp'|| id as wp_id, sum(results) as frequency
+				from searching_algorithm(variadic variadic_keyword)
+				group by wp_id
+				order by frequency desc
+			) as results
+			
+			order by frequency desc;
+end;
+$$;
+
+select * from make_search('big monkey');
 

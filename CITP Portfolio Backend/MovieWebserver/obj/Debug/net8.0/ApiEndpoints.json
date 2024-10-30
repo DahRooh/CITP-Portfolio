@@ -1,22 +1,5 @@
 [
   {
-    "ContainingType": "MovieWebserver.Controllers.SearchController",
-    "Method": "GetSearches",
-    "RelativePath": "api/find",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "keyword",
-        "Type": "System.String",
-        "IsRequired": false
-      }
-    ],
-    "ReturnTypes": [],
-    "EndpointName": "GetSearches"
-  },
-  {
     "ContainingType": "MovieWebserver.Controllers.PersonController",
     "Method": "GetPeople",
     "RelativePath": "api/person",
@@ -113,6 +96,50 @@
     ],
     "ReturnTypes": [],
     "EndpointName": "GetActors"
+  },
+  {
+    "ContainingType": "MovieWebserver.Controllers.SearchController",
+    "Method": "GetSearches",
+    "RelativePath": "api/search",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "keyword",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "page",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "pageSize",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [],
+    "EndpointName": "GetSearches"
+  },
+  {
+    "ContainingType": "MovieWebserver.Controllers.TitleController",
+    "Method": "GetTitle",
+    "RelativePath": "api/title/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [],
+    "EndpointName": "GetTitle"
   },
   {
     "ContainingType": "MovieWebserver.Controllers.TitleController",

@@ -15,7 +15,7 @@ using DataLayer.Model.User;
 namespace MovieWebserver.Controllers;
 
 [ApiController]
-[Route("api/find")]
+[Route("api/search")]
 public class SearchController : BaseController
 {
     ISearchDataService _ds;
@@ -25,12 +25,15 @@ public class SearchController : BaseController
     }
 
     [HttpGet(Name = nameof(GetSearches))]
-    public IActionResult GetSearches([FromQuery] string keyword)
+    public IActionResult GetSearches([FromQuery] string keyword, [FromQuery] int page, [FromQuery] int pageSize)
     {
         Console.WriteLine(keyword);
-        var results = _ds.Search(keyword, 10)
+        var items = _ds.Search(keyword, page, pageSize)
             .Select(x => CreateSearchResultModel(x)).ToList();
-        
+
+        var count = _ds.SearchCount(keyword);
+
+        var results = CreatePaging(nameof(GetSearches), "Search", page, pageSize, count, items, keyword);
         return Ok(results);
     }
     
@@ -42,7 +45,7 @@ public class SearchController : BaseController
           var result = new SearchResultModel
           {
               Title = webpage.Title._Title,
-              Url = GetWebpageUrl(nameof(GetSearches), new { webpage.TitleId }),
+              Url = GetWebpageUrlByAction(nameof(TitleController.GetTitle), webpage.TitleId, "Title"),
               Poster = webpage.Title.Poster,
               Rating = webpage.Title.Rating
           };
