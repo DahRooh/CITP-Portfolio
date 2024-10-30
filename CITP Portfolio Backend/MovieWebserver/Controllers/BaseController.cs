@@ -55,11 +55,11 @@ public abstract class BaseController : ControllerBase
         int previousPageNumber = page - 1;
 
 
-        var CurrentPage = GetPageLink(entityName, controller, new { keywords = args, page, pageSize });
-        var PreviousPage = previousPageNumber < 1 ? null : GetPageLink(entityName, controller, new { keywords = args, page = previousPageNumber, pageSize });
-        var NextPage = nextPageNumber > TotalNumberOfPages ? null : GetPageLink(entityName, controller, new { keywords = args, page = nextPageNumber, pageSize });
+        var CurrentPage = GetPageLink(entityName, controller, new { keyword = args, page, pageSize });
 
-        Console.WriteLine("entity name " + entityName);
+        var PreviousPage = previousPageNumber < 1 ? null : GetPageLink(entityName, controller, new { keyword = args, page = previousPageNumber, pageSize });
+        var NextPage = nextPageNumber > TotalNumberOfPages ? null : GetPageLink(entityName, controller, new { keyword = args, page = nextPageNumber, pageSize });
+
         var result = new
         {
             CurrentPage = CurrentPage,

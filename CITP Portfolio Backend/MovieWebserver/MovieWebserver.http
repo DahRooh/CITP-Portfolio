@@ -10,3 +10,11 @@ Get {{MovieWebserver_HostAddress}}/api/user
 
 Get {{MovieWebserver_HostAddress}}/api/user/3
 
+###
+
+Get {{MovieWebserver_HostAddress}}/api/search?keyword=lord%20bobby%20ring&page=1&pageSize=10
+
+###
+
+
+
