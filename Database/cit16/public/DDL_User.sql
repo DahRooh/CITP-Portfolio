@@ -34,7 +34,8 @@ drop table if exists bookmark;
 create table webpage
 (
 	wp_id varchar(12) primary key,
-  p_t_id varchar(10),
+  p_id varchar(10),
+  t_id varchar(10),
   url varchar(255) default null,
   wp_view_count numeric(9,0) default 0
 );

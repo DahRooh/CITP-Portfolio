@@ -5,7 +5,6 @@ GROUP: cit16, MEMBERS: Andreas Moosdorf, Dagmar Ree, Eray Erkul
 */
 
 
-
 /*This is our test file.
   We will be testing our functions and producures determine if the they work correcly 
 
@@ -128,6 +127,7 @@ call insert_bookmark(1, 'wptt2506874');
 call insert_bookmark(1, 'wptt0108778');
 call insert_bookmark(1, 'wpnm0000001');
 
+select * from bookmark;
 
 -- 3: User has bookmarked, obtain all its bookmarks. get_bookmarks obtains the data from the bookmark, wp_bookmarks and user_bookmarks relation.
 select * from get_bookmarks(1);

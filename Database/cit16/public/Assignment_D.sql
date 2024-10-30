@@ -31,9 +31,10 @@ do $$
 begin
   if (select count(*) from webpage) = 0 then
 
-    insert into webpage (wp_id, p_t_id)
-    select concat('wp', t_id), t_id from title
-    union
+    insert into webpage (wp_id, t_id)
+    select concat('wp', t_id), t_id from title;
+    
+    insert into webpage (wp_id, p_id)
     select concat('wp', p_id), p_id from person;
   end if;
 end;
@@ -46,9 +47,9 @@ $$ language plpgsql;
 drop view if exists person_title_webpages;
 
 create view person_title_webpages as (
-  select lower(name) as name_title, wp_id, url, null as plot from webpage join person on p_id = p_t_id
+  select lower(name) as name_title, wp_id, url, null as plot from webpage join person using(p_id)
   union
-  select lower(title) as name_title, wp_id, url, lower(plot) from webpage join title on t_id = p_t_id 
+  select lower(title) as name_title, wp_id, url, lower(plot) from webpage join title using(t_id)
   order by wp_id
  );
  
@@ -909,9 +910,9 @@ begin
     foreach keyword in array keywords
     loop
 
-      query := query || ' select title, wp_id, count(t_id)
-      from title join wi on t_id = tconst 
-      join webpage on tconst = p_t_id
+      query := query || ' select title, wp_id, count(title.t_id)
+      from title join wi on title.t_id = tconst 
+      join webpage on tconst = webpage.t_id
       where lower(word) like '''||lower(keyword)||'''
       group by title, wp_id
       union all';

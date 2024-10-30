@@ -1,5 +1,12 @@
-@MovieWebserver_HostAddress = http://localhost:5262
+@MovieWebserver_HostAddress = http://localhost:5001
 
 
 
 ###
+
+Get {{MovieWebserver_HostAddress}}/api/user
+
+###
+
+Get {{MovieWebserver_HostAddress}}/api/user/3
+

@@ -12,6 +12,7 @@ namespace DataLayer.DomainObjects.Relations
         public Webpage Webpage;
         public Bookmark Bookmark;
 
-        public string WebpageId, BookmarkId;
+        public string WebpageId;
+        public string BookmarkId;
     }
 }

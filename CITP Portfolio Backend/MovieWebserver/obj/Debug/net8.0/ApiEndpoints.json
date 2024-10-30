@@ -1,5 +1,22 @@
 [
   {
+    "ContainingType": "MovieWebserver.Controllers.SearchController",
+    "Method": "GetSearches",
+    "RelativePath": "api/find",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "keyword",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [],
+    "EndpointName": "GetSearches"
+  },
+  {
     "ContainingType": "MovieWebserver.Controllers.PersonController",
     "Method": "GetPeople",
     "RelativePath": "api/person",

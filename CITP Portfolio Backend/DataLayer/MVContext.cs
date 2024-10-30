@@ -65,37 +65,41 @@ public class MVContext : DbContext
     private void MapWebpage(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Webpage>().ToTable("Webpage").HasKey(x => x.Id);
+
         modelBuilder.Entity<Webpage>().Property(x => x.Id).HasColumnName("wp_id");
-        modelBuilder.Entity<Webpage>().Property(x => x.RelationId).HasColumnName("p_t_id");
+
+        modelBuilder.Entity<Webpage>().Property(x => x.PersonId).HasColumnName("p_id");
+        modelBuilder.Entity<Webpage>().Property(x => x.TitleId).HasColumnName("t_id");
+
         modelBuilder.Entity<Webpage>().Property(x => x.Url).HasColumnName("url");
         modelBuilder.Entity<Webpage>().Property(x => x.ViewCount).HasColumnName("wp_view_count");
 
         modelBuilder.Entity<Webpage>()
             .HasOne(x => x.Person)
-            .WithOne()
-            .HasForeignKey<Webpage>(x => x.RelationId);
+            .WithMany()
+            .HasForeignKey(x => x.PersonId).IsRequired(false);
 
         modelBuilder.Entity<Webpage>()
             .HasOne(x => x.Title)
-            .WithOne()
-            .HasForeignKey<Webpage>(x => x.RelationId);
+            .WithMany()
+            .HasForeignKey(x => x.TitleId).IsRequired(false);
 
 
-        modelBuilder.Entity<WebpageSearch>().ToTable("wp_search").HasKey(x => new { x.Search, x.WebpageId });
-        modelBuilder.Entity<WebpageSearch>().Property(x => x.SearchId).HasColumnName("search_id");
-        modelBuilder.Entity<WebpageSearch>().Property(x => x.WebpageId).HasColumnName("wp_id");
-        modelBuilder.Entity<WebpageSearch>().Property(x => x.Frequency).HasColumnName("frequency");
+        modelBuilder.Entity<SearchResult>().ToTable("wp_search").HasKey(x => new { x.WebpageId, x.SearchId });
+        modelBuilder.Entity<SearchResult>().Property(x => x.WebpageId).HasColumnName("wp_id");
+        modelBuilder.Entity<SearchResult>().Property(x => x.SearchId).HasColumnName("search_id");
+        modelBuilder.Entity<SearchResult>().Property(x => x.Frequency).HasColumnName("frequency");
 
 
-        modelBuilder.Entity<WebpageSearch>()
+        modelBuilder.Entity<SearchResult>()
             .HasOne(x => x.Search)
-            .WithOne()
-            .HasForeignKey<Search>(x => x.Id);
+            .WithMany(x => x.Webpages)
+            .HasForeignKey(x => x.SearchId);
 
-        modelBuilder.Entity<WebpageSearch>()
+        modelBuilder.Entity<SearchResult>()
             .HasOne(x => x.Webpage)
-            .WithOne()
-            .HasForeignKey<WebpageSearch>(x => x.WebpageId);
+            .WithMany(x => x.Searches)
+            .HasForeignKey(x => x.WebpageId);
 
         modelBuilder.Entity<WebpageBookmark>().ToTable("wp_bookmarks").HasKey(x => new { x.BookmarkId, x.WebpageId });
         modelBuilder.Entity<WebpageBookmark>().Property(x => x.BookmarkId).HasColumnName("bookmark_id");
@@ -108,8 +112,8 @@ public class MVContext : DbContext
 
         modelBuilder.Entity<WebpageBookmark>()
             .HasOne(x => x.Webpage)
-            .WithOne()
-            .HasForeignKey<WebpageBookmark>(x => x.WebpageId);
+            .WithMany(x => x.Bookmarks)
+            .HasForeignKey(x => x.WebpageId);
     }
 
     private static void MapUsers(ModelBuilder modelBuilder)

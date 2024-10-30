@@ -23,6 +23,7 @@ public class UserController : BaseController
     }
 
 
+
     [HttpPost("CreateUser")]
     public IActionResult CreateUser([FromBody] UserModel userModel)
     {
@@ -108,6 +109,9 @@ public class UserController : BaseController
 
         return Ok(bookmarks);
     }
+
+
+
     [HttpGet("{userId}/Reviews", Name = nameof(GetUserReviews))]
     public IActionResult GetUserReviews(int userId)
     {

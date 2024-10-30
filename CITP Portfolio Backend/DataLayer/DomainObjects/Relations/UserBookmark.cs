@@ -10,7 +10,7 @@ public class UserBookmark
 {
 
     public int UserId;
-    public int BookmarkId;
+    public string BookmarkId;
 
     public Bookmark Bookmark { get; set; }
     public User User { get; set; }

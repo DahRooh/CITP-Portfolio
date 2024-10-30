@@ -12,12 +12,34 @@ namespace DataLayer.DataServices
     {
         private MVContext db;
 
+        public List<User> GetUsers()
+        {
+            db = new MVContext();
+            var users = db.Users.ToList();
+            return users;
+        }
+
+        public User GetUser(int userId)
+        {
+            db = new MVContext();
+            Console.WriteLine("userid " + userId);
+            var user = db.Users.Where(x => x.Id == userId).FirstOrDefault();
+            if (user == null)
+            {
+                return null;
+            }
+            return user;
+        }
+
+
         public bool CreateBookmark(string titleId, int userId)
         {
             db = new MVContext();
             throw new NotImplementedException();
         }
 
+
+        
         public User CreateUser(UserModel user)
         {
             db = new MVContext();
@@ -38,15 +60,15 @@ namespace DataLayer.DataServices
             
             
         }
-        /* this to the title data service, a user can create a review on the title, not from the user route
-        public UserTitleReview CreateReview(ReviewModel review)
-        {
-            db = new MVContext();
+        // this to the title data service, a user can create a review on the title, not from the user route
+        //public UserTitleReview CreateReview(ReviewModel review)
+        //{
+         //   db = new MVContext();
 
-            db.Database.ExecuteSqlRaw("call rate({0}, {1}, {2}, {3})", review.TitleId, review.CreatedBy.Id, review.Liked, review.Text);
-            return db.UserReviews.Where(x => x.TitleId == review.TitleId & x.UserId == review.CreatedBy.Id).First();
-        }
-        */
+//            db.Database.ExecuteSqlRaw("call rate({0}, {1}, {2}, {3})", review.TitleId, review.CreatedBy.Id, review.Liked, review.Text);
+ //           return db.UserReviews.Where(x => x.TitleId == review.TitleId & x.UserId == review.CreatedBy.Id).First();
+   //     }
+        
 
         // also to title?
         public bool LikeReview(int reviewId, int userId, int like)
@@ -81,20 +103,7 @@ namespace DataLayer.DataServices
             return results;
         }
 
-        public List<User> GetUsers()
-        {
-            db = new MVContext();
-            var users = db.Users.ToList();
-            return users;
-        }
 
-        public User GetUser(int userId)
-        {
-            db = new MVContext();
-            Console.WriteLine("userid" + userId);
-            var users = db.Users.Where(x => x.Id == userId).FirstOrDefault();
-            return users;
-        }
 
         public List<UserBookmark> GetBookmarks(int userId)
         {
@@ -132,6 +141,7 @@ namespace DataLayer.DataServices
             var reviews = db.UserReviews.Include(x => x.User).Include(x => x.Title).Include(x => x.Review).ThenInclude(x => x.UserLikes).ToList();
             return reviews;
         }
+        
         public Bookmark CreateBookmark()
         {
             throw new NotImplementedException();
