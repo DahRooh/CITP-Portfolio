@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DataLayer.DomainObjects.Entities;
 using Microsoft.AspNetCore.Mvc.TagHelpers.Cache;
 using Microsoft.EntityFrameworkCore;
 
@@ -28,7 +29,19 @@ namespace DataLayer.DataServices
 
             return results;
         }
+
+        public Webpage GetWebpage(string webpageId)
+        {
+            db = new MVContext();
+            var webpage = db.Webpages.Include(x => x.Title)
+                .Where(x => x.Id.Equals(webpageId)).FirstOrDefault();
+
+            if (webpage == null)
+            {
+                return null;
+            }
+            return webpage;
+        }
     }
 }
 
-// keyword, user_id, new_search_id

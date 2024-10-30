@@ -17,6 +17,7 @@ public class MVContext : DbContext
     public DbSet<Episode> Episodes { get; set; }
     public DbSet<Person> People { get; set; }
     public DbSet<User> Users { get; set; }
+    public DbSet<Webpage> Webpages { get; set; }
 
 
     // relations (mostly used)
@@ -66,7 +67,7 @@ public class MVContext : DbContext
 
     private void MapWebpage(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<Webpage>().ToTable("Webpage").HasKey(x => x.Id);
+        modelBuilder.Entity<Webpage>().ToTable("webpage").HasKey(x => x.Id);
 
         modelBuilder.Entity<Webpage>().Property(x => x.Id).HasColumnName("wp_id");
 

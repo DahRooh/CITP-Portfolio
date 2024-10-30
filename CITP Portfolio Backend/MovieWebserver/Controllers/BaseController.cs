@@ -17,9 +17,11 @@ public abstract class BaseController : ControllerBase
     [NonAction]
     public string? GetWebpageUrl(string entityName, object args) // Update order here
     {
-        return _linkGenerator.GetUriByName(HttpContext, entityName, args);
+        var url = _linkGenerator.GetUriByName(HttpContext, entityName, args);
+        
+        return url;
     }
-
+    
     [NonAction]
     public string? GetPageLink(string entityName, object args)
     {
