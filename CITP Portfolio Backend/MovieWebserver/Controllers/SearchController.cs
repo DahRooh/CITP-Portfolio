@@ -29,4 +29,5 @@ public class SearchController : BaseController
         
         return Ok(results);
     }
+    //  title, poster, rating, (topcast) 
 }
