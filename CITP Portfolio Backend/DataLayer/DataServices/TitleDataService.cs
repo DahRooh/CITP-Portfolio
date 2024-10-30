@@ -9,6 +9,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DataLayer.DomainObjects.Relations;
+using DataLayer.DomainObjects.FunctionResults;
+using static Microsoft.Extensions.Logging.EventSource.LoggingEventSource;
 
 namespace DataLayer;
 
@@ -16,10 +18,49 @@ public class TitleDataService : ITitleDataService
 {
     private MVContext db;
 
+   
+
+    public Movie? GetMovie(string id)
+    {
+        db = new MVContext();
+        var movie = db.Movies.Include(x => x.Title).FirstOrDefault(x => x.Id == id);
+
+        return movie;
+    }
+
     public int NumberOfMovies()
     {
         db = new MVContext();
         var count = db.Movies.Count();
+        return count;
+    }
+
+    public IList<Movie> GetMovies(int page, int pageSize)
+    {
+        db = new MVContext();
+        var titles = db.Movies.Include(x => x.Title).Skip(page * pageSize).Take(pageSize).ToList();
+        return titles;
+    }
+
+    public Episode GetEpisode(string id)
+    {
+        db = new MVContext();
+        var serie = db.Episodes
+            .Include(x => x.Title)
+            .FirstOrDefault(x => x.Id == id);
+
+        if (serie == null)
+        {
+            return null;
+        }
+
+        return serie;
+    }
+
+    public int NumberOfEpisodes()
+    {
+        db = new MVContext();
+        var count = db.Episodes.Count();
         return count;
     }
 
@@ -38,22 +79,6 @@ public class TitleDataService : ITitleDataService
 
         return serie;
     }
-
-    public Episode GetEpisode(string id)
-    {
-        db = new MVContext();
-        var serie = db.Episodes
-            .Include(x => x.Title)
-            .FirstOrDefault(x => x.Id == id);
-
-        if (serie == null)
-        {
-            return null;
-        }
-
-        return serie;
-    }
-
     public Title GetTitle(string id)
     {
         db = new MVContext();
@@ -69,7 +94,7 @@ public class TitleDataService : ITitleDataService
         return title;
     }
 
-    public IList<PersonInvolvedIn> GetPersonInvolvedIn(string id)
+    public IList<InvolvedIn> GetInvolvedIn(string id)
     {
         db = new MVContext();
         var personInvolvedIn = db.PersonInvolvedIn
@@ -80,7 +105,7 @@ public class TitleDataService : ITitleDataService
         return personInvolvedIn;
     }
 
-    public IList<PersonInvolvedIn> GetCast(string id)
+    public IList<InvolvedIn> GetCast(string id)
     {
         db = new MVContext();
         var cast = db.PersonInvolvedIn
@@ -92,36 +117,57 @@ public class TitleDataService : ITitleDataService
 
         return cast;
     }
-
+    
     public IList<TitleGenre> GetGenre(string id)
     {
         db = new MVContext();
         var genre = db.TitlesGenres.Include(x => x.Genre)
             .Where(x => x.TitleId == id).ToList();
-        
         return genre;
     }
 
-    public int NumberOfEpisodes()
+
+    public int NumberOfSimilarTitles(string id)
     {
-        db = new MVContext();
-        var count = db.Episodes.Count();
-        return count;
+        return db.SimilarTitles.FromSqlRaw("select * from find_similar_titles({0})", id).Count();
     }
 
-    public IList<Movie> GetMovies(int page, int pageSize)
+    public IList<SimilarTitle> GetSimilarTitles(string id, int page, int pageSize)
     {
-        db = new MVContext();
-        var titles = db.Movies.Include(x => x.Title).Skip(page * pageSize).Take(pageSize).ToList();
-        return titles;
+        db = new MVContext();   
+
+        var skip = page * pageSize;
+        var results = db.SimilarTitles.FromSqlRaw("select * from find_similar_titles({0}, {1}, {2})", id, pageSize, skip).ToList();
+
+        return results;
+
     }
 
-    public Movie? GetMovie(string id)
-    {
-        db = new MVContext();
-        var movie = db.Movies.Include(x => x.Title).FirstOrDefault(x => x.Id == id);
 
-        return movie;
+
+
+    public int NumberOfCoProducers()
+    {
+        throw new NotImplementedException();
+
     }
+
+    public IList<Person> GetCoProducersByRating(string id, int page, int pageSize)
+    {
+        throw new NotImplementedException();
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
 

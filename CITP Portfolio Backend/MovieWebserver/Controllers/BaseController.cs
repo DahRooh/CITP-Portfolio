@@ -15,7 +15,7 @@ public abstract class BaseController : ControllerBase
     }
 
     [NonAction]
-    public string? GetWebpageUrl(string entityName, string controllerName, object args) // Update order here
+    public string? GetWebpageUrl(string entityName, string controllerName, object args)
     {
         var url = _linkGenerator.GetUriByAction(
                     action: entityName,

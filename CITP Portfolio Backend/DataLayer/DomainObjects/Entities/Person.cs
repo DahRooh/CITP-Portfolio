@@ -19,7 +19,7 @@ public class Person
 
     public IList<PersonProfession> Professions { get; set; } = new List<PersonProfession>();
 
-    public IList<PersonInvolvedIn> InvolvedIn { get; set; } = new List<PersonInvolvedIn>();
+    public IList<InvolvedIn> InvolvedIn { get; set; } = new List<InvolvedIn>();
 
     
 }

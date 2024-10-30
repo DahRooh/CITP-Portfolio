@@ -25,10 +25,11 @@ public class MVContext : DbContext
 
     public DbSet<UserBookmark> Bookmarks { get; set; }
     public DbSet<UserTitleReview> UserReviews { get; set; }
-    public DbSet<PersonInvolvedIn> PersonInvolvedIn { get; set; }
+    public DbSet<InvolvedIn> PersonInvolvedIn { get; set; }
     public DbSet<TitleGenre> TitlesGenres { get; set; }
     public DbSet<UserSearch> UserSearches { get; set; }
     public DbSet<SearchResult> SearchResults { get; set; }
+    public DbSet<SimilarTitle> SimilarTitles { get; set; }
 
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -51,6 +52,7 @@ public class MVContext : DbContext
         MapSession(modelBuilder);
 
         MapEpisodeAndMovie(modelBuilder);
+        MapSimilarTitle(modelBuilder);
 
         MapPersonInvolvedTitle(modelBuilder);
         MapUsers(modelBuilder);
@@ -236,22 +238,22 @@ public class MVContext : DbContext
 
     private static void MapPersonInvolvedTitle(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<PersonInvolvedIn>().ToTable("person_involved_title").HasKey(x => new { x.PersonId, x.TitleId});
+        modelBuilder.Entity<InvolvedIn>().ToTable("person_involved_title").HasKey(x => new { x.PersonId, x.TitleId});
 
-        modelBuilder.Entity<PersonInvolvedIn>().Property(x => x.PersonId).HasColumnName("p_id");
-        modelBuilder.Entity<PersonInvolvedIn>().Property(x => x.TitleId).HasColumnName("t_id");
-        modelBuilder.Entity<PersonInvolvedIn>().Property(x => x.Job).HasColumnName("job");
-        modelBuilder.Entity<PersonInvolvedIn>().Property(x => x.Character).HasColumnName("character");
+        modelBuilder.Entity<InvolvedIn>().Property(x => x.PersonId).HasColumnName("p_id");
+        modelBuilder.Entity<InvolvedIn>().Property(x => x.TitleId).HasColumnName("t_id");
+        modelBuilder.Entity<InvolvedIn>().Property(x => x.Job).HasColumnName("job");
+        modelBuilder.Entity<InvolvedIn>().Property(x => x.Character).HasColumnName("character");
 
 
-       modelBuilder.Entity<PersonInvolvedIn>()
+       modelBuilder.Entity<InvolvedIn>()
             .HasOne(x => x.Person)
             .WithMany(p => p.InvolvedIn)
             .HasForeignKey(x => x.PersonId)
             .OnDelete(DeleteBehavior.Cascade);
 
 
-        modelBuilder.Entity<PersonInvolvedIn>()
+        modelBuilder.Entity<InvolvedIn>()
             .HasOne(x => x.Title)
             .WithMany(p => p.PeopleInvolved)
             .HasForeignKey(x => x.TitleId)
@@ -414,6 +416,16 @@ public class MVContext : DbContext
             .WithMany(us => us.Searches)
             .HasForeignKey(x => x.UserId)
             .OnDelete(DeleteBehavior.Cascade);
+    }
+
+    public static void MapSimilarTitle(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<SimilarTitle>().HasNoKey();
+
+        modelBuilder.Entity<SimilarTitle>().Property(x => x.SimilarTitleId).HasColumnName("similar_title_id");
+        modelBuilder.Entity<SimilarTitle>().Property(x => x.SimilarTitleName).HasColumnName("similar_title");
+        modelBuilder.Entity<SimilarTitle>().Property(x => x.MultipleSameGenre).HasColumnName("multiple_same_genre");
+
     }
 
 }

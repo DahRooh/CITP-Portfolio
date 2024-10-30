@@ -26,7 +26,7 @@ public class Title
 
     // from relations
     public IList<TitleGenre> Genres { get; set; } = new List<TitleGenre>();
-    public IList<PersonInvolvedIn>? PeopleInvolved { get; set; } = new List<PersonInvolvedIn>();
+    public IList<InvolvedIn>? PeopleInvolved { get; set; } = new List<InvolvedIn>();
     public IList<UserTitleReview>? Reviews { get; set; }
 
    // public Title MovieOrTitle { get; set; }

@@ -6,6 +6,9 @@ using DataLayer.DomainObjects;
 using MovieWebserver.Model.Person;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Runtime.InteropServices;
+using DataLayer.Model.Title;
+using DataLayer.DomainObjects.FunctionResults;
+using static Microsoft.Extensions.Logging.EventSource.LoggingEventSource;
 namespace MovieWebserver.Controllers;
 
 [ApiController]
@@ -21,11 +24,23 @@ public class TitleController : BaseController
         _linkGenerator = linkGenerator;
     }
 
+    [HttpGet("movie/{id}", Name = nameof(GetMovie))]
+    public IActionResult GetMovie(string id)
+    {
+        var movie = _ds.GetMovie(id);
+        if (movie == null)
+        {
+            return NotFound();
+        }
+
+        return Ok(movie);
+
+    }
 
     [HttpGet("movies", Name = nameof(GetMovies))]
     public IActionResult GetMovies(int page, int pageSize)
     {
-        var movies = _ds.GetMovies(page, pageSize).Select(x => CreateMovieModel(x));
+        var movies = _ds.GetMovies(page, pageSize).Select(x => CreateMovieModel(x)).ToList();
         var numberOfItems = _ds.NumberOfMovies();
 
         object result = CreatePaging(
@@ -38,17 +53,17 @@ public class TitleController : BaseController
         return Ok(result);
     }
 
-    [HttpGet("movie/{id}", Name = nameof(GetMovie))]
-    public IActionResult GetMovie(string id)
+    [HttpGet("episode/{id}", Name = nameof(GetEpisode))]
+    public IActionResult GetEpisode(string id)
     {
-        var movie = _ds.GetMovie(id);
-        if (movie == null)
+        var episode = _ds.GetEpisode(id);
+
+        if (episode == null)
         {
             return NotFound();
         }
 
-        return Ok(movie);
-
+        return Ok(episode);
     }
 
     [HttpGet("{id}", Name = nameof(GetTitle))]
@@ -67,7 +82,7 @@ public class TitleController : BaseController
     [HttpGet("episodes", Name = nameof(GetEpisodes))]
     public IActionResult GetEpisodes(int page, int pageSize)
     {
-        var episodes = _ds.GetEpisodes(page, pageSize).Select(x => CreateEpisodeModel(x));
+        var episodes = _ds.GetEpisodes(page, pageSize).Select(x => CreateEpisodeModel(x)).ToList();
 
         var numberOfItems = _ds.NumberOfEpisodes();
 
@@ -82,41 +97,34 @@ public class TitleController : BaseController
 
     }
 
-    [HttpGet("episode/{id}", Name = nameof(GetEpisode))]
-    public IActionResult GetEpisode(string id)
+    
+    
+    [HttpGet("personsInvolvedInTitle/{id}", Name = nameof(GetInvolvedIn))]
+    public IActionResult GetInvolvedIn(string id)
     {
-        var episode = _ds.GetEpisode(id);
+        var peopleInvolvedInTitle = _ds.GetInvolvedIn(id).Select(x => CreateInvolvedTitleModel(x)).ToList();
 
-        if (episode == null)
+        if (peopleInvolvedInTitle == null)
         {
             return NotFound();
         }
-
-        return Ok(episode);
+        return Ok(peopleInvolvedInTitle);
     }
 
-    [HttpGet("personInvolvedInTitle/{id}", Name = nameof(GetPeopleInvolvedIn))]
-    public IActionResult GetPeopleInvolvedIn(string id)
-    {
-        var peopleInvolvedIn = _ds.GetPersonInvolvedIn(id).Select(x => CreatePersonInvolvedTitleModel(x));
 
-        if (peopleInvolvedIn == null)
-        {
-            return NotFound();
-        }
-        return Ok(peopleInvolvedIn);
-    }
 
-    [HttpGet("cast/{id}", Name = nameof(GetCast))]
-    public IActionResult GetCast(string id)
+    [HttpGet("cast/{id}", Name = nameof(GetCastFromTitle))]
+    public IActionResult GetCastFromTitle(string id)
     {
-        var cast = _ds.GetCast(id);
+        var cast = _ds.GetCast(id).Select(x => CreateCastModel(x)).ToList();
         if (cast == null)
         {
             return NotFound();
         }
         return Ok(cast);
     }
+
+
 
     [HttpGet("genre/{id}", Name = nameof(GetGenre))]
     public IActionResult GetGenre(string id)
@@ -128,31 +136,71 @@ public class TitleController : BaseController
         }
         return Ok(genre);
     }
-    
-        private Model? CreateModel<Model, Entity>(Entity entity, string entityName, object args) where Model : class // where Model : class: Generic constraint, specifies that the type parameter Model must be a reference type (i.e., a class)
+
+    [HttpGet("similartitles/{id}", Name = nameof(GetSimilarTitles))]
+    public IActionResult GetSimilarTitles([FromQuery] string id, [FromQuery] int page, [FromQuery] int pageSize)
     {
-        if (entity == null) return null;
+        var similarTitles = _ds.GetSimilarTitles(id, page, pageSize).Select(x => CreateSimilarTitlesModel(x)).ToList();
+
+        var numberOfSimilarTitles = _ds.NumberOfSimilarTitles(id);
+
+        var results = CreatePaging(nameof(GetSimilarTitles), "Title", page, pageSize, numberOfSimilarTitles, similarTitles, id);
+        return Ok(results);
+    }
+
+    [HttpGet("findcoactors/{id}", Name = nameof(GetCoProducersByRating))]
+    public IActionResult GetCoProducersByRating(string id, int page, int pageSize)
+    {
+        var coProducers = _ds.GetCoProducersByRating(id, page, pageSize).Select(x => CreateCoProducersModel(x)).ToList();
+        var numberOfItems = _ds.NumberOfCoProducers();
+
+        object result = CreatePaging(
+            nameof(GetCoProducersByRating),
+            "Title",
+            page,
+            pageSize,
+            numberOfItems,
+            coProducers);
+        return Ok(result);
+
+    }
+
+
+    private Model? CreateModel<Model, Entity>(Entity entity, string entityName, object args)
+    {
 
         var model = entity.Adapt<Model>();
-        var url = GetWebpageUrl(entityName, "Title", args);
+        var url = GetWebpageUrl(entityName,"Title", args);
 
-        if (model is MovieModel movieModel && entity is Movie movie)
-        {
-            MovieModel(movieModel, movie, url);
-        }
-        else if (model is EpisodeModel episodeModel && entity is Episode episode)
-        {
-            EpisodeModel(episodeModel, episode, url);
-        }
-        else if (model is PersonInvolvedTitleModel personInvolvedTitleModel &&
-                 entity is PersonInvolvedIn personInvolvedIn)
-        {
-            PersonInvolvedTitleModel(personInvolvedTitleModel, personInvolvedIn);
-        }
+    if (model is MovieModel movieModel && entity is Movie movie)
+    {
+    MovieModel(movieModel, movie, url);
+    }
+    else if (model is EpisodeModel episodeModel && entity is Episode episode)
+    {
+        EpisodeModel(episodeModel, episode, url);
+    }
+    else if (model is InvolvedInModel involvedInModel &&
+                entity is InvolvedIn involvedIn)
+    {
+        InvolvedInModel(involvedInModel, involvedIn, url);
+    }
+    else if (model is CastModel castModel && entity is InvolvedIn cast)
+    {
+        CastModel(castModel, cast, url);
+    }
+    else if (model is SimilarTitlesModel similarTitlesModel && entity is SimilarTitle similarTitle)
+    {
+        SimilarTitlesModel(similarTitlesModel, similarTitle, url);
+    }
+    else if (model is CoProducersModel coProducersModel && entity is Person person)
+    {
+        CoProducersModel(coProducersModel, person, url);
+    }
         return model;
     }
 
-    private void MovieModel(MovieModel movieModel, Movie movie, string url)
+    private void MovieModel(MovieModel movieModel, Movie movie, string? url)
     {
         movieModel.Url = url;
         movieModel.IsAdult = movie.Title.IsAdult;
@@ -163,7 +211,7 @@ public class TitleController : BaseController
         movieModel.Poster = movie.Title.Poster;
     }
 
-    private void EpisodeModel(EpisodeModel episodeModel, Episode episode, string url)
+    private void EpisodeModel(EpisodeModel episodeModel, Episode episode, string? url)
     {
         episodeModel.Url = url;
         episodeModel.Name = episode.Title._Title;
@@ -177,11 +225,36 @@ public class TitleController : BaseController
         episodeModel.Poster = episode.Title.Poster;
     }
 
-    private void PersonInvolvedTitleModel(PersonInvolvedTitleModel personInvolvedTitleModel, PersonInvolvedIn personInvolvedIn)
+    private void CastModel(CastModel castModel, InvolvedIn involvedIn, string? url)
     {
-        personInvolvedTitleModel.TitleName = personInvolvedIn.Title._Title;
-        personInvolvedTitleModel.Person = personInvolvedIn.Person.Name;
+        castModel.Url = url;
+        castModel.Person = involvedIn.Person.Name;
+        castModel.Character = involvedIn.Character;
     }
+
+    private void InvolvedInModel(InvolvedInModel involvedInModel, InvolvedIn involvedIn, string? url)
+    {
+        involvedInModel.Url = url;
+        involvedInModel.TitleName = involvedIn.Title._Title;
+        involvedInModel.Person = involvedIn.Person.Name;
+    }
+
+    private void SimilarTitlesModel(SimilarTitlesModel similarTitlesModel, SimilarTitle similarTitle, string? url)
+    {
+        similarTitlesModel.Url = url;
+        similarTitlesModel.SimilarTitleId = similarTitle.SimilarTitleId;
+        similarTitlesModel.SimilarTitle = similarTitle.SimilarTitleName;
+        similarTitlesModel.AmountOfSimilarGenres = similarTitle.MultipleSameGenre;
+    }
+    private void CoProducersModel(CoProducersModel coProducersModel, Person person, string? url)
+    {
+        coProducersModel.Url = url;
+        coProducersModel.Title = person.InvolvedIn.Select(x => x.Title._Title).FirstOrDefault(); 
+        coProducersModel.Person =  person.Name;
+        coProducersModel.Job = person.InvolvedIn.Select(x => x.Job).FirstOrDefault();
+        coProducersModel.Rating = person.Rating;
+    }
+
 
     private MovieModel? CreateMovieModel(Movie movie)
     {
@@ -193,12 +266,25 @@ public class TitleController : BaseController
         return CreateModel<EpisodeModel, Episode>(episode, nameof(GetEpisode), new { episode.Id });
     }
 
-    private PersonInvolvedTitleModel? CreatePersonInvolvedTitleModel(PersonInvolvedIn personInvolvedIn)
+    private InvolvedInModel? CreateInvolvedTitleModel(InvolvedIn involvedIn)
     {
-        return CreateModel<PersonInvolvedTitleModel, PersonInvolvedIn>(personInvolvedIn, nameof(GetPeopleInvolvedIn),
-            new { personInvolvedIn.TitleId });
+        return CreateModel<InvolvedInModel, InvolvedIn>(involvedIn, nameof(GetInvolvedIn), new { involvedIn.TitleId });
+    }
+    
+    private CastModel? CreateCastModel(InvolvedIn involvedIn)
+    {
+        return CreateModel<CastModel, InvolvedIn>(involvedIn, nameof(GetCastFromTitle), new { involvedIn.TitleId });
     }
 
-}
+    private SimilarTitlesModel? CreateSimilarTitlesModel(SimilarTitle similarTitle)
+    {
+        return CreateModel<SimilarTitlesModel, SimilarTitle>(similarTitle, nameof(GetSimilarTitles), new { similarTitle.SimilarTitleId });
+    }
+    private CoProducersModel? CreateCoProducersModel(Person person)
+    {
+        return CreateModel<CoProducersModel, Person>(person, nameof(GetCoProducersByRating), new { person.Id });
+    }
 
+
+}
 

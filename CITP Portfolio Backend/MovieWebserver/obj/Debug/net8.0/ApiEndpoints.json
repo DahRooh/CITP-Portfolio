@@ -143,7 +143,7 @@
   },
   {
     "ContainingType": "MovieWebserver.Controllers.TitleController",
-    "Method": "GetCast",
+    "Method": "GetCastFromTitle",
     "RelativePath": "api/title/cast/{id}",
     "HttpMethod": "GET",
     "IsController": true,
@@ -156,7 +156,7 @@
       }
     ],
     "ReturnTypes": [],
-    "EndpointName": "GetCast"
+    "EndpointName": "GetCastFromTitle"
   },
   {
     "ContainingType": "MovieWebserver.Controllers.TitleController",
@@ -196,6 +196,33 @@
     ],
     "ReturnTypes": [],
     "EndpointName": "GetEpisodes"
+  },
+  {
+    "ContainingType": "MovieWebserver.Controllers.TitleController",
+    "Method": "GetCoProducersByRating",
+    "RelativePath": "api/title/findcoactors/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "page",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "pageSize",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [],
+    "EndpointName": "GetCoProducersByRating"
   },
   {
     "ContainingType": "MovieWebserver.Controllers.TitleController",
@@ -255,8 +282,8 @@
   },
   {
     "ContainingType": "MovieWebserver.Controllers.TitleController",
-    "Method": "GetPeopleInvolvedIn",
-    "RelativePath": "api/title/personInvolvedInTitle/{id}",
+    "Method": "GetInvolvedIn",
+    "RelativePath": "api/title/personsInvolvedInTitle/{id}",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -268,7 +295,39 @@
       }
     ],
     "ReturnTypes": [],
-    "EndpointName": "GetPeopleInvolvedIn"
+    "EndpointName": "GetInvolvedIn"
+  },
+  {
+    "ContainingType": "MovieWebserver.Controllers.TitleController",
+    "Method": "GetSimilarTitles",
+    "RelativePath": "api/title/similartitles/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "page",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "pageSize",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "id",
+        "Type": "",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [],
+    "EndpointName": "GetSimilarTitles"
   },
   {
     "ContainingType": "MovieWebserver.Controllers.UserController",

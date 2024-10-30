@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DataLayer.DomainObjects;
+using DataLayer.DomainObjects.FunctionResults;
 using DataLayer.DomainObjects.Relations;
 
 
@@ -18,8 +19,14 @@ public interface ITitleDataService
     int NumberOfMovies();
     IList<Movie> GetMovies(int page, int pageSize);
     Movie? GetMovie(string id);
-    IList<PersonInvolvedIn> GetPersonInvolvedIn(string id);
-    IList<PersonInvolvedIn> GetCast(string id);
+    IList<InvolvedIn> GetInvolvedIn(string id);
+    IList<InvolvedIn> GetCast(string id);
 
     IList<TitleGenre> GetGenre(string id);
+    int NumberOfSimilarTitles(string id);
+    IList<SimilarTitle> GetSimilarTitles(string id, int page, int pageSize);
+    int NumberOfCoProducers();
+    IList<Person> GetCoProducersByRating(string id, int page, int pageSize);
+
+
 }

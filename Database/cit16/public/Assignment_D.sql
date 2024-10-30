@@ -781,7 +781,7 @@ D.9. Similar movies: Discuss and suggest a notion of similarity among movies. De
 -- Find all the movies/series that have the same genre as the input_title_id, rank by how many
 
 drop function if exists find_similar_titles; 
-create or replace function find_similar_titles(input_title_id varchar)
+create or replace function find_similar_titles(input_title_id varchar, take int, skip int default 0)
 returns table(
   similar_title_id varchar,
   similar_title varchar,
@@ -801,7 +801,8 @@ begin
       where t_id = input_title_id)
   and t_id <> input_title_id
   group by similar_title_id, similar_title 
-  order by multiple_same_genre desc;
+  order by multiple_same_genre desc
+  limit take offset skip;
 end;
 $$;
 
