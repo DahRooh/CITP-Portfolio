@@ -22,7 +22,6 @@ namespace DataLayer.DataServices
         public User GetUser(int userId)
         {
             db = new MVContext();
-            Console.WriteLine("userid " + userId);
             var user = db.Users.Where(x => x.Id == userId).FirstOrDefault();
             if (user == null)
             {

@@ -7,10 +7,6 @@
       "RelativeMoniker": "D:0:0:{5DA7B075-B011-42E9-BF5B-F35DCC9DC82D}|DataLayer\\DataLayer.csproj|solutionrelative:datalayer\\dataservices\\userdataservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{C3EC427E-3067-4C8E-97FB-A4C03A122EE3}|MovieWebserver\\MovieWebserver.csproj|c:\\users\\moosdorf\\desktop\\sem1\\citp-portfolio\\citp portfolio backend\\moviewebserver\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C3EC427E-3067-4C8E-97FB-A4C03A122EE3}|MovieWebserver\\MovieWebserver.csproj|solutionrelative:moviewebserver\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{5DA7B075-B011-42E9-BF5B-F35DCC9DC82D}|DataLayer\\DataLayer.csproj|c:\\users\\moosdorf\\desktop\\sem1\\citp-portfolio\\citp portfolio backend\\datalayer\\dataservices\\searchdataservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{5DA7B075-B011-42E9-BF5B-F35DCC9DC82D}|DataLayer\\DataLayer.csproj|solutionrelative:datalayer\\dataservices\\searchdataservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -48,14 +44,14 @@
               "RelativeDocumentMoniker": "DataLayer\\DataServices\\UserDataService.cs",
               "ToolTip": "C:\\Users\\Moosdorf\\Desktop\\sem1\\CITP-Portfolio\\CITP Portfolio Backend\\DataLayer\\DataServices\\UserDataService.cs",
               "RelativeToolTip": "DataLayer\\DataServices\\UserDataService.cs",
-              "ViewState": "AgIAAAMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-10-30T11:47:12.992Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 1,
               "Title": "SearchDataService.cs",
               "DocumentMoniker": "C:\\Users\\Moosdorf\\Desktop\\sem1\\CITP-Portfolio\\CITP Portfolio Backend\\DataLayer\\DataServices\\SearchDataService.cs",
               "RelativeDocumentMoniker": "DataLayer\\DataServices\\SearchDataService.cs",
@@ -63,25 +59,11 @@
               "RelativeToolTip": "DataLayer\\DataServices\\SearchDataService.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAEAAAAeAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-30T11:27:46.955Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-10-30T11:27:46.955Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "Program.cs",
-              "DocumentMoniker": "C:\\Users\\Moosdorf\\Desktop\\sem1\\CITP-Portfolio\\CITP Portfolio Backend\\MovieWebserver\\Program.cs",
-              "RelativeDocumentMoniker": "MovieWebserver\\Program.cs",
-              "ToolTip": "C:\\Users\\Moosdorf\\Desktop\\sem1\\CITP-Portfolio\\CITP Portfolio Backend\\MovieWebserver\\Program.cs",
-              "RelativeToolTip": "MovieWebserver\\Program.cs",
-              "ViewState": "AgIAAAMAAAAAAAAAAAAAABUAAAAFAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-30T11:43:19.629Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 3,
               "Title": "BaseController.cs",
               "DocumentMoniker": "C:\\Users\\Moosdorf\\Desktop\\sem1\\CITP-Portfolio\\CITP Portfolio Backend\\MovieWebserver\\Controllers\\BaseController.cs",
               "RelativeDocumentMoniker": "MovieWebserver\\Controllers\\BaseController.cs",
@@ -89,12 +71,11 @@
               "RelativeToolTip": "MovieWebserver\\Controllers\\BaseController.cs",
               "ViewState": "AgIAABAAAAAAAAAAAAAgwAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-30T11:38:28.685Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-10-30T11:38:28.685Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 2,
               "Title": "SearchController.cs",
               "DocumentMoniker": "C:\\Users\\Moosdorf\\Desktop\\sem1\\CITP-Portfolio\\CITP Portfolio Backend\\MovieWebserver\\Controllers\\SearchController.cs",
               "RelativeDocumentMoniker": "MovieWebserver\\Controllers\\SearchController.cs",
@@ -102,8 +83,7 @@
               "RelativeToolTip": "MovieWebserver\\Controllers\\SearchController.cs",
               "ViewState": "AgIAAAkAAAAAAAAAAAAAABcAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-30T11:26:49.805Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-10-30T11:26:49.805Z"
             }
           ]
         }
