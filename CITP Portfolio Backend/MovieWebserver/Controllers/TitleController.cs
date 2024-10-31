@@ -25,6 +25,22 @@ public class TitleController : BaseController
         _linkGenerator = linkGenerator;
     }
 
+    [HttpPost("review")]
+    [Authorize]
+    public IActionResult CreateReview([FromQuery] CreateReviewModel model)
+    {
+        //var username = HttpContext.Request.Headers.Authorization.FirstOrDefault();
+        // rating, uid, tid, text, 
+
+        var review = _ds.CreateReview(model);
+
+        if (review == null) return BadRequest();
+
+
+        return Ok(review);
+    }
+
+
     [HttpGet("movie/{id}", Name = nameof(GetMovie))]
     public IActionResult GetMovie(string id)
     {
@@ -39,10 +55,8 @@ public class TitleController : BaseController
     }
 
     [HttpGet("movies", Name = nameof(GetMovies))]
-    [Authorize]
     public IActionResult GetMovies(int page = 1, int pageSize = 20)
     {
-        var username = HttpContext.Request.Headers.Authorization.FirstOrDefault();
 
         var movies = _ds.GetMovies(page, pageSize).Select(x => CreateMovieModel(x)).ToList();
         var numberOfItems = _ds.NumberOfMovies();

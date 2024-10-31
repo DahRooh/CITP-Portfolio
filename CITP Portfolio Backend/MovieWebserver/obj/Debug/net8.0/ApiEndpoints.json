@@ -289,6 +289,37 @@
   },
   {
     "ContainingType": "MovieWebserver.Controllers.TitleController",
+    "Method": "CreateReview",
+    "RelativePath": "api/title/review",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "Username",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "ReviewText",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "TitleId",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Rating",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MovieWebserver.Controllers.TitleController",
     "Method": "GetSimilarTitles",
     "RelativePath": "api/title/similartitles",
     "HttpMethod": "GET",
@@ -377,23 +408,6 @@
   },
   {
     "ContainingType": "MovieWebserver.Controllers.UserController",
-    "Method": "GetCurrentUserSessions",
-    "RelativePath": "api/user/{userId}/current_session",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "userId",
-        "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": [],
-    "EndpointName": "GetCurrentUserSessions"
-  },
-  {
-    "ContainingType": "MovieWebserver.Controllers.UserController",
     "Method": "GetUserReviews",
     "RelativePath": "api/user/{userId}/Reviews",
     "HttpMethod": "GET",
@@ -425,23 +439,6 @@
     ],
     "ReturnTypes": [],
     "EndpointName": "GetUserHistory"
-  },
-  {
-    "ContainingType": "MovieWebserver.Controllers.UserController",
-    "Method": "GetUserSessions",
-    "RelativePath": "api/user/{userId}/sessions",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "userId",
-        "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": [],
-    "EndpointName": "GetUserSessions"
   },
   {
     "ContainingType": "MovieWebserver.Controllers.UserController",

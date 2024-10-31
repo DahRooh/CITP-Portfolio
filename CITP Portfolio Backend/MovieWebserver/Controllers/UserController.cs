@@ -119,7 +119,7 @@ public class UserController : BaseController
         }
         return Ok(users);
     }
-
+    /*
     [HttpGet("{userId}/sessions", Name = nameof(GetUserSessions))]
     public IActionResult GetUserSessions(int userId)
     {
@@ -142,7 +142,9 @@ public class UserController : BaseController
         return Ok(UserSessions);
 
     }
+    */
 
+    /*
     [HttpGet("{userId}/current_session", Name = nameof(GetCurrentUserSessions))]
     public IActionResult GetCurrentUserSessions(int userId)
     {
@@ -158,6 +160,8 @@ public class UserController : BaseController
 
         return Ok(session);
     }
+    */
+
 
     [HttpGet("{userId}/bookmarks", Name = nameof(GetUserBookmarks))]
     public IActionResult GetUserBookmarks(int userId)
@@ -173,6 +177,7 @@ public class UserController : BaseController
 
 
 
+
     [HttpGet("{userId}/Reviews", Name = nameof(GetUserReviews))]
     public IActionResult GetUserReviews(int userId)
     {
@@ -184,7 +189,6 @@ public class UserController : BaseController
         }
 
         return Ok(reviews);
-
     }
 
     [HttpGet("{userId}/search_history", Name = nameof(GetUserHistory))]
@@ -206,12 +210,6 @@ public class UserController : BaseController
     public static ReviewModel CreateReviewModel(UserTitleReview review)
     {
         var model = review.Adapt<ReviewModel>();
-        model.Title = CreateTitleModel(review.Title);
-
-        var allUsersThatLiked = review.Review.UserLikes.Select(x => CreateUserModel(x.User)).ToList();
-        model.UserLikes = allUsersThatLiked;
-
-        model.CreatedBy = CreateUserModel(review.User);
 
 
         return model;

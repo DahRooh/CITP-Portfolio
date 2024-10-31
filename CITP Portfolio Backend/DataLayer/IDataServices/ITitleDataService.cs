@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using DataLayer.DomainObjects;
 using DataLayer.DomainObjects.FunctionResults;
 using DataLayer.DomainObjects.Relations;
+using DataLayer.Model.Title;
+using MovieWebserver.Model.Title;
 
 
 namespace DataLayer;
@@ -26,6 +28,5 @@ public interface ITitleDataService
     int NumberOfSimilarTitles(string id, int pageSize, int size);
     IList<SimilarTitle> GetSimilarTitles(string id, int page, int pageSize);
     IList<Person> GetCoproducersByRating(string id);
-
-
+    ReviewModel CreateReview(CreateReviewModel model);
 }

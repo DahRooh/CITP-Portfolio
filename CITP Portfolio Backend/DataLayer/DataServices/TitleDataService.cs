@@ -11,12 +11,34 @@ using System.Threading.Tasks;
 using DataLayer.DomainObjects.Relations;
 using DataLayer.DomainObjects.FunctionResults;
 using static Microsoft.Extensions.Logging.EventSource.LoggingEventSource;
+using DataLayer.Model.Title;
+using MovieWebserver.Model.Title;
+using Mapster;
 
 namespace DataLayer;
 
 public class TitleDataService : ITitleDataService
 {
     private MVContext db;
+
+    public ReviewModel CreateReview(CreateReviewModel model)
+    {
+        db = new MVContext();
+
+        var title = db.Titles.Where(x => x.Id == model.TitleId).FirstOrDefault();
+        var user = db.Users.Where(x => x.Username == model.Username).FirstOrDefault();
+
+        if (title == null || user == null) return null;
+        
+
+        db.Database.ExecuteSqlRaw("call rate({0},{1},{2},{3})", title.Id, user.Id, model.Rating, model.ReviewText);
+
+        var newReview = db.UserReviews.Where(x => x.UserId == user.Id).Where(x => x.TitleId == title.Id).FirstOrDefault();
+
+        if (newReview == null) return null;
+
+        return CreateReviewModel(newReview);
+    }
 
     public Movie? GetMovie(string id)
     {
@@ -168,7 +190,11 @@ public class TitleDataService : ITitleDataService
     }
 
 
-
+    public static ReviewModel CreateReviewModel(UserTitleReview review)
+    {
+        var model = review.Adapt<ReviewModel>();
+        return model;
+    }
 
 
 

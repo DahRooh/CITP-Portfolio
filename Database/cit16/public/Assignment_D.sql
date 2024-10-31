@@ -433,7 +433,7 @@ average rating appropriately.
 
 /* User rate */
 drop procedure if exists rate;
-create procedure rate(in title_id varchar(10), in user_id int, in user_rating numeric(4,2), in in_review varchar(256))
+create procedure rate(in title_id varchar(10), in user_id int, in user_rating int, in in_review varchar(256) default null)
 language plpgsql as $$
 declare 
   review_id int;
@@ -450,7 +450,7 @@ begin
     raise notice 'update current rating';
     update rates 
     set rating = user_rating, rated_at = current_timestamp
-    where t_id = title_id;
+    where t_id = title_id and u_id = user_id;
     if in_review is not null then
       raise notice 'update review as well';
 
@@ -538,11 +538,13 @@ begin
     raise notice 'recalculate likes on %', new.rev_id;
     update title
     set rating = (
-      select avg(rating) 
-      from rates 
-      where rev_id = new.rev_id);
-
-    return new; 
+        select avg(rating) 
+        from rates 
+        where rev_id = new.rev_id
+        ) 
+      where t_id = new.t_id;
+      
+    return new;
 end; $$
 language plpgsql;
 
