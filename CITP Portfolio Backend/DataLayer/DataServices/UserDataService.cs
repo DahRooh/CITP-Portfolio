@@ -166,27 +166,20 @@ namespace DataLayer.DataServices
         {
             throw new NotImplementedException();
         }
+        
+        public bool DeleteReview(int reviewId)
+        {
+            db = new MVContext();
+            
+            db.UserReviews.Remove(db.UserReviews.Single(x => x.ReviewId == reviewId));
+            var dbChanged = db.SaveChanges() > 0;
+
+            return dbChanged;
+        }
 
         public bool UpdateEmail(int userId, string email)
         {
             throw new NotImplementedException();
-
         }
-
-
-        // authentication
-
-        public bool LogIn(string username, string password)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool LogOff(string username)
-        {
-            throw new NotImplementedException();
-        }
-
-
-
     }
 }

@@ -31,16 +31,15 @@ public class TitleController : BaseController
     {
         //var username = HttpContext.Request.Headers.Authorization.FirstOrDefault();
         // rating, uid, tid, text, 
-
+        if (_ds.GetTitle(model.TitleId) == null) return NotFound();
         var review = _ds.CreateReview(model);
+        var newReview = CreateReviewModel(review);
 
-        if (review == null) return BadRequest();
-
-
-        return Ok(review);
+        if (newReview == null) return BadRequest();
+        
+        return Created(nameof(CreateReview), newReview);
     }
-
-
+    
     [HttpGet("movie/{id}", Name = nameof(GetMovie))]
     public IActionResult GetMovie(string id)
     {
@@ -172,8 +171,18 @@ public class TitleController : BaseController
         var coProducers = _ds.GetCoproducersByRating(id).Select(x => CreateCoProducersModel(x)).ToList();
 
         return Ok(coProducers);
+    }
 
-
+    [HttpGet("{tId}/reviews")]
+    public IActionResult GetReviews(string tId)
+    {
+        if (_ds.GetReviews(tId) == null)
+        {
+            return NotFound();
+        }
+        var reviews = _ds.GetReviews(tId).Select(x => CreateReviewModel(x));
+        
+        return Ok(reviews);
     }
 
 
@@ -183,31 +192,31 @@ public class TitleController : BaseController
         var model = entity.Adapt<Model>();
         var url = GetWebpageUrl(entityName,"Title", args);
 
-    if (model is MovieModel movieModel && entity is Movie movie)
-    {
-    MovieModel(movieModel, movie, url);
-    }
-    else if (model is EpisodeModel episodeModel && entity is Episode episode)
-    {
-        EpisodeModel(episodeModel, episode, url);
-    }
-    else if (model is InvolvedInModel involvedInModel &&
-                entity is InvolvedIn involvedIn)
-    {
-        InvolvedInModel(involvedInModel, involvedIn, url);
-    }
-    else if (model is CastModel castModel && entity is InvolvedIn cast)
-    {
-        CastModel(castModel, cast, url);
-    }
-    else if (model is SimilarTitlesModel similarTitlesModel && entity is SimilarTitle similarTitle)
-    {
-        SimilarTitlesModel(similarTitlesModel, similarTitle, url);
-    }
-    else if (model is CoProducersModel coProducersModel && entity is Person person)
-    {
-        CoProducersModel(coProducersModel, person, url);
-    }
+        if (model is MovieModel movieModel && entity is Movie movie)
+        {
+            MovieModel(movieModel, movie, url);
+        }
+        else if (model is EpisodeModel episodeModel && entity is Episode episode)
+        {
+            EpisodeModel(episodeModel, episode, url);
+        }
+        else if (model is InvolvedInModel involvedInModel &&
+                    entity is InvolvedIn involvedIn)
+        {
+            InvolvedInModel(involvedInModel, involvedIn, url);
+        }
+        else if (model is CastModel castModel && entity is InvolvedIn cast)
+        {
+            CastModel(castModel, cast, url);
+        }
+        else if (model is SimilarTitlesModel similarTitlesModel && entity is SimilarTitle similarTitle)
+        {
+            SimilarTitlesModel(similarTitlesModel, similarTitle, url);
+        }
+        else if (model is CoProducersModel coProducersModel && entity is Person person)
+        {
+            CoProducersModel(coProducersModel, person, url);
+        }
         return model;
     }
 
@@ -295,7 +304,13 @@ public class TitleController : BaseController
     {
         return CreateModel<CoProducersModel, Person>(person, nameof(GetCoProducersByRating), new { person.Id });
     }
-
-
+    
+    private static ReviewModel CreateReviewModel(UserTitleReview review)
+    {
+        var model = review.Adapt<ReviewModel>();
+        model.Username = review.User.Username;
+        model.Text = review.Review.Text;
+        return model;
+    }
 }
 

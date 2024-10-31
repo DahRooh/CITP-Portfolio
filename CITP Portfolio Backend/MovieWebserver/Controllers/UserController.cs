@@ -13,6 +13,7 @@ using DataLayer.HelperMethods;
 using System.Security.Claims;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
+using Microsoft.AspNetCore.Authorization;
 
 namespace MovieWebserver.Controllers;
 
@@ -174,20 +175,13 @@ public class UserController : BaseController
 
         return Ok(bookmarks);
     }
+    
 
-
-
-
-    [HttpGet("{userId}/Reviews", Name = nameof(GetUserReviews))]
+    [HttpGet("{userId}/reviews", Name = nameof(GetUserReviews))]
     public IActionResult GetUserReviews(int userId)
     {
         var reviews = _ds.GetReviews(userId).Select(x => CreateReviewModel(x)).ToList();
-
-        if (reviews.Count() == 0)
-        {
-            return NotFound();
-        }
-
+        
         return Ok(reviews);
     }
 
@@ -202,16 +196,38 @@ public class UserController : BaseController
         }
 
         return Ok(searches);
-
     }
 
+    [HttpDelete("{userId}/review/revId")]
+    [Authorize]
+    public IActionResult DeleteReview(int userId, int reviewId)
+    {
+        var username = HttpContext.Request.Headers.Authorization.FirstOrDefault();
+        var user = _ds.GetUser(username);
+        Console.WriteLine(user.Username);
+
+        if (userId == user.Id)
+        {
+            return BadRequest();
+        }
+        
+        var review = _ds.GetReview(reviewId);
+        
+        if (review == null) return NotFound();
+        
+        var deleted = _ds.DeleteReview(reviewId);
+
+        if (deleted) return Ok();
+        
+        return NotFound();
+    }
 
     // models
-    public static ReviewModel CreateReviewModel(UserTitleReview review)
+    private static ReviewModel CreateReviewModel(UserTitleReview review)
     {
         var model = review.Adapt<ReviewModel>();
-
-
+        model.Username = review.User.Username;
+        model.Text = review.Review.Text;
         return model;
     }
 
@@ -233,8 +249,7 @@ public class UserController : BaseController
     {
         return bookmark.Adapt<BookmarkModel>();
     }
-
-
+    
     private static TitleModel CreateTitleModel(Title title)
     {
         return title.Adapt<TitleModel>();

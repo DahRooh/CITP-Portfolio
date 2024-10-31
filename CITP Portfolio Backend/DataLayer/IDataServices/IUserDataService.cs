@@ -40,11 +40,5 @@ public interface IUserDataService
 
     public bool DeleteUser(int userId);
 
-    // authentication
-    public bool LogIn(string username, string password);
-    public bool LogOff(string username);
-
-
-
-
+    public bool DeleteReview(int reviewId);
 }

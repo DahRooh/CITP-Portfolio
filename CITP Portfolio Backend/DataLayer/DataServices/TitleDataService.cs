@@ -21,7 +21,7 @@ public class TitleDataService : ITitleDataService
 {
     private MVContext db;
 
-    public ReviewModel CreateReview(CreateReviewModel model)
+    public UserTitleReview CreateReview(CreateReviewModel model)
     {
         db = new MVContext();
 
@@ -37,7 +37,7 @@ public class TitleDataService : ITitleDataService
 
         if (newReview == null) return null;
 
-        return CreateReviewModel(newReview);
+        return newReview;
     }
 
     public Movie? GetMovie(string id)
@@ -188,14 +188,18 @@ public class TitleDataService : ITitleDataService
 
         return findAllPersonInvoledInSameTitles;
     }
-
-
-    public static ReviewModel CreateReviewModel(UserTitleReview review)
+    public IList<UserTitleReview> GetReviews(string tId)
     {
-        var model = review.Adapt<ReviewModel>();
-        return model;
+        db = new MVContext();
+        var reviews = db.UserReviews
+            .Include(x => x.Title)
+            .Include(x => x.Review)
+            .Include(x => x.User)
+            .Where(x => x.TitleId == tId).ToList();
+        
+        return reviews;
     }
-
+    
 
 
 

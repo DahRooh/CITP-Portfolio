@@ -54,3 +54,8 @@ Content-Type: application/json
   "TitleId": "tt0181689",
   "Rating": 2
 }
+
+###
+
+Delete {{MovieWebserver_HostAddress}}/api/user/1/review/5
+
