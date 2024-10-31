@@ -36,6 +36,10 @@ Content-Type: application/json
 }
 
 ### 
+Get {{MovieWebserver_HostAddress}}/api/user
+Accept: application/json
+
+### 
 
 Get {{MovieWebserver_HostAddress}}/api/title/movies
 Accept: application/json
@@ -57,5 +61,7 @@ Content-Type: application/json
 
 ###
 
-Delete {{MovieWebserver_HostAddress}}/api/user/1/review/5
+Delete {{MovieWebserver_HostAddress}}/api/user/6/review/7
+Authorization: Bearer eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTUxMiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiMyIsImV4cCI6MTczMDQ0NDA0Mn0.lCH1x0JBbRl1x0cUZpmERwlGthTTIFJQV0ewwTEOULpXTou-VqHqSIrx5eyjMYKf9m0RDJ5kT5jtw0K9HXDxNg
+Accept: application/json
 

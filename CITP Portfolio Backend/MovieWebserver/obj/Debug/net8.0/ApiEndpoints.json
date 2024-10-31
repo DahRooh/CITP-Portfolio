@@ -143,6 +143,22 @@
   },
   {
     "ContainingType": "MovieWebserver.Controllers.TitleController",
+    "Method": "GetReviews",
+    "RelativePath": "api/title/{tId}/reviews",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "tId",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MovieWebserver.Controllers.TitleController",
     "Method": "GetCastFromTitle",
     "RelativePath": "api/title/cast/{id}",
     "HttpMethod": "GET",
@@ -408,8 +424,29 @@
   },
   {
     "ContainingType": "MovieWebserver.Controllers.UserController",
+    "Method": "DeleteReview",
+    "RelativePath": "api/user/{userId}/review/{reviewId}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "reviewId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MovieWebserver.Controllers.UserController",
     "Method": "GetUserReviews",
-    "RelativePath": "api/user/{userId}/Reviews",
+    "RelativePath": "api/user/{userId}/reviews",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,

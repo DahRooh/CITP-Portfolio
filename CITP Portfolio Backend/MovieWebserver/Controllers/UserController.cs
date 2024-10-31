@@ -94,7 +94,7 @@ public class UserController : BaseController
         var result = _ds.CreateUser(userModel, salt);
 
 
-        return Ok(result);
+        return Created(nameof(CreateUser), result);
     }
 
     [HttpGet("{userId}", Name = nameof(GetUser))]
@@ -198,15 +198,23 @@ public class UserController : BaseController
         return Ok(searches);
     }
 
-    [HttpDelete("{userId}/review/revId")]
+    [HttpDelete("{userId}/review/{reviewId}")]
     [Authorize]
     public IActionResult DeleteReview(int userId, int reviewId)
     {
-        var username = HttpContext.Request.Headers.Authorization.FirstOrDefault();
+        var encodedToken = HttpContext.Request.Headers.Authorization.FirstOrDefault();
+        var handler = new JwtSecurityTokenHandler();
+
+        var trimmedEncodedToken = encodedToken.Replace("Bearer ", "");
+
+        var token =  handler.ReadJwtToken(trimmedEncodedToken);
+        var username = token.Claims.FirstOrDefault()?.Value;
+
+        Console.WriteLine("username==: " + username);
         var user = _ds.GetUser(username);
         Console.WriteLine(user.Username);
 
-        if (userId == user.Id)
+        if (userId != user.Id)
         {
             return BadRequest();
         }
