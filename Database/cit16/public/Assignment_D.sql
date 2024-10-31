@@ -12,6 +12,7 @@ Consider what is needed to support the framework anddevelop functions for that.
 You will need functions for managing users and for bookmarking names and titles. 
 You could also consider developing functions for adding notes to titles and names and for retrieving bookmarks as well as search history and rating history for users.*/
 
+
 /*
 drop table title_akas;
 drop table title_basics;
@@ -78,25 +79,22 @@ create view person_rated as
 -- sign up procedure 
 drop procedure if exists signup;
 
-create procedure signup(in username varchar(20), in password varchar(256), in email varchar(50), out results boolean)
+create procedure signup(in user_id int, in username varchar(20), in password varchar(256), in email varchar(50), in salt varchar)
 LANGUAGE plpgsql
 as $$
 begin
   begin 
-    insert into users (username, password, email) values(username, password, email);
-    results := true;
+    insert into users values(user_id, username, password, email, salt);
     raise notice 'Sign up successful';
   exception
     when others then -- catches all exceptions
       raise notice 'Cannot sign up';
-      results := false;
   end;
-  raise notice 'results %', results;
 end;
 $$;
 
 
-
+select * from users;
 
 
 

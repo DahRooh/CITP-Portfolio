@@ -331,6 +331,22 @@
   },
   {
     "ContainingType": "MovieWebserver.Controllers.UserController",
+    "Method": "SignIn",
+    "RelativePath": "api/user",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "model",
+        "Type": "DataLayer.Model.User.LoginUserModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MovieWebserver.Controllers.UserController",
     "Method": "GetUsers",
     "RelativePath": "api/user",
     "HttpMethod": "GET",
@@ -452,7 +468,7 @@
     "Parameters": [
       {
         "Name": "userModel",
-        "Type": "MovieWebserver.Model.User.UserModel",
+        "Type": "DataLayer.Model.User.CreateUserModel",
         "IsRequired": true
       }
     ],

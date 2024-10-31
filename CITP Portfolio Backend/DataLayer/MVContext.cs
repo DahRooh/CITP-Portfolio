@@ -109,8 +109,10 @@ public class MVContext : DbContext
         modelBuilder.Entity<User>().ToTable("users").HasKey(x => x.Id);
 
         modelBuilder.Entity<User>().Property(x => x.Id).HasColumnName("u_id");
+        modelBuilder.Entity<User>().Property(x => x.Password).HasColumnName("password");
         modelBuilder.Entity<User>().Property(x => x.Username).HasColumnName("username");
         modelBuilder.Entity<User>().Property(x => x.Email).HasColumnName("email");
+        modelBuilder.Entity<User>().Property(x => x.Salt).HasColumnName("salt");
     }
 
     private static void MapSearchResults(ModelBuilder modelBuilder)

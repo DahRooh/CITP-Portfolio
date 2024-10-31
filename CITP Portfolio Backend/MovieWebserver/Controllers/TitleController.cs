@@ -9,6 +9,7 @@ using System.Runtime.InteropServices;
 using DataLayer.Model.Title;
 using DataLayer.DomainObjects.FunctionResults;
 using static Microsoft.Extensions.Logging.EventSource.LoggingEventSource;
+using Microsoft.AspNetCore.Authorization;
 namespace MovieWebserver.Controllers;
 
 [ApiController]
@@ -38,8 +39,11 @@ public class TitleController : BaseController
     }
 
     [HttpGet("movies", Name = nameof(GetMovies))]
-    public IActionResult GetMovies(int page, int pageSize)
+    [Authorize]
+    public IActionResult GetMovies(int page = 1, int pageSize = 20)
     {
+        var username = HttpContext.Request.Headers.Authorization.FirstOrDefault();
+
         var movies = _ds.GetMovies(page, pageSize).Select(x => CreateMovieModel(x)).ToList();
         var numberOfItems = _ds.NumberOfMovies();
 

@@ -43,10 +43,11 @@ create table webpage
 
 create table users
 (
-		u_id serial primary key,
+		u_id int primary key,
 		username varchar(30) unique, 
 		password varchar(255),
-		email varchar(100) unique
+		email varchar(100) unique,
+    salt varchar
 );
 
 create table search

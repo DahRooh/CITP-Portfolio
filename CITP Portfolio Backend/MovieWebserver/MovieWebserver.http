@@ -16,5 +16,27 @@ Get {{MovieWebserver_HostAddress}}/api/search?keyword=lord%20bobby%20ring&page=1
 
 ###
 
+Post {{MovieWebserver_HostAddress}}/api/user/CreateUser
+Accept: application/json
+Content-Type: application/json
+{
+    "username": "1",
+    "password": "1",
+    "email": "1"
+}
 
+###
 
+Put {{MovieWebserver_HostAddress}}/api/user
+Accept: application/json
+Content-Type: application/json
+{
+    "username": "1",
+    "password": "1"
+}
+
+### 
+
+Get {{MovieWebserver_HostAddress}}/api/title/movies
+Accept: application/json
+Authorization: Bearer eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTUxMiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoic3RyaW5nMSIsImV4cCI6MTczMDQ3MDE3M30.Gii66CFCy1_fb63y7CFlNyNUcScNsc5lM3HSLJ2D4PW6kEUH592DvXzeH0YSgzWGhF7nHkTHwIcSH5iIR5j6kw

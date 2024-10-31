@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using MovieWebserver.Model.Title;
 using MovieWebserver.Model.User;
+using DataLayer.Model.User;
 
 namespace DataLayer.IDataServices;
 
@@ -17,10 +18,13 @@ public interface IUserDataService
 
     public List<User> GetUsers();
     public User GetUser(int userId);
+    public User GetUser(string username);
+    public bool IsEmailUsed(string email);
+
     public List<UserSearch> GetHistory(int userId);
     public List<UserBookmark> GetBookmarks(int userId);
     public Bookmark CreateBookmark();
-    public User CreateUser(UserModel userModel);
+    public User CreateUser(CreateUserModel userModel, string salt);
 
     public List<UserTitleReview> GetReviews(int userId);
     public UserTitleReview GetReview(int reviewId);

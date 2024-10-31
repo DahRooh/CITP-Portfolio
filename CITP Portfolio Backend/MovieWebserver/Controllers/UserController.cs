@@ -9,6 +9,10 @@ using MovieWebserver.Model;
 using MovieWebserver.Model.User;
 using DataLayer.DomainObjects.Relations;
 using DataLayer.Model.User;
+using DataLayer.HelperMethods;
+using System.Security.Claims;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace MovieWebserver.Controllers;
 
@@ -17,21 +21,77 @@ namespace MovieWebserver.Controllers;
 public class UserController : BaseController
 {
     IUserDataService _ds;
-    public UserController(IUserDataService ds, LinkGenerator linkGenerator) : base(linkGenerator)
+    private readonly IConfiguration _configuration;
+    private readonly Hashing _hashing;
+
+    public UserController(
+        IUserDataService ds,
+        LinkGenerator linkGenerator,
+        IConfiguration configuration,
+        Hashing hashing) : base(linkGenerator)
     {
         _ds = ds;
+        _configuration = configuration;
+        _hashing = hashing;
     }
 
+    [HttpPut]
+    public IActionResult SignIn(LoginUserModel model)
+    {
+        var user = _ds.GetUser(model.Username);
+        if (user == null)
+        {
+            return BadRequest("Wrong username or password");
+        }
 
+
+
+        if (!_hashing.Verify(model.Password, user.Password, user.Salt))
+        {
+            return BadRequest();
+        }
+
+        var claims = new List<Claim>
+        {
+            new Claim(ClaimTypes.Name, user.Username)
+        };
+
+        var secret = _configuration.GetSection("Auth:Secret").Value;
+        var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(secret));
+
+        var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
+
+        var token = new JwtSecurityToken(
+            claims: claims,
+            expires: DateTime.Now.AddHours(8),
+            signingCredentials: creds
+
+            );
+
+        var jwt = new JwtSecurityTokenHandler().WriteToken(token);
+
+        return Ok(new { username = user.Username, token = jwt });
+    }
 
     [HttpPost("CreateUser")]
-    public IActionResult CreateUser([FromBody] UserModel userModel)
+    public IActionResult CreateUser([FromBody] CreateUserModel userModel)
     {
-        var result = _ds.CreateUser(userModel);
-        if (result != null) 
+
+        var user = _ds.GetUser(userModel.Username);
+
+        if (user != null || 
+            string.IsNullOrEmpty(userModel.Password) ||
+            _ds.IsEmailUsed(userModel.Email)
+            )
         {
-            NotFound();
+            return BadRequest();
         }
+        (var hashedPassword, var salt) = _hashing.Hash(userModel.Password);
+        userModel.Password = hashedPassword;
+
+
+        var result = _ds.CreateUser(userModel, salt);
+
 
         return Ok(result);
     }
@@ -48,6 +108,7 @@ public class UserController : BaseController
     }
 
     [HttpGet(Name = nameof(GetUsers))]
+    
     public IActionResult GetUsers()
     {
         var users = _ds.GetUsers().Select(x => CreateUserModel(x)).ToList();

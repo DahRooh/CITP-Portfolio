@@ -3,14 +3,33 @@ using DataLayer;
 using MovieWebserver.Controllers;
 using DataLayer.IDataServices;
 using DataLayer.DataServices;
+using DataLayer.HelperMethods;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddTransient<ITitleDataService, TitleDataService>();
 builder.Services.AddTransient<IPersonDataService, PersonDataService>();
 builder.Services.AddTransient<IUserDataService, UserDataService>();
 builder.Services.AddTransient<ISearchDataService, SearchDataService>();
+builder.Services.AddSingleton(new Hashing());
 
 
+var secret = builder.Configuration.GetSection("Auth:Secret").Value;
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(opt =>
+        opt.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = false,
+            ValidateAudience = false,
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secret)),
+            ClockSkew = TimeSpan.Zero
+        }
+    );
 
 
 builder.Services.AddMapster();
@@ -39,6 +58,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

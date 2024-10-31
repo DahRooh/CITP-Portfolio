@@ -6,7 +6,7 @@ GROUP: cit16, MEMBERS: Andreas Moosdorf, Dagmar Ree, Eray Erkul
 select * from users;
 
 
-call signup('username1', 'hashed-password', 'mail1@mail.ok', null);
+call signup(1, 'username1', 'hashed-password', 'mail1@mail.ok');
 
 call login_user('username1', 'hashed-password', null);
 
