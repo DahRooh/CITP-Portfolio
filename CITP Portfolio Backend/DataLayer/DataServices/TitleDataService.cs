@@ -18,8 +18,6 @@ public class TitleDataService : ITitleDataService
 {
     private MVContext db;
 
-   
-
     public Movie? GetMovie(string id)
     {
         db = new MVContext();
@@ -127,9 +125,9 @@ public class TitleDataService : ITitleDataService
     }
 
 
-    public int NumberOfSimilarTitles(string id)
+    public int NumberOfSimilarTitles(string id, int pageSize, int skip)
     {
-        return db.SimilarTitles.FromSqlRaw("select * from find_similar_titles({0})", id).Count();
+        return db.SimilarTitles.FromSqlRaw("select * from find_similar_titles({0}, {1}, {2})", id, pageSize, skip).Count();
     }
 
     public IList<SimilarTitle> GetSimilarTitles(string id, int page, int pageSize)
@@ -145,16 +143,28 @@ public class TitleDataService : ITitleDataService
 
 
 
-
-    public int NumberOfCoProducers()
+    public IList<Person> GetCoproducersByRating(string id)
     {
-        throw new NotImplementedException();
+        db = new MVContext();
+        var findAllTheTitleIdsPersonInvolvedIn = db.PersonInvolvedIn
+            .Where(x => x.PersonId == id)
+            .Select(x => x.TitleId)
+            .ToList();
 
-    }
+        var findAllPersonInvoledInSameTitles = db.PersonInvolvedIn
+            .Where(x => findAllTheTitleIdsPersonInvolvedIn.Contains(x.TitleId) && x.PersonId != id)
+            .Select(x => x.Person)
+            .Distinct()
+            .OrderBy(p => p.Rating)
+            .ToList();
 
-    public IList<Person> GetCoProducersByRating(string id, int page, int pageSize)
-    {
-        throw new NotImplementedException();
+
+        if (findAllPersonInvoledInSameTitles == null)
+        {
+            return null;
+        }
+
+        return findAllPersonInvoledInSameTitles;
     }
 
 

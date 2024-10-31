@@ -141,31 +141,24 @@ public class TitleController : BaseController
         return Ok(genre);
     }
 
-    [HttpGet("similartitles/{id}", Name = nameof(GetSimilarTitles))]
+    [HttpGet("similartitles", Name = nameof(GetSimilarTitles))]
     public IActionResult GetSimilarTitles([FromQuery] string id, [FromQuery] int page, [FromQuery] int pageSize)
     {
         var similarTitles = _ds.GetSimilarTitles(id, page, pageSize).Select(x => CreateSimilarTitlesModel(x)).ToList();
 
-        var numberOfSimilarTitles = _ds.NumberOfSimilarTitles(id);
+        var numberOfSimilarTitles = _ds.NumberOfSimilarTitles(id, page, pageSize);
 
         var results = CreatePaging(nameof(GetSimilarTitles), "Title", page, pageSize, numberOfSimilarTitles, similarTitles, id);
         return Ok(results);
     }
 
     [HttpGet("findcoactors/{id}", Name = nameof(GetCoProducersByRating))]
-    public IActionResult GetCoProducersByRating(string id, int page, int pageSize)
+    public IActionResult GetCoProducersByRating(string id)
     {
-        var coProducers = _ds.GetCoProducersByRating(id, page, pageSize).Select(x => CreateCoProducersModel(x)).ToList();
-        var numberOfItems = _ds.NumberOfCoProducers();
+        var coProducers = _ds.GetCoproducersByRating(id).Select(x => CreateCoProducersModel(x)).ToList();
 
-        object result = CreatePaging(
-            nameof(GetCoProducersByRating),
-            "Title",
-            page,
-            pageSize,
-            numberOfItems,
-            coProducers);
-        return Ok(result);
+        return Ok(coProducers);
+
 
     }
 

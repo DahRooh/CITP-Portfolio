@@ -209,16 +209,6 @@
         "Name": "id",
         "Type": "System.String",
         "IsRequired": true
-      },
-      {
-        "Name": "page",
-        "Type": "System.Int32",
-        "IsRequired": false
-      },
-      {
-        "Name": "pageSize",
-        "Type": "System.Int32",
-        "IsRequired": false
       }
     ],
     "ReturnTypes": [],
@@ -300,7 +290,7 @@
   {
     "ContainingType": "MovieWebserver.Controllers.TitleController",
     "Method": "GetSimilarTitles",
-    "RelativePath": "api/title/similartitles/{id}",
+    "RelativePath": "api/title/similartitles",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -319,11 +309,6 @@
         "Name": "pageSize",
         "Type": "System.Int32",
         "IsRequired": false
-      },
-      {
-        "Name": "id",
-        "Type": "",
-        "IsRequired": true
       }
     ],
     "ReturnTypes": [],

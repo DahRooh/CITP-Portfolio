@@ -305,3 +305,11 @@ C:\Users\Moosdorf\Desktop\sem1\CITP-Portfolio\CITP Portfolio Backend\MovieWebser
 C:\Users\Moosdorf\Desktop\sem1\CITP-Portfolio\CITP Portfolio Backend\MovieWebserver\bin\Debug\net8.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
 C:\Users\Moosdorf\Desktop\sem1\CITP-Portfolio\CITP Portfolio Backend\MovieWebserver\bin\Debug\net8.0\Microsoft.IdentityModel.Tokens.dll
 C:\Users\Moosdorf\Desktop\sem1\CITP-Portfolio\CITP Portfolio Backend\MovieWebserver\bin\Debug\net8.0\System.IdentityModel.Tokens.Jwt.dll
+C:\Users\eray2\Documents\Github\semester1\Portfolio\CITP-Portfolio\CITP Portfolio Backend\MovieWebserver\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\Users\eray2\Documents\Github\semester1\Portfolio\CITP-Portfolio\CITP Portfolio Backend\MovieWebserver\bin\Debug\net8.0\Microsoft.IdentityModel.Abstractions.dll
+C:\Users\eray2\Documents\Github\semester1\Portfolio\CITP-Portfolio\CITP Portfolio Backend\MovieWebserver\bin\Debug\net8.0\Microsoft.IdentityModel.JsonWebTokens.dll
+C:\Users\eray2\Documents\Github\semester1\Portfolio\CITP-Portfolio\CITP Portfolio Backend\MovieWebserver\bin\Debug\net8.0\Microsoft.IdentityModel.Logging.dll
+C:\Users\eray2\Documents\Github\semester1\Portfolio\CITP-Portfolio\CITP Portfolio Backend\MovieWebserver\bin\Debug\net8.0\Microsoft.IdentityModel.Protocols.dll
+C:\Users\eray2\Documents\Github\semester1\Portfolio\CITP-Portfolio\CITP Portfolio Backend\MovieWebserver\bin\Debug\net8.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+C:\Users\eray2\Documents\Github\semester1\Portfolio\CITP-Portfolio\CITP Portfolio Backend\MovieWebserver\bin\Debug\net8.0\Microsoft.IdentityModel.Tokens.dll
+C:\Users\eray2\Documents\Github\semester1\Portfolio\CITP-Portfolio\CITP Portfolio Backend\MovieWebserver\bin\Debug\net8.0\System.IdentityModel.Tokens.Jwt.dll
