@@ -100,7 +100,7 @@ namespace DataLayer.DataServices
             {
                 return null;
             }
-            return db.UserSearches.Include(x => x.Search).Where(x => x.UserId == userId).ToList();
+            return db.UserSearches.Include(x => x.User).Include(x => x.Search).Where(x => x.UserId == userId).ToList();
         }
 
         public List<(Title, int)> GetLikeHistory(int userId)
@@ -153,7 +153,13 @@ namespace DataLayer.DataServices
         public List<UserTitleReview> GetReviews(int userId)
         {
             db = new MVContext();
-            var reviews = db.UserReviews.Include(x => x.User).Include(x => x.Title).Include(x => x.Review).ThenInclude(x => x.UserLikes).ToList();
+            var reviews = db.UserReviews
+                .Include(x => x.User)
+                .Include(x => x.Title)
+                .Include(x => x.Review)
+                .ThenInclude(x => x.UserLikes)
+                .Where(x => x.UserId == userId)
+                .ToList();
             return reviews;
         }
         
@@ -171,7 +177,7 @@ namespace DataLayer.DataServices
         {
             db = new MVContext();
             
-            db.UserReviews.Remove(db.UserReviews.Single(x => x.ReviewId == reviewId));
+            db.Reviews.Remove(db.Reviews.Single(x => x.Id == reviewId));
             var dbChanged = db.SaveChanges() > 0;
 
             return dbChanged;

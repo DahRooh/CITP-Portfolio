@@ -1088,6 +1088,7 @@ begin
 end;
 $$;
 
+select * from title limit 10;
 
 -- temp function to call insert and obtain the result
 drop function if exists make_search(varchar, int, int);

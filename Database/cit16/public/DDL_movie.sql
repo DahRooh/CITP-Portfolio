@@ -11,6 +11,7 @@ drop view if exists person_title_webpages;
 drop view if exists person_rated;
 drop view if exists title_cast;
 
+
 -- relations
 drop table if exists person_has_a;
 drop table if exists person_involved_title;

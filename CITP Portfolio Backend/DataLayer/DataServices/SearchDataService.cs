@@ -8,22 +8,23 @@ using System.Threading.Tasks;
 using DataLayer.DomainObjects.Entities;
 using Microsoft.AspNetCore.Mvc.TagHelpers.Cache;
 using Microsoft.EntityFrameworkCore;
+using DataLayer.DomainObjects;
 
 namespace DataLayer.DataServices
 {
     public class SearchDataService : ISearchDataService
     {
         private MVContext db;
-        public IList<SearchResult> Search(string keyword, int page, int pageSize, int userId = -1)
+        public IList<SearchResult> Search(string keyword, int page, int pageSize, string username = "")
         {
             db = new MVContext();
-            var user = db.Users.Where(x => x.Id == userId).FirstOrDefault();
+            var user = db.Users.Where(x => x.Username == username).FirstOrDefault();
             
             var skip = pageSize*page;
 
             if (user != null)
             {
-                db.Database.ExecuteSqlRaw("call insert_search({0}, {1}, {2})", keyword, userId, null);
+                db.Database.ExecuteSqlRaw("call insert_search({0}, {1}, {2})", keyword, user.Id, username);
             }
 
             var results = db.SearchResults.
@@ -31,6 +32,8 @@ namespace DataLayer.DataServices
 
             return results;
         }
+
+
         public int SearchCount(string keyword)
         {
             return db.SearchResults.FromSqlRaw("select * from make_search({0})", keyword).Count();

@@ -18,6 +18,7 @@ public class MVContext : DbContext
     public DbSet<Person> People { get; set; }
     public DbSet<User> Users { get; set; }
     public DbSet<Webpage> Webpages { get; set; }
+    public DbSet<Review> Reviews { get; set; }
 
 
     // relations (mostly used)
@@ -403,6 +404,13 @@ public class MVContext : DbContext
 
     public static void MapUserSearch(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<Search>().ToTable("search").HasKey(x => x.Id);
+        modelBuilder.Entity<Search>().Property(x => x.Id).HasColumnName("search_id");
+        modelBuilder.Entity<Search>().Property(x => x.Keyword).HasColumnName("keyword");
+        modelBuilder.Entity<Search>().Property(x => x.CreatedAt).HasColumnName("searched_at");
+
+
+
 
         modelBuilder.Entity<UserSearch>().ToTable("history").HasKey(x => new { x.SearchId, x.UserId });
 

@@ -12,6 +12,7 @@ using MovieWebserver.Model.User;
 using DataLayer.DomainObjects.Relations;
 using DataLayer.Model.Search;
 using DataLayer.Model.User;
+using Microsoft.AspNetCore.Authorization;
 namespace MovieWebserver.Controllers;
 
 [ApiController]
@@ -25,11 +26,30 @@ public class SearchController : BaseController
     }
 
     [HttpGet(Name = nameof(GetSearches))]
-    public IActionResult GetSearches([FromQuery] string keyword, [FromQuery] int page, [FromQuery] int pageSize)
+    public IActionResult GetSearches([FromQuery] string keyword, [FromQuery] int page = 1, [FromQuery] int pageSize = 25)
     {
-        Console.WriteLine(keyword);
-        var items = _ds.Search(keyword, page, pageSize)
-            .Select(x => CreateSearchResultModel(x)).ToList();
+        // if logged in
+        var username = string.Empty;
+        var items = new List<SearchResultModel>();
+        var decodedToken = GetDecodedToken();
+        if (decodedToken != null)
+        {
+            var claim = decodedToken.Claims.FirstOrDefault();
+            if (claim != null) {
+                username = claim.Value;
+                items = _ds.Search(keyword, page, pageSize, username)
+                            .Select(x => CreateSearchResultModel(x)).ToList();
+            }
+
+        } else
+        {
+            items = _ds.Search(keyword, page, pageSize, username)
+                        .Select(x => CreateSearchResultModel(x)).ToList();
+        }
+
+
+
+
 
         var count = _ds.SearchCount(keyword);
 

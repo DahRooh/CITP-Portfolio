@@ -1,7 +1,9 @@
+using DataLayer.DomainObjects;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
 using Npgsql;
+using System.IdentityModel.Tokens.Jwt;
 namespace MovieWebserver.Controllers;
 
 [ApiController]
@@ -70,6 +72,19 @@ public abstract class BaseController : ControllerBase
             MaxItemPerPage = MaxItemPerPage
         };
         return result;
+    }
+    [NonAction]
+    public JwtSecurityToken GetDecodedToken()
+    {
+        var encodedToken = HttpContext.Request.Headers.Authorization.FirstOrDefault();
+        if (encodedToken == null) return null;
+        var handler = new JwtSecurityTokenHandler();
+
+        var trimmedEncodedToken = encodedToken.Replace("Bearer ", "");
+
+        var token = handler.ReadJwtToken(trimmedEncodedToken);
+
+        return token;
     }
 
 

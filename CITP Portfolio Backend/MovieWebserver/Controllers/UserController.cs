@@ -36,6 +36,95 @@ public class UserController : BaseController
         _hashing = hashing;
     }
 
+    // creates
+
+    [HttpPost("CreateUser")]
+    public IActionResult CreateUser([FromBody] CreateUserModel userModel)
+    {
+
+        var user = _ds.GetUser(userModel.Username);
+
+        if (user != null || 
+            string.IsNullOrEmpty(userModel.Password) ||
+            _ds.IsEmailUsed(userModel.Email)
+            )
+        {
+            return BadRequest();
+        }
+        (var hashedPassword, var salt) = _hashing.Hash(userModel.Password);
+        userModel.Password = hashedPassword;
+
+
+        var result = _ds.CreateUser(userModel, salt);
+
+
+        return Created(nameof(CreateUser), result);
+    }
+
+
+    // gets
+
+    [HttpGet("{userId}", Name = nameof(GetUser))]
+    public IActionResult GetUser(int userId)
+    {
+        var user = CreateUserModel(_ds.GetUser(userId));
+        if (user == null)
+        {
+            return BadRequest();
+        }
+        return Ok(user);
+    }
+
+    [HttpGet(Name = nameof(GetUsers))]
+    
+    public IActionResult GetUsers()
+    {
+        var users = _ds.GetUsers().Select(x => CreateUserModel(x)).ToList();
+
+        if (users == null || users.Count() == 0)
+        {
+            return BadRequest();
+        }
+        return Ok(users);
+    }
+
+
+    [HttpGet("{userId}/bookmarks", Name = nameof(GetUserBookmarks))]
+    public IActionResult GetUserBookmarks(int userId)
+    {
+        var user = _ds.GetUser(userId);
+        if (user == null) { return BadRequest(); }
+
+        var bookmarks = _ds.GetBookmarks(userId).Select(x => CreateBookmarkModel(x)).ToList();
+
+        return Ok(bookmarks);
+    }
+    
+
+    [HttpGet("{userId}/reviews", Name = nameof(GetUserReviews))]
+    public IActionResult GetUserReviews(int userId)
+    {
+        var user = _ds.GetUser(userId);
+        if (user == null) { return BadRequest(); }
+
+        var reviews = _ds.GetReviews(userId).Select(x => CreateReviewModel(x)).ToList();
+        
+        return Ok(reviews);
+    }
+
+    [HttpGet("{userId}/search_history", Name = nameof(GetUserHistory))]
+    public IActionResult GetUserHistory(int userId)
+    {
+        var user = _ds.GetUser(userId);
+        if (user == null) { return BadRequest(); }
+
+        var searches = _ds.GetHistory(userId).Select(x => CreateSearchModel(x)).ToList();
+
+        return Ok(searches);
+    }
+
+
+    // update 
     [HttpPut]
     public IActionResult SignIn(LoginUserModel model)
     {
@@ -74,161 +163,32 @@ public class UserController : BaseController
         return Ok(new { username = user.Username, token = jwt });
     }
 
-    [HttpPost("CreateUser")]
-    public IActionResult CreateUser([FromBody] CreateUserModel userModel)
-    {
 
-        var user = _ds.GetUser(userModel.Username);
-
-        if (user != null || 
-            string.IsNullOrEmpty(userModel.Password) ||
-            _ds.IsEmailUsed(userModel.Email)
-            )
-        {
-            return BadRequest();
-        }
-        (var hashedPassword, var salt) = _hashing.Hash(userModel.Password);
-        userModel.Password = hashedPassword;
-
-
-        var result = _ds.CreateUser(userModel, salt);
-
-
-        return Created(nameof(CreateUser), result);
-    }
-
-    [HttpGet("{userId}", Name = nameof(GetUser))]
-    public IActionResult GetUser(int userId)
-    {
-        var user = CreateUserModel(_ds.GetUser(userId));
-        if (user == null)
-        {
-            return BadRequest();
-        }
-        return Ok(user);
-    }
-
-    [HttpGet(Name = nameof(GetUsers))]
-    
-    public IActionResult GetUsers()
-    {
-        var users = _ds.GetUsers().Select(x => CreateUserModel(x)).ToList();
-
-        if (users == null || users.Count() == 0)
-        {
-            return BadRequest();
-        }
-        return Ok(users);
-    }
-    /*
-    [HttpGet("{userId}/sessions", Name = nameof(GetUserSessions))]
-    public IActionResult GetUserSessions(int userId)
-    {
-        var sessions = _ds.GetSessions(userId).Select(x => CreateSessionModel(x));
-
-        var UserSessions = sessions.Select(session => 
-        {
-            var user = CreateUserModel(_ds.GetUser(session.UserId));
-            session.User = user;
-            return session;
-                
-        });
-        
-
-        if (UserSessions.Count() == 0)
-        {
-            return NotFound();
-        }
-
-        return Ok(UserSessions);
-
-    }
-    */
-
-    /*
-    [HttpGet("{userId}/current_session", Name = nameof(GetCurrentUserSessions))]
-    public IActionResult GetCurrentUserSessions(int userId)
-    {
-        var session = CreateSessionModel(_ds.GetCurrentSession(userId));
-
-        if (session == null)
-        {
-            return NotFound();
-        }
-
-        var user = CreateUserModel(_ds.GetUser(session.UserId));
-        session.User = user;
-
-        return Ok(session);
-    }
-    */
-
-
-    [HttpGet("{userId}/bookmarks", Name = nameof(GetUserBookmarks))]
-    public IActionResult GetUserBookmarks(int userId)
-    {
-        var bookmarks = _ds.GetBookmarks(userId).Select(x => CreateBookmarkModel(x)).ToList();
-        if (bookmarks.Count() == 0)
-        {
-            return BadRequest();
-        }
-
-        return Ok(bookmarks);
-    }
-    
-
-    [HttpGet("{userId}/reviews", Name = nameof(GetUserReviews))]
-    public IActionResult GetUserReviews(int userId)
-    {
-        var reviews = _ds.GetReviews(userId).Select(x => CreateReviewModel(x)).ToList();
-        
-        return Ok(reviews);
-    }
-
-    [HttpGet("{userId}/search_history", Name = nameof(GetUserHistory))]
-    public IActionResult GetUserHistory(int userId)
-    {
-        var searches = _ds.GetHistory(userId).Select(x => CreateSearchModel(x)).ToList();
-
-        if (searches.Count() == 0)
-        {
-            return NotFound();
-        }
-
-        return Ok(searches);
-    }
-
+    // deletes
     [HttpDelete("{userId}/review/{reviewId}")]
     [Authorize]
     public IActionResult DeleteReview(int userId, int reviewId)
     {
-        var encodedToken = HttpContext.Request.Headers.Authorization.FirstOrDefault();
-        var handler = new JwtSecurityTokenHandler();
-
-        var trimmedEncodedToken = encodedToken.Replace("Bearer ", "");
-
-        var token =  handler.ReadJwtToken(trimmedEncodedToken);
-        var username = token.Claims.FirstOrDefault()?.Value;
-
-        Console.WriteLine("username==: " + username);
-        var user = _ds.GetUser(username);
-        Console.WriteLine(user.Username);
+        JwtSecurityToken token = GetDecodedToken();
+        User user = _ds.GetUser(token.Claims.FirstOrDefault().Value);
 
         if (userId != user.Id)
         {
             return BadRequest();
         }
-        
+
         var review = _ds.GetReview(reviewId);
-        
+
         if (review == null) return NotFound();
-        
+
         var deleted = _ds.DeleteReview(reviewId);
 
         if (deleted) return Ok();
-        
+
         return NotFound();
     }
+
+
 
     // models
     private static ReviewModel CreateReviewModel(UserTitleReview review)
