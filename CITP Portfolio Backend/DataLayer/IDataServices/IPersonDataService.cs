@@ -12,7 +12,8 @@ public interface IPersonDataService
     int NumberOfPeople();
     Person AddNewPerson(Person person);
     bool UpdatePerson(Person person);
-    IList <CoActor>GetCoActors(string id);
+    IList <CoActor>GetCoActors(string id, int page, int pageSize);
+    int NumberOfCoActors(string id);
 
 
 }

@@ -1,5 +1,6 @@
 using DataLayer.DomainObjects;
 using DataLayer.DomainObjects.FunctionResults;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using System;
 
@@ -145,11 +146,17 @@ public class PersonDataService : IPersonDataService
         return true;
     }
 
-
-    public IList<CoActor> GetCoActors(string id)
+    public int NumberOfCoActors(string id)
     {
         db = new MVContext();
-        var coActors = db.CoActors.FromSqlRaw("select * from find_coactors({0})", id).ToList();
+        return db.CoActors.FromSqlRaw("select * from find_coactors({0})", id).Count();
+    }
+
+    public IList<CoActor> GetCoActors(string id, int page, int pageSize)
+    {
+        db = new MVContext();
+        var coActors = db.CoActors.FromSqlRaw("select * from find_coactors_with_skip({0}, {1}, {2})", id, page, pageSize)
+            .ToList();
         return coActors;
     }
 

@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using MovieWebserver.Model.Title;
 using DataLayer.DomainObjects.FunctionResults;
 using DataLayer.Model.Person;
+using static Microsoft.Extensions.Logging.EventSource.LoggingEventSource;
 
 namespace MovieWebserver.Controllers;
 
@@ -25,7 +26,7 @@ public class PersonController : BaseController
         _linkGenerator = linkGenerator;
     }
 
-    [HttpGet (Name = nameof(GetPeople))]
+    [HttpGet(Name = nameof(GetPeople))]
     public IActionResult GetPeople(int page, int pageSize)
     {
         var people = _ds.GetPeople(page, pageSize).Select(x => CreatePersonModel(x)).ToList();
@@ -125,11 +126,14 @@ public class PersonController : BaseController
     }
 
     [HttpGet("coactors", Name = nameof(GetCoActors))]
-    public IActionResult GetCoActors([FromQuery] string id)
+    public IActionResult GetCoActors([FromQuery] string id, [FromQuery] int page, [FromQuery] int pageSize)
     {
-        var coActors = _ds.GetCoActors(id).Select(x => CreateCoActorModel(x)).ToList();
+        var coActors = _ds.GetCoActors(id, page, pageSize).Select(x => CreateCoActorModel(x)).ToList();
 
-        return Ok(coActors);
+        var count = _ds.NumberOfCoActors(id);
+        var results = CreatePaging(nameof(GetCoActors), "Person", page, pageSize, count, coActors, id);
+        return Ok(results);
+
     }
 
 
