@@ -6,6 +6,7 @@ using MovieWebserver.Model.User;
 using MovieWebserver.Model.Title;
 using DataLayer.Model.User;
 using System.Linq;
+using DataLayer.DomainObjects.Relations;
 
 
 namespace DataLayer.DataServices
@@ -91,7 +92,20 @@ namespace DataLayer.DataServices
             throw new NotImplementedException();
         }
 
-
+        public IList<UserLikesReview> GetLikes(int userId)
+        {
+            db = new MVContext();
+            User user = db.Users.Include(x => x.UserLikes)
+                .ThenInclude(x => x.Review)
+                .ThenInclude(x => x.createdBy)
+                .ThenInclude(x => x.Title)
+                .Where(x => x.Id == userId).FirstOrDefault();
+            
+            if (user == null) return null;
+            
+            return user.UserLikes.ToList();
+        }
+        
         public List<UserSearch> GetHistory(int userId)
         {
             db = new MVContext();
@@ -100,7 +114,12 @@ namespace DataLayer.DataServices
             {
                 return null;
             }
+<<<<<<< Updated upstream
             return db.UserSearches.Include(x => x.User).Include(x => x.Search).Where(x => x.UserId == userId).ToList();
+=======
+            return db.UserSearches.Include(x => x.Search)
+                .Where(x => x.UserId == userId).ToList();
+>>>>>>> Stashed changes
         }
 
         public List<(Title, int)> GetLikeHistory(int userId)

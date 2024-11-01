@@ -23,6 +23,7 @@ public interface IUserDataService
 
     public List<UserSearch> GetHistory(int userId);
     public List<UserBookmark> GetBookmarks(int userId);
+    public IList<UserLikesReview> GetLikes(int userId);
     public Bookmark CreateBookmark();
     public User CreateUser(CreateUserModel userModel, string salt);
 

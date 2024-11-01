@@ -31,8 +31,8 @@ Put {{MovieWebserver_HostAddress}}/api/user
 Accept: application/json
 Content-Type: application/json
 {
-    "username": "1",
-    "password": "1"
+    "username": "3",
+    "password": "3"
 }
 
 ### 
@@ -62,27 +62,6 @@ Content-Type: application/json
 ###
 
 Delete {{MovieWebserver_HostAddress}}/api/user/6/review/7
-Authorization: Bearer eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTUxMiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiMyIsImV4cCI6MTczMDUwMDAwMX0.1ILuWDTKdEcoyrE99npvQrrAOESmNFCDvTM8-rvCs92S1B0zye3YqRjkTWKw_lmaH1O2E4q296REQvWUHiks5A
+Authorization: Bearer eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTUxMiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiMyIsImV4cCI6MTczMDQ0NDA0Mn0.lCH1x0JBbRl1x0cUZpmERwlGthTTIFJQV0ewwTEOULpXTou-VqHqSIrx5eyjMYKf9m0RDJ5kT5jtw0K9HXDxNg
 Accept: application/json
-
-###
-
-Get {{MovieWebserver_HostAddress}}/api/search?keyword=bobbys%20burger&page=1&pageSize=10
-Authorization: Bearer eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTUxMiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiMyIsImV4cCI6MTczMDUwMDAwMX0.1ILuWDTKdEcoyrE99npvQrrAOESmNFCDvTM8-rvCs92S1B0zye3YqRjkTWKw_lmaH1O2E4q296REQvWUHiks5A
-Accept: application/json
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 

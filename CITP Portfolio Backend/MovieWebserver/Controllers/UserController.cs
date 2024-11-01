@@ -88,7 +88,16 @@ public class UserController : BaseController
         return Ok(users);
     }
 
-
+    [HttpGet("{userId}/get_likes", Name = nameof(GetUserLike))] 
+    public IActionResult GetUserLike(int userId)
+    {
+        var likes = _ds.GetLikes(userId)
+            .Select(x => CreateLikeModel(x)).ToList();
+        
+        return Ok(likes);
+    }
+    
+    
     [HttpGet("{userId}/bookmarks", Name = nameof(GetUserBookmarks))]
     public IActionResult GetUserBookmarks(int userId)
     {
@@ -164,7 +173,13 @@ public class UserController : BaseController
     }
 
 
+
+
     // deletes
+
+    
+    
+
     [HttpDelete("{userId}/review/{reviewId}")]
     [Authorize]
     public IActionResult DeleteReview(int userId, int reviewId)
@@ -199,11 +214,21 @@ public class UserController : BaseController
         return model;
     }
 
+    private LikeModel CreateLikeModel(UserLikesReview likes)
+    {
+         var model = likes.Adapt<LikeModel>();
+         model.Username = likes.User.Username;
+         model.Title = likes.Review.createdBy.Title._Title;
+         return model;
+    }
+
     private SearchModel CreateSearchModel(UserSearch userSearch)
     {
-        return userSearch.Adapt<SearchModel>();
+        var model = userSearch.Adapt<SearchModel>();
+
+        return model;
     }
-    public static UserModel CreateUserModel(User user)
+    private static UserModel CreateUserModel(User user)
     {
         return user.Adapt<UserModel>();
     }
