@@ -1,17 +1,16 @@
-.vs/
-*.dll/
-*.cache/
-*.json/
-.json/
-.dll,/
-.
-
-
-
-/CITP Portfolio Backend/MovieWebserver/obj
-/CITP Portfolio Backend/MovieWebserver/obj
-/CITP Portfolio Backend/MovieWebserver/obj
+*.vs
 *.dll
-/CITP Portfolio Backend/.vs
-/CITP Portfolio Backend/DataLayer/bin
-/CITP Portfolio Backend/DataLayer/obj
+*.cache
+*.json
+*.pdb
+*exe
+*.suo
+*.exe
+*.dll
+*.json
+*.json
+*.dll
+*.pdb
+*.cache
+*.exe
+*.pdb
