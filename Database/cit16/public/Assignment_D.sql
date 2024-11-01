@@ -62,6 +62,7 @@ create view title_cast as (
     where character is not null
 );
 
+
 create view person_rated as 
     (with temp_test as (
     select distinct name, title, rating
@@ -427,10 +428,6 @@ with the new rate can be preceded by a “redrawing” of the previous rating, r
 average rating appropriately.
 */
 
-
-
-
-
 /* User rate */
 drop procedure if exists rate;
 create procedure rate(in title_id varchar(10), in user_id int, in user_rating int, in in_review varchar(256) default null)
@@ -660,21 +657,25 @@ Hint: You may for this as well as for other purposes find a view helpful to make
 
 
 drop function if exists find_coactors;
-create function find_coactors(actor varchar)
+create function find_coactors(actor_id varchar)
 returns table (
       person_id varchar,
       co_actor varchar,
+      title_name varchar,
+      person_rating numeric(8,2),
       counted bigint
+      
       )
 language plpgsql as $$
 begin
   return query
-    select t1.p_id, t1.name, count(distinct t2.title) 
+    select t1.p_id, t1.name, t1.title, t1.rating, count(distinct t2.title) 
     from title_cast t1 
     join title_cast t2 on t1.title = t2.title
-    where t2.name = actor and t1.name <> actor
-    group by t1.p_id, t1.name
-    order by count desc;
+    where t2.p_id = actor_id and t1.p_id <> actor_id
+    group by t1.p_id, t1.name, t1.title, t1.rating
+    order by count desc
+    limit 10;
 end;
 $$;
 
@@ -756,22 +757,20 @@ $$;
 
 -- 2) find all co-actors rating based on their respective rating
 drop function if exists co_players_rating;
-create function co_players_rating(actor varchar)
-returns table (co_players_name varchar, avg_rating numeric)
+create function co_players_rating(actor_id varchar)
+returns table (co_players_id varchar, avg_rating numeric)
 language plpgsql as $$
 
 begin
 	return query
 	
-	select name, person_rating 
-	from find_coactors(actor)
+	select p_id, person_rating 
+	from find_coactors(actor_id)
 	join person on person_id = p_id
 	order by person_rating desc;
 
 end;
 $$;
-
-
 
 
 /*
@@ -781,7 +780,7 @@ D.9. Similar movies: Discuss and suggest a notion of similarity among movies. De
 -- Find all the movies/series that have the same genre as the input_title_id, rank by how many
 
 drop function if exists find_similar_titles; 
-create or replace function find_similar_titles(input_title_id varchar, take int, skip int default 0)
+create or replace function find_similar_titles(input_title_id varchar)
 returns table(
   similar_title_id varchar,
   similar_title varchar,
@@ -802,7 +801,7 @@ begin
   and t_id <> input_title_id
   group by similar_title_id, similar_title 
   order by multiple_same_genre desc
-  limit take offset skip;
+  limit 15;
 end;
 $$;
 

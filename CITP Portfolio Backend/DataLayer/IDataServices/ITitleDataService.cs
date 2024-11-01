@@ -25,9 +25,7 @@ public interface ITitleDataService
     IList<InvolvedIn> GetCast(string id);
 
     IList<TitleGenre> GetGenre(string id);
-    int NumberOfSimilarTitles(string id, int pageSize, int size);
-    IList<SimilarTitle> GetSimilarTitles(string id, int page, int pageSize);
-    IList<Person> GetCoproducersByRating(string id);
+    IList<SimilarTitle> GetSimilarTitles(string id);
     UserTitleReview CreateReview(CreateReviewModel model);
     IList<UserTitleReview> GetReviews(string tId);
 }

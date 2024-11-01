@@ -5,6 +5,9 @@ using MovieWebserver.Model.Person;
 using Mapster;
 using DataLayer.DomainObjects;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using MovieWebserver.Model.Title;
+using DataLayer.DomainObjects.FunctionResults;
+using DataLayer.Model.Person;
 
 namespace MovieWebserver.Controllers;
 
@@ -121,6 +124,13 @@ public class PersonController : BaseController
         return Ok(CreatePersonModel(existingPerson));
     }
 
+    [HttpGet("coactors", Name = nameof(GetCoActors))]
+    public IActionResult GetCoActors([FromQuery] string id)
+    {
+        var coActors = _ds.GetCoActors(id).Select(x => CreateCoActorModel(x)).ToList();
+
+        return Ok(coActors);
+    }
 
 
     private PersonModel? CreatePersonModel(Person? person)
@@ -132,6 +142,20 @@ public class PersonController : BaseController
 
         var model = person.Adapt<PersonModel>();
         model.Url = GetWebpageUrl(nameof(GetPeople), "Person", person.Id); // Initializing the Url property
+        return model;
+    }
+
+
+    private CoActorModel? CreateCoActorModel(CoActor coActor)
+    {
+        var model = coActor.Adapt<CoActorModel>();
+        var url = GetWebpageUrl(nameof(GetCoActors), "Person", new { coActor.PersonId });
+        model.Url = url;
+        model.PersonId = coActor.PersonId;
+        model.CoActors = coActor._CoActor;
+        model.Title = coActor.TitleName;
+        model.PersonRating = coActor.PersonRating;
+
         return model;
     }
 

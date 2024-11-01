@@ -120,7 +120,9 @@ public class TitleDataService : ITitleDataService
         var personInvolvedIn = db.PersonInvolvedIn
             .Include(x => x.Title)
             .Include(x => x.Person)
-            .Where(x => x.TitleId == id).ToList();
+            .Where(x => x.TitleId == id)
+            .OrderBy(x => x.Person.Rating)
+            .ToList();
 
         return personInvolvedIn;
     }
@@ -147,17 +149,11 @@ public class TitleDataService : ITitleDataService
     }
 
 
-    public int NumberOfSimilarTitles(string id, int pageSize, int skip)
-    {
-        return db.SimilarTitles.FromSqlRaw("select * from find_similar_titles({0}, {1}, {2})", id, pageSize, skip).Count();
-    }
-
-    public IList<SimilarTitle> GetSimilarTitles(string id, int page, int pageSize)
+    public IList<SimilarTitle> GetSimilarTitles(string id)
     {
         db = new MVContext();   
 
-        var skip = page * pageSize;
-        var results = db.SimilarTitles.FromSqlRaw("select * from find_similar_titles({0}, {1}, {2})", id, pageSize, skip).ToList();
+        var results = db.SimilarTitles.FromSqlRaw("select * from find_similar_titles({0})", id).ToList();
 
         return results;
 
@@ -165,29 +161,7 @@ public class TitleDataService : ITitleDataService
 
 
 
-    public IList<Person> GetCoproducersByRating(string id)
-    {
-        db = new MVContext();
-        var findAllTheTitleIdsPersonInvolvedIn = db.PersonInvolvedIn
-            .Where(x => x.PersonId == id)
-            .Select(x => x.TitleId)
-            .ToList();
 
-        var findAllPersonInvoledInSameTitles = db.PersonInvolvedIn
-            .Where(x => findAllTheTitleIdsPersonInvolvedIn.Contains(x.TitleId) && x.PersonId != id)
-            .Select(x => x.Person)
-            .Distinct()
-            .OrderBy(p => p.Rating)
-            .ToList();
-
-
-        if (findAllPersonInvoledInSameTitles == null)
-        {
-            return null;
-        }
-
-        return findAllPersonInvoledInSameTitles;
-    }
     public IList<UserTitleReview> GetReviews(string tId)
     {
         db = new MVContext();

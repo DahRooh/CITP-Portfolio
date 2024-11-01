@@ -30,6 +30,7 @@ public class MVContext : DbContext
     public DbSet<UserSearch> UserSearches { get; set; }
     public DbSet<SearchResult> SearchResults { get; set; }
     public DbSet<SimilarTitle> SimilarTitles { get; set; }
+    public DbSet<CoActor> CoActors { get; set; }
 
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -53,6 +54,7 @@ public class MVContext : DbContext
 
         MapEpisodeAndMovie(modelBuilder);
         MapSimilarTitle(modelBuilder);
+        MapCoActor(modelBuilder);
 
         MapPersonInvolvedTitle(modelBuilder);
         MapUsers(modelBuilder);
@@ -429,5 +431,17 @@ public class MVContext : DbContext
         modelBuilder.Entity<SimilarTitle>().Property(x => x.MultipleSameGenre).HasColumnName("multiple_same_genre");
 
     }
+
+    public static void MapCoActor(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<CoActor>().HasNoKey();
+
+        modelBuilder.Entity<CoActor>().Property(x => x.PersonId).HasColumnName("person_id");
+        modelBuilder.Entity<CoActor>().Property(x => x._CoActor).HasColumnName("co_actor");
+        modelBuilder.Entity<CoActor>().Property(x => x.TitleName).HasColumnName("title_name");
+        modelBuilder.Entity<CoActor>().Property(x => x.PersonRating).HasColumnName("person_rating");
+
+    }
+
 
 }

@@ -1,4 +1,5 @@
 using DataLayer.DomainObjects;
+using DataLayer.DomainObjects.FunctionResults;
 
 namespace DataLayer;
 
@@ -11,6 +12,7 @@ public interface IPersonDataService
     int NumberOfPeople();
     Person AddNewPerson(Person person);
     bool UpdatePerson(Person person);
+    IList <CoActor>GetCoActors(string id);
 
 
 }

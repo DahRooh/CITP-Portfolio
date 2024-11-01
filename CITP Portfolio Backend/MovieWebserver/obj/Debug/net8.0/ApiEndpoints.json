@@ -98,6 +98,23 @@
     "EndpointName": "GetActors"
   },
   {
+    "ContainingType": "MovieWebserver.Controllers.PersonController",
+    "Method": "GetCoActors",
+    "RelativePath": "api/person/coactors",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [],
+    "EndpointName": "GetCoActors"
+  },
+  {
     "ContainingType": "MovieWebserver.Controllers.SearchController",
     "Method": "GetSearches",
     "RelativePath": "api/search",
@@ -215,23 +232,6 @@
   },
   {
     "ContainingType": "MovieWebserver.Controllers.TitleController",
-    "Method": "GetCoProducersByRating",
-    "RelativePath": "api/title/findcoactors/{id}",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.String",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": [],
-    "EndpointName": "GetCoProducersByRating"
-  },
-  {
-    "ContainingType": "MovieWebserver.Controllers.TitleController",
     "Method": "GetGenre",
     "RelativePath": "api/title/genre/{id}",
     "HttpMethod": "GET",
@@ -345,16 +345,6 @@
       {
         "Name": "id",
         "Type": "System.String",
-        "IsRequired": false
-      },
-      {
-        "Name": "page",
-        "Type": "System.Int32",
-        "IsRequired": false
-      },
-      {
-        "Name": "pageSize",
-        "Type": "System.Int32",
         "IsRequired": false
       }
     ],

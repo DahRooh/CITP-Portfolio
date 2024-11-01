@@ -10,6 +10,7 @@ using DataLayer.Model.Title;
 using DataLayer.DomainObjects.FunctionResults;
 using static Microsoft.Extensions.Logging.EventSource.LoggingEventSource;
 using Microsoft.AspNetCore.Authorization;
+using System;
 namespace MovieWebserver.Controllers;
 
 [ApiController]
@@ -155,23 +156,13 @@ public class TitleController : BaseController
     }
 
     [HttpGet("similartitles", Name = nameof(GetSimilarTitles))]
-    public IActionResult GetSimilarTitles([FromQuery] string id, [FromQuery] int page, [FromQuery] int pageSize)
+    public IActionResult GetSimilarTitles([FromQuery] string id)
     {
-        var similarTitles = _ds.GetSimilarTitles(id, page, pageSize).Select(x => CreateSimilarTitlesModel(x)).ToList();
-
-        var numberOfSimilarTitles = _ds.NumberOfSimilarTitles(id, page, pageSize);
-
-        var results = CreatePaging(nameof(GetSimilarTitles), "Title", page, pageSize, numberOfSimilarTitles, similarTitles, id);
-        return Ok(results);
+        var similarTitles = _ds.GetSimilarTitles(id).Select(x => CreateSimilarTitlesModel(x)).ToList();
+ 
+        return Ok(similarTitles);
     }
 
-    [HttpGet("findcoactors/{id}", Name = nameof(GetCoProducersByRating))]
-    public IActionResult GetCoProducersByRating(string id)
-    {
-        var coProducers = _ds.GetCoproducersByRating(id).Select(x => CreateCoProducersModel(x)).ToList();
-
-        return Ok(coProducers);
-    }
 
     [HttpGet("{tId}/reviews")]
     public IActionResult GetReviews(string tId)
@@ -186,125 +177,74 @@ public class TitleController : BaseController
     }
 
 
-    private Model? CreateModel<Model, Entity>(Entity entity, string entityName, object args)
-    {
-
-        var model = entity.Adapt<Model>();
-        var url = GetWebpageUrl(entityName,"Title", args);
-
-        if (model is MovieModel movieModel && entity is Movie movie)
-        {
-            MovieModel(movieModel, movie, url);
-        }
-        else if (model is EpisodeModel episodeModel && entity is Episode episode)
-        {
-            EpisodeModel(episodeModel, episode, url);
-        }
-        else if (model is InvolvedInModel involvedInModel &&
-                    entity is InvolvedIn involvedIn)
-        {
-            InvolvedInModel(involvedInModel, involvedIn, url);
-        }
-        else if (model is CastModel castModel && entity is InvolvedIn cast)
-        {
-            CastModel(castModel, cast, url);
-        }
-        else if (model is SimilarTitlesModel similarTitlesModel && entity is SimilarTitle similarTitle)
-        {
-            SimilarTitlesModel(similarTitlesModel, similarTitle, url);
-        }
-        else if (model is CoProducersModel coProducersModel && entity is Person person)
-        {
-            CoProducersModel(coProducersModel, person, url);
-        }
-        return model;
-    }
-
-    private void MovieModel(MovieModel movieModel, Movie movie, string? url)
-    {
-        movieModel.Url = url;
-        movieModel.IsAdult = movie.Title.IsAdult;
-        movieModel.Released = movie.Title.Released;
-        movieModel.Language = movie.Title.Language;
-        movieModel.Country = movie.Title.Country;
-        movieModel.RunTime = movie.Title.RunTime;
-        movieModel.Poster = movie.Title.Poster;
-    }
-
-    private void EpisodeModel(EpisodeModel episodeModel, Episode episode, string? url)
-    {
-        episodeModel.Url = url;
-        episodeModel.Name = episode.Title._Title;
-        episodeModel.Plot = episode.Title.Plot;
-        episodeModel.Rating = episode.Title.Rating;
-        episodeModel.IsAdult = episode.Title.IsAdult;
-        episodeModel.Released = episode.Title.Released;
-        episodeModel.Language = episode.Title.Language;
-        episodeModel.Country = episode.Title.Country;
-        episodeModel.RunTime = episode.Title.RunTime;
-        episodeModel.Poster = episode.Title.Poster;
-    }
-
-    private void CastModel(CastModel castModel, InvolvedIn involvedIn, string? url)
-    {
-        castModel.Url = url;
-        castModel.Person = involvedIn.Person.Name;
-        castModel.Character = involvedIn.Character;
-    }
-
-    private void InvolvedInModel(InvolvedInModel involvedInModel, InvolvedIn involvedIn, string? url)
-    {
-        involvedInModel.Url = url;
-        involvedInModel.TitleName = involvedIn.Title._Title;
-        involvedInModel.Person = involvedIn.Person.Name;
-    }
-
-    private void SimilarTitlesModel(SimilarTitlesModel similarTitlesModel, SimilarTitle similarTitle, string? url)
-    {
-        similarTitlesModel.Url = url;
-        similarTitlesModel.SimilarTitleId = similarTitle.SimilarTitleId;
-        similarTitlesModel.SimilarTitle = similarTitle.SimilarTitleName;
-        similarTitlesModel.AmountOfSimilarGenres = similarTitle.MultipleSameGenre;
-    }
-    private void CoProducersModel(CoProducersModel coProducersModel, Person person, string? url)
-    {
-        coProducersModel.Url = url;
-        coProducersModel.Title = person.InvolvedIn.Select(x => x.Title._Title).FirstOrDefault(); 
-        coProducersModel.Person =  person.Name;
-        coProducersModel.Job = person.InvolvedIn.Select(x => x.Job).FirstOrDefault();
-        coProducersModel.Rating = person.Rating;
-    }
-
+    // CreateModel
 
     private MovieModel? CreateMovieModel(Movie movie)
     {
-        return CreateModel<MovieModel, Movie>(movie, nameof(GetMovie), new { movie.Id });
+        var model = movie.Adapt<MovieModel>();
+        var url = GetWebpageUrl(nameof(GetMovies), "Title", new { movie.Id });
+        model.Url = url;
+        model.IsAdult = movie.Title.IsAdult;
+        model.Released = movie.Title.Released;
+        model.Language = movie.Title.Language;
+        model.Country = movie.Title.Country;
+        model.RunTime = movie.Title.RunTime;
+        model.Poster = movie.Title.Poster;
+        return model;
     }
 
     private EpisodeModel? CreateEpisodeModel(Episode episode)
     {
-        return CreateModel<EpisodeModel, Episode>(episode, nameof(GetEpisode), new { episode.Id });
+        var model = episode.Adapt<EpisodeModel>();
+        var url = GetWebpageUrl(nameof(GetEpisodes), "Title", new { episode.Id });
+        model.Url = url;
+        model.Name = episode.Title._Title;
+        model.Plot = episode.Title.Plot;
+        model.Rating = episode.Title.Rating;
+        model.IsAdult = episode.Title.IsAdult;
+        model.Released = episode.Title.Released;
+        model.Language = episode.Title.Language;
+        model.Country = episode.Title.Country;
+        model.RunTime = episode.Title.RunTime;
+        model.Poster = episode.Title.Poster;
+        return model;
     }
 
     private InvolvedInModel? CreateInvolvedTitleModel(InvolvedIn involvedIn)
     {
-        return CreateModel<InvolvedInModel, InvolvedIn>(involvedIn, nameof(GetInvolvedIn), new { involvedIn.TitleId });
+        var model = involvedIn.Adapt<InvolvedInModel>();
+        var url = GetWebpageUrl(nameof(GetInvolvedIn), "Title", new { involvedIn.TitleId });
+        model.Url = url;
+        model.TitleName = involvedIn.Title._Title;
+        model.Person = involvedIn.Person.Name;
+        model.Job = involvedIn.Job;
+        model.Rating = involvedIn.Person.Rating;
+        return model;
     }
-    
+
     private CastModel? CreateCastModel(InvolvedIn involvedIn)
     {
-        return CreateModel<CastModel, InvolvedIn>(involvedIn, nameof(GetCastFromTitle), new { involvedIn.TitleId });
+        var model = involvedIn.Adapt<CastModel>();
+        var url = GetWebpageUrl(nameof(GetCastFromTitle), "Title", new { involvedIn.TitleId });
+        model.Url = url;
+        model.TitleName = involvedIn.Title._Title;
+        model.Person = involvedIn.Person.Name;
+        model.Character = involvedIn.Character;
+        return model;
     }
 
     private SimilarTitlesModel? CreateSimilarTitlesModel(SimilarTitle similarTitle)
     {
-        return CreateModel<SimilarTitlesModel, SimilarTitle>(similarTitle, nameof(GetSimilarTitles), new { similarTitle.SimilarTitleId });
+        var model = similarTitle.Adapt<SimilarTitlesModel>();
+        var url = GetWebpageUrl(nameof(GetSimilarTitles), "Title", new { similarTitle.SimilarTitleId });
+        model.Url = url;
+        model.SimilarTitleId = similarTitle.SimilarTitleId;
+        model.SimilarTitle = similarTitle.SimilarTitleName;
+        model.AmountOfSimilarGenres = similarTitle.MultipleSameGenre;
+        return model;
+
     }
-    private CoProducersModel? CreateCoProducersModel(Person person)
-    {
-        return CreateModel<CoProducersModel, Person>(person, nameof(GetCoProducersByRating), new { person.Id });
-    }
-    
+
     private static ReviewModel CreateReviewModel(UserTitleReview review)
     {
         var model = review.Adapt<ReviewModel>();
@@ -312,5 +252,18 @@ public class TitleController : BaseController
         model.Text = review.Review.Text;
         return model;
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
 

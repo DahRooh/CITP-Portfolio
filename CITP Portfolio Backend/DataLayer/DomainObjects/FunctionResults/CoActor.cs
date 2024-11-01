@@ -1,0 +1,21 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace DataLayer.DomainObjects.FunctionResults
+{
+    public class CoActor
+    {
+        public string PersonId { get; set; }
+        public string _CoActor { get; set; }
+        public string TitleName { get; set; }
+        public double PersonRating { get; set; }
+
+
+
+
+
+    }
+}

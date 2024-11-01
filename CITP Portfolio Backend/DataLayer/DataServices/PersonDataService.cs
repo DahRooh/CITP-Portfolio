@@ -1,4 +1,5 @@
 using DataLayer.DomainObjects;
+using DataLayer.DomainObjects.FunctionResults;
 using Microsoft.EntityFrameworkCore;
 using System;
 
@@ -144,5 +145,13 @@ public class PersonDataService : IPersonDataService
         return true;
     }
 
-    
+
+    public IList<CoActor> GetCoActors(string id)
+    {
+        db = new MVContext();
+        var coActors = db.CoActors.FromSqlRaw("select * from find_coactors({0})", id).ToList();
+        return coActors;
+    }
+
+
 }
