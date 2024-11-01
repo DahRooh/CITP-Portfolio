@@ -654,7 +654,30 @@ played).
 Hint: You may for this as well as for other purposes find a view helpful to make query expressions easier (to express and to read). An example of such a view could be one that collects the most important columns from title, principals and name in a single virtual table.
 */
 
+select * from title_cast;
 
+drop function if exists find_coactors_with_skip;
+create function find_coactors_with_skip(actor_id varchar, skip int,take int)
+returns table (
+      person_id varchar,
+      co_actor varchar,
+      title_name varchar,
+      person_rating numeric(8,2),
+      counted bigint
+      
+      )
+language plpgsql as $$
+begin
+  return query
+    select t1.p_id, t1.name, t1.title, t1.rating, count(distinct t2.title) 
+    from title_cast t1 
+    join title_cast t2 on t1.title = t2.title
+    where t2.p_id = actor_id and t1.p_id <> actor_id
+    group by t1.p_id, t1.name, t1.title, t1.rating
+    order by count desc
+    limit take offset skip;
+end;
+$$;
 
 drop function if exists find_coactors;
 create function find_coactors(actor_id varchar)
@@ -674,11 +697,9 @@ begin
     join title_cast t2 on t1.title = t2.title
     where t2.p_id = actor_id and t1.p_id <> actor_id
     group by t1.p_id, t1.name, t1.title, t1.rating
-    order by count desc
-    limit 10;
+    order by count desc;
 end;
 $$;
-
 
 
 /*
@@ -1088,8 +1109,6 @@ begin
 end;
 $$;
 
-select * from title limit 10;
-
 -- temp function to call insert and obtain the result
 drop function if exists make_search(varchar, int, int);
 create function make_search(keyword varchar, take int, skip int default 0) 
@@ -1141,6 +1160,4 @@ begin
 			order by frequency desc;
 end;
 $$;
-
-select * from make_search('big monkey');
 
