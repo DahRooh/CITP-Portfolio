@@ -114,12 +114,9 @@ namespace DataLayer.DataServices
             {
                 return null;
             }
-<<<<<<< Updated upstream
+
             return db.UserSearches.Include(x => x.User).Include(x => x.Search).Where(x => x.UserId == userId).ToList();
-=======
-            return db.UserSearches.Include(x => x.Search)
-                .Where(x => x.UserId == userId).ToList();
->>>>>>> Stashed changes
+
         }
 
         public List<(Title, int)> GetLikeHistory(int userId)

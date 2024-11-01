@@ -8,3 +8,10 @@
 
 
 
+/CITP Portfolio Backend/MovieWebserver/obj
+/CITP Portfolio Backend/MovieWebserver/obj
+/CITP Portfolio Backend/MovieWebserver/obj
+*.dll
+/CITP Portfolio Backend/.vs
+/CITP Portfolio Backend/DataLayer/bin
+/CITP Portfolio Backend/DataLayer/obj

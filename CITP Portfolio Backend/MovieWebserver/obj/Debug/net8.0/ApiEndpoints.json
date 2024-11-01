@@ -424,6 +424,23 @@
   },
   {
     "ContainingType": "MovieWebserver.Controllers.UserController",
+    "Method": "GetUserLike",
+    "RelativePath": "api/user/{userId}/get_likes",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [],
+    "EndpointName": "GetUserLike"
+  },
+  {
+    "ContainingType": "MovieWebserver.Controllers.UserController",
     "Method": "DeleteReview",
     "RelativePath": "api/user/{userId}/review/{reviewId}",
     "HttpMethod": "DELETE",
