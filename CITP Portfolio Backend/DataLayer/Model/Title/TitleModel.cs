@@ -19,6 +19,5 @@ public class TitleModel
     public string? Poster { get; set; }
 
     public List<PersonModel> people { get; set; }
-
-
+    
 }

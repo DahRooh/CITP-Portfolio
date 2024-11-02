@@ -79,7 +79,7 @@ public class TitleController : BaseController
     [HttpGet("movie/{id}", Name = nameof(GetMovie))]
     public IActionResult GetMovie(string id)
     {
-        var movie = _ds.GetMovie(id);
+        var movie = CreateMovieModel(_ds.GetMovie(id));
         if (movie == null)
         {
             return NotFound();
@@ -109,7 +109,7 @@ public class TitleController : BaseController
     [HttpGet("episode/{id}", Name = nameof(GetEpisode))]
     public IActionResult GetEpisode(string id)
     {
-        var episode = _ds.GetEpisode(id);
+        var episode = CreateEpisodeModel(_ds.GetEpisode(id));
 
         if (episode == null)
         {
@@ -133,7 +133,7 @@ public class TitleController : BaseController
     }
 
     [HttpGet("episodes", Name = nameof(GetEpisodes))]
-    public IActionResult GetEpisodes(int page, int pageSize)
+    public IActionResult GetEpisodes(int page = 1, int pageSize = 20)
     {
         var episodes = _ds.GetEpisodes(page, pageSize).Select(x => CreateEpisodeModel(x)).ToList();
 
@@ -152,7 +152,7 @@ public class TitleController : BaseController
 
     
     
-    [HttpGet("personsInvolvedInTitle/{id}", Name = nameof(GetInvolvedIn))]
+    [HttpGet("{id}/crew", Name = nameof(GetInvolvedIn))]
     public IActionResult GetInvolvedIn(string id)
     {
         var peopleInvolvedInTitle = _ds.GetInvolvedIn(id).Select(x => CreateInvolvedTitleModel(x)).ToList();
@@ -166,7 +166,7 @@ public class TitleController : BaseController
 
 
 
-    [HttpGet("cast/{id}", Name = nameof(GetCastFromTitle))]
+    [HttpGet("{id}/cast", Name = nameof(GetCastFromTitle))]
     public IActionResult GetCastFromTitle(string id)
     {
         var cast = _ds.GetCast(id).Select(x => CreateCastModel(x)).ToList();
@@ -238,34 +238,36 @@ public class TitleController : BaseController
 
     }
 
-
-
-
-
     // CreateModel
 
     private MovieModel? CreateMovieModel(Movie movie)
     {
         var model = movie.Adapt<MovieModel>();
-        var url = GetWebpageUrl(nameof(GetMovies), "Title", new { movie.Id });
+        var url = GetWebpageUrl(nameof(GetMovie), "Title", new { movie.Id });
         model.Url = url;
+        model._Title = movie.Title._Title;
+        model.Plot = movie.Title.Plot;
+        model.Rating = movie.Title.Rating;
+        model.Type = movie.Title.Type;
         model.IsAdult = movie.Title.IsAdult;
         model.Released = movie.Title.Released;
         model.Language = movie.Title.Language;
         model.Country = movie.Title.Country;
         model.RunTime = movie.Title.RunTime;
         model.Poster = movie.Title.Poster;
+        
         return model;
     }
 
     private EpisodeModel? CreateEpisodeModel(Episode episode)
     {
         var model = episode.Adapt<EpisodeModel>();
-        var url = GetWebpageUrl(nameof(GetEpisodes), "Title", new { episode.Id });
+        var url = GetWebpageUrl(nameof(GetEpisode), "Title", new { episode.Id });
         model.Url = url;
-        model.Name = episode.Title._Title;
+        model._Title = episode.Title._Title;
         model.Plot = episode.Title.Plot;
         model.Rating = episode.Title.Rating;
+        model.Type = episode.Title.Type;
         model.IsAdult = episode.Title.IsAdult;
         model.Released = episode.Title.Released;
         model.Language = episode.Title.Language;
@@ -278,9 +280,8 @@ public class TitleController : BaseController
     private InvolvedInModel? CreateInvolvedTitleModel(InvolvedIn involvedIn)
     {
         var model = involvedIn.Adapt<InvolvedInModel>();
-        var url = GetWebpageUrl(nameof(GetInvolvedIn), "Title", new { involvedIn.TitleId });
+        var url = GetWebpageUrlByAction(nameof(PersonController.GetPerson),  involvedIn.PersonId, "Person");
         model.Url = url;
-        model.TitleName = involvedIn.Title._Title;
         model.Person = involvedIn.Person.Name;
         model.Job = involvedIn.Job;
         model.Rating = involvedIn.Person.Rating;
@@ -290,9 +291,8 @@ public class TitleController : BaseController
     private CastModel? CreateCastModel(InvolvedIn involvedIn)
     {
         var model = involvedIn.Adapt<CastModel>();
-        var url = GetWebpageUrl(nameof(GetCastFromTitle), "Title", new { involvedIn.TitleId });
+        var url = GetWebpageUrlByAction(nameof(PersonController.GetPerson), involvedIn.PersonId, "Person");
         model.Url = url;
-        model.TitleName = involvedIn.Title._Title;
         model.Person = involvedIn.Person.Name;
         model.Character = involvedIn.Character;
         return model;

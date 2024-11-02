@@ -65,8 +65,8 @@ Authorization: Bearer eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW
 
 ### 
 POST {{MovieWebserver_HostAddress}}/api/title/tt0181689/review
-Accept: application/json
 Authorization: Bearer eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTUxMiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiMSIsImV4cCI6MTczMDU5MTY5OH0.ijy-Bhgh7t43wCu970p-zNEabIML9VYkw2LxLtDpGBdT5vSA67Hn6uXtZFtGGN_zhhvdXLnGTfiPH77icDym9w
+Accept: application/json
 Content-Type: application/json
 {
   "ReviewText": "Good Movie",

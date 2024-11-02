@@ -7,6 +7,5 @@ public class Movie
 
     public Title Title { get; set; }
 
-
 }
 

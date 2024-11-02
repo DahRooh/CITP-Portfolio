@@ -298,10 +298,9 @@ public class UserController : BaseController
     public static BookmarkModel CreateBookmarkModel(Bookmark bookmark)
     {
         var model = bookmark.Adapt<BookmarkModel>();
-
-        
         var webpageId = new string(bookmark.Id.SkipWhile(x => Char.IsDigit(x)).ToArray());
-
+        model.Title = bookmark.WebpageBookmark.Webpage.Title._Title;
+        
         model.WebpageId = webpageId;
 
         return model;

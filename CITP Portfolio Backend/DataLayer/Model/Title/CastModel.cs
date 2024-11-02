@@ -10,7 +10,6 @@ namespace MovieWebserver.Model.Title;
 public class CastModel
 {
     public string Url { get; set; }
-    public string TitleName { get; set; }
     public string Person { get; set; }
     public string Character { get; set; }
 

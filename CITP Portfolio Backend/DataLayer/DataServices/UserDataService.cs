@@ -131,6 +131,7 @@ namespace DataLayer.DataServices
             db = new MVContext();
             return db.Bookmarks
                 .Include(x => x.WebpageBookmark).ThenInclude(x => x.Webpage)
+                .ThenInclude(x => x.Title)
                 .Include(x => x.BookmarkedBy)
                 .Where(x => x.BookmarkedBy.UserId == userId).ToList();
 

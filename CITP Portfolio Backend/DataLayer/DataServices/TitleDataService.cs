@@ -147,11 +147,13 @@ public class TitleDataService : ITitleDataService
             .Where(x => x.TitleId == id)
             .OrderBy(x => x.Person.Rating)
             .ToList();
+        
+        var distinctPersonInvolvedIn = personInvolvedIn.DistinctBy(x => x.PersonId).ToList();
 
-        return personInvolvedIn;
+        return distinctPersonInvolvedIn;
     }
 
-    public IList<InvolvedIn> GetCast(string id)
+    public IList<InvolvedIn> GetCast(string id) 
     {
         db = new MVContext();
         var cast = db.PersonInvolvedIn
@@ -159,7 +161,6 @@ public class TitleDataService : ITitleDataService
             .Include(x => x.Person)
             .Where(x => x.TitleId == id)
             .Where(x => x.Character != null).ToList();
-        //.Any(p => p.ProfessionName == "actor" || p.ProfessionName == "actress")).ToList();
 
         return cast;
     }
