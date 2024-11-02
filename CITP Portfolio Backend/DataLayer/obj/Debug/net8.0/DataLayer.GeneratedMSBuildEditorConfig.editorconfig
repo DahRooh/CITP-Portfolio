@@ -8,6 +8,10 @@ build_property.PlatformNeutralAssembly =
 build_property.EnforceExtendedAnalyzerRules = 
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = DataLayer
+<<<<<<< Updated upstream
 build_property.ProjectDir = C:\Users\eray2\Documents\Github\semester1\Portfolio\CITP-Portfolio\CITP Portfolio Backend\DataLayer\
+=======
+build_property.ProjectDir = /Users/dagmarree/Documents/GitHub/CITP-Portfolio/CITP Portfolio Backend/DataLayer/
+>>>>>>> Stashed changes
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 

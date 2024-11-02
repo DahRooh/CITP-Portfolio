@@ -132,8 +132,8 @@ public class PersonController : BaseController
 
         var count = _ds.NumberOfCoActors(id);
         var results = CreatePaging(nameof(GetCoActors), "Person", page, pageSize, count, coActors, id);
+        
         return Ok(results);
-
     }
 
 
@@ -162,6 +162,5 @@ public class PersonController : BaseController
 
         return model;
     }
-
-
 }
+

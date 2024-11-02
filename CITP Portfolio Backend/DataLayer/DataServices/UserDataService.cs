@@ -30,6 +30,7 @@ namespace DataLayer.DataServices
             {
                 return null;
             }
+
             return user;
         }
 
@@ -41,6 +42,7 @@ namespace DataLayer.DataServices
             {
                 return null;
             }
+
             return user;
         }
 
@@ -51,6 +53,7 @@ namespace DataLayer.DataServices
             if (user == null) return false;
             return true;
         }
+
         public bool CreateBookmark(string titleId, int userId)
         {
             db = new MVContext();
@@ -59,13 +62,15 @@ namespace DataLayer.DataServices
 
 
 
+        //public User CreateUser(CreateUserModel user, string salt)
         public User CreateUser(CreateUserModel user, string salt)
         {
             db = new MVContext();
 
             var newId = db.Users.FirstOrDefault() == null ? 1 : db.Users.Max(x => x.Id) + 1;
 
-            db.Database.ExecuteSqlRaw("call signup({0}, {1}, {2}, {3}, {4})", newId, user.Username, user.Password, user.Email, salt);
+            db.Database.ExecuteSqlRaw("call signup({0}, {1}, {2}, {3}, {4})", newId, user.Username, user.Password,
+                user.Email, salt);
             var newUser = db.Users.Where(x => x.Username == user.Username).First();
 
             if (newUser == null) return null;
@@ -79,12 +84,12 @@ namespace DataLayer.DataServices
         // this to the title data service, a user can create a review on the title, not from the user route
         //public UserTitleReview CreateReview(ReviewModel review)
         //{
-         //   db = new MVContext();
+        //   db = new MVContext();
 
 //            db.Database.ExecuteSqlRaw("call rate({0}, {1}, {2}, {3})", review.TitleId, review.CreatedBy.Id, review.Liked, review.Text);
- //           return db.UserReviews.Where(x => x.TitleId == review.TitleId & x.UserId == review.CreatedBy.Id).First();
-   //     }
-        
+        //           return db.UserReviews.Where(x => x.TitleId == review.TitleId & x.UserId == review.CreatedBy.Id).First();
+        //     }
+
 
         // also to title?
         public bool LikeReview(int reviewId, int userId, int like)
@@ -100,12 +105,12 @@ namespace DataLayer.DataServices
                 .ThenInclude(x => x.createdBy)
                 .ThenInclude(x => x.Title)
                 .Where(x => x.Id == userId).FirstOrDefault();
-            
+
             if (user == null) return null;
-            
+
             return user.UserLikes.ToList();
         }
-        
+
         public List<UserSearch> GetHistory(int userId)
         {
             db = new MVContext();
@@ -182,7 +187,7 @@ namespace DataLayer.DataServices
                 .ToList();
             return reviews;
         }
-        
+
         public Bookmark CreateBookmark()
         {
             throw new NotImplementedException();
@@ -197,17 +202,18 @@ namespace DataLayer.DataServices
 
             return dbChanged;
         }
-        
+
         public bool DeleteReview(int reviewId)
         {
             db = new MVContext();
-            
+
             db.Reviews.Remove(db.Reviews.Single(x => x.Id == reviewId));
             var dbChanged = db.SaveChanges() > 0;
 
             return dbChanged;
         }
 
+<<<<<<< Updated upstream
         public bool DeleteBookmark(string bookmarkId)
         {
             db = new MVContext();
@@ -220,8 +226,17 @@ namespace DataLayer.DataServices
 
 
         public bool UpdateEmail(int userId, string email)
+=======
+        public bool UpdateEmail(string username, string email)
+>>>>>>> Stashed changes
         {
-            throw new NotImplementedException();
+            db = new MVContext();
+
+            var user = db.Users.Where(x => x.Username == username).FirstOrDefault();
+            user.Email = email;
+            var updatedEmail = db.SaveChanges() > 0;
+
+            return updatedEmail;
         }
     }
 }

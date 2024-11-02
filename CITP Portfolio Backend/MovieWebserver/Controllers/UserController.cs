@@ -172,7 +172,44 @@ public class UserController : BaseController
     }
 
 
+<<<<<<< Updated upstream
     // deletes
+=======
+    [HttpPut("{userId}/update_email")]
+    [Authorize]
+    public IActionResult UpdateEmail(int userId, [FromBody] UpdateEmailModel model)
+    {
+        JwtSecurityToken token = GetDecodedToken();
+        User user = _ds.GetUser(token.Claims.FirstOrDefault().Value);
+
+        if (userId != user.Id)
+        { 
+            return Unauthorized();
+        }
+        var updated = _ds.UpdateEmail(user.Username, model.Email);
+
+        if (updated)
+        {
+            return Ok(CreateUserModel(_ds.GetUser(userId)));
+        }
+        return BadRequest(updated);
+        
+        
+        //if (email == null) return NotFound();
+        
+        // xxxxxx    _ds.GetUser(userId).Email;
+        
+        // "nulstil" email på en eller anden måde (null???)
+        // returner den nye email med en tilknyttet funktionalitet (at den kan blive lavet på ny)
+        // ny model?
+        
+    }
+
+
+
+    // deletes
+
+>>>>>>> Stashed changes
     [HttpDelete("{userId}/review/{reviewId}")]
     [Authorize]
     public IActionResult DeleteReview(int userId, int reviewId)
