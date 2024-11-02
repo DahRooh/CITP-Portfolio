@@ -18,13 +18,14 @@ public class MVContext : DbContext
     public DbSet<Person> People { get; set; }
     public DbSet<User> Users { get; set; }
     public DbSet<Webpage> Webpages { get; set; }
+    public DbSet<Bookmark> Bookmarks { get; set; }
     public DbSet<Review> Reviews { get; set; }
 
 
     // relations (mostly used)
     public DbSet<UserSessionsHistory> SessionHistory { get; set; }
 
-    public DbSet<UserBookmark> Bookmarks { get; set; }
+    public DbSet<UserBookmark> UserBookmarks { get; set; }
     public DbSet<UserTitleReview> UserReviews { get; set; }
     public DbSet<InvolvedIn> PersonInvolvedIn { get; set; }
     public DbSet<TitleGenre> TitlesGenres { get; set; }
@@ -232,8 +233,8 @@ public class MVContext : DbContext
     {
         modelBuilder.Entity<Bookmark>().ToTable("bookmark").HasKey(x => x.Id);
 
-        modelBuilder.Entity<Bookmark>().Property(x => x.Id).HasColumnName("session_id");
-        modelBuilder.Entity<Bookmark>().Property(x => x.CreatedAt).HasColumnName("session_end");
+        modelBuilder.Entity<Bookmark>().Property(x => x.Id).HasColumnName("bookmark_id");
+        modelBuilder.Entity<Bookmark>().Property(x => x.CreatedAt).HasColumnName("bookmarked_at");
     }
 
 

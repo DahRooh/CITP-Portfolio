@@ -119,6 +119,7 @@ namespace DataLayer.DataServices
 
         }
 
+
         public List<(Title, int)> GetLikeHistory(int userId)
         {
             throw new NotImplementedException();
@@ -139,7 +140,10 @@ namespace DataLayer.DataServices
         public List<UserBookmark> GetBookmarks(int userId)
         {
             db = new MVContext();
-            return db.Bookmarks.Where(x => x.UserId == userId).ToList();
+            return db.UserBookmarks
+                .Include(x => x.User)
+                .Include(x => x.Bookmark).ThenInclude(x => x.Webpage)
+                .Where(x => x.UserId == userId).ToList();
 
         }
 
@@ -186,7 +190,12 @@ namespace DataLayer.DataServices
 
         public bool DeleteUser(int userId)
         {
-            throw new NotImplementedException();
+            db = new MVContext();
+
+            db.Users.Remove(db.Users.Single(x => x.Id == userId));
+            var dbChanged = db.SaveChanges() > 0;
+
+            return dbChanged;
         }
         
         public bool DeleteReview(int reviewId)
@@ -198,6 +207,17 @@ namespace DataLayer.DataServices
 
             return dbChanged;
         }
+
+        public bool DeleteBookmark(string bookmarkId)
+        {
+            db = new MVContext();
+
+            db.Bookmarks.Remove(db.Bookmarks.Single(x => x.Id == bookmarkId));
+            var dbChanged = db.SaveChanges() > 0;
+
+            return dbChanged;
+        }
+
 
         public bool UpdateEmail(int userId, string email)
         {

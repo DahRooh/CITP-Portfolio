@@ -73,6 +73,9 @@ public abstract class BaseController : ControllerBase
         };
         return result;
     }
+
+
+
     [NonAction]
     public JwtSecurityToken GetDecodedToken()
     {

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DataLayer.DomainObjects.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,5 +14,6 @@ public class Bookmark
 
 
     public UserBookmark BookmarkedBy { get; set; }
+    public Webpage Webpage { get; set; }
 
 }

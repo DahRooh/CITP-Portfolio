@@ -11,6 +11,8 @@ using DataLayer.DomainObjects.FunctionResults;
 using static Microsoft.Extensions.Logging.EventSource.LoggingEventSource;
 using Microsoft.AspNetCore.Authorization;
 using System;
+using System.IdentityModel.Tokens.Jwt;
+using DataLayer.IDataServices;
 namespace MovieWebserver.Controllers;
 
 [ApiController]
@@ -18,11 +20,13 @@ namespace MovieWebserver.Controllers;
 public class TitleController : BaseController
 {
     private readonly ITitleDataService _ds;
+    private readonly IUserDataService _userDs;
     private readonly LinkGenerator _linkGenerator;
 
-    public TitleController(ITitleDataService ds, LinkGenerator linkGenerator) : base(linkGenerator)
+    public TitleController(ITitleDataService ds, IUserDataService userDs, LinkGenerator linkGenerator) : base(linkGenerator)
     {
         _ds = ds;
+        _userDs = userDs;
         _linkGenerator = linkGenerator;
     }
 
@@ -40,7 +44,31 @@ public class TitleController : BaseController
         
         return Created(nameof(CreateReview), newReview);
     }
-    
+
+    [HttpPost("{tId}")]
+    [Authorize]
+    public IActionResult CreateBookmark(string tId)
+    {
+        JwtSecurityToken token = GetDecodedToken();
+        User user = _userDs.GetUser(token.Claims.FirstOrDefault().Value);
+
+        if (user == null)
+        {
+            return BadRequest();
+        }
+
+        var bookmarked = _ds.CreateBookmark(tId, user.Id);
+
+        if (bookmarked)
+        {
+            return Ok();
+        }
+
+        return NotFound();
+
+    }
+
+
     [HttpGet("movie/{id}", Name = nameof(GetMovie))]
     public IActionResult GetMovie(string id)
     {
@@ -175,6 +203,8 @@ public class TitleController : BaseController
         
         return Ok(reviews);
     }
+
+
 
 
     // CreateModel

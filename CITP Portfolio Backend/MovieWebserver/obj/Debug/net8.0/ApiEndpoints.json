@@ -170,6 +170,22 @@
   },
   {
     "ContainingType": "MovieWebserver.Controllers.TitleController",
+    "Method": "CreateBookmark",
+    "RelativePath": "api/title/{tId}",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "tId",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MovieWebserver.Controllers.TitleController",
     "Method": "GetReviews",
     "RelativePath": "api/title/{tId}/reviews",
     "HttpMethod": "GET",
@@ -404,6 +420,43 @@
     ],
     "ReturnTypes": [],
     "EndpointName": "GetUser"
+  },
+  {
+    "ContainingType": "MovieWebserver.Controllers.UserController",
+    "Method": "DeleteUser",
+    "RelativePath": "api/user/{userId}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MovieWebserver.Controllers.UserController",
+    "Method": "DeleteBookmark",
+    "RelativePath": "api/user/{userId}/bookmark/{bookmarkId}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "bookmarkId",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
   },
   {
     "ContainingType": "MovieWebserver.Controllers.UserController",

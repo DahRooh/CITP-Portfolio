@@ -221,6 +221,7 @@ declare
 begin
   begin
     insert into bookmark values (bookmark_id, current_timestamp);
+    insert into bookmark values (bookmark_id, current_timestamp);
     insert into user_bookmarks values (bookmark_id, user_id);
     insert into wp_bookmarks values (bookmark_id, webpage_id);
 
@@ -232,9 +233,9 @@ begin
 end;
 $$;
 
+select * from title limit 10;
 
-
-
+select * from  bookmark;
 
 ------------------------------------------
 -- get bookmarks

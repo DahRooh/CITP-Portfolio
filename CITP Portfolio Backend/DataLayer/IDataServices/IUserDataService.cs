@@ -42,4 +42,5 @@ public interface IUserDataService
     public bool DeleteUser(int userId);
 
     public bool DeleteReview(int reviewId);
+    public bool DeleteBookmark(string bookmarkId);
 }

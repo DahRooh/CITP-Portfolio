@@ -37,7 +37,6 @@ public class UserController : BaseController
     }
 
     // creates
-
     [HttpPost("CreateUser")]
     public IActionResult CreateUser([FromBody] CreateUserModel userModel)
     {
@@ -173,13 +172,7 @@ public class UserController : BaseController
     }
 
 
-
-
     // deletes
-
-    
-    
-
     [HttpDelete("{userId}/review/{reviewId}")]
     [Authorize]
     public IActionResult DeleteReview(int userId, int reviewId)
@@ -187,7 +180,7 @@ public class UserController : BaseController
         JwtSecurityToken token = GetDecodedToken();
         User user = _ds.GetUser(token.Claims.FirstOrDefault().Value);
 
-        if (userId != user.Id)
+        if (user == null || userId != user.Id)
         {
             return BadRequest();
         }
@@ -203,6 +196,35 @@ public class UserController : BaseController
         return NotFound();
     }
 
+    [HttpDelete("{userId}/bookmark/{bookmarkId}")]
+    [Authorize]
+    public IActionResult DeleteBookmark(int userId, string bookmarkId)
+    {
+        JwtSecurityToken token = GetDecodedToken();
+        User user = _ds.GetUser(token.Claims.FirstOrDefault().Value);
+        if (user == null || userId != user.Id) return BadRequest();
+        
+        var deleted = _ds.DeleteBookmark(bookmarkId);
+
+        if (deleted) return Ok();
+
+        return NotFound();
+    }
+
+    [HttpDelete("{userId}")]
+    [Authorize]
+    public IActionResult DeleteUser(int userId)
+    {
+        JwtSecurityToken token = GetDecodedToken();
+        User user = _ds.GetUser(token.Claims.FirstOrDefault().Value);
+        if (user == null || userId != user.Id) return BadRequest();
+
+        var deleted = _ds.DeleteUser(userId);
+
+        if (deleted) return Ok();
+
+        return NotFound();
+    }
 
 
     // models
@@ -240,7 +262,9 @@ public class UserController : BaseController
 
     public static BookmarkModel CreateBookmarkModel(UserBookmark bookmark)
     {
-        return bookmark.Adapt<BookmarkModel>();
+        var model = bookmark.Adapt<BookmarkModel>();
+        model.CreatedAt = bookmark.Bookmark.CreatedAt;
+        return model;
     }
     
     private static TitleModel CreateTitleModel(Title title)

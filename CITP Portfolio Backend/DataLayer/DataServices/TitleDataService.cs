@@ -40,6 +40,21 @@ public class TitleDataService : ITitleDataService
         return newReview;
     }
 
+    public bool CreateBookmark(string tId, int id)
+    {
+        db = new MVContext();
+        tId = "wp" + tId;
+        var created = db.Database.ExecuteSqlRaw("call insert_bookmark({0}, {1})", id, tId) > 0;
+
+        if (created)
+        {
+            return true;
+        }
+
+        return false;
+    }
+
+
     public Movie? GetMovie(string id)
     {
         db = new MVContext();
