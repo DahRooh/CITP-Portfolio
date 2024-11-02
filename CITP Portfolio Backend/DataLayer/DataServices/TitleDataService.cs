@@ -14,6 +14,7 @@ using static Microsoft.Extensions.Logging.EventSource.LoggingEventSource;
 using DataLayer.Model.Title;
 using MovieWebserver.Model.Title;
 using Mapster;
+using Microsoft.Extensions.Configuration.UserSecrets;
 
 namespace DataLayer;
 
@@ -179,8 +180,6 @@ public class TitleDataService : ITitleDataService
     }
 
 
-
-
     public IList<UserTitleReview> GetReviews(string tId)
     {
         db = new MVContext();
@@ -192,11 +191,22 @@ public class TitleDataService : ITitleDataService
         
         return reviews;
     }
+
+
+    public bool UpdateReview(string titleId, int userId, int userRating, string inReview)
+    {
+        db = new MVContext();
+        var user = db.Users.Where(x => x.Id == userId).FirstOrDefault();
+        
+        if (user != null)
+        {
+            db.Database.ExecuteSqlRaw("call rate({0},{1},{2},{3})", titleId, userId, userRating, inReview);
+            return true;
+        }
+        return false;
+        
+    }
     
-
-
-
-
 
 
 

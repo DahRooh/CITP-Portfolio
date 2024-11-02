@@ -186,6 +186,37 @@
   },
   {
     "ContainingType": "MovieWebserver.Controllers.TitleController",
+    "Method": "UpdateReview",
+    "RelativePath": "api/title/{tId}/review/{revId}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "tId",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "userRating",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "inReview",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "revId",
+        "Type": "",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MovieWebserver.Controllers.TitleController",
     "Method": "GetReviews",
     "RelativePath": "api/title/{tId}/reviews",
     "HttpMethod": "GET",

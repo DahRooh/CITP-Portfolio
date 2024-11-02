@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Authorization;
 using System;
 using System.IdentityModel.Tokens.Jwt;
 using DataLayer.IDataServices;
+using System.Runtime.Intrinsics.X86;
 namespace MovieWebserver.Controllers;
 
 [ApiController]
@@ -210,6 +211,33 @@ public class TitleController : BaseController
         return Ok(models);
     }
 
+    [HttpPut("{tId}/review/{revId}")]
+    [Authorize]
+    public IActionResult UpdateReview(string tId, [FromQuery] int userRating, [FromQuery] string inReview)
+    {
+        var token = GetDecodedToken();
+        User user = _userDs.GetUser(token.Claims.FirstOrDefault().Value);
+
+        if (user != null)
+        {
+            var update = _ds.UpdateReview(tId, user.Id, userRating, inReview);
+
+            if (update)
+            {
+                return Ok(update);
+            }
+            else
+            {
+                return NotFound();
+            }
+
+        }
+
+        return Unauthorized();
+
+    }
+
+
 
 
 
@@ -288,16 +316,6 @@ public class TitleController : BaseController
         model.Username = review.User.Username;
         return model;
     }
-
-
-
-
-
-
-
-
-
-
 
 
 

@@ -29,4 +29,7 @@ public interface ITitleDataService
     UserTitleReview CreateReview(CreateReviewModel model, int userId);
     IList<UserTitleReview> GetReviews(string tId);
     bool CreateBookmark(string tId, int id);
+
+    bool UpdateReview(string titleId, int userId, int userRating, string inReview);
+
 }

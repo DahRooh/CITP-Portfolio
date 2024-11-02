@@ -55,24 +55,34 @@ Authorization: Bearer eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW
 
 
 ### 
-
-Post {{MovieWebserver_HostAddress}}/api/title/review?ReviewText=12322&TitleId=tt0181689&Rating=7
-Authorization: Bearer eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTUxMiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiMSIsImV4cCI6MTczMDU4NDE0OH0.k3axMQgfnS_OeQ5EMcPdGrFenr5wozO7HKDx846kj4UiuDEJfHqCgrjNFr1Mp0r9W20RKdVZu6YgE129_YMXDg
+Post {{MovieWebserver_HostAddress}}/api/title/review?Username=6&ReviewText=So%20gooch&TitleId=tt0181689&Rating=6
 Accept: application/json
-
+Authorization: Bearer eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTUxMiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiNiIsImV4cCI6MTczMDU3NTYzMX0.fOOfRY9XZetHYmHFc5CCqc93E5-B4eabVdFPKGGLO2SL1VeiPR7Dcvr2VVCGkFg5OMY2YD74Fjhk7XfYzcaPwQ
+Content-Type: application/json
+{
+  "Username": "6",
+  "ReviewText": "Good Movie",
+  "TitleId": "tt0181689",
+  "Rating": 8
+}
 
 ###
-
 Delete {{MovieWebserver_HostAddress}}/api/user/6/review/7
 Authorization: Bearer eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTUxMiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiMyIsImV4cCI6MTczMDQ0NDA0Mn0.lCH1x0JBbRl1x0cUZpmERwlGthTTIFJQV0ewwTEOULpXTou-VqHqSIrx5eyjMYKf9m0RDJ5kT5jtw0K9HXDxNg
 Accept: application/json
 
-
 ###
-
 POST {{MovieWebserver_HostAddress}}/api/title/tt21050232
 Accept: application/json
 Authorization: Bearer eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTUxMiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiNiIsImV4cCI6MTczMDU3MjQwOH0.NauVY_D9d-etn_t1x4uwDHXNjk6BV7z7Qgue8rjl_7Hi4QewPdP1HrcTrjp3gtdidrVR_442P7uiEH-l3iZ1gw
 
-
+###
+PUT {{MovieWebserver_HostAddress}}/api/title/tt21050232/review
+Accept: application/json
+Authorization: Bearer eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTUxMiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiNiIsImV4cCI6MTczMDU3NTYzMX0.fOOfRY9XZetHYmHFc5CCqc93E5-B4eabVdFPKGGLO2SL1VeiPR7Dcvr2VVCGkFg5OMY2YD74Fjhk7XfYzcaPwQ
+Content-Type: application/json
+{
+  "userRating": 7,
+  "inReview": "meh finno"
+}
 
