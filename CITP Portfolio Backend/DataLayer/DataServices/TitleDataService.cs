@@ -21,19 +21,23 @@ public class TitleDataService : ITitleDataService
 {
     private MVContext db;
 
-    public UserTitleReview CreateReview(CreateReviewModel model)
+    public UserTitleReview CreateReview(CreateReviewModel model, int userId)
     {
         db = new MVContext();
 
         var title = db.Titles.Where(x => x.Id == model.TitleId).FirstOrDefault();
-        var user = db.Users.Where(x => x.Username == model.Username).FirstOrDefault();
 
-        if (title == null || user == null) return null;
-        
+        if (title == null) return null;
 
-        db.Database.ExecuteSqlRaw("call rate({0},{1},{2},{3})", title.Id, user.Id, model.Rating, model.ReviewText);
+        db.Database.ExecuteSqlRaw("call rate({0},{1},{2},{3})", title.Id, userId, model.Rating, model.ReviewText);
 
-        var newReview = db.UserReviews.Where(x => x.UserId == user.Id).Where(x => x.TitleId == title.Id).FirstOrDefault();
+        var newReview = db.UserReviews
+            .Include(x => x.Review)
+            .Include(x => x.User)
+            .Include(x => x.Title)
+            .Where(x => x.UserId == userId)
+            .Where(x => x.TitleId == title.Id)
+            .FirstOrDefault();
 
         if (newReview == null) return null;
 

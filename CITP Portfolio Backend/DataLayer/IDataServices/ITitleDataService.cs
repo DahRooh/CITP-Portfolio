@@ -26,7 +26,7 @@ public interface ITitleDataService
 
     IList<TitleGenre> GetGenre(string id);
     IList<SimilarTitle> GetSimilarTitles(string id);
-    UserTitleReview CreateReview(CreateReviewModel model);
+    UserTitleReview CreateReview(CreateReviewModel model, int userId);
     IList<UserTitleReview> GetReviews(string tId);
     bool CreateBookmark(string tId, int id);
 }

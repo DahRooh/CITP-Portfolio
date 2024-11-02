@@ -49,6 +49,7 @@ call delete_bookmark('1wptt2506874', 1);
 
 call rate('tt21050232', 1, 2, 'Bad movie');
 
+
 call like_review(1, 1, -1);
 
 select likes from review limit 1;
@@ -66,7 +67,7 @@ call sign_off(1);
 call start_session(1);
 
 call delete_user(1);
-
+select * from rates;
 select person_known_for('Fred Astaire') limit 1;
 
 select * from find_coactors('Ian McKellen') limit 1;
@@ -82,4 +83,9 @@ call update_all_people_rating();
 select * from name_ratings('The Hobbit: The Desolation of Smaug') limit 1;
 
 
+
+
+call rate('tt21050232', 8, 2, 'Bad movie');
+
+select * from users;
 

@@ -104,7 +104,7 @@ create table rates
   rev_id int,
   rating numeric(4,2),
   rated_at timestamp,
-  primary key(t_id, u_id),
+  primary key(t_id, u_id, rev_id),
   foreign key (t_id) references title on delete cascade,
   foreign key (u_id) references users on delete cascade,
   foreign key (rev_id) references review on delete cascade

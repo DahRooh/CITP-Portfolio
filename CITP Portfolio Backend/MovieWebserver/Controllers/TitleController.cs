@@ -36,8 +36,13 @@ public class TitleController : BaseController
     {
         //var username = HttpContext.Request.Headers.Authorization.FirstOrDefault();
         // rating, uid, tid, text, 
+        JwtSecurityToken token = GetDecodedToken();
+        User user = _userDs.GetUser(token.Claims.FirstOrDefault().Value);
+
+        if (user == null) Unauthorized();
+
         if (_ds.GetTitle(model.TitleId) == null) return NotFound();
-        var review = _ds.CreateReview(model);
+        var review = _ds.CreateReview(model, user.Id);
         var newReview = CreateReviewModel(review);
 
         if (newReview == null) return BadRequest();
@@ -195,13 +200,14 @@ public class TitleController : BaseController
     [HttpGet("{tId}/reviews")]
     public IActionResult GetReviews(string tId)
     {
-        if (_ds.GetReviews(tId) == null)
+        var reviews = _ds.GetReviews(tId);
+        if (reviews == null)
         {
             return NotFound();
         }
-        var reviews = _ds.GetReviews(tId).Select(x => CreateReviewModel(x));
+        var models = reviews.Select(x => CreateReviewModel(x));
         
-        return Ok(reviews);
+        return Ok(models);
     }
 
 
@@ -278,8 +284,8 @@ public class TitleController : BaseController
     private static ReviewModel CreateReviewModel(UserTitleReview review)
     {
         var model = review.Adapt<ReviewModel>();
-        model.Username = review.User.Username;
         model.Text = review.Review.Text;
+        model.Username = review.User.Username;
         return model;
     }
 
