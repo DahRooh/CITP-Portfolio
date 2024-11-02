@@ -27,7 +27,7 @@ public class PersonController : BaseController
     }
 
     [HttpGet(Name = nameof(GetPeople))]
-    public IActionResult GetPeople(int page, int pageSize)
+    public IActionResult GetPeople(int page = 1, int pageSize = 20)
     {
         var people = _ds.GetPeople(page, pageSize).Select(x => CreatePersonModel(x)).ToList();
         var numberOfItems = _ds.NumberOfPeople();
@@ -40,7 +40,7 @@ public class PersonController : BaseController
             numberOfItems,
             people);
 
-        return Ok(people);
+        return Ok(result);
     }
 
     [HttpGet("{id}", Name = nameof(GetPerson))]
@@ -56,8 +56,9 @@ public class PersonController : BaseController
 
 
 
-    [HttpGet("actor", Name = nameof(GetActors))]
-    public IActionResult GetActors(int page, int pageSize)
+    [HttpGet("actor", Name = nameof(GetActors))] // maybe move to title? get actors from title (get cast)
+                                                 // maybe use this for finding the highest rated actors on site to display? 
+    public IActionResult GetActors([FromQuery] int page = 1, [FromQuery] int pageSize = 20) 
     {
         var actors = _ds.GetActors(page, pageSize).Select(x => CreatePersonModel(x)).ToList();
         var numberOfItems = _ds.NumberOfActors();
@@ -125,8 +126,8 @@ public class PersonController : BaseController
         return Ok(CreatePersonModel(existingPerson));
     }
 
-    [HttpGet("coactors", Name = nameof(GetCoActors))]
-    public IActionResult GetCoActors([FromQuery] string id, [FromQuery] int page, [FromQuery] int pageSize)
+    [HttpGet("coactors", Name = nameof(GetCoActors))] // maybe make person/id/coactors? then id not from query
+    public IActionResult GetCoActors([FromQuery] string id, [FromQuery] int page = 1, [FromQuery] int pageSize = 20)
     {
         var coActors = _ds.GetCoActors(id, page, pageSize).Select(x => CreateCoActorModel(x)).ToList();
 
@@ -145,7 +146,7 @@ public class PersonController : BaseController
         }
 
         var model = person.Adapt<PersonModel>();
-        model.Url = GetWebpageUrl(nameof(GetPeople), "Person", person.Id); // Initializing the Url property
+        model.Url = GetWebpageUrl(nameof(GetPerson), "Person", new { person.Id }); // Initializing the Url property
         return model;
     }
 

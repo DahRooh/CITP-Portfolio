@@ -25,6 +25,7 @@ public class MVContext : DbContext
     // relations (mostly used)
     public DbSet<UserSessionsHistory> SessionHistory { get; set; }
 
+    public DbSet<WebpageBookmark> WebpageBookmarks { get; set; }
     public DbSet<UserBookmark> UserBookmarks { get; set; }
     public DbSet<UserTitleReview> UserReviews { get; set; }
     public DbSet<InvolvedIn> PersonInvolvedIn { get; set; }
@@ -48,7 +49,7 @@ public class MVContext : DbContext
         MapTitles(modelBuilder);
         MapPerson(modelBuilder);
         MapProfession(modelBuilder);
-
+        MapBookmark(modelBuilder);
         MapPersonProfession(modelBuilder);
         MapTitleGenre(modelBuilder);
         MapReview(modelBuilder);
@@ -99,7 +100,7 @@ public class MVContext : DbContext
 
         modelBuilder.Entity<WebpageBookmark>()
             .HasOne(x => x.Bookmark)
-            .WithOne()
+            .WithOne(x => x.WebpageBookmark)
             .HasForeignKey<WebpageBookmark>(x => x.BookmarkId);
 
         modelBuilder.Entity<WebpageBookmark>()

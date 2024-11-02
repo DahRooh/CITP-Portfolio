@@ -79,19 +79,6 @@ namespace DataLayer.DataServices
 
         }
 
-
-
-        // this to the title data service, a user can create a review on the title, not from the user route
-        //public UserTitleReview CreateReview(ReviewModel review)
-        //{
-        //   db = new MVContext();
-
-//            db.Database.ExecuteSqlRaw("call rate({0}, {1}, {2}, {3})", review.TitleId, review.CreatedBy.Id, review.Liked, review.Text);
-        //           return db.UserReviews.Where(x => x.TitleId == review.TitleId & x.UserId == review.CreatedBy.Id).First();
-        //     }
-
-
-        // also to title?
         public bool LikeReview(int reviewId, int userId, int like)
         {
             throw new NotImplementedException();
@@ -100,7 +87,8 @@ namespace DataLayer.DataServices
         public IList<UserLikesReview> GetLikes(int userId)
         {
             db = new MVContext();
-            User user = db.Users.Include(x => x.UserLikes)
+            User user = db.Users
+                .Include(x => x.UserLikes)
                 .ThenInclude(x => x.Review)
                 .ThenInclude(x => x.createdBy)
                 .ThenInclude(x => x.Title)
@@ -110,7 +98,6 @@ namespace DataLayer.DataServices
 
             return user.UserLikes.ToList();
         }
-
         public List<UserSearch> GetHistory(int userId)
         {
             db = new MVContext();
@@ -123,7 +110,6 @@ namespace DataLayer.DataServices
             return db.UserSearches.Include(x => x.User).Include(x => x.Search).Where(x => x.UserId == userId).ToList();
 
         }
-
 
         public List<(Title, int)> GetLikeHistory(int userId)
         {
@@ -140,15 +126,13 @@ namespace DataLayer.DataServices
             return results;
         }
 
-
-
-        public List<UserBookmark> GetBookmarks(int userId)
+        public List<Bookmark> GetBookmarks(int userId)
         {
             db = new MVContext();
-            return db.UserBookmarks
-                .Include(x => x.User)
-                .Include(x => x.Bookmark).ThenInclude(x => x.Webpage)
-                .Where(x => x.UserId == userId).ToList();
+            return db.Bookmarks
+                .Include(x => x.WebpageBookmark).ThenInclude(x => x.Webpage)
+                .Include(x => x.BookmarkedBy)
+                .Where(x => x.BookmarkedBy.UserId == userId).ToList();
 
         }
 
@@ -188,10 +172,6 @@ namespace DataLayer.DataServices
             return reviews;
         }
 
-        public Bookmark CreateBookmark()
-        {
-            throw new NotImplementedException();
-        }
 
         public bool DeleteUser(int userId)
         {
@@ -213,7 +193,7 @@ namespace DataLayer.DataServices
             return dbChanged;
         }
 
-<<<<<<< Updated upstream
+
         public bool DeleteBookmark(string bookmarkId)
         {
             db = new MVContext();
@@ -225,10 +205,8 @@ namespace DataLayer.DataServices
         }
 
 
-        public bool UpdateEmail(int userId, string email)
-=======
+
         public bool UpdateEmail(string username, string email)
->>>>>>> Stashed changes
         {
             db = new MVContext();
 

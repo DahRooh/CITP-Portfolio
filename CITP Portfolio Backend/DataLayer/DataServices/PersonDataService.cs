@@ -110,7 +110,7 @@ public class PersonDataService : IPersonDataService
             number++;
             newId = $"{prefix}{number}"; // String concatenation -> giving a new ID
 
-        } while (!db.People.Any(x => x.Id == newId));
+        } while (db.People.Any(x => x.Id == newId));
 
 
         var NewPerson = new Person

@@ -171,11 +171,32 @@
   {
     "ContainingType": "MovieWebserver.Controllers.TitleController",
     "Method": "CreateBookmark",
-    "RelativePath": "api/title/{tId}",
+    "RelativePath": "api/title/{tId}/bookmark",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
     "Parameters": [
+      {
+        "Name": "tId",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MovieWebserver.Controllers.TitleController",
+    "Method": "CreateReview",
+    "RelativePath": "api/title/{tId}/review",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "model",
+        "Type": "DataLayer.Model.Title.CreateReviewModel",
+        "IsRequired": true
+      },
       {
         "Name": "tId",
         "Type": "System.String",
@@ -359,32 +380,6 @@
     ],
     "ReturnTypes": [],
     "EndpointName": "GetInvolvedIn"
-  },
-  {
-    "ContainingType": "MovieWebserver.Controllers.TitleController",
-    "Method": "CreateReview",
-    "RelativePath": "api/title/review",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "ReviewText",
-        "Type": "System.String",
-        "IsRequired": false
-      },
-      {
-        "Name": "TitleId",
-        "Type": "System.String",
-        "IsRequired": false
-      },
-      {
-        "Name": "Rating",
-        "Type": "System.Int32",
-        "IsRequired": false
-      }
-    ],
-    "ReturnTypes": []
   },
   {
     "ContainingType": "MovieWebserver.Controllers.TitleController",
@@ -572,6 +567,27 @@
     ],
     "ReturnTypes": [],
     "EndpointName": "GetUserHistory"
+  },
+  {
+    "ContainingType": "MovieWebserver.Controllers.UserController",
+    "Method": "UpdateEmail",
+    "RelativePath": "api/user/{userId}/update_email",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "model",
+        "Type": "DataLayer.Model.User.UpdateEmailModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
   },
   {
     "ContainingType": "MovieWebserver.Controllers.UserController",

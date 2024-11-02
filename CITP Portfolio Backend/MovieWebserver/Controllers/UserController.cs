@@ -172,9 +172,7 @@ public class UserController : BaseController
     }
 
 
-<<<<<<< Updated upstream
-    // deletes
-=======
+
     [HttpPut("{userId}/update_email")]
     [Authorize]
     public IActionResult UpdateEmail(int userId, [FromBody] UpdateEmailModel model)
@@ -209,7 +207,7 @@ public class UserController : BaseController
 
     // deletes
 
->>>>>>> Stashed changes
+
     [HttpDelete("{userId}/review/{reviewId}")]
     [Authorize]
     public IActionResult DeleteReview(int userId, int reviewId)
@@ -297,10 +295,15 @@ public class UserController : BaseController
         return session.Adapt<SessionModel>();
     }
 
-    public static BookmarkModel CreateBookmarkModel(UserBookmark bookmark)
+    public static BookmarkModel CreateBookmarkModel(Bookmark bookmark)
     {
         var model = bookmark.Adapt<BookmarkModel>();
-        model.CreatedAt = bookmark.Bookmark.CreatedAt;
+
+        
+        var webpageId = new string(bookmark.Id.SkipWhile(x => Char.IsDigit(x)).ToArray());
+
+        model.WebpageId = webpageId;
+
         return model;
     }
     

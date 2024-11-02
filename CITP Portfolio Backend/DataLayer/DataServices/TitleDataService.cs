@@ -22,11 +22,11 @@ public class TitleDataService : ITitleDataService
 {
     private MVContext db;
 
-    public UserTitleReview CreateReview(CreateReviewModel model, int userId)
+    public UserTitleReview CreateReview(CreateReviewModel model, int userId, string tId)
     {
         db = new MVContext();
 
-        var title = db.Titles.Where(x => x.Id == model.TitleId).FirstOrDefault();
+        var title = db.Titles.Where(x => x.Id == tId).FirstOrDefault();
 
         if (title == null) return null;
 
@@ -45,18 +45,22 @@ public class TitleDataService : ITitleDataService
         return newReview;
     }
 
-    public bool CreateBookmark(string tId, int id)
+    public Bookmark CreateBookmark(string tId, int userId)
     {
         db = new MVContext();
-        tId = "wp" + tId;
-        var created = db.Database.ExecuteSqlRaw("call insert_bookmark({0}, {1})", id, tId) > 0;
+        var wpId = "wp" + tId;
+        db.Database.ExecuteSqlRaw("call insert_bookmark({0},{1})", userId, wpId);
 
-        if (created)
-        {
-            return true;
-        }
 
-        return false;
+        var bookmark = db.Bookmarks
+
+            .Include(x => x.WebpageBookmark).ThenInclude(x => x.Webpage)
+            .Include(x => x.BookmarkedBy)   
+            .Where(x => x.BookmarkedBy.UserId == userId)
+            .Where(x => x.WebpageBookmark.Webpage.TitleId == tId)
+            .FirstOrDefault();
+
+        return bookmark;
     }
 
 

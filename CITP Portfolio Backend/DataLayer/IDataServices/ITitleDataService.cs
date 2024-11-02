@@ -14,11 +14,18 @@ namespace DataLayer;
 
 public interface ITitleDataService
 {
-    int NumberOfEpisodes();
+    // create
+    UserTitleReview CreateReview(CreateReviewModel model, int userId, string tId);
+    Bookmark CreateBookmark(string tId, int id);
+
+
+    // get
+    Title GetTitle(string id);
+
     IList<Episode> GetEpisodes(int page, int pageSize);
     Episode GetEpisode(string id);
-    Title GetTitle(string id);
-    int NumberOfMovies();
+
+
     IList<Movie> GetMovies(int page, int pageSize);
     Movie? GetMovie(string id);
     IList<InvolvedIn> GetInvolvedIn(string id);
@@ -26,9 +33,10 @@ public interface ITitleDataService
 
     IList<TitleGenre> GetGenre(string id);
     IList<SimilarTitle> GetSimilarTitles(string id);
-    UserTitleReview CreateReview(CreateReviewModel model, int userId);
     IList<UserTitleReview> GetReviews(string tId);
-    bool CreateBookmark(string tId, int id);
+
+    int NumberOfMovies();
+    int NumberOfEpisodes();
 
     bool UpdateReview(string titleId, int userId, int userRating, string inReview);
 

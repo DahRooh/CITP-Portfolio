@@ -31,19 +31,20 @@ public class TitleController : BaseController
         _linkGenerator = linkGenerator;
     }
 
-    [HttpPost("review")]
+    [HttpPost("{tId}/review")]
     [Authorize]
-    public IActionResult CreateReview([FromQuery] CreateReviewModel model)
+    public IActionResult CreateReview([FromBody] CreateReviewModel model, string tId)
     {
         //var username = HttpContext.Request.Headers.Authorization.FirstOrDefault();
         // rating, uid, tid, text, 
         JwtSecurityToken token = GetDecodedToken();
         User user = _userDs.GetUser(token.Claims.FirstOrDefault().Value);
 
-        if (user == null) Unauthorized();
+        if (user == null) return Unauthorized();
 
-        if (_ds.GetTitle(model.TitleId) == null) return NotFound();
-        var review = _ds.CreateReview(model, user.Id);
+        if (_ds.GetTitle(tId) == null) return NotFound();
+
+        var review = _ds.CreateReview(model, user.Id, tId);
         var newReview = CreateReviewModel(review);
 
         if (newReview == null) return BadRequest();
@@ -51,7 +52,7 @@ public class TitleController : BaseController
         return Created(nameof(CreateReview), newReview);
     }
 
-    [HttpPost("{tId}")]
+    [HttpPost("{tId}/bookmark")]
     [Authorize]
     public IActionResult CreateBookmark(string tId)
     {
@@ -63,14 +64,14 @@ public class TitleController : BaseController
             return BadRequest();
         }
 
-        var bookmarked = _ds.CreateBookmark(tId, user.Id);
+        var bookmark = _ds.CreateBookmark(tId, user.Id);
 
-        if (bookmarked)
+        if (bookmark != null)
         {
-            return Ok();
+            return Ok(bookmark);
         }
 
-        return NotFound();
+        return BadRequest();
 
     }
 

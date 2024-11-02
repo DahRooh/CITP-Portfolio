@@ -22,9 +22,8 @@ public interface IUserDataService
     public bool IsEmailUsed(string email);
 
     public List<UserSearch> GetHistory(int userId);
-    public List<UserBookmark> GetBookmarks(int userId);
+    public List<Bookmark> GetBookmarks(int userId);
     public IList<UserLikesReview> GetLikes(int userId);
-    public Bookmark CreateBookmark();
     public User CreateUser(CreateUserModel userModel, string salt);
 
     public List<UserTitleReview> GetReviews(int userId);
