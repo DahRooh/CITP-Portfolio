@@ -53,9 +53,8 @@ public class TitleDataService : ITitleDataService
 
 
         var bookmark = db.Bookmarks
-
             .Include(x => x.WebpageBookmark).ThenInclude(x => x.Webpage)
-            .Include(x => x.BookmarkedBy)   
+            .Include(x => x.BookmarkedBy).ThenInclude(x => x.User)  
             .Where(x => x.BookmarkedBy.UserId == userId)
             .Where(x => x.WebpageBookmark.Webpage.TitleId == tId)
             .FirstOrDefault();
@@ -160,7 +159,14 @@ public class TitleDataService : ITitleDataService
             .Include(x => x.Title)
             .Include(x => x.Person)
             .Where(x => x.TitleId == id)
-            .Where(x => x.Character != null).ToList();
+            .Where(x => x.Character != null)
+            .Select(x => new InvolvedIn { PersonId = x.PersonId, 
+                                            TitleId = x.TitleId, 
+                                            Character = x.Character, 
+                                            Job = x.Job, 
+                                            Person = x.Person, 
+                                            Title = x.Title})
+            .ToList();
 
         return cast;
     }
@@ -168,7 +174,9 @@ public class TitleDataService : ITitleDataService
     public IList<TitleGenre> GetGenre(string id)
     {
         db = new MVContext();
-        var genre = db.TitlesGenres.Include(x => x.Genre)
+        var genre = db.TitlesGenres
+            .Include(x => x.Genre)
+            .Include(x => x.Title)
             .Where(x => x.TitleId == id).ToList();
         return genre;
     }
@@ -198,12 +206,14 @@ public class TitleDataService : ITitleDataService
     }
 
 
-    public bool UpdateReview(string titleId, int userId, int userRating, string inReview)
+    public bool UpdateReview(string titleId, int userId, int userRating, string inReview, int reviewId)
     {
         db = new MVContext();
         var user = db.Users.Where(x => x.Id == userId).FirstOrDefault();
+        var review = db.UserReviews.Where(x => x.ReviewId == reviewId && x.UserId == userId && x.TitleId == titleId).FirstOrDefault();
+
         
-        if (user != null)
+        if (user != null && review != null)
         {
             db.Database.ExecuteSqlRaw("call rate({0},{1},{2},{3})", titleId, userId, userRating, inReview);
             return true;

@@ -10,10 +10,10 @@ public class User
     public string Email { get; set; }
     public string Salt { get; set; }
 
-    
-    public IList<UserTitleReview> Reviews { get; set; }
-    public IList<UserSearch> Searches { get; set; }
+
+    public IList<UserTitleReview> Reviews { get; set; } = new List<UserTitleReview>();
+    public IList<UserSearch> Searches { get; set; } = new List<UserSearch>();
     public IList<UserLikesReview> UserLikes { get; set; } = new List<UserLikesReview>();
-    public IList<UserSession>? UserSessions { get; set; }
-    public IList<UserBookmark> UserBookmarks { get; internal set; }
+    public IList<UserSession>? UserSessions { get; set; } = new List<UserSession>();
+    public IList<UserBookmark> UserBookmarks { get; internal set; } = new List<UserBookmark>();
 }

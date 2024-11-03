@@ -8,10 +8,7 @@ namespace DataLayer.Model.Title
 {
     public class UpdateReviewModel
     {
-        public string Username { get; set; }
-        public int ReviewId { get; set; }
         public string Text { get; set; }
-        public int Likes { get; set; }
-
+        public int Rating { get; set; }
     }
 }

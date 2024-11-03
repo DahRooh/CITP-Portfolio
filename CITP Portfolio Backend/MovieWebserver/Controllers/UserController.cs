@@ -22,16 +22,19 @@ namespace MovieWebserver.Controllers;
 public class UserController : BaseController
 {
     IUserDataService _ds;
+    ITitleDataService _titleDs;
     private readonly IConfiguration _configuration;
     private readonly Hashing _hashing;
 
     public UserController(
         IUserDataService ds,
+        ITitleDataService titleDs,
         LinkGenerator linkGenerator,
         IConfiguration configuration,
         Hashing hashing) : base(linkGenerator)
     {
         _ds = ds;
+        _titleDs = titleDs;
         _configuration = configuration;
         _hashing = hashing;
     }
@@ -57,7 +60,7 @@ public class UserController : BaseController
         var result = _ds.CreateUser(userModel, salt);
 
 
-        return Created(nameof(CreateUser), result);
+        return Created(nameof(CreateUser), CreateUserModel(result));
     }
 
 
@@ -126,7 +129,7 @@ public class UserController : BaseController
         var user = _ds.GetUser(userId);
         if (user == null) { return BadRequest(); }
 
-        var searches = _ds.GetHistory(userId).Select(x => CreateSearchModel(x)).ToList();
+        var searches = _ds.GetHistory(userId).Select(x => CreateSearchModel(x)).ToList(); // change UserSearch to Search object to adapt?
 
         return Ok(searches);
     }
@@ -282,6 +285,8 @@ public class UserController : BaseController
     private SearchModel CreateSearchModel(UserSearch userSearch)
     {
         var model = userSearch.Adapt<SearchModel>();
+        model.Keyword = userSearch.Search.Keyword;
+        model.CreatedAt = userSearch.Search.CreatedAt;
 
         return model;
     }
@@ -290,19 +295,23 @@ public class UserController : BaseController
         return user.Adapt<UserModel>();
     }
 
-    public static SessionModel CreateSessionModel(UserSessionsHistory session)
+    private static SessionModel CreateSessionModel(UserSessionsHistory session)
     {
         return session.Adapt<SessionModel>();
     }
 
-    public static BookmarkModel CreateBookmarkModel(Bookmark bookmark)
+
+    private BookmarkModel CreateBookmarkModel(Bookmark bookmark)
     {
         var model = bookmark.Adapt<BookmarkModel>();
-        var webpageId = new string(bookmark.Id.SkipWhile(x => Char.IsDigit(x)).ToArray());
-        model.Title = bookmark.WebpageBookmark.Webpage.Title._Title;
-        
-        model.WebpageId = webpageId;
 
+        var title = _titleDs.GetTitle(bookmark.WebpageBookmark.Webpage.TitleId);
+
+
+        model.Url = GetWebpageUrlByAction(nameof(TitleController.GetTitle), title.Id, "Title");
+        model.Title = title._Title;
+        model.Poster = title.Poster;
+        
         return model;
     }
     

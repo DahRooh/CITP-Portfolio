@@ -4,13 +4,13 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace DataLayer.DomainObjects;
 
 public class Title 
 {
-    [Column("t_id")]
     public string Id { get; set; }
     public string _Title { get; set; } = string.Empty;
     public string? Plot { get; set; }
@@ -25,6 +25,7 @@ public class Title
 
 
     // from relations
+    [JsonIgnore]
     public IList<TitleGenre> Genres { get; set; } = new List<TitleGenre>();
     public IList<InvolvedIn>? PeopleInvolved { get; set; } = new List<InvolvedIn>();
     public IList<UserTitleReview>? Reviews { get; set; }

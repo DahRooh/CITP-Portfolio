@@ -38,6 +38,6 @@ public interface ITitleDataService
     int NumberOfMovies();
     int NumberOfEpisodes();
 
-    bool UpdateReview(string titleId, int userId, int userRating, string inReview);
+    bool UpdateReview(string titleId, int userId, int userRating, string inReview, int reviewId);
 
 }

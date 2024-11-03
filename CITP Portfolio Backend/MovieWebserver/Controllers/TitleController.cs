@@ -14,6 +14,8 @@ using System;
 using System.IdentityModel.Tokens.Jwt;
 using DataLayer.IDataServices;
 using System.Runtime.Intrinsics.X86;
+using DataLayer.DomainObjects.Relations;
+using MovieWebserver.Model.User;
 namespace MovieWebserver.Controllers;
 
 [ApiController]
@@ -64,11 +66,11 @@ public class TitleController : BaseController
             return BadRequest();
         }
 
-        var bookmark = _ds.CreateBookmark(tId, user.Id);
+        var bookmark = _ds.CreateBookmark(tId, user.Id); // TO DO: URL IS WRONG
 
         if (bookmark != null)
         {
-            return Ok(bookmark);
+            return Ok(CreateBookmarkModel(bookmark));
         }
 
         return BadRequest();
@@ -76,10 +78,11 @@ public class TitleController : BaseController
     }
 
 
-    [HttpGet("movie/{id}", Name = nameof(GetMovie))]
-    public IActionResult GetMovie(string id)
+
+    [HttpGet("movie/{mId}", Name = nameof(GetMovie))]
+    public IActionResult GetMovie(string mId)
     {
-        var movie = CreateMovieModel(_ds.GetMovie(id));
+        var movie = CreateMovieModel(_ds.GetMovie(mId));
         if (movie == null)
         {
             return NotFound();
@@ -106,10 +109,10 @@ public class TitleController : BaseController
         return Ok(result);
     }
 
-    [HttpGet("episode/{id}", Name = nameof(GetEpisode))]
-    public IActionResult GetEpisode(string id)
+    [HttpGet("episode/{eId}", Name = nameof(GetEpisode))]
+    public IActionResult GetEpisode(string eId)
     {
-        var episode = CreateEpisodeModel(_ds.GetEpisode(id));
+        var episode = CreateEpisodeModel(_ds.GetEpisode(eId));
 
         if (episode == null)
         {
@@ -119,10 +122,10 @@ public class TitleController : BaseController
         return Ok(episode);
     }
 
-    [HttpGet("{id}", Name = nameof(GetTitle))]
-    public IActionResult GetTitle(string id)
+    [HttpGet("{tId}", Name = nameof(GetTitle))]
+    public IActionResult GetTitle(string tId)
     {
-        var title = _ds.GetTitle(id);
+        var title = CreateTitleModel(_ds.GetTitle(tId)); // mangler title model TO DO:
         if (title == null)
         {
             return NotFound();
@@ -131,6 +134,8 @@ public class TitleController : BaseController
         return Ok(title);
 
     }
+
+
 
     [HttpGet("episodes", Name = nameof(GetEpisodes))]
     public IActionResult GetEpisodes(int page = 1, int pageSize = 20)
@@ -152,10 +157,10 @@ public class TitleController : BaseController
 
     
     
-    [HttpGet("{id}/crew", Name = nameof(GetInvolvedIn))]
-    public IActionResult GetInvolvedIn(string id)
+    [HttpGet("{tId}/crew", Name = nameof(GetInvolvedIn))]
+    public IActionResult GetInvolvedIn(string tId)
     {
-        var peopleInvolvedInTitle = _ds.GetInvolvedIn(id).Select(x => CreateInvolvedTitleModel(x)).ToList();
+        var peopleInvolvedInTitle = _ds.GetInvolvedIn(tId).Select(x => CreateInvolvedTitleModel(x)).ToList();
 
         if (peopleInvolvedInTitle == null)
         {
@@ -166,10 +171,10 @@ public class TitleController : BaseController
 
 
 
-    [HttpGet("{id}/cast", Name = nameof(GetCastFromTitle))]
-    public IActionResult GetCastFromTitle(string id)
+    [HttpGet("{tId}/cast", Name = nameof(GetCastFromTitle))]
+    public IActionResult GetCastFromTitle(string tId)
     {
-        var cast = _ds.GetCast(id).Select(x => CreateCastModel(x)).ToList();
+        var cast = _ds.GetCast(tId).Select(x => CreateCastModel(x)).ToList();
         if (cast == null)
         {
             return NotFound();
@@ -179,19 +184,20 @@ public class TitleController : BaseController
 
 
 
-    [HttpGet("genre/{id}", Name = nameof(GetGenre))]
-    public IActionResult GetGenre(string id)
+    [HttpGet("{tId}/genre", Name = nameof(GetGenre))]
+    public IActionResult GetGenre(string tId)
     {
-        var genre = _ds.GetGenre(id);
-        if (genre == null)
+        var genre = _ds.GetGenre(tId).Select(x => CreateTitleGenreModel(x)).ToList();
+        if (genre.Count() == 0)
         {
             return NotFound();
         }
         return Ok(genre);
     }
 
-    [HttpGet("similartitles", Name = nameof(GetSimilarTitles))]
-    public IActionResult GetSimilarTitles([FromQuery] string id)
+
+    [HttpGet("{id}/similartitles", Name = nameof(GetSimilarTitles))]
+    public IActionResult GetSimilarTitles(string id)
     {
         var similarTitles = _ds.GetSimilarTitles(id).Select(x => CreateSimilarTitlesModel(x)).ToList();
  
@@ -214,14 +220,14 @@ public class TitleController : BaseController
 
     [HttpPut("{tId}/review/{revId}")]
     [Authorize]
-    public IActionResult UpdateReview(string tId, [FromQuery] int userRating, [FromQuery] string inReview)
+    public IActionResult UpdateReview(string tId, int revId, [FromBody] UpdateReviewModel updateReview)
     {
         var token = GetDecodedToken();
         User user = _userDs.GetUser(token.Claims.FirstOrDefault().Value);
 
         if (user != null)
         {
-            var update = _ds.UpdateReview(tId, user.Id, userRating, inReview);
+            var update = _ds.UpdateReview(tId, user.Id, updateReview.Rating, updateReview.Text, revId);
 
             if (update)
             {
@@ -255,10 +261,19 @@ public class TitleController : BaseController
         model.Country = movie.Title.Country;
         model.RunTime = movie.Title.RunTime;
         model.Poster = movie.Title.Poster;
+        model.Poster = movie.Title.Poster;
         
         return model;
     }
-
+    private BookmarkModel CreateBookmarkModel(Bookmark bookmark)
+    {
+        var title = _ds.GetTitle(bookmark.WebpageBookmark.Webpage.TitleId);
+        var model = bookmark.Adapt<BookmarkModel>();
+        model.Url = GetWebpageUrlByAction(nameof(GetTitle), title.Id, "Title");
+        model.Title = title._Title;
+        model.Poster = title.Poster;
+        return model;
+    }
     private EpisodeModel? CreateEpisodeModel(Episode episode)
     {
         var model = episode.Adapt<EpisodeModel>();
@@ -274,6 +289,12 @@ public class TitleController : BaseController
         model.Country = episode.Title.Country;
         model.RunTime = episode.Title.RunTime;
         model.Poster = episode.Title.Poster;
+        return model;
+    }
+
+    private TitleModel CreateTitleModel(Title title)
+    {
+        var model = title.Adapt<TitleModel>();
         return model;
     }
 
@@ -301,10 +322,11 @@ public class TitleController : BaseController
     private SimilarTitlesModel? CreateSimilarTitlesModel(SimilarTitle similarTitle)
     {
         var model = similarTitle.Adapt<SimilarTitlesModel>();
-        var url = GetWebpageUrl(nameof(GetSimilarTitles), "Title", new { similarTitle.SimilarTitleId });
+        var url = GetWebpageUrl(nameof(GetSimilarTitles), "Title", new { similarTitle.SimilarTitleId }); // TO DO: Wrong url! query url
         model.Url = url;
-        model.SimilarTitleId = similarTitle.SimilarTitleId;
-        model.SimilarTitle = similarTitle.SimilarTitleName;
+
+        model.TitleId = similarTitle.SimilarTitleId;
+        model._Title = similarTitle.SimilarTitleName;
         model.AmountOfSimilarGenres = similarTitle.MultipleSameGenre;
         return model;
 
@@ -317,7 +339,13 @@ public class TitleController : BaseController
         model.Username = review.User.Username;
         return model;
     }
-
+    private static GenreModel CreateTitleGenreModel(TitleGenre titleGenres)
+    {
+        return new GenreModel
+        {
+            Genre = titleGenres.Genre._Genre
+        };
+    }
 
 
 }

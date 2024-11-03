@@ -18,6 +18,5 @@ public class TitleModel
     public int? RunTime { get; set; }
     public string? Poster { get; set; }
 
-    public List<PersonModel> people { get; set; }
     
 }

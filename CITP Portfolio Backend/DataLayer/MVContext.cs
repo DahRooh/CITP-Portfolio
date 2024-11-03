@@ -293,7 +293,7 @@ public class MVContext : DbContext
 
     private static void MapTitleGenre(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<TitleGenre>().ToTable("title_is").HasKey(x => new { x.TitleId, x.GenreName });
+        modelBuilder.Entity<TitleGenre>().ToTable("title_is").HasKey(x => new { x.GenreName, x.TitleId });
 
         modelBuilder.Entity<TitleGenre>().Property(x => x.GenreName).HasColumnName("genre");
         modelBuilder.Entity<TitleGenre>().Property(x => x.TitleId).HasColumnName("t_id");

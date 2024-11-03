@@ -11,7 +11,6 @@ namespace DataLayer.Model.User
 {
     public class SearchModel
     {
-        public int UserId { get; set; }
         public string SearchId { get; set; }
 
         public string Keyword { get; set; }

@@ -1,7 +1,9 @@
 using DataLayer.DomainObjects;
+using Mapster;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
+using MovieWebserver.Model.User;
 using Npgsql;
 using System.IdentityModel.Tokens.Jwt;
 namespace MovieWebserver.Controllers;
@@ -40,6 +42,8 @@ public abstract class BaseController : ControllerBase
 
         return url;
     }
+
+
 
     [NonAction]
     public string? GetPageLink(string entityName, string controller, object args)
