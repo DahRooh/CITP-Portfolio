@@ -92,7 +92,7 @@ create table wp_bookmarks
 );
 
 create table review (
-  rev_id serial primary key,
+  rev_id serial primary key on delete cascade,
   review varchar(256) default null,
   likes int default 0
 );
@@ -106,7 +106,7 @@ create table rates
   rated_at timestamp,
   primary key(t_id, u_id, rev_id),
   foreign key (t_id) references title on delete cascade,
-  foreign key (u_id) references users on delete cascade,
+  foreign key (u_id) references users on delete set null,
   foreign key (rev_id) references review on delete cascade
 );
 

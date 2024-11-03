@@ -1,5 +1,8 @@
-﻿using System;
+﻿using DataLayer.DomainObjects;
+using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
@@ -44,5 +47,6 @@ namespace DataLayer.HelperMethods
             byte[] hashOutput = sha256.ComputeHash(hashInput);
             return Convert.ToHexString(hashOutput);
         }
+
     }
 }

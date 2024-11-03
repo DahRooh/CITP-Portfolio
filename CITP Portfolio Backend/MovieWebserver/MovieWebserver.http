@@ -23,16 +23,6 @@ Authorization: Bearer eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW
 
 ###
 
-Post {{MovieWebserver_HostAddress}}/api/user/CreateUser
-Accept: application/json
-Content-Type: application/json
-{
-    "username": "1",
-    "password": "1",
-    "email": "1"
-}
-
-###
 
 
 
@@ -44,15 +34,7 @@ Accept: application/json
 ###
 
 
-PUT {{MovieWebserver_HostAddress}}/api/user
-Accept: application/json
-Content-Type: application/json
-{
-    "username": "1",
-    "password": "1"
-}
-
-### 
+ 
 Get {{MovieWebserver_HostAddress}}/api/user
 Accept: application/json
 
@@ -62,22 +44,6 @@ Get {{MovieWebserver_HostAddress}}/api/title/movies
 Accept: application/json
 Authorization: Bearer eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTUxMiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiMyIsImV4cCI6MTczMDQzNzU3MH0.zkR27Hg6pXHZVLBHBFv5S2dW3qqmgvS_nMCvt7Fs-v-hSbpqEMdJq0e_B4K7fmQ3zRa86H6Oauui_rb-Tjc2cw
 
-
-### 
-POST {{MovieWebserver_HostAddress}}/api/title/tt10382912/review
-Authorization: Bearer eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTUxMiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiMSIsImV4cCI6MTczMDY1MzczNX0.Rp19D3F1msz9yougr6vJ79IjJ1JoJ33QNiMkEKL8YbfSmRRpdjVawXtt_D1VMlzhX_IMo75Gxy6gKgo3qpoI7w
-Accept: application/json
-Content-Type: application/json
-{
-  "ReviewText": "Gnojdfoipdsfjpodsvie",
-  "Rating": 10
-}
-
-###
-
-POST {{MovieWebserver_HostAddress}}/api/title/tt0181689/bookmark
-Accept: application/json
-Authorization: Bearer eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTUxMiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiMSIsImV4cCI6MTczMDY1NDc5N30.0TFLvsXxOIhgpmRvOZ94OxeFKr3SZxooGifrB3HXOZNQ66RzkihrZeTYoMNWLdKgz74-L5wQEU5-oCSmGOC_vA
 
 
 ###
@@ -103,10 +69,74 @@ Content-Type: application/json
 ###
 
 PUT {{MovieWebserver_HostAddress}}/api/user/1/update_email
-Authorization: Bearer eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTUxMiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiMSIsImV4cCI6MTczMDU4ODA2MH0.rgohDyZa0k9yAHHF643oYyp3elvcoeefZ8eYSEZns7ZTCwD7FuvxoNS96qVPGBwgXZMz0HaGW5XpRPzksUy0tQ
+Authorization: Bearer eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTUxMiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiMSIsImV4cCI6MTczMDY1Njc1NX0.2ppz8ENl78av1ROvRXuGSVmO2r9XlOtEsbewq9Sjv4ZNdnKMfKiHXWyl0W6tFXooQ82aaxr0XkNSM3xYV8eyQA
 Accept: application/json
 Content-Type: application/json
 {
-  "Email": "updatedEmail"
+  "Email": "cvdscdscsdcds"
 }
+
+### 
+
+DELETE {{MovieWebserver_HostAddress}}/api/user/1/review/1
+Authorization: Bearer eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTUxMiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiMSIsImV4cCI6MTczMDY1Njc1NX0.2ppz8ENl78av1ROvRXuGSVmO2r9XlOtEsbewq9Sjv4ZNdnKMfKiHXWyl0W6tFXooQ82aaxr0XkNSM3xYV8eyQA
+Accept: application/json
+
+
+
+###
+
+DELETE {{MovieWebserver_HostAddress}}/api/user/1/bookmark/1wptt0181689
+Authorization: Bearer eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTUxMiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiMSIsImV4cCI6MTczMDY1Njc1NX0.2ppz8ENl78av1ROvRXuGSVmO2r9XlOtEsbewq9Sjv4ZNdnKMfKiHXWyl0W6tFXooQ82aaxr0XkNSM3xYV8eyQA
+Accept: application/json
+
+
+
+### create user
+
+Post {{MovieWebserver_HostAddress}}/api/user/CreateUser
+Accept: application/json
+Content-Type: application/json
+{
+    "username": "1",
+    "password": "1",
+    "email": "1"
+}
+
+
+### login
+
+PUT {{MovieWebserver_HostAddress}}/api/user
+Accept: application/json
+Content-Type: application/json
+{
+    "username": "1",
+    "password": "1"
+}
+
+### create review
+POST {{MovieWebserver_HostAddress}}/api/title/tt10382912/review
+Authorization: Bearer eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTUxMiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiMSIsImV4cCI6MTczMDY2Mjc5NX0.pOU6a19aRBzMLn7VtAfIH3dt6IwkhYQYhrjopYIijfzbI99lHrk6_nFvZP9nugcx8DatEtJLV5Tkien7IImvOw
+Accept: application/json
+Content-Type: application/json
+{
+  "ReviewText": "Gnojdfoipdsfjpodsvie",
+  "Rating": 10
+}
+
+### like own review
+
+
+### create bookmark TO DO: FIX
+
+POST {{MovieWebserver_HostAddress}}/api/title/tt10382912/bookmark
+Accept: application/json
+Authorization: Bearer eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTUxMiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiMSIsImV4cCI6MTczMDY1Njc1NX0.2ppz8ENl78av1ROvRXuGSVmO2r9XlOtEsbewq9Sjv4ZNdnKMfKiHXWyl0W6tFXooQ82aaxr0XkNSM3xYV8eyQA
+
+
+### delete user
+
+DELETE {{MovieWebserver_HostAddress}}/api/user/1
+Authorization: Bearer eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTUxMiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiMSIsImV4cCI6MTczMDY1Njc1NX0.2ppz8ENl78av1ROvRXuGSVmO2r9XlOtEsbewq9Sjv4ZNdnKMfKiHXWyl0W6tFXooQ82aaxr0XkNSM3xYV8eyQA
+Accept: application/json
 

@@ -1,11 +1,15 @@
+using DataLayer.DataServices;
 using DataLayer.DomainObjects;
 using Mapster;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
 using MovieWebserver.Model.User;
 using Npgsql;
 using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 namespace MovieWebserver.Controllers;
 
 [ApiController]
@@ -16,6 +20,40 @@ public abstract class BaseController : ControllerBase
     public BaseController(LinkGenerator linkGenerator)
     {
         _linkGenerator = linkGenerator;
+    }
+
+    [NonAction]
+    public User AuthorizeUser(int userId)
+    {
+        var _ds = new UserDataService();
+        JwtSecurityToken token = GetDecodedToken();
+        User user = _ds.GetUser(token.Claims.FirstOrDefault().Value);
+        if (user == null || userId != user.Id) return null;
+        return user;
+    }
+
+    [NonAction]
+    public JwtSecurityToken CreateToken(User user, IConfiguration _configuration)
+    {
+        // create claims
+        var claims = new List<Claim>
+        {
+            new Claim(ClaimTypes.Name, user.Username)
+        };
+
+        // fetch secret from configuration
+        var secret = _configuration.GetSection("Auth:Secret").Value;
+        var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(secret));
+
+        var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
+
+        var token = new JwtSecurityToken(
+            claims: claims,
+            expires: DateTime.Now.AddHours(8),
+            signingCredentials: creds
+
+            );
+        return token;
     }
 
     [NonAction]

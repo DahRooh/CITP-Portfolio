@@ -90,9 +90,13 @@ public class UserController : BaseController
         return Ok(users);
     }
 
-    [HttpGet("{userId}/get_likes", Name = nameof(GetUserLike))] 
+    [HttpGet("{userId}/get_likes", Name = nameof(GetUserLike))]
+    [Authorize]
     public IActionResult GetUserLike(int userId)
     {
+        var user = AuthorizeUser(userId);
+        if (user == null) { return BadRequest(); }
+
         var likes = _ds.GetLikes(userId)
             .Select(x => CreateLikeModel(x)).ToList();
         
@@ -103,7 +107,8 @@ public class UserController : BaseController
     [HttpGet("{userId}/bookmarks", Name = nameof(GetUserBookmarks))]
     public IActionResult GetUserBookmarks(int userId)
     {
-        var user = _ds.GetUser(userId);
+        var user = AuthorizeUser(userId);
+
         if (user == null) { return BadRequest(); }
 
         var bookmarks = _ds.GetBookmarks(userId).Select(x => CreateBookmarkModel(x)).ToList();
@@ -115,7 +120,7 @@ public class UserController : BaseController
     [HttpGet("{userId}/reviews", Name = nameof(GetUserReviews))]
     public IActionResult GetUserReviews(int userId)
     {
-        var user = _ds.GetUser(userId);
+        var user = AuthorizeUser(userId);
         if (user == null) { return BadRequest(); }
 
         var reviews = _ds.GetReviews(userId).Select(x => CreateReviewModel(x)).ToList();
@@ -126,7 +131,7 @@ public class UserController : BaseController
     [HttpGet("{userId}/search_history", Name = nameof(GetUserHistory))]
     public IActionResult GetUserHistory(int userId)
     {
-        var user = _ds.GetUser(userId);
+        var user = AuthorizeUser(userId);
         if (user == null) { return BadRequest(); }
 
         var searches = _ds.GetHistory(userId).Select(x => CreateSearchModel(x)).ToList(); // change UserSearch to Search object to adapt?
@@ -152,36 +157,22 @@ public class UserController : BaseController
             return BadRequest();
         }
 
-        var claims = new List<Claim>
-        {
-            new Claim(ClaimTypes.Name, user.Username)
-        };
+        JwtSecurityToken token = CreateToken(user, _configuration);
 
-        var secret = _configuration.GetSection("Auth:Secret").Value;
-        var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(secret));
-
-        var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
-
-        var token = new JwtSecurityToken(
-            claims: claims,
-            expires: DateTime.Now.AddHours(8),
-            signingCredentials: creds
-
-            );
-
-        var jwt = new JwtSecurityTokenHandler().WriteToken(token);
+        // write token to string
+        var jwt = new JwtSecurityTokenHandler().WriteToken(token); 
 
         return Ok(new { username = user.Username, token = jwt });
     }
 
-
+    
 
     [HttpPut("{userId}/update_email")]
     [Authorize]
     public IActionResult UpdateEmail(int userId, [FromBody] UpdateEmailModel model)
     {
-        JwtSecurityToken token = GetDecodedToken();
-        User user = _ds.GetUser(token.Claims.FirstOrDefault().Value);
+        var user = AuthorizeUser(userId);
+
 
         if (userId != user.Id)
         { 
@@ -238,10 +229,8 @@ public class UserController : BaseController
     [Authorize]
     public IActionResult DeleteBookmark(int userId, string bookmarkId)
     {
-        JwtSecurityToken token = GetDecodedToken();
-        User user = _ds.GetUser(token.Claims.FirstOrDefault().Value);
-        if (user == null || userId != user.Id) return BadRequest();
-        
+        var user = AuthorizeUser(userId);
+
         var deleted = _ds.DeleteBookmark(bookmarkId);
 
         if (deleted) return Ok();
@@ -249,12 +238,14 @@ public class UserController : BaseController
         return NotFound();
     }
 
+
+
     [HttpDelete("{userId}")]
     [Authorize]
     public IActionResult DeleteUser(int userId)
     {
-        JwtSecurityToken token = GetDecodedToken();
-        User user = _ds.GetUser(token.Claims.FirstOrDefault().Value);
+        var user = AuthorizeUser(userId);
+
         if (user == null || userId != user.Id) return BadRequest();
 
         var deleted = _ds.DeleteUser(userId);
@@ -276,6 +267,7 @@ public class UserController : BaseController
 
     private LikeModel CreateLikeModel(UserLikesReview likes)
     {
+
          var model = likes.Adapt<LikeModel>();
          model.Username = likes.User.Username;
          model.Title = likes.Review.createdBy.Title._Title;
