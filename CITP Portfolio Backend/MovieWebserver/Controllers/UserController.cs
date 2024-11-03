@@ -90,7 +90,7 @@ public class UserController : BaseController
         return Ok(users);
     }
 
-    [HttpGet("{userId}/get_likes", Name = nameof(GetUserLike))]
+    [HttpGet("{userId}/likes")]
     [Authorize]
     public IActionResult GetUserLike(int userId)
     {
@@ -297,7 +297,7 @@ public class UserController : BaseController
     {
         var model = bookmark.Adapt<BookmarkModel>();
 
-        var title = _titleDs.GetTitle(bookmark.WebpageBookmark.Webpage.TitleId);
+        var title = _titleDs.GetTitleFromId(bookmark.WebpageBookmark.Webpage.TitleId);
 
 
         model.Url = GetWebpageUrlByAction(nameof(TitleController.GetTitle), title.Id, "Title");

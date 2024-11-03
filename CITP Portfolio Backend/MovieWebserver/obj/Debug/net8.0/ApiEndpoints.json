@@ -153,23 +153,6 @@
   },
   {
     "ContainingType": "MovieWebserver.Controllers.TitleController",
-    "Method": "GetSimilarTitles",
-    "RelativePath": "api/title/{id}/similartitles",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.String",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": [],
-    "EndpointName": "GetSimilarTitles"
-  },
-  {
-    "ContainingType": "MovieWebserver.Controllers.TitleController",
     "Method": "GetTitle",
     "RelativePath": "api/title/{tId}",
     "HttpMethod": "GET",
@@ -182,8 +165,7 @@
         "IsRequired": true
       }
     ],
-    "ReturnTypes": [],
-    "EndpointName": "GetTitle"
+    "ReturnTypes": []
   },
   {
     "ContainingType": "MovieWebserver.Controllers.TitleController",
@@ -275,6 +257,32 @@
   },
   {
     "ContainingType": "MovieWebserver.Controllers.TitleController",
+    "Method": "LikeReview",
+    "RelativePath": "api/title/{tId}/review/{revId}",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "like",
+        "Type": "DataLayer.Model.Title.CreateLikeModel",
+        "IsRequired": true
+      },
+      {
+        "Name": "tId",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "revId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MovieWebserver.Controllers.TitleController",
     "Method": "UpdateReview",
     "RelativePath": "api/title/{tId}/review/{revId}",
     "HttpMethod": "PUT",
@@ -301,6 +309,27 @@
   },
   {
     "ContainingType": "MovieWebserver.Controllers.TitleController",
+    "Method": "DeleteLike",
+    "RelativePath": "api/title/{tId}/review/{revId}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "revId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "tId",
+        "Type": "",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MovieWebserver.Controllers.TitleController",
     "Method": "GetReviews",
     "RelativePath": "api/title/{tId}/reviews",
     "HttpMethod": "GET",
@@ -314,6 +343,23 @@
       }
     ],
     "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MovieWebserver.Controllers.TitleController",
+    "Method": "GetSimilarTitles",
+    "RelativePath": "api/title/{tId}/similartitles",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "tId",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [],
+    "EndpointName": "GetSimilarTitles"
   },
   {
     "ContainingType": "MovieWebserver.Controllers.TitleController",
@@ -494,7 +540,7 @@
   {
     "ContainingType": "MovieWebserver.Controllers.UserController",
     "Method": "GetUserLike",
-    "RelativePath": "api/user/{userId}/get_likes",
+    "RelativePath": "api/user/{userId}/likes",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -505,8 +551,7 @@
         "IsRequired": true
       }
     ],
-    "ReturnTypes": [],
-    "EndpointName": "GetUserLike"
+    "ReturnTypes": []
   },
   {
     "ContainingType": "MovieWebserver.Controllers.UserController",

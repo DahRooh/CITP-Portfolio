@@ -87,16 +87,12 @@ namespace DataLayer.DataServices
         public IList<UserLikesReview> GetLikes(int userId)
         {
             db = new MVContext();
-            User user = db.Users
-                .Include(x => x.UserLikes)
-                .ThenInclude(x => x.Review)
-                .ThenInclude(x => x.createdBy)
-                .ThenInclude(x => x.Title)
-                .Where(x => x.Id == userId).FirstOrDefault();
+            var likedList = db.UserLikesReviews
+                .Include(x => x.Review).ThenInclude(x => x.createdBy).ThenInclude(x => x.Title)
+                .Include(x => x.User)
+                .Where(x => x.UserId == userId).ToList();
 
-            if (user == null) return null;
-
-            return user.UserLikes.ToList();
+            return likedList;
         }
         public List<UserSearch> GetHistory(int userId)
         {

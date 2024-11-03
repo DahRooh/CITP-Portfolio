@@ -82,19 +82,22 @@ DELETE {{MovieWebserver_HostAddress}}/api/user/1/review/1
 Authorization: Bearer eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTUxMiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiMSIsImV4cCI6MTczMDY1Njc1NX0.2ppz8ENl78av1ROvRXuGSVmO2r9XlOtEsbewq9Sjv4ZNdnKMfKiHXWyl0W6tFXooQ82aaxr0XkNSM3xYV8eyQA
 Accept: application/json
 
-
-
 ###
 
 DELETE {{MovieWebserver_HostAddress}}/api/user/1/bookmark/1wptt0181689
 Authorization: Bearer eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTUxMiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiMSIsImV4cCI6MTczMDY1Njc1NX0.2ppz8ENl78av1ROvRXuGSVmO2r9XlOtEsbewq9Sjv4ZNdnKMfKiHXWyl0W6tFXooQ82aaxr0XkNSM3xYV8eyQA
 Accept: application/json
 
+### get likes
+
+GET {{MovieWebserver_HostAddress}}/api/user/1/likes
+Authorization: Bearer eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTUxMiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiMSIsImV4cCI6MTczMDY3Njg0N30.lZXgNJEN7Bj1zgAnjVk3gXYw8ZRYYaljKUIS2ExE9tDTw0KFb22PUMTA8pDWK5IqRskPl6Ol0tAhTmggdUSgcA
+Accept: application/json
 
 
 ### create user
 
-Post {{MovieWebserver_HostAddress}}/api/user/CreateUser
+POST {{MovieWebserver_HostAddress}}/api/user/CreateUser
 Accept: application/json
 Content-Type: application/json
 {
@@ -116,7 +119,7 @@ Content-Type: application/json
 
 ### create review
 POST {{MovieWebserver_HostAddress}}/api/title/tt10382912/review
-Authorization: Bearer eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTUxMiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiMSIsImV4cCI6MTczMDY2Mjc5NX0.pOU6a19aRBzMLn7VtAfIH3dt6IwkhYQYhrjopYIijfzbI99lHrk6_nFvZP9nugcx8DatEtJLV5Tkien7IImvOw
+Authorization: Bearer eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTUxMiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiMSIsImV4cCI6MTczMDY3OTIwMX0.VrzmI03nur-yVT6sr33aqvwSWXprk58on1jDrdcoUh1k9eEvgx9etM5ZSuBxGeL7PnHzxaiTlugYDaL72zfhvA
 Accept: application/json
 Content-Type: application/json
 {
@@ -124,7 +127,21 @@ Content-Type: application/json
   "Rating": 10
 }
 
-### like own review
+### like review
+POST {{MovieWebserver_HostAddress}}/api/title/tt10382912/review/1
+Authorization: Bearer eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTUxMiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiMSIsImV4cCI6MTczMDY3OTIwMX0.VrzmI03nur-yVT6sr33aqvwSWXprk58on1jDrdcoUh1k9eEvgx9etM5ZSuBxGeL7PnHzxaiTlugYDaL72zfhvA
+Accept: application/json
+Content-Type: application/json
+{
+  "Like": 1
+}
+
+
+### delete like again
+
+DELETE {{MovieWebserver_HostAddress}}/api/title/tt10382912/review/1
+Authorization: Bearer eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTUxMiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiMSIsImV4cCI6MTczMDY3Njg0N30.lZXgNJEN7Bj1zgAnjVk3gXYw8ZRYYaljKUIS2ExE9tDTw0KFb22PUMTA8pDWK5IqRskPl6Ol0tAhTmggdUSgcA
+Accept: application/json
 
 
 ### create bookmark TO DO: FIX

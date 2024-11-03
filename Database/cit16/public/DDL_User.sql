@@ -72,6 +72,8 @@ create table user_bookmarks
   foreign key (u_id) references users on delete cascade
 );
 
+select * from movie limit 1;
+
 create table history
 (
 	search_id varchar,
@@ -92,7 +94,7 @@ create table wp_bookmarks
 );
 
 create table review (
-  rev_id serial primary key on delete cascade,
+  rev_id serial primary key,
   review varchar(256) default null,
   likes int default 0
 );

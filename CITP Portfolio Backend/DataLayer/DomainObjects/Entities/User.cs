@@ -14,6 +14,6 @@ public class User
     public IList<UserTitleReview> Reviews { get; set; } = new List<UserTitleReview>();
     public IList<UserSearch> Searches { get; set; } = new List<UserSearch>();
     public IList<UserLikesReview> UserLikes { get; set; } = new List<UserLikesReview>();
-    public IList<UserSession>? UserSessions { get; set; } = new List<UserSession>();
-    public IList<UserBookmark> UserBookmarks { get; internal set; } = new List<UserBookmark>();
+    public IList<UserSession> UserSessions { get; set; } = new List<UserSession>();
+    public IList<UserBookmark>? UserBookmarks { get; set; } = new List<UserBookmark>();
 }

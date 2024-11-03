@@ -33,6 +33,16 @@ public abstract class BaseController : ControllerBase
     }
 
     [NonAction]
+    public User GetUserLoggedIn()
+    {
+        var _ds = new UserDataService();
+        JwtSecurityToken token = GetDecodedToken();
+        User user = _ds.GetUser(token.Claims.FirstOrDefault().Value);
+        if (user == null) return null;
+        return user;
+    }
+
+    [NonAction]
     public JwtSecurityToken CreateToken(User user, IConfiguration _configuration)
     {
         // create claims

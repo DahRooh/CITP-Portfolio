@@ -44,6 +44,15 @@ public class TitleDataService : ITitleDataService
 
         return newReview;
     }
+    public bool LikeReview(int userId, int revId, int like)
+    {
+        db = new MVContext();
+        db.Database.ExecuteSqlRaw("call like_review({0},{1},{2})", userId, revId, like);
+        var liked = db.UserLikesReviews.Where(x => x.UserId == userId && x.ReviewId == revId).FirstOrDefault();
+
+        if (liked == null) return false;
+        return true;
+    }
 
     public Bookmark CreateBookmark(string tId, int userId)
     {
@@ -122,7 +131,7 @@ public class TitleDataService : ITitleDataService
 
         return serie;
     }
-    public Title GetTitle(string id)
+    public Title GetTitleFromId(string id)
     {
         db = new MVContext();
         var title = db.Titles
@@ -158,8 +167,7 @@ public class TitleDataService : ITitleDataService
         var cast = db.PersonInvolvedIn
             .Include(x => x.Title)
             .Include(x => x.Person)
-            .Where(x => x.TitleId == id)
-            .Where(x => x.Character != null)
+            .Where(x => x.TitleId == id && x.Character != null)
             .Select(x => new InvolvedIn { PersonId = x.PersonId, 
                                             TitleId = x.TitleId, 
                                             Character = x.Character, 
@@ -221,11 +229,24 @@ public class TitleDataService : ITitleDataService
         return false;
         
     }
-    
 
 
+    public bool DeleteLike(int revId, int id)
+    {
+        db = new MVContext();
+        try
+        {
+            db.UserLikesReviews.Remove(db.UserLikesReviews.Single(x => x.ReviewId == revId));
+        }
+        catch
+        {
+            return false;
+        }
 
+        var saved = db.SaveChanges() > 0;
 
+        return saved;
+    }
 
 }
 

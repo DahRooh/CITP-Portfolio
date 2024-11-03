@@ -28,6 +28,7 @@ public class MVContext : DbContext
     public DbSet<WebpageBookmark> WebpageBookmarks { get; set; }
     public DbSet<UserBookmark> UserBookmarks { get; set; }
     public DbSet<UserTitleReview> UserReviews { get; set; }
+    public DbSet<UserLikesReview> UserLikesReviews { get; set; }
     public DbSet<InvolvedIn> PersonInvolvedIn { get; set; }
     public DbSet<TitleGenre> TitlesGenres { get; set; }
     public DbSet<UserSearch> UserSearches { get; set; }

@@ -20,7 +20,7 @@ public interface ITitleDataService
 
 
     // get
-    Title GetTitle(string id);
+    Title GetTitleFromId(string id);
 
     IList<Episode> GetEpisodes(int page, int pageSize);
     Episode GetEpisode(string id);
@@ -39,5 +39,6 @@ public interface ITitleDataService
     int NumberOfEpisodes();
 
     bool UpdateReview(string titleId, int userId, int userRating, string inReview, int reviewId);
-
+    public bool LikeReview(int userId, int revId, int like);
+    bool DeleteLike(int revId, int id);
 }

@@ -194,8 +194,12 @@ natural join rates;
 -- 2 other user can like the review 
 call like_review(1,3,1); -- user 1 likes review 3. 1 for like -1 for dislike.
 call like_review(2,3,1); 
-select * from review; 
 
+select * from review natural join rates;
+
+select * from likes natural join users natural join review;
+
+select * from likes;
 
 -- 3 a user can change the like to a dislike or remove it
 call like_review(1,3,-1); 

@@ -32,6 +32,25 @@ public class TitleController : BaseController
         _userDs = userDs;
         _linkGenerator = linkGenerator;
     }
+    [HttpPost("{tId}/review/{revId}")]
+    [Authorize]
+    public IActionResult LikeReview([FromBody] CreateLikeModel like, string tId, int revId)
+    {
+        var user = GetUserLoggedIn();
+
+        if (user == null) return BadRequest();
+
+        if (like.Like == 1 || like.Like == -1)
+        {
+            var liked = _ds.LikeReview(user.Id, revId, like.Like);
+            if (liked)
+            {
+                return Ok();
+            }
+        }
+
+        return NotFound();
+    }
 
     [HttpPost("{tId}/review")]
     [Authorize]
@@ -44,13 +63,13 @@ public class TitleController : BaseController
 
         if (user == null) return Unauthorized();
 
-        if (_ds.GetTitle(tId) == null) return NotFound();
+        if (_ds.GetTitleFromId(tId) == null) return NotFound();
 
         var review = _ds.CreateReview(model, user.Id, tId);
         var newReview = CreateReviewModel(review);
 
         if (newReview == null) return BadRequest();
-        
+
         return Created(nameof(CreateReview), newReview);
     }
 
@@ -122,10 +141,10 @@ public class TitleController : BaseController
         return Ok(episode);
     }
 
-    [HttpGet("{tId}", Name = nameof(GetTitle))]
+    [HttpGet("{tId}")]
     public IActionResult GetTitle(string tId)
     {
-        var title = CreateTitleModel(_ds.GetTitle(tId)); // mangler title model TO DO:
+        var title = CreateTitleModel(_ds.GetTitleFromId(tId)); // mangler title model TO DO:
         if (title == null)
         {
             return NotFound();
@@ -155,8 +174,8 @@ public class TitleController : BaseController
 
     }
 
-    
-    
+
+
     [HttpGet("{tId}/crew", Name = nameof(GetInvolvedIn))]
     public IActionResult GetInvolvedIn(string tId)
     {
@@ -196,11 +215,11 @@ public class TitleController : BaseController
     }
 
 
-    [HttpGet("{id}/similartitles", Name = nameof(GetSimilarTitles))]
-    public IActionResult GetSimilarTitles(string id)
+    [HttpGet("{tId}/similartitles", Name = nameof(GetSimilarTitles))]
+    public IActionResult GetSimilarTitles(string tId)
     {
-        var similarTitles = _ds.GetSimilarTitles(id).Select(x => CreateSimilarTitlesModel(x)).ToList();
- 
+        var similarTitles = _ds.GetSimilarTitles(tId).Select(x => CreateSimilarTitlesModel(x)).ToList();
+
         return Ok(similarTitles);
     }
 
@@ -214,7 +233,7 @@ public class TitleController : BaseController
             return NotFound();
         }
         var models = reviews.Select(x => CreateReviewModel(x));
-        
+
         return Ok(models);
     }
 
@@ -244,6 +263,21 @@ public class TitleController : BaseController
 
     }
 
+
+    [HttpDelete("{tId}/review/{revId}")]
+    [Authorize]
+    public IActionResult DeleteLike(int revId)
+    {
+        var user = GetUserLoggedIn();
+        if (user == null) return BadRequest();
+
+
+        var deleted = _ds.DeleteLike(revId, user.Id);
+
+        if (deleted) return Ok();
+        return NotFound();
+    }
+
     // CreateModel
 
     private MovieModel? CreateMovieModel(Movie movie)
@@ -267,9 +301,9 @@ public class TitleController : BaseController
     }
     private BookmarkModel CreateBookmarkModel(Bookmark bookmark)
     {
-        var title = _ds.GetTitle(bookmark.WebpageBookmark.Webpage.TitleId);
+        var title = _ds.GetTitleFromId(bookmark.WebpageBookmark.Webpage.TitleId);
         var model = bookmark.Adapt<BookmarkModel>();
-        model.Url = GetWebpageUrlByAction(nameof(GetTitle), title.Id, "Title");
+        model.Url = GetWebpageUrl(nameof(GetTitle), "Title", new { id = title.Id });
         model.Title = title._Title;
         model.Poster = title.Poster;
         return model;
@@ -277,7 +311,7 @@ public class TitleController : BaseController
     private EpisodeModel? CreateEpisodeModel(Episode episode)
     {
         var model = episode.Adapt<EpisodeModel>();
-        var url = GetWebpageUrl(nameof(GetEpisode), "Title", new { episode.Id });
+        var url = GetWebpageUrl(nameof(GetEpisode), "Title", new { id = episode.Id });
         model.Url = url;
         model._Title = episode.Title._Title;
         model.Plot = episode.Title.Plot;
@@ -295,13 +329,14 @@ public class TitleController : BaseController
     private TitleModel CreateTitleModel(Title title)
     {
         var model = title.Adapt<TitleModel>();
+        model.Url = GetWebpageUrl(nameof(GetTitle), "Title", new { id = title.Id });
         return model;
     }
 
     private InvolvedInModel? CreateInvolvedTitleModel(InvolvedIn involvedIn)
     {
         var model = involvedIn.Adapt<InvolvedInModel>();
-        var url = GetWebpageUrlByAction(nameof(PersonController.GetPerson),  involvedIn.PersonId, "Person");
+        var url = GetWebpageUrl(nameof(PersonController.GetPerson), "Person", new { id = involvedIn.PersonId });
         model.Url = url;
         model.Person = involvedIn.Person.Name;
         model.Job = involvedIn.Job;
@@ -312,7 +347,7 @@ public class TitleController : BaseController
     private CastModel? CreateCastModel(InvolvedIn involvedIn)
     {
         var model = involvedIn.Adapt<CastModel>();
-        var url = GetWebpageUrlByAction(nameof(PersonController.GetPerson), involvedIn.PersonId, "Person");
+        var url = GetWebpageUrl(nameof(PersonController.GetPerson), "Person", new { id = involvedIn.PersonId });
         model.Url = url;
         model.Person = involvedIn.Person.Name;
         model.Character = involvedIn.Character;
@@ -322,7 +357,7 @@ public class TitleController : BaseController
     private SimilarTitlesModel? CreateSimilarTitlesModel(SimilarTitle similarTitle)
     {
         var model = similarTitle.Adapt<SimilarTitlesModel>();
-        var url = GetWebpageUrl(nameof(GetSimilarTitles), "Title", new { similarTitle.SimilarTitleId }); // TO DO: Wrong url! query url
+        var url = GetWebpageUrl(nameof(GetTitle), "Title", new { id = similarTitle.SimilarTitleId }); // TO DO: Wrong url! query url
         model.Url = url;
 
         model.TitleId = similarTitle.SimilarTitleId;
