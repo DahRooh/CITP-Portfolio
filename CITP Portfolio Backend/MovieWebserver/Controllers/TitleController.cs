@@ -144,7 +144,7 @@ public class TitleController : BaseController
     [HttpGet("{tId}")]
     public IActionResult GetTitle(string tId)
     {
-        var title = CreateTitleModel(_ds.GetTitleFromId(tId)); // mangler title model TO DO:
+        var title = CreateTitleModel(_ds.GetTitleFromId(tId)); 
         if (title == null)
         {
             return NotFound();
@@ -283,7 +283,7 @@ public class TitleController : BaseController
     private MovieModel? CreateMovieModel(Movie movie)
     {
         var model = movie.Adapt<MovieModel>();
-        var url = GetWebpageUrl(nameof(GetMovie), "Title", new { movie.Id });
+        var url = GetWebpageUrl(nameof(GetMovie), "Title", new { mId = movie.Id });
         model.Url = url;
         model._Title = movie.Title._Title;
         model.Plot = movie.Title.Plot;
@@ -303,7 +303,7 @@ public class TitleController : BaseController
     {
         var title = _ds.GetTitleFromId(bookmark.WebpageBookmark.Webpage.TitleId);
         var model = bookmark.Adapt<BookmarkModel>();
-        model.Url = GetWebpageUrl(nameof(GetTitle), "Title", new { id = title.Id });
+        model.Url = GetWebpageUrl(nameof(GetTitle), "Title", new { tId = title.Id });
         model.Title = title._Title;
         model.Poster = title.Poster;
         return model;
@@ -311,7 +311,7 @@ public class TitleController : BaseController
     private EpisodeModel? CreateEpisodeModel(Episode episode)
     {
         var model = episode.Adapt<EpisodeModel>();
-        var url = GetWebpageUrl(nameof(GetEpisode), "Title", new { id = episode.Id });
+        var url = GetWebpageUrl(nameof(GetEpisode), "Title", new { eId = episode.Id });
         model.Url = url;
         model._Title = episode.Title._Title;
         model.Plot = episode.Title.Plot;
@@ -329,7 +329,7 @@ public class TitleController : BaseController
     private TitleModel CreateTitleModel(Title title)
     {
         var model = title.Adapt<TitleModel>();
-        model.Url = GetWebpageUrl(nameof(GetTitle), "Title", new { id = title.Id });
+        model.Url = GetWebpageUrl(nameof(GetTitle), "Title", new { tId = title.Id });
         return model;
     }
 
@@ -357,7 +357,7 @@ public class TitleController : BaseController
     private SimilarTitlesModel? CreateSimilarTitlesModel(SimilarTitle similarTitle)
     {
         var model = similarTitle.Adapt<SimilarTitlesModel>();
-        var url = GetWebpageUrl(nameof(GetTitle), "Title", new { id = similarTitle.SimilarTitleId }); // TO DO: Wrong url! query url
+        var url = GetWebpageUrl(nameof(GetTitle), "Title", new { tId = similarTitle.SimilarTitleId }); // TO DO: Wrong url! query url
         model.Url = url;
 
         model.TitleId = similarTitle.SimilarTitleId;

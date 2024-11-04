@@ -184,16 +184,6 @@ public class UserController : BaseController
             return Ok(CreateUserModel(_ds.GetUser(userId)));
         }
         return BadRequest(updated);
-        
-        
-        //if (email == null) return NotFound();
-        
-        // xxxxxx    _ds.GetUser(userId).Email;
-        
-        // "nulstil" email på en eller anden måde (null???)
-        // returner den nye email med en tilknyttet funktionalitet (at den kan blive lavet på ny)
-        // ny model?
-        
     }
 
     [HttpPut("{userId}/update_password")]
@@ -306,12 +296,6 @@ public class UserController : BaseController
         return user.Adapt<UserModel>();
     }
 
-    private static SessionModel CreateSessionModel(UserSessionsHistory session)
-    {
-        return session.Adapt<SessionModel>();
-    }
-
-
     private BookmarkModel CreateBookmarkModel(Bookmark bookmark)
     {
         var model = bookmark.Adapt<BookmarkModel>();
@@ -319,15 +303,10 @@ public class UserController : BaseController
         var title = _titleDs.GetTitleFromId(bookmark.WebpageBookmark.Webpage.TitleId);
 
 
-        model.Url = GetWebpageUrlByAction(nameof(TitleController.GetTitle), title.Id, "Title");
+        model.Url = GetWebpageUrl(nameof(TitleController.GetTitle), "Title", new { tId = title.Id });
         model.Title = title._Title;
         model.Poster = title.Poster;
         
         return model;
-    }
-    
-    private static TitleModel CreateTitleModel(Title title)
-    {
-        return title.Adapt<TitleModel>();
     }
 }

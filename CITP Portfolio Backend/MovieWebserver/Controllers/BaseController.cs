@@ -77,21 +77,7 @@ public abstract class BaseController : ControllerBase
         
         return url;
     }
-
-    [NonAction]
-    public string? GetWebpageUrlByAction(string nameOf, string id, string controller) 
-    {
-        var url = _linkGenerator.GetUriByAction(
-                    action: nameOf,
-                    controller: controller,
-                    values: new { id },
-                    httpContext: HttpContext
-                    );
-
-        return url;
-    }
-
-
+    
 
     [NonAction]
     public string? GetPageLink(string entityName, string controller, object args)
@@ -141,6 +127,4 @@ public abstract class BaseController : ControllerBase
 
         return token;
     }
-
-
 }

@@ -64,7 +64,7 @@ public class SearchController : BaseController
           var webpage = _ds.GetWebpage(searchResult.WebpageId);
           var result = new SearchResultModel
           {
-              Url = GetWebpageUrl(nameof(TitleController.GetTitle), "Title", new { Id = webpage.TitleId }),
+              Url = GetWebpageUrl(nameof(TitleController.GetTitle), "Title", new { tId = webpage.TitleId }),
               Title = webpage.Title._Title,
               Poster = webpage.Title.Poster,
               Rating = webpage.Title.Rating
