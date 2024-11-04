@@ -9,7 +9,7 @@ namespace DataLayer.DomainObjects.FunctionResults
     public class CoActor
     {
         public string PersonId { get; set; }
-        public string _CoActor { get; set; }
+        public string Name { get; set; }
         public string TitleName { get; set; }
         public double PersonRating { get; set; }
 

@@ -157,7 +157,7 @@ public class PersonController : BaseController
         var url = GetWebpageUrl(nameof(GetPerson), "Person", new { id = coActor.PersonId });
         model.Url = url;
         model.PersonId = coActor.PersonId;
-        model.CoActors = coActor._CoActor;
+        model.CoActors = coActor.Name;
         model.Title = coActor.TitleName;
         model.PersonRating = coActor.PersonRating;
 

@@ -53,11 +53,10 @@ public class UserController : BaseController
         {
             return BadRequest();
         }
-        (var hashedPassword, var salt) = _hashing.Hash(userModel.Password);
-        userModel.Password = hashedPassword;
 
 
-        var result = _ds.CreateUser(userModel, salt);
+
+        var result = _ds.CreateUser(userModel);
 
 
         return Created(nameof(CreateUser), CreateUserModel(result));

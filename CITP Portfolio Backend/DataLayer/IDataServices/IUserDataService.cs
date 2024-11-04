@@ -24,7 +24,7 @@ public interface IUserDataService
     public List<UserSearch> GetHistory(int userId);
     public List<Bookmark> GetBookmarks(int userId);
     public IList<UserLikesReview> GetLikes(int userId);
-    public User CreateUser(CreateUserModel userModel, string salt);
+    public User CreateUser(CreateUserModel userModel);
 
     public List<UserTitleReview> GetReviews(int userId);
     public UserTitleReview GetReview(int reviewId);
@@ -32,7 +32,6 @@ public interface IUserDataService
     public List<UserSessionsHistory> GetSessions(int userId);
     public List<(Title, int)> GetLikeHistory(int userId);
 
-    public bool CreateBookmark(string titleId, int userId);
 
     public bool LikeReview(int reviewId, int userId, int like); // like can be -1, 0 or 1.
     public bool UpdateEmail(string username, string email);

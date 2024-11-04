@@ -3,9 +3,8 @@
 GROUP: cit16, MEMBERS: Andreas Moosdorf, Dagmar Ree, Eray Erkul 
 
 */
-select * from users;
-select * from rates;
-select * from review left join rates using(rev_id);
+
+
 
 /*This is our test file.
   We will be testing our functions and producures determine if the they work correcly 

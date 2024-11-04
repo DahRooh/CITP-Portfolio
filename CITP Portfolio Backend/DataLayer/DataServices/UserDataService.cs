@@ -7,6 +7,7 @@ using MovieWebserver.Model.Title;
 using DataLayer.Model.User;
 using System.Linq;
 using DataLayer.DomainObjects.Relations;
+using DataLayer.HelperMethods;
 
 
 namespace DataLayer.DataServices
@@ -14,7 +15,7 @@ namespace DataLayer.DataServices
     public class UserDataService : IUserDataService
     {
         private MVContext db;
-
+        private Hashing _hashing;
         public List<User> GetUsers()
         {
             db = new MVContext();
@@ -54,18 +55,18 @@ namespace DataLayer.DataServices
             return true;
         }
 
-        public bool CreateBookmark(string titleId, int userId)
-        {
-            db = new MVContext();
-            throw new NotImplementedException();
-        }
+
 
 
 
         //public User CreateUser(CreateUserModel user, string salt)
-        public User CreateUser(CreateUserModel user, string salt)
+        public User CreateUser(CreateUserModel user)
         {
             db = new MVContext();
+            _hashing = new Hashing();
+
+            (var hashedPassword, var salt) = _hashing.Hash(user.Password);
+            user.Password = hashedPassword;
 
             var newId = db.Users.FirstOrDefault() == null ? 1 : db.Users.Max(x => x.Id) + 1;
 
