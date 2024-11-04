@@ -8,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using System.Net;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddTransient<ITitleDataService, TitleDataService>();
@@ -36,12 +37,6 @@ builder.Services.AddMapster();
 
 builder.Services.AddControllers();
 
-/*
-    .AddJsonOptions(options =>
-    {
-        options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve;
-    })
-*/
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

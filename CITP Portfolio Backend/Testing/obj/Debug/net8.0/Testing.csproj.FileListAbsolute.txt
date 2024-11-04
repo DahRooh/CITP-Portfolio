@@ -137,16 +137,11 @@ C:\Users\Moosdorf\Desktop\sem1\CITP-Portfolio\CITP Portfolio Backend\Testing\bin
 C:\Users\Moosdorf\Desktop\sem1\CITP-Portfolio\CITP Portfolio Backend\Testing\bin\Debug\net8.0\xunit.runner.visualstudio.testadapter.dll
 C:\Users\eray2\Documents\Github\semester1\Portfolio\CITP-Portfolio\CITP Portfolio Backend\Testing\bin\Debug\net8.0\.msCoverageSourceRootsMapping_Testing
 C:\Users\eray2\Documents\Github\semester1\Portfolio\CITP-Portfolio\CITP Portfolio Backend\Testing\bin\Debug\net8.0\CoverletSourceRootsMapping_Testing
-C:\Users\eray2\Documents\Github\semester1\Portfolio\CITP-Portfolio\CITP Portfolio Backend\Testing\bin\Debug\net8.0\appsettings.Development.json
-C:\Users\eray2\Documents\Github\semester1\Portfolio\CITP-Portfolio\CITP Portfolio Backend\Testing\bin\Debug\net8.0\appsettings.json
 C:\Users\eray2\Documents\Github\semester1\Portfolio\CITP-Portfolio\CITP Portfolio Backend\Testing\bin\Debug\net8.0\testhost.exe
 C:\Users\eray2\Documents\Github\semester1\Portfolio\CITP-Portfolio\CITP Portfolio Backend\Testing\bin\Debug\net8.0\testhost.dll
 C:\Users\eray2\Documents\Github\semester1\Portfolio\CITP-Portfolio\CITP Portfolio Backend\Testing\bin\Debug\net8.0\xunit.runner.visualstudio.testadapter.dll
 C:\Users\eray2\Documents\Github\semester1\Portfolio\CITP-Portfolio\CITP Portfolio Backend\Testing\bin\Debug\net8.0\xunit.runner.reporters.netcoreapp10.dll
 C:\Users\eray2\Documents\Github\semester1\Portfolio\CITP-Portfolio\CITP Portfolio Backend\Testing\bin\Debug\net8.0\xunit.runner.utility.netcoreapp10.dll
-C:\Users\eray2\Documents\Github\semester1\Portfolio\CITP-Portfolio\CITP Portfolio Backend\Testing\bin\Debug\net8.0\MovieWebserver.deps.json
-C:\Users\eray2\Documents\Github\semester1\Portfolio\CITP-Portfolio\CITP Portfolio Backend\Testing\bin\Debug\net8.0\MovieWebserver.runtimeconfig.json
-C:\Users\eray2\Documents\Github\semester1\Portfolio\CITP-Portfolio\CITP Portfolio Backend\Testing\bin\Debug\net8.0\MovieWebserver.exe
 C:\Users\eray2\Documents\Github\semester1\Portfolio\CITP-Portfolio\CITP Portfolio Backend\Testing\bin\Debug\net8.0\Testing.deps.json
 C:\Users\eray2\Documents\Github\semester1\Portfolio\CITP-Portfolio\CITP Portfolio Backend\Testing\bin\Debug\net8.0\Testing.runtimeconfig.json
 C:\Users\eray2\Documents\Github\semester1\Portfolio\CITP-Portfolio\CITP Portfolio Backend\Testing\bin\Debug\net8.0\Testing.dll
@@ -257,9 +252,7 @@ C:\Users\eray2\Documents\Github\semester1\Portfolio\CITP-Portfolio\CITP Portfoli
 C:\Users\eray2\Documents\Github\semester1\Portfolio\CITP-Portfolio\CITP Portfolio Backend\Testing\bin\Debug\net8.0\zh-Hant\Microsoft.TestPlatform.CrossPlatEngine.resources.dll
 C:\Users\eray2\Documents\Github\semester1\Portfolio\CITP-Portfolio\CITP Portfolio Backend\Testing\bin\Debug\net8.0\zh-Hant\Microsoft.VisualStudio.TestPlatform.Common.resources.dll
 C:\Users\eray2\Documents\Github\semester1\Portfolio\CITP-Portfolio\CITP Portfolio Backend\Testing\bin\Debug\net8.0\DataLayer.dll
-C:\Users\eray2\Documents\Github\semester1\Portfolio\CITP-Portfolio\CITP Portfolio Backend\Testing\bin\Debug\net8.0\MovieWebserver.dll
 C:\Users\eray2\Documents\Github\semester1\Portfolio\CITP-Portfolio\CITP Portfolio Backend\Testing\bin\Debug\net8.0\DataLayer.pdb
-C:\Users\eray2\Documents\Github\semester1\Portfolio\CITP-Portfolio\CITP Portfolio Backend\Testing\bin\Debug\net8.0\MovieWebserver.pdb
 C:\Users\eray2\Documents\Github\semester1\Portfolio\CITP-Portfolio\CITP Portfolio Backend\Testing\obj\Debug\net8.0\Testing.csproj.AssemblyReference.cache
 C:\Users\eray2\Documents\Github\semester1\Portfolio\CITP-Portfolio\CITP Portfolio Backend\Testing\obj\Debug\net8.0\Testing.GeneratedMSBuildEditorConfig.editorconfig
 C:\Users\eray2\Documents\Github\semester1\Portfolio\CITP-Portfolio\CITP Portfolio Backend\Testing\obj\Debug\net8.0\Testing.AssemblyInfoInputs.cache

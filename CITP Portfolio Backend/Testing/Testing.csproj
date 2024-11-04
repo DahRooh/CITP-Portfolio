@@ -29,7 +29,6 @@
 	
 	<ItemGroup>
     <ProjectReference Include="..\DataLayer\DataLayer.csproj" />
-    <ProjectReference Include="..\MovieWebserver\MovieWebserver.csproj" />
   </ItemGroup>
 
 </Project>

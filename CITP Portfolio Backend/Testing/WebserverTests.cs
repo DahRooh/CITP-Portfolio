@@ -4,6 +4,9 @@ using System.Text;
 using System.Text.Json;
 using System.Diagnostics;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
+using System.Net.Http.Headers;
+using System.Net.Http.Json;
+using DataLayer.HelperMethods;
 
 namespace Testing
 {
@@ -15,7 +18,7 @@ namespace Testing
         private const string searchApi = "http://localhost:5001/api/search";
 
         [Fact]
-        public async Task GetWithNoArguments_OkOnePerson()
+        public async Task CanWefindOnePerson()
         {
             var (person, statusCode) = await GetObject($"{personApi}/nm0658077");
 
@@ -24,43 +27,67 @@ namespace Testing
         }
 
         [Fact]
-        public async Task GetWithInvalidId_ReturnsNotFound()
+        public async Task CanWeFindAPersonWithInvalidId()
         {
             var (_, statusCode) = await GetObject($"{personApi}/nm06580771");
 
             Assert.Equal(HttpStatusCode.NotFound, statusCode);
         }
 
-        [Fact]
-        public async Task PutWithValidPassword_Ok()
-        {
 
+        [Fact]
+        public async Task CanWeUpdateAUserPassword()
+        {
             var newUser = new
             {
                 username = "Andreas Hoostdorf",
                 password = "123",
                 email = "Æmail@ømail.åk"
             };
-            var (theUser, _) = await PostData($"{userApi}", newUser);
 
+            var (theUser, userResponse) = await PostData($"{userApi}/CreateUser", newUser);
+            Assert.Equal(HttpStatusCode.Created, userResponse);
+
+
+            var signData = new
+            {
+                username = "Andreas Hoostdorf",
+                password = "123"
+            };
+
+            var (signInData, response) = await PutData($"{userApi}/sign_in", signData);
+            var token = signInData?.Value("token");
 
 
             var updatedPassword = new
             {
-                username = theUser.Value("username"),
-                password = theUser.Value("password") + "456",
-                email = theUser.Value("email")
+                username = "Andreas Hoostdorf",
+                password = "123456",
+                email = "Æmail@ømail.åk"
             };
 
-            var statusCode = await PutData($"{userApi}", updatedPassword);
+            var (updatedUser, statusCode) = await PutDataWithAuth($"{userApi}/1/update_password", updatedPassword, token);
             Assert.Equal(HttpStatusCode.OK, statusCode);
 
-            var (use, _) = await GetObject($"{userApi}");
-            Assert.Equal(theUser.Value("username"), use?.Value("username"));
-            Assert.Equal(theUser.Value("password") + "456", use?.Value("password"));
-            Assert.Equal(theUser.Value("email"), use?.Value("email"));
+            var newSignIn = new
+            {
+                username = "Andreas Hoostdorf",
+                password = "123456"
+            };
 
+            
+            var (newSignInData, newResponse) = await PutData($"{userApi}/sign_in", newSignIn);
+
+            Assert.Equal(signInData?.Value("username"), newSignInData?.Value("username"));
+            Assert.Equal(signInData?.Value("password"), newSignInData?.Value("password"));
+            Assert.Equal(signInData?.Value("email"), newSignInData?.Value("email"));
         }
+
+
+
+
+
+
 
 
 
@@ -93,8 +120,9 @@ namespace Testing
             return (JsonSerializer.Deserialize<JsonObject>(data), response.StatusCode);
         }
 
-        async Task<HttpStatusCode> PutData(string url, object content)
+        async Task<(JsonObject?, HttpStatusCode)> PutData(string url, object content)
         {
+
             var client = new HttpClient();
             var response = await client.PutAsync(
                 url,
@@ -102,8 +130,34 @@ namespace Testing
                     JsonSerializer.Serialize(content),
                     Encoding.UTF8,
                     "application/json"));
-            return response.StatusCode;
+
+            var data = await response.Content.ReadAsStringAsync();
+
+
+            return (JsonSerializer.Deserialize<JsonObject>(data), response.StatusCode);
         }
+
+        async Task<(JsonObject?, HttpStatusCode)> PutDataWithAuth(string url, object content, string token)
+        {
+            var client = new HttpClient();
+            if (token != null)
+            {
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            }
+
+            var response = await client.PutAsync(
+                url,
+                new StringContent(
+                    JsonSerializer.Serialize(content),
+                    Encoding.UTF8,
+                    "application/json"));
+            var data = await response.Content.ReadAsStringAsync();
+
+            return (JsonSerializer.Deserialize<JsonObject>(data), response.StatusCode);
+        }
+
+
+
 
         async Task<HttpStatusCode> DeleteData(string url)
         {
@@ -113,10 +167,12 @@ namespace Testing
         }
 
 
-        }
+
+
+
     }
 
-
+}
 static class HelperExt
 {
     public static string? Value(this JsonNode node, string name)

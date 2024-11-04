@@ -140,7 +140,7 @@ public class UserController : BaseController
 
 
     // update 
-    [HttpPut]
+    [HttpPut("sign_in")]
     public IActionResult SignIn(LoginUserModel model)
     {
         var user = _ds.GetUser(model.Username);
@@ -211,7 +211,7 @@ public class UserController : BaseController
     // deletes
 
 
-    [HttpDelete("{userId}/review/{reviewId}")]
+    [HttpDelete("{userId}/review/{reviewId}/delete_review")]
     [Authorize]
     public IActionResult DeleteReview(int userId, int reviewId)
     {
@@ -234,7 +234,7 @@ public class UserController : BaseController
         return NotFound();
     }
 
-    [HttpDelete("{userId}/bookmark/{bookmarkId}")]
+    [HttpDelete("{userId}/bookmark/{bookmarkId}/delete_bookmark")]
     [Authorize]
     public IActionResult DeleteBookmark(int userId, string bookmarkId)
     {
@@ -249,7 +249,7 @@ public class UserController : BaseController
 
 
 
-    [HttpDelete("{userId}")]
+    [HttpDelete("{userId}/delete_user")]
     [Authorize]
     public IActionResult DeleteUser(int userId)
     {
