@@ -40,7 +40,7 @@ public class UserController : BaseController
     }
 
     // creates
-    [HttpPost("CreateUser")]
+    [HttpPost]
     public IActionResult CreateUser([FromBody] CreateUserModel userModel)
     {
 
@@ -211,7 +211,7 @@ public class UserController : BaseController
     // deletes
 
 
-    [HttpDelete("{userId}/review/{reviewId}/delete_review")]
+    [HttpDelete("{userId}/review/{reviewId}")]
     [Authorize]
     public IActionResult DeleteReview(int userId, int reviewId)
     {
@@ -234,7 +234,7 @@ public class UserController : BaseController
         return NotFound();
     }
 
-    [HttpDelete("{userId}/bookmark/{bookmarkId}/delete_bookmark")]
+    [HttpDelete("{userId}/bookmark/{bookmarkId}")]
     [Authorize]
     public IActionResult DeleteBookmark(int userId, string bookmarkId)
     {
@@ -249,7 +249,7 @@ public class UserController : BaseController
 
 
 
-    [HttpDelete("{userId}/delete_user")]
+    [HttpDelete("{userId}")]
     [Authorize]
     public IActionResult DeleteUser(int userId)
     {

@@ -15,7 +15,7 @@ using System.IdentityModel.Tokens.Jwt;
 using DataLayer.IDataServices;
 using System.Runtime.Intrinsics.X86;
 using DataLayer.DomainObjects.Relations;
-using MovieWebserver.Model.User;
+using DataLayer.Model.User;
 namespace MovieWebserver.Controllers;
 
 [ApiController]
@@ -73,7 +73,7 @@ public class TitleController : BaseController
         return Created(nameof(CreateReview), newReview);
     }
 
-    [HttpPost("{tId}/bookmark")]
+    [HttpPost("{tId}/bookmark", Name = nameof(CreateBookmark))]
     [Authorize]
     public IActionResult CreateBookmark(string tId)
     {
@@ -89,7 +89,7 @@ public class TitleController : BaseController
 
         if (bookmark != null)
         {
-            return Ok(CreateBookmarkModel(bookmark));
+            return Created(nameof(CreateBookmark), CreateBookmarkModel(bookmark));
         }
 
         return BadRequest();

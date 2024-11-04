@@ -2,7 +2,7 @@
 using MovieWebserver.Model.Person;
 using MovieWebserver.Model.Title;
 
-namespace MovieWebserver.Model.User
+namespace DataLayer.Model.User
 {
     public class BookmarkModel
     {

@@ -94,11 +94,6 @@ begin
 end;
 $$;
 
-
-select * from users;
-
-
-
 --------------------------------------------------------------------------------
 -- sign in procedure 
 drop procedure if exists login_user;
@@ -206,9 +201,6 @@ end;
 $$;
 
 
-
-
-
 --------------------------------------------------------------------------------
 -- procedure for inserting into wp and bookmarks
 
@@ -221,7 +213,6 @@ declare
 begin
   begin
     insert into bookmark values (bookmark_id, current_timestamp);
-    insert into bookmark values (bookmark_id, current_timestamp);
     insert into user_bookmarks values (bookmark_id, user_id);
     insert into wp_bookmarks values (bookmark_id, webpage_id);
 
@@ -232,10 +223,6 @@ begin
   end;
 end;
 $$;
-
-select * from title limit 10;
-
-select * from  bookmark;
 
 ------------------------------------------
 -- get bookmarks

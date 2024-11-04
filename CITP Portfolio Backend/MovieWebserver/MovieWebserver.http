@@ -52,9 +52,9 @@ Authorization: Bearer eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW
 Accept: application/json
 
 ###
-POST {{MovieWebserver_HostAddress}}/api/title/tt21050232
+GET {{MovieWebserver_HostAddress}}/api/title/tt10382912
 Accept: application/json
-Authorization: Bearer eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTUxMiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiNiIsImV4cCI6MTczMDU3MjQwOH0.NauVY_D9d-etn_t1x4uwDHXNjk6BV7z7Qgue8rjl_7Hi4QewPdP1HrcTrjp3gtdidrVR_442P7uiEH-l3iZ1gw
+Authorization: Bearer eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTUxMiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiMSIsImV4cCI6MTczMDc4MzQ2NX0.lidkNxMPEDoAPpeR-9OHMXM7N7dT6Fuiapiudbgd1F9SOSTDMr6MJfrjeT1Mg9EZfa3WTbwQEYnxYzLQMWgYxQ
 
 ###
 PUT {{MovieWebserver_HostAddress}}/api/title/tt10382912/review/2
@@ -107,7 +107,7 @@ Accept: application/json
 
 ### create user
 
-POST {{MovieWebserver_HostAddress}}/api/user/CreateUser
+POST {{MovieWebserver_HostAddress}}/api/user
 Accept: application/json
 Content-Type: application/json
 {
@@ -119,7 +119,7 @@ Content-Type: application/json
 
 ### login
 
-PUT {{MovieWebserver_HostAddress}}/api/user
+PUT {{MovieWebserver_HostAddress}}/api/user/sign_in
 Accept: application/json
 Content-Type: application/json
 {
@@ -156,9 +156,9 @@ Accept: application/json
 
 ### create bookmark TO DO: FIX
 
-POST {{MovieWebserver_HostAddress}}/api/title/tt10382912/bookmark
+POST {{MovieWebserver_HostAddress}}/api/title/tt0181689/bookmark
 Accept: application/json
-Authorization: Bearer eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTUxMiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiMSIsImV4cCI6MTczMDY1Njc1NX0.2ppz8ENl78av1ROvRXuGSVmO2r9XlOtEsbewq9Sjv4ZNdnKMfKiHXWyl0W6tFXooQ82aaxr0XkNSM3xYV8eyQA
+Authorization: Bearer eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTUxMiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiMSIsImV4cCI6MTczMDc4NzczOH0.LFvr-LYdUIyThe8sy7LBaKWak7--upVCjFU3TMDwSO4RfsMMwdaTZ64oxkfNp8-NmH1HsqX1yqi-0LgWaHjLBQ
 
 
 ### delete user

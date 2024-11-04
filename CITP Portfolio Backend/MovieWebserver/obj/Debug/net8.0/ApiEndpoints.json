@@ -181,7 +181,8 @@
         "IsRequired": true
       }
     ],
-    "ReturnTypes": []
+    "ReturnTypes": [],
+    "EndpointName": "CreateBookmark"
   },
   {
     "ContainingType": "MovieWebserver.Controllers.TitleController",
@@ -441,6 +442,22 @@
   },
   {
     "ContainingType": "MovieWebserver.Controllers.UserController",
+    "Method": "CreateUser",
+    "RelativePath": "api/user",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userModel",
+        "Type": "DataLayer.Model.User.CreateUserModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MovieWebserver.Controllers.UserController",
     "Method": "GetUsers",
     "RelativePath": "api/user",
     "HttpMethod": "GET",
@@ -469,8 +486,24 @@
   },
   {
     "ContainingType": "MovieWebserver.Controllers.UserController",
+    "Method": "DeleteUser",
+    "RelativePath": "api/user/{userId}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MovieWebserver.Controllers.UserController",
     "Method": "DeleteBookmark",
-    "RelativePath": "api/user/{userId}/bookmark/{bookmarkId}/delete_bookmark",
+    "RelativePath": "api/user/{userId}/bookmark/{bookmarkId}",
     "HttpMethod": "DELETE",
     "IsController": true,
     "Order": 0,
@@ -507,22 +540,6 @@
   },
   {
     "ContainingType": "MovieWebserver.Controllers.UserController",
-    "Method": "DeleteUser",
-    "RelativePath": "api/user/{userId}/delete_user",
-    "HttpMethod": "DELETE",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "userId",
-        "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "MovieWebserver.Controllers.UserController",
     "Method": "GetUserLike",
     "RelativePath": "api/user/{userId}/likes",
     "HttpMethod": "GET",
@@ -540,7 +557,7 @@
   {
     "ContainingType": "MovieWebserver.Controllers.UserController",
     "Method": "DeleteReview",
-    "RelativePath": "api/user/{userId}/review/{reviewId}/delete_review",
+    "RelativePath": "api/user/{userId}/review/{reviewId}",
     "HttpMethod": "DELETE",
     "IsController": true,
     "Order": 0,
@@ -629,22 +646,6 @@
       {
         "Name": "model",
         "Type": "DataLayer.Model.User.UpdatePasswordModel",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "MovieWebserver.Controllers.UserController",
-    "Method": "CreateUser",
-    "RelativePath": "api/user/CreateUser",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "userModel",
-        "Type": "DataLayer.Model.User.CreateUserModel",
         "IsRequired": true
       }
     ],
