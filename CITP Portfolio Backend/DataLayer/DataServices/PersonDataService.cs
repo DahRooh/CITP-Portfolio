@@ -98,9 +98,7 @@ public class PersonDataService : IPersonDataService
         string maxId = db.People.Max(x => x.Id);
 
         string prefix = maxId.Substring(0, 2); // Result: nm
-        Console.WriteLine("Prefix: " + prefix);
         string numberPart = maxId.Substring(2); // Result: 9993710
-        Console.WriteLine("numberPart: " + numberPart);
 
         int number = int.Parse(numberPart);
         string newId;
@@ -120,7 +118,6 @@ public class PersonDataService : IPersonDataService
             BirthYear = person.BirthYear,
             DeathYear = person.DeathYear,
         };
-        Console.WriteLine("NewPerson ID: " + NewPerson.Id);
 
         db.People.Add(NewPerson);
         db.SaveChanges();

@@ -214,5 +214,27 @@ namespace DataLayer.DataServices
 
             return updatedEmail;
         }
+
+        public bool UpdatePassword(int userId, string password)
+        {
+            db = new MVContext();
+
+            var user = db.Users.Where(x => x.Id == userId).FirstOrDefault();
+            
+            if (user.Password != password) // Password variable should already be hashed, if no input
+            {
+                _hashing = new Hashing();
+                var hashedPassword = _hashing.Hash(password); 
+                user.Password = hashedPassword.hash;
+                user.Salt = hashedPassword.salt;
+
+            }
+ 
+            return db.SaveChanges() > 0;
+
+
+        }
+
+
     }
 }

@@ -76,6 +76,16 @@ Content-Type: application/json
   "Email": "cvdscdscsdcds"
 }
 
+### update password
+
+PUT {{MovieWebserver_HostAddress}}/api/user/1/update_password
+Authorization: Bearer eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTUxMiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiMSIsImV4cCI6MTczMDc1MDc4N30.A6F2cQyEdoJ6HKTeFGEeRx0VMi5iCGo6Nf-M4ccdlV2JbU7k3YcPuoGLyy1CvDUhTCvDcvcwms8L4kQWi4DURw
+Accept: application/json
+Content-Type: application/json
+{
+  "Password": "MoooooMooooCow"
+}
+
 ### 
 
 DELETE {{MovieWebserver_HostAddress}}/api/user/1/review/1

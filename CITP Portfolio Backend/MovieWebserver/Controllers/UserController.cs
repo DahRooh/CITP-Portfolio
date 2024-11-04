@@ -196,6 +196,26 @@ public class UserController : BaseController
         
     }
 
+    [HttpPut("{userId}/update_password")]
+    [Authorize]
+    public IActionResult UpdatePassword(int userId, [FromBody] UpdatePasswordModel model)
+    {
+        var user = AuthorizeUser(userId);
+
+        if (userId != user.Id)
+        {
+            return Unauthorized();
+        }
+
+        var updated = _ds.UpdatePassword(userId, model.Password);
+
+        if (updated)
+        {
+            return Ok(CreateUserModel(_ds.GetUser(userId)));
+        }
+        return BadRequest(updated);
+    }
+
 
 
     // deletes

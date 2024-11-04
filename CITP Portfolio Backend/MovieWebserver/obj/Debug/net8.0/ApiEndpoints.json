@@ -631,6 +631,27 @@
   },
   {
     "ContainingType": "MovieWebserver.Controllers.UserController",
+    "Method": "UpdatePassword",
+    "RelativePath": "api/user/{userId}/update_password",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "model",
+        "Type": "DataLayer.Model.User.UpdatePasswordModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MovieWebserver.Controllers.UserController",
     "Method": "CreateUser",
     "RelativePath": "api/user/CreateUser",
     "HttpMethod": "POST",

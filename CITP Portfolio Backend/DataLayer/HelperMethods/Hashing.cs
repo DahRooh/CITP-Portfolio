@@ -29,7 +29,7 @@ namespace DataLayer.HelperMethods
             string saltString = Convert.ToHexString(salt);
             string hash = HashSHA256(password, saltString);
 
-            return (hash, saltString);
+            return (Hash: hash, Salt: saltString);
         }
 
         public bool Verify(string loginPassword, string hashedRegisteredPassword, string saltString)

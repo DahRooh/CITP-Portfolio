@@ -35,7 +35,7 @@ public interface IUserDataService
 
     public bool LikeReview(int reviewId, int userId, int like); // like can be -1, 0 or 1.
     public bool UpdateEmail(string username, string email);
-
+    public bool UpdatePassword(int userId, string password);
 
     public bool DeleteUser(int userId);
 
