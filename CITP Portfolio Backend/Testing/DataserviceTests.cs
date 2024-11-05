@@ -1,5 +1,6 @@
 ﻿using DataLayer;
 using DataLayer.DataServices;
+using DataLayer.DomainObjects;
 using DataLayer.HelperMethods;
 using DataLayer.Model.User;
 using Xunit;
@@ -135,5 +136,45 @@ public class DataserviceTests
         Assert.Equal("Claire Danes", coactors[0].Name);
         Assert.Equal(20, coactors.Count());
     }
+    
+     
+    [Fact]
+    public void PersonCorrectValues()
+    {
+        var p = new Person()
+        {
+            Id = "nm0000001",
+            Name = "Fred Astaire",
+            BirthYear = 1899,
+            DeathYear = 1987,
+            Rating = 8.2
+        };
 
+        Assert.Equal("nm0000001", p.Id);
+        Assert.Equal("Fred Astaire", p.Name);
+        Assert.Equal(1899, p.BirthYear);
+        Assert.Equal(1987, p.DeathYear);
+        Assert.Equal(8.2, p.Rating);
+        
+        Assert.Empty(p.Professions);        
+        Assert.Empty(p.InvolvedIn);        
+    }
+
+    [Fact]
+    public void EpisodeCorrectValues()
+    {
+        var e = new Episode()
+        {
+            Id = "tt7856872",
+            SeasonNumber = 1,
+            EpisodeNumber = 1,
+        };
+        
+        Assert.Equal("tt7856872", e.Id);
+        Assert.Equal(1, e.SeasonNumber);
+        Assert.Equal(1, e.EpisodeNumber);
+        
+        Assert.Null(e.TitleId);
+        Assert.Null(e.Title);
+    }
 }
