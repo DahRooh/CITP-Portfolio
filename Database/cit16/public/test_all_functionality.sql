@@ -5,7 +5,6 @@ GROUP: cit16, MEMBERS: Andreas Moosdorf, Dagmar Ree, Eray Erkul
 */
 select * from users;
 
-
 call signup(1, 'username1', 'hashed-password', 'mail1@mail.ok');
 
 call login_user('username1', 'hashed-password', null);
@@ -82,10 +81,8 @@ call update_all_people_rating();
 
 select * from name_ratings('The Hobbit: The Desolation of Smaug') limit 1;
 
-
-
-
-call rate('tt21050232', 8, 2, 'Bad movie');
-
+select * from likes;
+select * from bookmark;
 select * from users;
-
+select * from search;
+select * from review;

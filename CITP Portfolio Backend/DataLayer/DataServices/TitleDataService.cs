@@ -30,7 +30,9 @@ public class TitleDataService : ITitleDataService
 
         if (title == null) return null;
 
-        db.Database.ExecuteSqlRaw("call rate({0},{1},{2},{3})", title.Id, userId, model.Rating, model.ReviewText);
+        var reviewId = db.Reviews.Any() ? db.Reviews.Max(x => x.Id) + 1 : 1; // set to max id + 1, or set to 1 if no reviews
+
+        db.Database.ExecuteSqlRaw("call rate({0},{1},{2},{3},{4})", title.Id, userId, model.Rating, reviewId, model.ReviewText);
 
         var newReview = db.UserReviews
             .Include(x => x.Review)

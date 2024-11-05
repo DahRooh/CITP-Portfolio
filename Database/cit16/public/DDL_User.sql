@@ -94,7 +94,7 @@ create table wp_bookmarks
 );
 
 create table review (
-  rev_id serial primary key,
+  rev_id int primary key,
   review varchar(256) default null,
   likes int default 0
 );

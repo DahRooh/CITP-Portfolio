@@ -16,6 +16,7 @@ public class Title
     public string? Plot { get; set; }
     public double? Rating { get; set; } = 0;
     public string Type { get; set; }
+    public string Titletype { get; set; }
     public bool? IsAdult { get; set; }
     public string? Released { get; set; }
     public string? Language { get; set; }

@@ -4,14 +4,10 @@ using MovieWebserver.Model.Title;
 using Mapster;
 using DataLayer.DomainObjects;
 using DataLayer.IDataServices;
-using DataLayer.DomainObjects.FunctionResults;
-using MovieWebserver.Model;
 using MovieWebserver.Model.User;
 using DataLayer.DomainObjects.Relations;
 using DataLayer.Model.User;
 using DataLayer.HelperMethods;
-using System.Security.Claims;
-using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using Microsoft.AspNetCore.Authorization;
 
@@ -94,7 +90,7 @@ public class UserController : BaseController
     public IActionResult GetUserLike(int userId)
     {
         var user = AuthorizeUser(userId);
-        if (user == null) { return BadRequest(); }
+        if (user == null) { return Unauthorized(); }
 
         var likes = _ds.GetLikes(userId)
             .Select(x => CreateLikeModel(x)).ToList();
@@ -108,7 +104,7 @@ public class UserController : BaseController
     {
         var user = AuthorizeUser(userId);
 
-        if (user == null) { return BadRequest(); }
+        if (user == null) { return Unauthorized(); }
 
         var bookmarks = _ds.GetBookmarks(userId).Select(x => CreateBookmarkModel(x)).ToList();
 
@@ -120,7 +116,7 @@ public class UserController : BaseController
     public IActionResult GetUserReviews(int userId)
     {
         var user = AuthorizeUser(userId);
-        if (user == null) { return BadRequest(); }
+        if (user == null) { return Unauthorized(); }
 
         var reviews = _ds.GetReviews(userId).Select(x => CreateReviewModel(x)).ToList();
         
@@ -131,7 +127,7 @@ public class UserController : BaseController
     public IActionResult GetUserHistory(int userId)
     {
         var user = AuthorizeUser(userId);
-        if (user == null) { return BadRequest(); }
+        if (user == null) { return Unauthorized(); }
 
         var searches = _ds.GetHistory(userId).Select(x => CreateSearchModel(x)).ToList(); // change UserSearch to Search object to adapt?
 
@@ -144,7 +140,7 @@ public class UserController : BaseController
     public IActionResult SignIn(LoginUserModel model)
     {
         var user = _ds.GetUser(model.Username);
-        if (user == null)
+        if (user == null) // dont want to inform the client that the user doesn't exists if not a friendly client.
         {
             return BadRequest("Wrong username or password");
         }
@@ -192,7 +188,7 @@ public class UserController : BaseController
     {
         var user = AuthorizeUser(userId);
 
-        if (userId != user.Id)
+        if (user == null || userId != user.Id)
         {
             return Unauthorized();
         }
@@ -220,8 +216,9 @@ public class UserController : BaseController
 
         if (user == null || userId != user.Id)
         {
-            return BadRequest();
+            return Unauthorized();
         }
+
 
         var review = _ds.GetReview(reviewId);
 
@@ -229,7 +226,7 @@ public class UserController : BaseController
 
         var deleted = _ds.DeleteReview(reviewId);
 
-        if (deleted) return Ok();
+        if (deleted) return NoContent();
 
         return NotFound();
     }
@@ -240,9 +237,14 @@ public class UserController : BaseController
     {
         var user = AuthorizeUser(userId);
 
+        if (user == null || userId != user.Id)
+        {
+            return Unauthorized();
+        }
+
         var deleted = _ds.DeleteBookmark(bookmarkId);
 
-        if (deleted) return Ok();
+        if (deleted) return NoContent();
 
         return NotFound();
     }
@@ -255,11 +257,11 @@ public class UserController : BaseController
     {
         var user = AuthorizeUser(userId);
 
-        if (user == null || userId != user.Id) return BadRequest();
+        if (user == null || userId != user.Id) return Unauthorized();
 
         var deleted = _ds.DeleteUser(userId);
 
-        if (deleted) return Ok();
+        if (deleted) return NoContent();
 
         return NotFound();
     }

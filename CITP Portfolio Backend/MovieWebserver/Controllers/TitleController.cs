@@ -3,17 +3,11 @@ using DataLayer;
 using MovieWebserver.Model.Title;
 using Mapster;
 using DataLayer.DomainObjects;
-using MovieWebserver.Model.Person;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using System.Runtime.InteropServices;
 using DataLayer.Model.Title;
 using DataLayer.DomainObjects.FunctionResults;
-using static Microsoft.Extensions.Logging.EventSource.LoggingEventSource;
 using Microsoft.AspNetCore.Authorization;
-using System;
 using System.IdentityModel.Tokens.Jwt;
 using DataLayer.IDataServices;
-using System.Runtime.Intrinsics.X86;
 using DataLayer.DomainObjects.Relations;
 using DataLayer.Model.User;
 namespace MovieWebserver.Controllers;
@@ -32,71 +26,9 @@ public class TitleController : BaseController
         _userDs = userDs;
         _linkGenerator = linkGenerator;
     }
-    [HttpPost("{tId}/review/{revId}")]
-    [Authorize]
-    public IActionResult LikeReview([FromBody] CreateLikeModel like, string tId, int revId)
-    {
-        var user = GetUserLoggedIn();
-
-        if (user == null) return BadRequest();
-
-        if (like.Like == 1 || like.Like == -1)
-        {
-            var liked = _ds.LikeReview(user.Id, revId, like.Like);
-            if (liked)
-            {
-                return Ok();
-            }
-        }
-
-        return NotFound();
-    }
-
-    [HttpPost("{tId}/review")]
-    [Authorize]
-    public IActionResult CreateReview([FromBody] CreateReviewModel model, string tId)
-    {
-        //var username = HttpContext.Request.Headers.Authorization.FirstOrDefault();
-        // rating, uid, tid, text, 
-        JwtSecurityToken token = GetDecodedToken();
-        User user = _userDs.GetUser(token.Claims.FirstOrDefault().Value);
-
-        if (user == null) return Unauthorized();
-
-        if (_ds.GetTitleFromId(tId) == null) return NotFound();
-
-        var review = _ds.CreateReview(model, user.Id, tId);
-        var newReview = CreateReviewModel(review);
-
-        if (newReview == null) return BadRequest();
-
-        return Created(nameof(CreateReview), newReview);
-    }
-
-    [HttpPost("{tId}/bookmark", Name = nameof(CreateBookmark))]
-    [Authorize]
-    public IActionResult CreateBookmark(string tId)
-    {
-        JwtSecurityToken token = GetDecodedToken();
-        User user = _userDs.GetUser(token.Claims.FirstOrDefault().Value);
-
-        if (user == null)
-        {
-            return BadRequest();
-        }
-
-        var bookmark = _ds.CreateBookmark(tId, user.Id); // TO DO: URL IS WRONG
-
-        if (bookmark != null)
-        {
-            return Created(nameof(CreateBookmark), CreateBookmarkModel(bookmark));
-        }
-
-        return BadRequest();
-
-    }
 
 
+// MOST ARE GET METHODS
 
     [HttpGet("movie/{mId}", Name = nameof(GetMovie))]
     public IActionResult GetMovie(string mId)
@@ -224,6 +156,8 @@ public class TitleController : BaseController
     }
 
 
+    // USER BASED STUFF BELOW
+
     [HttpGet("{tId}/reviews")]
     public IActionResult GetReviews(string tId)
     {
@@ -235,6 +169,70 @@ public class TitleController : BaseController
         var models = reviews.Select(x => CreateReviewModel(x));
 
         return Ok(models);
+    }
+
+    [HttpPost("{tId}/review/{revId}")]
+    [Authorize]
+    public IActionResult LikeReview([FromBody] CreateLikeModel like, string tId, int revId)
+    {
+        var user = GetUserLoggedIn();
+
+        if (user == null) return Unauthorized();
+
+        if (like.Like == 1 || like.Like == -1)
+        {
+            var liked = _ds.LikeReview(user.Id, revId, like.Like);
+            if (liked)
+            {
+                return Ok();
+            }
+        }
+
+        return NotFound();
+    }
+
+    [HttpPost("{tId}/review")]
+    [Authorize]
+    public IActionResult CreateReview([FromBody] CreateReviewModel model, string tId)
+    {
+        //var username = HttpContext.Request.Headers.Authorization.FirstOrDefault();
+        // rating, uid, tid, text, 
+        JwtSecurityToken token = GetDecodedToken();
+        User user = _userDs.GetUser(token.Claims.FirstOrDefault().Value);
+
+        if (user == null) return Unauthorized();
+
+        if (_ds.GetTitleFromId(tId) == null) return NotFound();
+
+        var review = _ds.CreateReview(model, user.Id, tId);
+        var newReview = CreateReviewModel(review);
+
+        if (newReview == null) return BadRequest();
+
+        return Created(nameof(CreateReview), newReview);
+    }
+
+    [HttpPost("{tId}/bookmark", Name = nameof(CreateBookmark))]
+    [Authorize]
+    public IActionResult CreateBookmark(string tId)
+    {
+        JwtSecurityToken token = GetDecodedToken();
+        User user = _userDs.GetUser(token.Claims.FirstOrDefault().Value);
+
+        if (user == null)
+        {
+            return Unauthorized();
+        }
+
+        var bookmark = _ds.CreateBookmark(tId, user.Id); // TO DO: URL IS WRONG
+
+        if (bookmark != null)
+        {
+            return Created(nameof(CreateBookmark), CreateBookmarkModel(bookmark));
+        }
+
+        return BadRequest();
+
     }
 
     [HttpPut("{tId}/review/{revId}")]
@@ -256,11 +254,9 @@ public class TitleController : BaseController
             {
                 return NotFound();
             }
-
         }
 
         return Unauthorized();
-
     }
 
 
@@ -274,7 +270,7 @@ public class TitleController : BaseController
 
         var deleted = _ds.DeleteLike(revId, user.Id);
 
-        if (deleted) return Ok();
+        if (deleted) return NoContent();
         return NotFound();
     }
 
@@ -336,7 +332,7 @@ public class TitleController : BaseController
     private InvolvedInModel? CreateInvolvedTitleModel(InvolvedIn involvedIn)
     {
         var model = involvedIn.Adapt<InvolvedInModel>();
-        var url = GetWebpageUrl(nameof(PersonController.GetPerson), "Person", new { id = involvedIn.PersonId });
+        var url = GetWebpageUrl(nameof(PersonController.GetPerson), "Person", new { pId = involvedIn.PersonId });
         model.Url = url;
         model.Person = involvedIn.Person.Name;
         model.Job = involvedIn.Job;
@@ -347,7 +343,7 @@ public class TitleController : BaseController
     private CastModel? CreateCastModel(InvolvedIn involvedIn)
     {
         var model = involvedIn.Adapt<CastModel>();
-        var url = GetWebpageUrl(nameof(PersonController.GetPerson), "Person", new { id = involvedIn.PersonId });
+        var url = GetWebpageUrl(nameof(PersonController.GetPerson), "Person", new { pId = involvedIn.PersonId });
         model.Url = url;
         model.Person = involvedIn.Person.Name;
         model.Character = involvedIn.Character;

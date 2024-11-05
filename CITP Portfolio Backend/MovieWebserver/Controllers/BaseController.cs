@@ -1,13 +1,7 @@
 using DataLayer.DataServices;
 using DataLayer.DomainObjects;
-using Mapster;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Routing;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
-using MovieWebserver.Model.User;
-using Npgsql;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 namespace MovieWebserver.Controllers;

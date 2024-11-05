@@ -1,14 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using MovieWebserver.Model;
 using DataLayer;
 using MovieWebserver.Model.Person;
 using Mapster;
 using DataLayer.DomainObjects;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using MovieWebserver.Model.Title;
 using DataLayer.DomainObjects.FunctionResults;
 using DataLayer.Model.Person;
-using static Microsoft.Extensions.Logging.EventSource.LoggingEventSource;
 
 namespace MovieWebserver.Controllers;
 
@@ -43,10 +39,10 @@ public class PersonController : BaseController
         return Ok(result);
     }
 
-    [HttpGet("{id}", Name = nameof(GetPerson))]
-    public IActionResult GetPerson(string id)
+    [HttpGet("{pId}", Name = nameof(GetPerson))]
+    public IActionResult GetPerson(string pId)
     {
-        var person = _ds.GetPerson(id);
+        var person = _ds.GetPerson(pId);
         if (person == null)
         {
             return NotFound();
@@ -73,59 +69,6 @@ public class PersonController : BaseController
     }
 
 
-    [HttpPost]
-    public IActionResult CreatePerson(PersonModel personModel)
-    {
-        if (personModel == null)
-        {
-            return NotFound();
-        }
-
-        var person = new Person
-        {
-            Name = personModel.Name,
-            BirthYear = personModel.BirthYear,
-            DeathYear = personModel.DeathYear,
-
-        };
-
-        var newPerson = _ds.AddNewPerson(person);
-        return Created(nameof(GetPerson), CreatePersonModel(newPerson));
-    }
-
-
-    [HttpPut("{id}")]
-    public IActionResult UpdatePerson(string id, PersonModel personModel)
-    {
-        if (personModel == null)
-        {
-            return NotFound();
-        }
-
-
-        var existingPerson = _ds.GetPerson(id);
-        if (existingPerson == null)
-        {
-            return NotFound();
-        }
-
-        var UpdateThePerson = new Person
-        {
-            Id = id,
-            Name = personModel.Name,
-            BirthYear = personModel.BirthYear,
-            DeathYear = personModel.DeathYear,
-        };
-
-        var updatingPerson = _ds.UpdatePerson(UpdateThePerson);
-        if (!updatingPerson)
-        {
-            return NotFound();
-        }
-
-        return Ok(CreatePersonModel(existingPerson));
-    }
-
     [HttpGet("coactors", Name = nameof(GetCoActors))] // maybe make person/id/coactors? then id not from query
     public IActionResult GetCoActors([FromQuery] string id, [FromQuery] int page = 1, [FromQuery] int pageSize = 20)
     {
@@ -138,6 +81,7 @@ public class PersonController : BaseController
     }
 
 
+    // models
     private PersonModel? CreatePersonModel(Person? person)
     {
         if (person == null)
@@ -165,3 +109,58 @@ public class PersonController : BaseController
     }
 }
 
+
+/*
+[HttpPost]
+public IActionResult CreatePerson(PersonModel personModel)
+{
+    if (personModel == null)
+    {
+        return NotFound();
+    }
+
+    var person = new Person
+    {
+        Name = personModel.Name,
+        BirthYear = personModel.BirthYear,
+        DeathYear = personModel.DeathYear,
+
+    };
+
+    var newPerson = _ds.AddNewPerson(person);
+    return Created(nameof(GetPerson), CreatePersonModel(newPerson));
+}
+
+
+[HttpPut("{id}")]
+public IActionResult UpdatePerson(string id, PersonModel personModel)
+{
+    if (personModel == null)
+    {
+        return NotFound();
+    }
+
+
+    var existingPerson = _ds.GetPerson(id);
+    if (existingPerson == null)
+    {
+        return NotFound();
+    }
+
+    var UpdateThePerson = new Person
+    {
+        Id = id,
+        Name = personModel.Name,
+        BirthYear = personModel.BirthYear,
+        DeathYear = personModel.DeathYear,
+    };
+
+    var updatingPerson = _ds.UpdatePerson(UpdateThePerson);
+    if (!updatingPerson)
+    {
+        return NotFound();
+    }
+
+    return Ok(CreatePersonModel(existingPerson));
+}
+*/

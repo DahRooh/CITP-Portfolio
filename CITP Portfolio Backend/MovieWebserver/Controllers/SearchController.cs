@@ -1,18 +1,7 @@
-﻿using System.Net;
-using Microsoft.AspNetCore.Mvc;
-using DataLayer;
-using MovieWebserver.Model.Title;
-using Mapster;
-using DataLayer.DomainObjects;
-using DataLayer.DomainObjects.Entities;
+﻿using Microsoft.AspNetCore.Mvc;
 using DataLayer.IDataServices;
-using DataLayer.DomainObjects.FunctionResults;
-using MovieWebserver.Model;
-using MovieWebserver.Model.User;
 using DataLayer.DomainObjects.Relations;
 using DataLayer.Model.Search;
-using DataLayer.Model.User;
-using Microsoft.AspNetCore.Authorization;
 namespace MovieWebserver.Controllers;
 
 [ApiController]
@@ -32,7 +21,7 @@ public class SearchController : BaseController
         var username = string.Empty;
         var items = new List<SearchResultModel>();
         var decodedToken = GetDecodedToken();
-        if (decodedToken != null)
+        if (decodedToken != null) // store result for people logged in
         {
             var claim = decodedToken.Claims.FirstOrDefault();
             if (claim != null) {
@@ -41,7 +30,7 @@ public class SearchController : BaseController
                             .Select(x => CreateSearchResultModel(x)).ToList();
             }
 
-        } else
+        } else // dont store result for anonymous users
         {
             items = _ds.Search(keyword, page, pageSize, username)
                         .Select(x => CreateSearchResultModel(x)).ToList();

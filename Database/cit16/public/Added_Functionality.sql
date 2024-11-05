@@ -15,7 +15,3 @@ begin
 end;
 $$;
 
-
-
-
-select * from title natural join episode;

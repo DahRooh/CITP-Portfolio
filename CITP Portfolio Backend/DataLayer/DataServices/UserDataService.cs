@@ -175,7 +175,16 @@ namespace DataLayer.DataServices
         {
             db = new MVContext();
 
+            var bookmark_ids = db.UserBookmarks.Where(x => x.UserId == userId).Select(x => x.BookmarkId).ToList();
+            var review_ids = db.UserReviews.Where(x => x.UserId == userId).Select(x => x.ReviewId).ToList();
+            var search_ids = db.UserSearches.Where(x => x.UserId == userId).Select(x => x.SearchId).ToList();
+
+
+            db.Bookmarks.RemoveRange(db.Bookmarks.Where(x => bookmark_ids.Contains(x.Id)));
+            db.Reviews.RemoveRange(db.Reviews.Where(x => review_ids.Contains(x.Id)));
+            db.Searches.RemoveRange(db.Searches.Where(x => search_ids.Contains(x.Id)));
             db.Users.Remove(db.Users.Single(x => x.Id == userId));
+
             var dbChanged = db.SaveChanges() > 0;
 
             return dbChanged;

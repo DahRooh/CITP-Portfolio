@@ -10,7 +10,7 @@ GROUP: cit16, MEMBERS: Andreas Moosdorf, Dagmar Ree, Eray Erkul
   We will be testing our functions and producures determine if the they work correcly 
 
 */
-
+select * from review;
 
 
 /*Testing: Sign up*/

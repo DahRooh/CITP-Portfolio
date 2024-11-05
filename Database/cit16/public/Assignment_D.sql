@@ -418,17 +418,10 @@ average rating appropriately.
 
 /* User rate */
 drop procedure if exists rate;
-create procedure rate(in title_id varchar(10), in user_id int, in user_rating int, in in_review varchar(256) default null)
+create procedure rate(in title_id varchar(10), in user_id int, in user_rating int, in review_id int, in in_review varchar(256) default null)
 language plpgsql as $$
-declare 
-  review_id int;
-  new_rev_id int;
 begin
 
-  select rev_id into review_id
-  from rates join review using(rev_id)
-  where u_id = user_id and t_id = title_id;
-  
   if title_id in 
   (select t_id from rates where u_id = user_id) 
   then -- update current rating and review
@@ -447,12 +440,11 @@ begin
   else -- create new rating/review
     raise notice 'creating new rating/review';
 
-    insert into review (review, likes) 
-    values (in_review, default)
-    returning rev_id into new_rev_id;
+    insert into review (rev_id, review, likes)
+    values (review_id, in_review, default);
 
     insert into rates 
-    values (title_id, user_id, new_rev_id, user_rating, current_timestamp);
+    values (title_id, user_id, review_id, user_rating, current_timestamp);
     
   end if;
 end;
@@ -641,8 +633,6 @@ played).
 
 Hint: You may for this as well as for other purposes find a view helpful to make query expressions easier (to express and to read). An example of such a view could be one that collects the most important columns from title, principals and name in a single virtual table.
 */
-
-select * from title_cast;
 
 drop function if exists find_coactors_with_skip;
 create function find_coactors_with_skip(actor_id varchar, skip int,take int)

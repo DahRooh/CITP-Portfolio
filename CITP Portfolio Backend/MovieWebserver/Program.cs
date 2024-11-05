@@ -1,14 +1,11 @@
 using Mapster;
 using DataLayer;
-using MovieWebserver.Controllers;
 using DataLayer.IDataServices;
 using DataLayer.DataServices;
 using DataLayer.HelperMethods;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
-using System.Net;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddTransient<ITitleDataService, TitleDataService>();

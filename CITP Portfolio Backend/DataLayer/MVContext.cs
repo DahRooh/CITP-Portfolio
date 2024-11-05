@@ -14,6 +14,7 @@ public class MVContext : DbContext
     // entities
     public DbSet<Title> Titles { get; set; }
     public DbSet<Movie> Movies { get; set; }
+    public DbSet<Search> Searches { get; set; }
     public DbSet<Episode> Episodes { get; set; }
     public DbSet<Person> People { get; set; }
     public DbSet<User> Users { get; set; }
@@ -155,6 +156,7 @@ public class MVContext : DbContext
         modelBuilder.Entity<Title>().Property(x => x.Plot).HasColumnName("plot");
         modelBuilder.Entity<Title>().Property(x => x.Rating).HasColumnName("rating");
         modelBuilder.Entity<Title>().Property(x => x.Type).HasColumnName("type");
+        modelBuilder.Entity<Title>().Property(x => x.Titletype).HasColumnName("titletype");
         modelBuilder.Entity<Title>().Property(x => x.IsAdult).HasColumnName("isadult");
         modelBuilder.Entity<Title>().Property(x => x.Released).HasColumnName("released");
         modelBuilder.Entity<Title>().Property(x => x.Language).HasColumnName("language");

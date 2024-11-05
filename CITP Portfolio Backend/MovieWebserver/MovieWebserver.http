@@ -111,9 +111,9 @@ POST {{MovieWebserver_HostAddress}}/api/user
 Accept: application/json
 Content-Type: application/json
 {
-    "username": "1",
-    "password": "1",
-    "email": "1"
+    "username": "2",
+    "password": "2",
+    "email": "2"
 }
 
 
@@ -123,13 +123,13 @@ PUT {{MovieWebserver_HostAddress}}/api/user/sign_in
 Accept: application/json
 Content-Type: application/json
 {
-    "username": "1",
-    "password": "1"
+    "username": "2",
+    "password": "2"
 }
 
 ### create review
 POST {{MovieWebserver_HostAddress}}/api/title/tt10382912/review
-Authorization: Bearer eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTUxMiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiMSIsImV4cCI6MTczMDgyNjU3N30.q_8PX8mampaM4W-6IjzI9BxKtW7UW3t3ZX_exyTckDYGTCShJO-k0O1rfe4D2JbxawvlzKHrIYnJ0gU_G7E_Bg
+Authorization: Bearer eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTUxMiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiMiIsImV4cCI6MTczMDg0MDQzM30.hQIlzWT3HKQPRjhkEU9-wsGOLK-qbbnqbZoPdYCJVYi5cZW4Q9H0Zckl_phcDQ8Ktr_HXFxbxi-K4zzFX6ormA
 Accept: application/json
 Content-Type: application/json
 {
@@ -139,7 +139,7 @@ Content-Type: application/json
 
 ### like review
 POST {{MovieWebserver_HostAddress}}/api/title/tt10382912/review/1
-Authorization: Bearer eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTUxMiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiMSIsImV4cCI6MTczMDY3OTIwMX0.VrzmI03nur-yVT6sr33aqvwSWXprk58on1jDrdcoUh1k9eEvgx9etM5ZSuBxGeL7PnHzxaiTlugYDaL72zfhvA
+Authorization: Bearer eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTUxMiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiMSIsImV4cCI6MTczMDgzODY1NX0.sU7Ts4TMvf75d_dnz5h21DQYeIYReIr5ywq3l5pgypQu1MF8G6Jg-TtrlLjOZ6jr4zqz7Qz2LXixXNcN8LSfww
 Accept: application/json
 Content-Type: application/json
 {
@@ -154,16 +154,22 @@ Authorization: Bearer eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW
 Accept: application/json
 
 
-### create bookmark TO DO: FIX
+### create bookmark
 
 POST {{MovieWebserver_HostAddress}}/api/title/tt0181689/bookmark
 Accept: application/json
-Authorization: Bearer eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTUxMiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiMSIsImV4cCI6MTczMDc4NzczOH0.LFvr-LYdUIyThe8sy7LBaKWak7--upVCjFU3TMDwSO4RfsMMwdaTZ64oxkfNp8-NmH1HsqX1yqi-0LgWaHjLBQ
+Authorization: Bearer eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTUxMiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiMiIsImV4cCI6MTczMDg0MDQzM30.hQIlzWT3HKQPRjhkEU9-wsGOLK-qbbnqbZoPdYCJVYi5cZW4Q9H0Zckl_phcDQ8Ktr_HXFxbxi-K4zzFX6ormA
+
+### search for titles
+
+GET {{MovieWebserver_HostAddress}}/api/search?keyword=lord%20flacko&page=1&pageSize=20
+Authorization: Bearer eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTUxMiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiMSIsImV4cCI6MTczMDgzODY1NX0.sU7Ts4TMvf75d_dnz5h21DQYeIYReIr5ywq3l5pgypQu1MF8G6Jg-TtrlLjOZ6jr4zqz7Qz2LXixXNcN8LSfww
+Accept: application/json
 
 
 ### delete user
 
-DELETE {{MovieWebserver_HostAddress}}/api/user/1
-Authorization: Bearer eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTUxMiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiMSIsImV4cCI6MTczMDY1Njc1NX0.2ppz8ENl78av1ROvRXuGSVmO2r9XlOtEsbewq9Sjv4ZNdnKMfKiHXWyl0W6tFXooQ82aaxr0XkNSM3xYV8eyQA
+DELETE {{MovieWebserver_HostAddress}}/api/user/2
+Authorization: Bearer eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTUxMiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiMiIsImV4cCI6MTczMDg0MDQzM30.hQIlzWT3HKQPRjhkEU9-wsGOLK-qbbnqbZoPdYCJVYi5cZW4Q9H0Zckl_phcDQ8Ktr_HXFxbxi-K4zzFX6ormA
 Accept: application/json
 
