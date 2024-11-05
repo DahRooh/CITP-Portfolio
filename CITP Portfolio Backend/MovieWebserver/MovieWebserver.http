@@ -129,11 +129,11 @@ Content-Type: application/json
 
 ### create review
 POST {{MovieWebserver_HostAddress}}/api/title/tt10382912/review
-Authorization: Bearer eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTUxMiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiMSIsImV4cCI6MTczMDY3OTIwMX0.VrzmI03nur-yVT6sr33aqvwSWXprk58on1jDrdcoUh1k9eEvgx9etM5ZSuBxGeL7PnHzxaiTlugYDaL72zfhvA
+Authorization: Bearer eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTUxMiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiMSIsImV4cCI6MTczMDgyNjU3N30.q_8PX8mampaM4W-6IjzI9BxKtW7UW3t3ZX_exyTckDYGTCShJO-k0O1rfe4D2JbxawvlzKHrIYnJ0gU_G7E_Bg
 Accept: application/json
 Content-Type: application/json
 {
-  "ReviewText": "Gnojdfoipdsfjpodsvie",
+  "ReviewText": "Gootie",
   "Rating": 10
 }
 

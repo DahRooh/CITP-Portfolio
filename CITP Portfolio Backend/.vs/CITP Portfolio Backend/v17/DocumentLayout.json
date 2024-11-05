@@ -7,8 +7,8 @@
       "RelativeMoniker": "D:0:0:{CEFB8FD2-C974-4775-BB9B-5F7643C7B14E}|Testing\\Testing.csproj|solutionrelative:testing\\webservertests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{C3EC427E-3067-4C8E-97FB-A4C03A122EE3}|MovieWebserver\\MovieWebserver.csproj|c:\\users\\eray2\\documents\\github\\semester1\\portfolio\\citp-portfolio\\citp portfolio backend\\moviewebserver\\moviewebserver.http||{5703B403-55E7-4C63-8C88-A8F52C7A45C5}",
-      "RelativeMoniker": "D:0:0:{C3EC427E-3067-4C8E-97FB-A4C03A122EE3}|MovieWebserver\\MovieWebserver.csproj|solutionrelative:moviewebserver\\moviewebserver.http||{5703B403-55E7-4C63-8C88-A8F52C7A45C5}"
+      "AbsoluteMoniker": "D:0:0:{C3EC427E-3067-4C8E-97FB-A4C03A122EE3}|MovieWebserver\\MovieWebserver.csproj|c:\\users\\eray2\\documents\\github\\semester1\\portfolio\\citp-portfolio\\citp portfolio backend\\moviewebserver\\controllers\\usercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C3EC427E-3067-4C8E-97FB-A4C03A122EE3}|MovieWebserver\\MovieWebserver.csproj|solutionrelative:moviewebserver\\controllers\\usercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{5DA7B075-B011-42E9-BF5B-F35DCC9DC82D}|DataLayer\\DataLayer.csproj|c:\\users\\eray2\\documents\\github\\semester1\\portfolio\\citp-portfolio\\citp portfolio backend\\datalayer\\dataservices\\titledataservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -17,6 +17,10 @@
     {
       "AbsoluteMoniker": "D:0:0:{C3EC427E-3067-4C8E-97FB-A4C03A122EE3}|MovieWebserver\\MovieWebserver.csproj|c:\\users\\eray2\\documents\\github\\semester1\\portfolio\\citp-portfolio\\citp portfolio backend\\moviewebserver\\controllers\\titlecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{C3EC427E-3067-4C8E-97FB-A4C03A122EE3}|MovieWebserver\\MovieWebserver.csproj|solutionrelative:moviewebserver\\controllers\\titlecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C3EC427E-3067-4C8E-97FB-A4C03A122EE3}|MovieWebserver\\MovieWebserver.csproj|c:\\users\\eray2\\documents\\github\\semester1\\portfolio\\citp-portfolio\\citp portfolio backend\\moviewebserver\\moviewebserver.http||{5703B403-55E7-4C63-8C88-A8F52C7A45C5}",
+      "RelativeMoniker": "D:0:0:{C3EC427E-3067-4C8E-97FB-A4C03A122EE3}|MovieWebserver\\MovieWebserver.csproj|solutionrelative:moviewebserver\\moviewebserver.http||{5703B403-55E7-4C63-8C88-A8F52C7A45C5}"
     }
   ],
   "DocumentGroupContainers": [
@@ -26,8 +30,22 @@
       "DocumentGroups": [
         {
           "DockedWidth": 227,
-          "SelectedChildIndex": 5,
+          "SelectedChildIndex": 0,
           "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "WebserverTests.cs",
+              "DocumentMoniker": "C:\\Users\\eray2\\Documents\\Github\\semester1\\Portfolio\\CITP-Portfolio\\CITP Portfolio Backend\\Testing\\WebserverTests.cs",
+              "RelativeDocumentMoniker": "Testing\\WebserverTests.cs",
+              "ToolTip": "C:\\Users\\eray2\\Documents\\Github\\semester1\\Portfolio\\CITP-Portfolio\\CITP Portfolio Backend\\Testing\\WebserverTests.cs",
+              "RelativeToolTip": "Testing\\WebserverTests.cs",
+              "ViewState": "AgIAABkAAAAAAAAAAAAQwC0AAAAoAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-04T21:05:52.421Z",
+              "IsPinned": true,
+              "EditorCaption": ""
+            },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
@@ -35,6 +53,19 @@
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{e1b7d1f8-9b3c-49b1-8f4f-bfc63a88835d}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "UserController.cs",
+              "DocumentMoniker": "C:\\Users\\eray2\\Documents\\Github\\semester1\\Portfolio\\CITP-Portfolio\\CITP Portfolio Backend\\MovieWebserver\\Controllers\\UserController.cs",
+              "RelativeDocumentMoniker": "MovieWebserver\\Controllers\\UserController.cs",
+              "ToolTip": "C:\\Users\\eray2\\Documents\\Github\\semester1\\Portfolio\\CITP-Portfolio\\CITP Portfolio Backend\\MovieWebserver\\Controllers\\UserController.cs",
+              "RelativeToolTip": "MovieWebserver\\Controllers\\UserController.cs",
+              "ViewState": "AgIAAOcAAAAAAAAAAAAiwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-05T08:13:33.753Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -57,35 +88,22 @@
               "RelativeDocumentMoniker": "MovieWebserver\\Controllers\\TitleController.cs",
               "ToolTip": "C:\\Users\\eray2\\Documents\\Github\\semester1\\Portfolio\\CITP-Portfolio\\CITP Portfolio Backend\\MovieWebserver\\Controllers\\TitleController.cs",
               "RelativeToolTip": "MovieWebserver\\Controllers\\TitleController.cs",
-              "ViewState": "AgIAAEEAAAAAAAAAAAAgwFkAAAAdAAAAAAAAAA==",
+              "ViewState": "AgIAADgAAAAAAAAAAAA3wBoBAAA1AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-11-04T21:06:43.158Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 4,
               "Title": "MovieWebserver.http",
               "DocumentMoniker": "C:\\Users\\eray2\\Documents\\Github\\semester1\\Portfolio\\CITP-Portfolio\\CITP Portfolio Backend\\MovieWebserver\\MovieWebserver.http",
               "RelativeDocumentMoniker": "MovieWebserver\\MovieWebserver.http",
               "ToolTip": "C:\\Users\\eray2\\Documents\\Github\\semester1\\Portfolio\\CITP-Portfolio\\CITP Portfolio Backend\\MovieWebserver\\MovieWebserver.http",
               "RelativeToolTip": "MovieWebserver\\MovieWebserver.http",
-              "ViewState": "AgIAAE8AAAAAAAAAAAAowGAAAAAlAAAAAAAAAA==",
+              "ViewState": "AgIAAHIAAAAAAAAAAAAAAIMAAAA9AQAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003502|",
               "WhenOpened": "2024-11-04T21:06:00.513Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "WebserverTests.cs",
-              "DocumentMoniker": "C:\\Users\\eray2\\Documents\\Github\\semester1\\Portfolio\\CITP-Portfolio\\CITP Portfolio Backend\\Testing\\WebserverTests.cs",
-              "RelativeDocumentMoniker": "Testing\\WebserverTests.cs",
-              "ToolTip": "C:\\Users\\eray2\\Documents\\Github\\semester1\\Portfolio\\CITP-Portfolio\\CITP Portfolio Backend\\Testing\\WebserverTests.cs",
-              "RelativeToolTip": "Testing\\WebserverTests.cs",
-              "ViewState": "AgIAAG4AAAAAAAAAAAAgwHMAAABZAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-04T21:05:52.421Z",
               "EditorCaption": ""
             }
           ]

@@ -7,6 +7,7 @@ using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using DataLayer.HelperMethods;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Testing
 {
@@ -113,6 +114,7 @@ namespace Testing
 
             var token = signInData?.Value("token");
 
+
             var bookmarkResponse = await PostDataWithAuth($"{titleApi}/tt10382912/bookmark", token);
             Assert.Equal(HttpStatusCode.Created, bookmarkResponse);
 
@@ -129,10 +131,43 @@ namespace Testing
 
 
         [Fact]
-        public async Task CanWeDeleteAReview()
+        public async Task CanAUserDeleteAReview()
         {
-            throw new Exception("Not implemented");
+            var newUser = new
+            {
+                username = "EnReje Er Kul",
+                password = "123",
+                email = "Kul@mail.dk"
+            };
 
+            var (theUser, userResponse) = await PostData($"{userApi}", newUser);
+            Assert.Equal(HttpStatusCode.Created, userResponse);
+
+            var signData = new
+            {
+                username = "EnReje Er Kul",
+                password = "123"
+            };
+
+            var (signInData, response) = await PutData($"{userApi}/sign_in", signData);
+
+            var token = signInData?.Value("token");
+
+            var review = new
+            {
+                ReviewText = "OMG YAZ QUEEN, SLAY!",
+                Rating = 10
+            };
+
+            var (reviewData, reviewResponse) = await PostDataWithAuthAndContent($"{titleApi}/tt10382912/review", token, review);
+            Assert.Equal(HttpStatusCode.Created, reviewResponse);
+
+            // Clean up
+            var deleteReview = await DeleteData($"{userApi}/2/review/1", token);
+            Assert.Equal(HttpStatusCode.OK, deleteReview);
+
+            var deleteUser = await DeleteData($"{userApi}/2", token);
+            Assert.Equal(HttpStatusCode.OK, deleteUser);
         }
 
 
@@ -148,6 +183,18 @@ namespace Testing
         async Task<(JsonObject?, HttpStatusCode)> GetObject(string url)
         {
             var client = new HttpClient();
+            var response = client.GetAsync(url).Result;
+            var data = await response.Content.ReadAsStringAsync();
+            return (JsonSerializer.Deserialize<JsonObject>(data), response.StatusCode);
+        }
+
+        async Task<(JsonObject?, HttpStatusCode)> GetObjectWithToken(string url, string token)
+        {
+            var client = new HttpClient();
+            if (token != null)
+            {
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            }
             var response = client.GetAsync(url).Result;
             var data = await response.Content.ReadAsStringAsync();
             return (JsonSerializer.Deserialize<JsonObject>(data), response.StatusCode);
@@ -176,6 +223,24 @@ namespace Testing
 
             var response = await client.PostAsync(url, null);
             return response.StatusCode;
+        }
+
+        async Task<(JsonObject?, HttpStatusCode)> PostDataWithAuthAndContent(string url, string token, object content)
+        {
+            using var client = new HttpClient();
+
+            if (token != null)
+            {
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            }
+
+            var requestContent = new StringContent(
+                JsonSerializer.Serialize(content),
+                Encoding.UTF8,
+                "application/json");
+            var response = await client.PostAsync(url, requestContent);
+            var data = await response.Content.ReadAsStringAsync();
+            return (JsonSerializer.Deserialize<JsonObject>(data), response.StatusCode);
         }
 
 
@@ -245,3 +310,5 @@ static class HelperExt
     }
 
 }
+
+
