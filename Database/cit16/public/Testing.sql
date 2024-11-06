@@ -4,7 +4,9 @@ GROUP: cit16, MEMBERS: Andreas Moosdorf, Dagmar Ree, Eray Erkul
 
 */
 
+delete from users where username = 'Hallo123';
 
+delete  from users;
 
 /*This is our test file.
   We will be testing our functions and producures determine if the they work correcly 
