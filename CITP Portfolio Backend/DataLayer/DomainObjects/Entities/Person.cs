@@ -9,7 +9,6 @@ namespace DataLayer.DomainObjects;
 
 public class Person
 {
-    [Column("p_id")]
     public string Id { get; set; }
     public string Name { get; set; } = string.Empty;
     public int? BirthYear { get; set; }
