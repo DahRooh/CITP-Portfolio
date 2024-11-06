@@ -90,7 +90,7 @@ public class PersonController : BaseController
         }
 
         var model = person.Adapt<PersonModel>();
-        model.Url = GetWebpageUrl(nameof(GetPerson), "Person", new { id = person.Id }); // Initializing the Url property
+        model.Url = GetWebpageUrl(nameof(GetPerson), "Person", new { pId = person.Id }); // Initializing the Url property
         return model;
     }
 
@@ -98,12 +98,8 @@ public class PersonController : BaseController
     private CoActorModel? CreateCoActorModel(CoActor coActor)
     {
         var model = coActor.Adapt<CoActorModel>();
-        var url = GetWebpageUrl(nameof(GetPerson), "Person", new { id = coActor.PersonId });
+        var url = GetWebpageUrl(nameof(GetPerson), "Person", new { pId = coActor.PersonId });
         model.Url = url;
-        model.PersonId = coActor.PersonId;
-        model.CoActors = coActor.Name;
-        model.Title = coActor.TitleName;
-        model.PersonRating = coActor.PersonRating;
 
         return model;
     }

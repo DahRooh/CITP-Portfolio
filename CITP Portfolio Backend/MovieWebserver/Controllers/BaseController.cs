@@ -21,8 +21,11 @@ public abstract class BaseController : ControllerBase
     {
         var _ds = new UserDataService();
         JwtSecurityToken token = GetDecodedToken();
+        if (token == null) return null;
+
         User user = _ds.GetUser(token.Claims.FirstOrDefault().Value);
         if (user == null || userId != user.Id) return null;
+
         return user;
     }
 

@@ -50,14 +50,24 @@ public class SearchController : BaseController
     public SearchResultModel CreateSearchResultModel(SearchResult searchResult)
     {
         
-          var webpage = _ds.GetWebpage(searchResult.WebpageId);
-          var result = new SearchResultModel
-          {
-              Url = GetWebpageUrl(nameof(TitleController.GetTitle), "Title", new { tId = webpage.TitleId }),
-              Title = webpage.Title._Title,
-              Poster = webpage.Title.Poster,
-              Rating = webpage.Title.Rating
-          };
+        var webpage = _ds.GetWebpage(searchResult.WebpageId);
+        var url = string.Empty;
+
+        if (webpage.Title.Titletype == "episode")
+        {
+            url = GetWebpageUrl(nameof(TitleController.GetEpisode), "Title", new { eId = webpage.TitleId });
+        } else
+        {
+            url = GetWebpageUrl(nameof(TitleController.GetMovie), "Title", new { mId = webpage.TitleId });
+        }
+
+        var result = new SearchResultModel
+        {
+            Url = url,
+            Title = webpage.Title._Title,
+            Poster = webpage.Title.Poster,
+            Rating = webpage.Title.Rating
+        };
         return result;
     }
 }

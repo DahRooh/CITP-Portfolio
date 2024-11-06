@@ -33,13 +33,16 @@ public class TitleController : BaseController
     [HttpGet("movie/{mId}", Name = nameof(GetMovie))]
     public IActionResult GetMovie(string mId)
     {
-        var movie = CreateMovieModel(_ds.GetMovie(mId));
+        var movie = _ds.GetMovie(mId);
         if (movie == null)
         {
             return NotFound();
         }
 
-        return Ok(movie);
+        var model = CreateMovieModel(movie);
+
+
+        return Ok(model);
 
     }
 
@@ -63,26 +66,27 @@ public class TitleController : BaseController
     [HttpGet("episode/{eId}", Name = nameof(GetEpisode))]
     public IActionResult GetEpisode(string eId)
     {
-        var episode = CreateEpisodeModel(_ds.GetEpisode(eId));
-
+        var episode = _ds.GetEpisode(eId);
         if (episode == null)
         {
             return NotFound();
         }
+        var model = CreateEpisodeModel(episode);
 
-        return Ok(episode);
+        return Ok(model);
     }
 
     [HttpGet("{tId}")]
     public IActionResult GetTitle(string tId)
     {
-        var title = CreateTitleModel(_ds.GetTitleFromId(tId)); 
+        var title = _ds.GetTitleFromId(tId);
         if (title == null)
         {
             return NotFound();
         }
 
-        return Ok(title);
+        var model = CreateTitleModel(title); 
+        return Ok(model);
 
     }
 
@@ -162,10 +166,6 @@ public class TitleController : BaseController
     public IActionResult GetReviews(string tId)
     {
         var reviews = _ds.GetReviews(tId);
-        if (reviews == null)
-        {
-            return NotFound();
-        }
         var models = reviews.Select(x => CreateReviewModel(x));
 
         return Ok(models);
@@ -179,6 +179,8 @@ public class TitleController : BaseController
 
         if (user == null) return Unauthorized();
 
+        if (_ds.GetTitleFromId(tId) == null) return NotFound();
+
         if (like.Like == 1 || like.Like == -1)
         {
             var liked = _ds.LikeReview(user.Id, revId, like.Like);
@@ -188,7 +190,7 @@ public class TitleController : BaseController
             }
         }
 
-        return NotFound();
+        return BadRequest();
     }
 
     [HttpPost("{tId}/review")]
@@ -223,8 +225,9 @@ public class TitleController : BaseController
         {
             return Unauthorized();
         }
+        if (_ds.GetTitleFromId(tId) == null) return BadRequest();
 
-        var bookmark = _ds.CreateBookmark(tId, user.Id); // TO DO: URL IS WRONG
+        var bookmark = _ds.CreateBookmark(tId, user.Id); 
 
         if (bookmark != null)
         {
@@ -252,7 +255,7 @@ public class TitleController : BaseController
             }
             else
             {
-                return NotFound();
+                return BadRequest();
             }
         }
 
@@ -312,7 +315,7 @@ public class TitleController : BaseController
         model._Title = episode.Title._Title;
         model.Plot = episode.Title.Plot;
         model.Rating = episode.Title.Rating;
-        model.Type = episode.Title.Type;
+        model.TitleType = episode.Title.Titletype;
         model.IsAdult = episode.Title.IsAdult;
         model.Released = episode.Title.Released;
         model.Language = episode.Title.Language;

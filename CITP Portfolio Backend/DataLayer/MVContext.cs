@@ -451,7 +451,7 @@ public class MVContext : DbContext
 
         modelBuilder.Entity<CoActor>().Property(x => x.PersonId).HasColumnName("person_id");
         modelBuilder.Entity<CoActor>().Property(x => x.Name).HasColumnName("co_actor");
-        modelBuilder.Entity<CoActor>().Property(x => x.TitleName).HasColumnName("title_name");
+        modelBuilder.Entity<CoActor>().Property(x => x.Title).HasColumnName("title_name");
         modelBuilder.Entity<CoActor>().Property(x => x.PersonRating).HasColumnName("person_rating");
 
     }
