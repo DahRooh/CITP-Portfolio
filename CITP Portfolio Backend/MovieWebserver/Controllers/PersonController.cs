@@ -69,13 +69,13 @@ public class PersonController : BaseController
     }
 
 
-    [HttpGet("coactors", Name = nameof(GetCoActors))] // maybe make person/id/coactors? then id not from query
-    public IActionResult GetCoActors([FromQuery] string id, [FromQuery] int page = 1, [FromQuery] int pageSize = 20)
+    [HttpGet("{pId}/coactors", Name = nameof(GetCoActors))] // maybe make person/id/coactors? then id not from query
+    public IActionResult GetCoActors(string pId, [FromQuery] int page = 1, [FromQuery] int pageSize = 20)
     {
-        var coActors = _ds.GetCoActors(id, page, pageSize).Select(x => CreateCoActorModel(x)).ToList();
+        var coActors = _ds.GetCoActors(pId, page, pageSize).Select(x => CreateCoActorModel(x)).ToList();
 
-        var count = _ds.NumberOfCoActors(id);
-        var results = CreatePaging(nameof(GetCoActors), "Person", page, pageSize, count, coActors, id);
+        var count = _ds.NumberOfCoActors(pId);
+        var results = CreatePaging(nameof(GetCoActors), "Person", page, pageSize, count, coActors);
         
         return Ok(results);
     }

@@ -40,6 +40,33 @@
   },
   {
     "ContainingType": "MovieWebserver.Controllers.PersonController",
+    "Method": "GetCoActors",
+    "RelativePath": "api/person/{pId}/coactors",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "pId",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "page",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "pageSize",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [],
+    "EndpointName": "GetCoActors"
+  },
+  {
+    "ContainingType": "MovieWebserver.Controllers.PersonController",
     "Method": "GetActors",
     "RelativePath": "api/person/actor",
     "HttpMethod": "GET",
@@ -59,33 +86,6 @@
     ],
     "ReturnTypes": [],
     "EndpointName": "GetActors"
-  },
-  {
-    "ContainingType": "MovieWebserver.Controllers.PersonController",
-    "Method": "GetCoActors",
-    "RelativePath": "api/person/coactors",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.String",
-        "IsRequired": false
-      },
-      {
-        "Name": "page",
-        "Type": "System.Int32",
-        "IsRequired": false
-      },
-      {
-        "Name": "pageSize",
-        "Type": "System.Int32",
-        "IsRequired": false
-      }
-    ],
-    "ReturnTypes": [],
-    "EndpointName": "GetCoActors"
   },
   {
     "ContainingType": "MovieWebserver.Controllers.SearchController",
