@@ -1,3 +1,16 @@
 ﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
 	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=7020124F_002D9FFC_002D4AC3_002D8F3D_002DAAB8E0240759_002Ff_003ADbContext_002Ecs_002Fl_003A_002E_002E_003F_002E_002E_003F_002E_002E_003F_002E_002E_003FLibrary_003FApplication_0020Support_003FJetBrains_003FRider2024_002E2_003Fresharper_002Dhost_003FSourcesCache_003F3bd4df5aff92cabbc4d630be64227073db1b8539b3a1e47786b4b189d7cdb7_003FDbContext_002Ecs/@EntryIndexedValue">ForceIncluded</s:String>
-	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=7020124F_002D9FFC_002D4AC3_002D8F3D_002DAAB8E0240759_002Ff_003ARelationalPropertyBuilderExtensions_002Ecs_002Fl_003A_002E_002E_003F_002E_002E_003F_002E_002E_003F_002E_002E_003FLibrary_003FApplication_0020Support_003FJetBrains_003FRider2024_002E2_003Fresharper_002Dhost_003FDecompilerCache_003Fdecompiler_003F40fea8124c8f4917b61403980bb273321e6648_003F0e_003Fc5cd7c10_003FRelationalPropertyBuilderExtensions_002Ecs/@EntryIndexedValue">ForceIncluded</s:String></wpf:ResourceDictionary>
+	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=7020124F_002D9FFC_002D4AC3_002D8F3D_002DAAB8E0240759_002Ff_003ARelationalPropertyBuilderExtensions_002Ecs_002Fl_003A_002E_002E_003F_002E_002E_003F_002E_002E_003F_002E_002E_003FLibrary_003FApplication_0020Support_003FJetBrains_003FRider2024_002E2_003Fresharper_002Dhost_003FDecompilerCache_003Fdecompiler_003F40fea8124c8f4917b61403980bb273321e6648_003F0e_003Fc5cd7c10_003FRelationalPropertyBuilderExtensions_002Ecs/@EntryIndexedValue">ForceIncluded</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=092bb555_002D77ae_002D48d1_002Da984_002D7c9f8bbf7032/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="CanGuestCreateAnAccount" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+  &lt;TestAncestor&gt;
+    &lt;TestId&gt;xUnit::CEFB8FD2-C974-4775-BB9B-5F7643C7B14E::net8.0::Testing.WebserverTests.CanGuestCreateAnAccount&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::CEFB8FD2-C974-4775-BB9B-5F7643C7B14E::net8.0::Testing.WebserverTests.CanUserSignIn_ValidUsername&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::CEFB8FD2-C974-4775-BB9B-5F7643C7B14E::net8.0::Testing.WebserverTests.CanUserSignIn_InvalidÚsername&lt;/TestId&gt;
+  &lt;/TestAncestor&gt;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=e728fda8_002D00f2_002D4929_002Da49f_002Dcb46fdaa6480/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="CanGuestCreateAnAccount #2" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+  &lt;TestAncestor&gt;
+    &lt;TestId&gt;xUnit::CEFB8FD2-C974-4775-BB9B-5F7643C7B14E::net8.0::Testing.WebserverTests.CanGuestCreateAnAccount&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::CEFB8FD2-C974-4775-BB9B-5F7643C7B14E::net8.0::Testing.WebserverTests.CanUserSignIn_ValidUsername&lt;/TestId&gt;
+  &lt;/TestAncestor&gt;
+&lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>

@@ -32,89 +32,98 @@ namespace Testing
         }
 
 
-        [Fact]
-        public async Task CanGuestCreateAnAccount()
+       [Fact]
+    public async Task CanGuestCreateAnAccount()
+    {
+        var newUser = new
         {
-            var newUser = new
-            {
-                username = "Hoostdorf",
-                password = "123",
-                email = "Æmail@ømail.åk"
-            };
+            username = "Hoostdorf",
+            password = "123",
+            email = "Æmail@ømail.åk"
+        };
 
-            var (theUser, userResponse) = await PostData($"{userApi}", newUser);
-            Assert.Equal(HttpStatusCode.Created, userResponse);
-
-            var signData = new
-            {
-                username = "Hoostdorf",
-                password = "123"
-            };
-
-            var (signInData, response) = await PutData($"{userApi}/sign_in", signData);
-            Assert.Equal(HttpStatusCode.Created, response);
-            var token = signInData?.Value("token");
-
-            // Clean up
-            var deleteResponse = await DeleteData($"{userApi}/1", token);
-            Assert.Equal(HttpStatusCode.OK, deleteResponse);
+        var (theUser, userResponse) = await PostData($"{userApi}", newUser);
+        Assert.Equal(HttpStatusCode.Created, userResponse);
 
 
-        }
 
-
-        [Fact]
-        public async Task CanUserSignIn_ValidUsername()
+        // Clean up
+        var signData = new
         {
-            var newUser = new
-            {
-                username = "Hallo123",
-                password = "123456",
-                email = "123@ømail.åk"
-            };
+            username = "Andreas Hoostdorf",
+            password = "123"
+        };
 
-            var (theUser, userResponse) = await PostData($"{userApi}", newUser);
-            Assert.Equal(HttpStatusCode.Created, userResponse);
+        var (signInData, response) = await PutData($"{userApi}/sign_in", signData);
 
-            var signData = new
-            {
-                username = "Hallo123",
-                password = "123456"
-            };
+        var userId = theUser?.Value("id");
+        var token = signInData?.Value("token");
+        var deleteResponse = await DeleteData($"{userApi}/{userId}", token);
+        Assert.Equal(HttpStatusCode.NoContent, deleteResponse);
+    }
+    
 
-            var (signInData, response) = await PutData($"{userApi}/sign_in", signData);
-            Assert.Equal(HttpStatusCode.Created, response);
 
-        }
+[Fact]
+public async Task CanUserSignIn_ValidUsername()
+{
+    var newUser = new
+    {
+        username = "Hallo123",
+        password = "123456",
+        email = "123@ømail.åk"
+    };
 
-        [Fact]
-        public async Task CanUserSignIn_InvalidÚsername()
+    var (theUser, userResponse) = await PostData($"{userApi}", newUser);
+    Assert.Equal(HttpStatusCode.Created, userResponse);
+
+
+
+    // Clean up
+    var signData = new
+    {
+        username = "Hallo123",
+        password = "123456",
+    };
+
+    var (signInData, response) = await PutData($"{userApi}/sign_in", signData);
+
+    var userId = theUser?.Value("id");
+    var token = signInData?.Value("token");
+    var deleteResponse = await DeleteData($"{userApi}/{userId}", token);
+
+    }
+
+    [Fact]
+    public async Task CanUserSignIn_InvalidUsername()
+    {
+
+        var newUser = new
         {
+            username = "Hallo123",
+            password = "123456",
+            email = "123@ømail.åk"
+        };
 
-            var newUser = new
-            {
-                username = "Hallo123",
-                password = "123456",
-                email = "123@ømail.åk"
-            };
-
-            var (theUser, userResponse) = await PostData($"{userApi}", newUser);
-            Assert.Equal(HttpStatusCode.Created, userResponse);
-
-            var signData = new
-            {
-                username = "Hallo1234",
-                password = "123456"
-            };
-
-            var (signInData, response) = await PutData($"{userApi}/sign_in", signData);
-            Assert.Equal(HttpStatusCode.Created, response);
-
-
-        }
+        var (theUser, userResponse) = await PostData($"{userApi}", newUser);
+        Assert.Equal(HttpStatusCode.Created, userResponse);
 
 
 
+        // Clean up
+        var signData = new
+        {
+            username = "Hallo1234",
+            password = "123456",
+        };
+
+        var (signInData, response) = await PutData($"{userApi}/sign_in", signData);
+
+        var userId = theUser?.Value("id");
+        var token = signInData?.Value("token");
+        var deleteResponse = await DeleteData($"{userApi}/{userId}", token);
+
+    }
 
 
         // Helper methods
