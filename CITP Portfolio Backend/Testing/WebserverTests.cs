@@ -64,8 +64,17 @@ namespace Testing
 
 
         [Fact]
-        public async Task CanUserSignIn_Valid()
+        public async Task CanUserSignIn_ValidUsername()
         {
+            var newUser = new
+            {
+                username = "Hallo123",
+                password = "123456",
+                email = "123@ømail.åk"
+            };
+
+            var (theUser, userResponse) = await PostData($"{userApi}", newUser);
+            Assert.Equal(HttpStatusCode.Created, userResponse);
 
             var signData = new
             {
@@ -79,8 +88,18 @@ namespace Testing
         }
 
         [Fact]
-        public async Task CanUserSignIn_Invalid()
+        public async Task CanUserSignIn_InvalidÚsername()
         {
+
+            var newUser = new
+            {
+                username = "Hallo123",
+                password = "123456",
+                email = "123@ømail.åk"
+            };
+
+            var (theUser, userResponse) = await PostData($"{userApi}", newUser);
+            Assert.Equal(HttpStatusCode.Created, userResponse);
 
             var signData = new
             {
