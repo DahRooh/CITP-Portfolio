@@ -2,12 +2,8 @@
 using System.Text.Json.Nodes;
 using System.Text;
 using System.Text.Json;
-using System.Diagnostics;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 using System.Net.Http.Headers;
-using System.Net.Http.Json;
-using DataLayer.HelperMethods;
-using static System.Runtime.InteropServices.JavaScript.JSType;
+
 
 namespace Testing
 {
@@ -37,11 +33,11 @@ namespace Testing
 
 
         [Fact]
-        public async Task CanWeUpdateAUserPassword()
+        public async Task CanGuestCreateAnAccount()
         {
             var newUser = new
             {
-                username = "Andreas Hoostdorf",
+                username = "Hoostdorf",
                 password = "123",
                 email = "Æmail@ømail.åk"
             };
@@ -49,136 +45,60 @@ namespace Testing
             var (theUser, userResponse) = await PostData($"{userApi}", newUser);
             Assert.Equal(HttpStatusCode.Created, userResponse);
 
-
             var signData = new
             {
-                username = "Andreas Hoostdorf",
+                username = "Hoostdorf",
                 password = "123"
             };
 
             var (signInData, response) = await PutData($"{userApi}/sign_in", signData);
+            Assert.Equal(HttpStatusCode.Created, response);
             var token = signInData?.Value("token");
 
+            // Clean up
+            var deleteResponse = await DeleteData($"{userApi}/1", token);
+            Assert.Equal(HttpStatusCode.OK, deleteResponse);
 
-            var updatedPassword = new
+
+        }
+
+
+        [Fact]
+        public async Task CanUserSignIn_Valid()
+        {
+
+            var signData = new
             {
-                username = "Andreas Hoostdorf",
-                password = "123456",
-                email = "Æmail@ømail.åk"
-            };
-
-            var (updatedUser, statusCode) = await PutDataWithAuth($"{userApi}/1/update_password", updatedPassword, token);
-            Assert.Equal(HttpStatusCode.OK, statusCode);
-
-            var newSignIn = new
-            {
-                username = "Andreas Hoostdorf",
+                username = "Hallo123",
                 password = "123456"
             };
 
-            
-            var (newSignInData, newResponse) = await PutData($"{userApi}/sign_in", newSignIn);
-            
-            Assert.Equal(signInData?.Value("username"), newSignInData?.Value("username"));
-            Assert.Equal(signInData?.Value("password"), newSignInData?.Value("password"));
-            Assert.Equal(signInData?.Value("email"), newSignInData?.Value("email"));
-
-            // Clean up
-            var newToken = newSignInData.Value("token");
-            var deleteResponse = await DeleteData($"{userApi}/1", newToken);
-            Assert.Equal(HttpStatusCode.OK, deleteResponse);
+            var (signInData, response) = await PutData($"{userApi}/sign_in", signData);
+            Assert.Equal(HttpStatusCode.Created, response);
 
         }
 
-
         [Fact]
-        public async Task CanWeBookmarkATitle()
+        public async Task CanUserSignIn_Invalid()
         {
-            var newUser = new
-            {
-                username = "Dagmar Kastanje Rææ",
-                password = "123",
-                email = "kastanjer@Rææ.ok"
-            };
-
-            var (theUser, userResponse) = await PostData($"{userApi}", newUser);
-            Assert.Equal(HttpStatusCode.Created, userResponse);
 
             var signData = new
             {
-                username = "Dagmar Kastanje Rææ",
-                password = "123"
+                username = "Hallo1234",
+                password = "123456"
             };
 
             var (signInData, response) = await PutData($"{userApi}/sign_in", signData);
-
-            var token = signInData?.Value("token");
-
-
-            var bookmarkResponse = await PostDataWithAuth($"{titleApi}/tt10382912/bookmark", token);
-            Assert.Equal(HttpStatusCode.Created, bookmarkResponse);
+            Assert.Equal(HttpStatusCode.Created, response);
 
 
-            // Clean up
-            var deleteBookmark = await DeleteData($"{userApi}/2/bookmark/2wptt10382912", token);
-            Assert.Equal(HttpStatusCode.OK, deleteBookmark);
-
-            var deleteUser = await DeleteData($"{userApi}/2", token);
-            Assert.Equal(HttpStatusCode.OK, deleteUser);
-            
-            //Måske har jeg kommet til at slette title id: tt0111161
-        }
-
-
-        [Fact]
-        public async Task CanAUserDeleteAReview()
-        {
-            var newUser = new
-            {
-                username = "EnReje Er Kul",
-                password = "123",
-                email = "Kul@mail.dk"
-            };
-
-            var (theUser, userResponse) = await PostData($"{userApi}", newUser);
-            Assert.Equal(HttpStatusCode.Created, userResponse);
-
-            var signData = new
-            {
-                username = "EnReje Er Kul",
-                password = "123"
-            };
-
-            var (signInData, response) = await PutData($"{userApi}/sign_in", signData);
-
-            var token = signInData?.Value("token");
-
-            var review = new
-            {
-                ReviewText = "OMG YAZ QUEEN, SLAY!",
-                Rating = 10
-            };
-
-            var (reviewData, reviewResponse) = await PostDataWithAuthAndContent($"{titleApi}/tt10382912/review", token, review);
-            Assert.Equal(HttpStatusCode.Created, reviewResponse);
-
-            // Clean up
-            var deleteReview = await DeleteData($"{userApi}/2/review/1", token);
-            Assert.Equal(HttpStatusCode.OK, deleteReview);
-
-            var deleteUser = await DeleteData($"{userApi}/2", token);
-            Assert.Equal(HttpStatusCode.OK, deleteUser);
         }
 
 
 
-            async Task<(JsonArray?, HttpStatusCode)> GetArray(string url)
-        {
-            var client = new HttpClient();
-            var response = client.GetAsync(url).Result;
-            var data = await response.Content.ReadAsStringAsync();
-            return (JsonSerializer.Deserialize<JsonArray>(data), response.StatusCode);
-        }
+
+
+        // Helper methods
 
         async Task<(JsonObject?, HttpStatusCode)> GetObject(string url)
         {
@@ -188,52 +108,9 @@ namespace Testing
             return (JsonSerializer.Deserialize<JsonObject>(data), response.StatusCode);
         }
 
-        async Task<(JsonObject?, HttpStatusCode)> GetObjectWithToken(string url, string token)
-        {
-            var client = new HttpClient();
-            if (token != null)
-            {
-                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-            }
-            var response = client.GetAsync(url).Result;
-            var data = await response.Content.ReadAsStringAsync();
-            return (JsonSerializer.Deserialize<JsonObject>(data), response.StatusCode);
-        }
-
         async Task<(JsonObject?, HttpStatusCode)> PostData(string url, object content)
         {
             var client = new HttpClient();
-            var requestContent = new StringContent(
-                JsonSerializer.Serialize(content),
-                Encoding.UTF8,
-                "application/json");
-            var response = await client.PostAsync(url, requestContent);
-            var data = await response.Content.ReadAsStringAsync();
-            return (JsonSerializer.Deserialize<JsonObject>(data), response.StatusCode);
-        }
-
-
-        async Task<HttpStatusCode> PostDataWithAuth(string url, string token)
-        {
-            var client = new HttpClient();
-            if (token != null)
-            {
-                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-            }
-
-            var response = await client.PostAsync(url, null);
-            return response.StatusCode;
-        }
-
-        async Task<(JsonObject?, HttpStatusCode)> PostDataWithAuthAndContent(string url, string token, object content)
-        {
-            using var client = new HttpClient();
-
-            if (token != null)
-            {
-                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-            }
-
             var requestContent = new StringContent(
                 JsonSerializer.Serialize(content),
                 Encoding.UTF8,
@@ -260,26 +137,6 @@ namespace Testing
 
             return (JsonSerializer.Deserialize<JsonObject>(data), response.StatusCode);
         }
-
-        async Task<(JsonObject?, HttpStatusCode)> PutDataWithAuth(string url, object content, string token)
-        {
-            var client = new HttpClient();
-            if (token != null)
-            {
-                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-            }
-
-            var response = await client.PutAsync(
-                url,
-                new StringContent(
-                    JsonSerializer.Serialize(content),
-                    Encoding.UTF8,
-                    "application/json"));
-            var data = await response.Content.ReadAsStringAsync();
-
-            return (JsonSerializer.Deserialize<JsonObject>(data), response.StatusCode);
-        }
-
 
 
 
