@@ -1,4 +1,3 @@
-import { Button } from 'bootstrap';
 import 'bootstrap/dist/css/bootstrap.css';
 
 function Header() {
