@@ -3,11 +3,19 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { BrowserRouter, Route, Routes } from 'react-router';
+import Frontpage from './Components/Frontpage';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <App />
+    <BrowserRouter> {/* from react package */}
+      <Routes> {/* we must include our routes here somehow*/}
+        <Route path="/test" element={<App />}/>
+        <Route path="/" element={<Frontpage />}/>
+
+      </Routes>
+    </BrowserRouter>
   </React.StrictMode>
 );
 

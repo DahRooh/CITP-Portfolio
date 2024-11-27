@@ -49,3 +49,16 @@ C:\Users\Moosdorf\Desktop\sem1\CITP-Portfolio\CITP Portfolio Backend\DataLayer\o
 C:\Users\Moosdorf\Desktop\sem1\CITP-Portfolio\CITP Portfolio Backend\DataLayer\obj\Debug\net8.0\refint\DataLayer.dll
 C:\Users\Moosdorf\Desktop\sem1\CITP-Portfolio\CITP Portfolio Backend\DataLayer\obj\Debug\net8.0\DataLayer.pdb
 C:\Users\Moosdorf\Desktop\sem1\CITP-Portfolio\CITP Portfolio Backend\DataLayer\obj\Debug\net8.0\ref\DataLayer.dll
+C:\Users\andre\Documents\Navicat\PostgreSQL\Servers\University\CITP-Portfolio\CITP Portfolio Backend\DataLayer\bin\Debug\net8.0\DataLayer.deps.json
+C:\Users\andre\Documents\Navicat\PostgreSQL\Servers\University\CITP-Portfolio\CITP Portfolio Backend\DataLayer\bin\Debug\net8.0\DataLayer.dll
+C:\Users\andre\Documents\Navicat\PostgreSQL\Servers\University\CITP-Portfolio\CITP Portfolio Backend\DataLayer\bin\Debug\net8.0\DataLayer.pdb
+C:\Users\andre\Documents\Navicat\PostgreSQL\Servers\University\CITP-Portfolio\CITP Portfolio Backend\DataLayer\obj\Debug\net8.0\DataLayer.csproj.AssemblyReference.cache
+C:\Users\andre\Documents\Navicat\PostgreSQL\Servers\University\CITP-Portfolio\CITP Portfolio Backend\DataLayer\obj\Debug\net8.0\DataLayer.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\andre\Documents\Navicat\PostgreSQL\Servers\University\CITP-Portfolio\CITP Portfolio Backend\DataLayer\obj\Debug\net8.0\DataLayer.AssemblyInfoInputs.cache
+C:\Users\andre\Documents\Navicat\PostgreSQL\Servers\University\CITP-Portfolio\CITP Portfolio Backend\DataLayer\obj\Debug\net8.0\DataLayer.AssemblyInfo.cs
+C:\Users\andre\Documents\Navicat\PostgreSQL\Servers\University\CITP-Portfolio\CITP Portfolio Backend\DataLayer\obj\Debug\net8.0\DataLayer.csproj.CoreCompileInputs.cache
+C:\Users\andre\Documents\Navicat\PostgreSQL\Servers\University\CITP-Portfolio\CITP Portfolio Backend\DataLayer\obj\Debug\net8.0\DataLayer.sourcelink.json
+C:\Users\andre\Documents\Navicat\PostgreSQL\Servers\University\CITP-Portfolio\CITP Portfolio Backend\DataLayer\obj\Debug\net8.0\DataLayer.dll
+C:\Users\andre\Documents\Navicat\PostgreSQL\Servers\University\CITP-Portfolio\CITP Portfolio Backend\DataLayer\obj\Debug\net8.0\refint\DataLayer.dll
+C:\Users\andre\Documents\Navicat\PostgreSQL\Servers\University\CITP-Portfolio\CITP Portfolio Backend\DataLayer\obj\Debug\net8.0\DataLayer.pdb
+C:\Users\andre\Documents\Navicat\PostgreSQL\Servers\University\CITP-Portfolio\CITP Portfolio Backend\DataLayer\obj\Debug\net8.0\ref\DataLayer.dll

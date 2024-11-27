@@ -1,18 +1,10 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\Moosdorf\\Desktop\\sem1\\CITP-Portfolio\\CITP Portfolio Backend\\",
+  "WorkspaceRootPath": "C:\\Users\\andre\\Documents\\Navicat\\PostgreSQL\\Servers\\University\\CITP-Portfolio\\CITP Portfolio Backend\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{CEFB8FD2-C974-4775-BB9B-5F7643C7B14E}|Testing\\Testing.csproj|c:\\users\\moosdorf\\desktop\\sem1\\citp-portfolio\\citp portfolio backend\\testing\\webservertests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{CEFB8FD2-C974-4775-BB9B-5F7643C7B14E}|Testing\\Testing.csproj|solutionrelative:testing\\webservertests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{C3EC427E-3067-4C8E-97FB-A4C03A122EE3}|MovieWebserver\\MovieWebserver.csproj|c:\\users\\moosdorf\\desktop\\sem1\\citp-portfolio\\citp portfolio backend\\moviewebserver\\controllers\\usercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{C3EC427E-3067-4C8E-97FB-A4C03A122EE3}|MovieWebserver\\MovieWebserver.csproj|c:\\users\\andre\\documents\\navicat\\postgresql\\servers\\university\\citp-portfolio\\citp portfolio backend\\moviewebserver\\controllers\\usercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{C3EC427E-3067-4C8E-97FB-A4C03A122EE3}|MovieWebserver\\MovieWebserver.csproj|solutionrelative:moviewebserver\\controllers\\usercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{5DA7B075-B011-42E9-BF5B-F35DCC9DC82D}|DataLayer\\DataLayer.csproj|c:\\users\\moosdorf\\desktop\\sem1\\citp-portfolio\\citp portfolio backend\\datalayer\\dataservices\\userdataservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{5DA7B075-B011-42E9-BF5B-F35DCC9DC82D}|DataLayer\\DataLayer.csproj|solutionrelative:datalayer\\dataservices\\userdataservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -22,51 +14,17 @@
       "DocumentGroups": [
         {
           "DockedWidth": 227,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 0,
           "Children": [
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{e1b7d1f8-9b3c-49b1-8f4f-bfc63a88835d}"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "UserDataService.cs",
-              "DocumentMoniker": "C:\\Users\\Moosdorf\\Desktop\\sem1\\CITP-Portfolio\\CITP Portfolio Backend\\DataLayer\\DataServices\\UserDataService.cs",
-              "RelativeDocumentMoniker": "DataLayer\\DataServices\\UserDataService.cs",
-              "ToolTip": "C:\\Users\\Moosdorf\\Desktop\\sem1\\CITP-Portfolio\\CITP Portfolio Backend\\DataLayer\\DataServices\\UserDataService.cs",
-              "RelativeToolTip": "DataLayer\\DataServices\\UserDataService.cs",
-              "ViewState": "AgIAADUAAAAAAAAAAAAIwEgAAABKAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-06T22:22:50.557Z",
-              "EditorCaption": ""
-            },
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "WebserverTests.cs",
-              "DocumentMoniker": "C:\\Users\\Moosdorf\\Desktop\\sem1\\CITP-Portfolio\\CITP Portfolio Backend\\Testing\\WebserverTests.cs",
-              "RelativeDocumentMoniker": "Testing\\WebserverTests.cs",
-              "ToolTip": "C:\\Users\\Moosdorf\\Desktop\\sem1\\CITP-Portfolio\\CITP Portfolio Backend\\Testing\\WebserverTests.cs",
-              "RelativeToolTip": "Testing\\WebserverTests.cs",
-              "ViewState": "AgIAAFoAAAAAAAAAAAAuwGcAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-06T22:22:09.345Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
               "Title": "UserController.cs",
-              "DocumentMoniker": "C:\\Users\\Moosdorf\\Desktop\\sem1\\CITP-Portfolio\\CITP Portfolio Backend\\MovieWebserver\\Controllers\\UserController.cs",
+              "DocumentMoniker": "C:\\Users\\andre\\Documents\\Navicat\\PostgreSQL\\Servers\\University\\CITP-Portfolio\\CITP Portfolio Backend\\MovieWebserver\\Controllers\\UserController.cs",
               "RelativeDocumentMoniker": "MovieWebserver\\Controllers\\UserController.cs",
-              "ToolTip": "C:\\Users\\Moosdorf\\Desktop\\sem1\\CITP-Portfolio\\CITP Portfolio Backend\\MovieWebserver\\Controllers\\UserController.cs",
+              "ToolTip": "C:\\Users\\andre\\Documents\\Navicat\\PostgreSQL\\Servers\\University\\CITP-Portfolio\\CITP Portfolio Backend\\MovieWebserver\\Controllers\\UserController.cs",
               "RelativeToolTip": "MovieWebserver\\Controllers\\UserController.cs",
-              "ViewState": "AgIAAIQAAAAAAAAAAAAcwJQAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAJQAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-11-06T22:22:06.837Z",
               "EditorCaption": ""
