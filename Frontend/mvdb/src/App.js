@@ -1,22 +1,30 @@
 import './App.css';
-import Person from './Components/Person.js';
-import Frontpage from './Components/Frontpage.js';
 import Header from './Components/Header.js';
 import 'bootstrap/dist/css/bootstrap.css';
-import SearchResult from './Components/SearchResults.js';
-import UserPage from './Components/User.js';
 import { useEffect, useState } from 'react';
 
 
 function App() {
   const [movies, setMovies] = useState([]);
-  useEffect( fetch("http://localhost:5001/api/title/movies")
-              .then(res => res.json())
-              .then(data => {console.log(data); setMovies(data.items)}))
+
+  useEffect(() => {
+    fetch("http://localhost:5001/api/title/movies")
+    .then(res => {
+      if (res.ok) return res.json();
+      return {}; // no results
+    })
+    .then(data => {
+      if (data && data.items) setMovies(data.items);
+      else return new Error("No data");
+      
+    }) // check if items
+    .catch(e => console.log("error", e))
+  }, []);
+
   return (
     <div className="container">
       <Header />
-      {movies.map(m => <p> {m._Title} </p>)}
+      {movies.map(m => <p key={m._Title}> {m._Title} </p>)}
      {// <Frontpage /> 
       //<Person />
       //<SearchResult />
