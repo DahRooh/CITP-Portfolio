@@ -29,6 +29,15 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         }
     );
 
+builder.Services.AddCors(options => // https://learn.microsoft.com/en-us/aspnet/core/security/cors?view=aspnetcore-9.0
+{
+    options.AddPolicy(name: "AllowSpecificOrigin",
+        policy =>
+        {
+            policy.WithOrigins("http://localhost:3000").AllowAnyMethod().AllowAnyHeader();
+        });
+});
+
 
 builder.Services.AddMapster();
 
@@ -49,7 +58,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
+app.UseCors("AllowSpecificOrigin");
 app.UseAuthentication();
 app.UseAuthorization();
 
