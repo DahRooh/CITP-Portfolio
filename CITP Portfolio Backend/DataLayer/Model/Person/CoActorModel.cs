@@ -9,6 +9,7 @@ namespace DataLayer.Model.Person
     public class CoActorModel
     {
         public string Url { get; set; }
+        public string PersonId { get; set; }
         public string Name { get; set; }
         public string Title { get; set; }
         public double PersonRating { get; set; }

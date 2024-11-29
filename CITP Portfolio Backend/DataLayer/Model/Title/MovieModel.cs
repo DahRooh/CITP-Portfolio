@@ -1,7 +1,9 @@
 ﻿namespace MovieWebserver.Model.Title
 {
     public class MovieModel
-    { public string Url { get; set; }
+    { 
+        public string Id { get; set; }
+        public string Url { get; set; }
         public string _Title { get; set; } = string.Empty;
         public string? Plot { get; set; }
         public double? Rating { get; set; } = 0;

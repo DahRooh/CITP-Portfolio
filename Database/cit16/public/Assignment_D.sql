@@ -75,7 +75,6 @@ create view person_rated as
 
 
 
-
 --------------------------------------------------------------------------------
 -- sign up procedure 
 drop procedure if exists signup;

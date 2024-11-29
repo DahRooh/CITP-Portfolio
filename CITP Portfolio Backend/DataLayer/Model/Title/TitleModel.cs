@@ -6,6 +6,7 @@ namespace MovieWebserver.Model.Title;
 
 public class TitleModel
 {
+    public string Id { get; set; }
     public string Url { get; set; }
     public string _Title { get; set; } = string.Empty;
     public string? Plot { get; set; }

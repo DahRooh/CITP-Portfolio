@@ -80,9 +80,9 @@ create table episode(
 	t_id varchar (10),
 	ep_id varchar (10),
   titletype varchar(20),
-
 	season_num numeric(2,0),
 	ep_num numeric(4,0),
+  parentId varchar(10), -- index?
   
   primary key (ep_id),
   foreign key (t_id) references title

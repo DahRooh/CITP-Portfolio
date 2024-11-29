@@ -8,9 +8,9 @@ namespace DataLayer.DomainObjects.FunctionResults
 {
     public class SimilarTitle
     {
-        public string SimilarTitleId { get; set; }
-        public string SimilarTitleName { get; set; }
-        public int MultipleSameGenre { get; set; }
+        public string Id { get; set; }
+        public string _Title { get; set; }
+        public int CommonGenres { get; set; }
 
 
     }

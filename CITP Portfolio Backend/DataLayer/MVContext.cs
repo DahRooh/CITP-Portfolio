@@ -439,9 +439,9 @@ public class MVContext : DbContext
     {
         modelBuilder.Entity<SimilarTitle>().HasNoKey();
 
-        modelBuilder.Entity<SimilarTitle>().Property(x => x.SimilarTitleId).HasColumnName("similar_title_id");
-        modelBuilder.Entity<SimilarTitle>().Property(x => x.SimilarTitleName).HasColumnName("similar_title");
-        modelBuilder.Entity<SimilarTitle>().Property(x => x.MultipleSameGenre).HasColumnName("multiple_same_genre");
+        modelBuilder.Entity<SimilarTitle>().Property(x => x.Id).HasColumnName("similar_title_id");
+        modelBuilder.Entity<SimilarTitle>().Property(x => x._Title).HasColumnName("similar_title");
+        modelBuilder.Entity<SimilarTitle>().Property(x => x.CommonGenres).HasColumnName("multiple_same_genre");
 
     }
 

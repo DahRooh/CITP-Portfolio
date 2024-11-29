@@ -23,13 +23,7 @@ function App() {
 
   return (
     <div className="container">
-      <Header />
       {movies.map(m => <p key={m._Title}> {m._Title} </p>)}
-     {// <Frontpage /> 
-      //<Person />
-      //<SearchResult />
-     }
-     {/*<UserPage />*/}
     </div>
   );
 }

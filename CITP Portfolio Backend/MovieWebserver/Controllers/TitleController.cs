@@ -349,19 +349,15 @@ public class TitleController : BaseController
         var url = GetWebpageUrl(nameof(PersonController.GetPerson), "Person", new { pId = involvedIn.PersonId });
         model.Url = url;
         model.Person = involvedIn.Person.Name;
-        model.Character = involvedIn.Character;
         return model;
     }
 
     private SimilarTitlesModel? CreateSimilarTitlesModel(SimilarTitle similarTitle)
     {
         var model = similarTitle.Adapt<SimilarTitlesModel>();
-        var url = GetWebpageUrl(nameof(GetTitle), "Title", new { tId = similarTitle.SimilarTitleId }); // TO DO: Wrong url! query url
+        var url = GetWebpageUrl(nameof(GetTitle), "Title", new { tId = similarTitle.Id });
         model.Url = url;
 
-        model.TitleId = similarTitle.SimilarTitleId;
-        model._Title = similarTitle.SimilarTitleName;
-        model.AmountOfSimilarGenres = similarTitle.MultipleSameGenre;
         return model;
 
     }
@@ -380,7 +376,5 @@ public class TitleController : BaseController
             Genre = titleGenres.Genre._Genre
         };
     }
-
-
 }
 

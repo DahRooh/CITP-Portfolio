@@ -2,6 +2,7 @@
 using DataLayer.IDataServices;
 using DataLayer.DomainObjects.Relations;
 using DataLayer.Model.Search;
+using DataLayer.DomainObjects;
 namespace MovieWebserver.Controllers;
 
 [ApiController]
@@ -53,7 +54,9 @@ public class SearchController : BaseController
         var webpage = _ds.GetWebpage(searchResult.WebpageId);
         var url = string.Empty;
 
-        if (webpage.Title.Titletype == "episode")
+        var title = webpage.Title;
+
+        if (title.Titletype == "episode")
         {
             url = GetWebpageUrl(nameof(TitleController.GetEpisode), "Title", new { eId = webpage.TitleId });
         } else
@@ -64,9 +67,10 @@ public class SearchController : BaseController
         var result = new SearchResultModel
         {
             Url = url,
-            Title = webpage.Title._Title,
-            Poster = webpage.Title.Poster,
-            Rating = webpage.Title.Rating
+            Id = title.Id,
+            Title = title._Title,
+            Poster = title.Poster,
+            Rating = title.Rating
         };
         return result;
     }

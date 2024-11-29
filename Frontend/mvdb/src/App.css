@@ -1,5 +1,9 @@
-.col, .col-4 {
-    background-color: whitesmoke;
+.col, .row {
+    border: 1px solid black
+}
+
+.row {
+    border: 1px solid rgb(144, 116, 116)
 }
 
 .container {

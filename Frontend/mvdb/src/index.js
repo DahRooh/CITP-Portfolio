@@ -25,8 +25,8 @@ root.render(
         <Route path="/" element={<Frontpage />}/>
         <Route path="/search" element={<SearchResult />}/>
         <Route path="/series" element={<Series />}/>
-        <Route path="/title" element={<Title />}>
-          <Route path="createReview" element={<CreateReview />}/>
+        <Route path="/title/:id" element={<Title />}>
+          <Route path="newReview" element={<CreateReview />}/>
         </Route>
 
         <Route path="/user/:id" element={<UserPage />}> 

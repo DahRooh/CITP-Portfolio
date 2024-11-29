@@ -24,7 +24,9 @@ insert into title
 select tconst, primarytitle, nullif(plot, 'N/A'), 0, titletype, isadult, released, language, country, runtimeminutes, nullif(awards, 'N/A'), poster
 from title_basics left join omdb_data using(tconst);
 
-select * from title;
+
+
+
 
 /* MOVIE TABLE */
 
@@ -43,9 +45,19 @@ where titletype in ('tvShort', 'movie', 'tvMovie', 'short');
 
 -- all "episodes"
 insert into episode
-select tconst, tconst, 'episode', cast(nullif(season, 'N/A') as numeric),  cast(nullif(episode, 'N/A') as numeric)
+select tconst, tconst, 'episode', cast(nullif(season, 'N/A') as numeric), cast(nullif(episode, 'N/A') as numeric), parenttconst
 from title_basics left join omdb_data using(tconst)
+left join title_episode using(tconst)
 where titletype not in ('tvShort', 'movie', 'tvMovie', 'video', 'short', 'videoGame');
+
+
+/*select tconst, primarytitle, nullif(plot, 'N/A') as plot, 0 as rating, titletype, isadult, released, language, country, runtimeminutes, nullif(awards, 'N/A') as award, parenttconst, poster
+from title_basics left join omdb_data using(tconst) left join title_episode using(tconst);
+
+select * 
+from title_basics natural join title_episode
+order by seasonnumber, episodenumber;*/
+
 
 -- alter title to add new column (specific type: episode/movie)
 

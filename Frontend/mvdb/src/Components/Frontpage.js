@@ -1,57 +1,32 @@
 import { Link } from "react-router";
+import SelectionPane from "./SelectionPane";
 
-function TitleOption({title}) {
-  return (
-      <>
-        {title}
-      </>
-
-  ); 
-}
 
 function Frontpage() {
-  let titles = ["title1", "title2", "title3"]
+  let items = ["title1", "title2", "title3", "title4", "title5", "title6"];
+  let path = "/title";
+
   return (
-    <>
+    <div className="container">
       { // rows for our links to pages
       }
       <div className="row">
         <div className="col" style={{"textAlign": "center"}}>
-          FRONT PAGE
+          <h1>MVDb</h1>
         </div>
       </div>
       <br/>
       <div className="row">
         <div className="col">
-          <button>{"<-"}</button>
-          {titles.map(t => <TitleOption key={t} title={t}/>)}
-          <button>{"->"}</button>
+          <SelectionPane items={items} path={path} name="Popular Movies"/> {/* row and col inside selection pane*/}
+          <br/>
+          <SelectionPane items={items} path={path} name="Popular Series"/> 
+          <br/>
+          <SelectionPane items={items} path={path} name="Popular Actors"/> 
         </div>
       </div>
-      <br/>
 
-      <div className="row">
-        <div className="col">
-          <button>{"<-"}</button>
-          {titles.map(t => <TitleOption key={t} title={t}/>)}
-          <button>{"->"}</button>
-        </div>
-      </div>
-      <br/>
-
-      <div className="row">
-        <div className="col">
-          <button>{"<-"}</button>
-            {titles.map(t => <TitleOption key={t} title={t}/>)}
-          <button>{"->"}</button>
-        </div>
-      </div>
-      <Link to="/search"> search </Link>
-      <Link to="/series"> series </Link>
-      <Link to="/title"> title </Link>
-      <Link to="/signUp"> signUp </Link>
-      <Link to="/signIn"> signIn </Link>
-    </>
+    </div>
   );
 }
 

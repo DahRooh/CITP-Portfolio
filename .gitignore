@@ -1,0 +1,12 @@
+
+*.db-wal
+*.db-wal
+Database/id_cache.db-shm
+Database/id_cache.db
+*.props
+CITP Portfolio Backend/Testing/obj/Testing.csproj.nuget.dgspec.json
+CITP Portfolio Backend/Testing/obj/project.nuget.cache
+*.v2
+*.v2
+/CITP Portfolio Backend/.vs
+/CITP Portfolio Backend/DataLayer/bin

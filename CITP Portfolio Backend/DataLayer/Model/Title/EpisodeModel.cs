@@ -6,6 +6,7 @@ namespace MovieWebserver.Model.Title;
 
 public class EpisodeModel
 {
+    public string Id { get; set; }
     public string Url { get; set; }
     public int? SeasonNumber { get; set; }
     public int? EpisodeNumber { get; set; }

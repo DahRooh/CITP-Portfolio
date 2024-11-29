@@ -8,6 +8,7 @@ namespace DataLayer.Model.Title
 {
     public class CreateReviewModel
     {
+        public int Id { get; set; }
         public string ReviewText { get; set; }
         public int Rating {  get; set; }
     }
