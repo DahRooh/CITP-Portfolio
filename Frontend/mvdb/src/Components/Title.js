@@ -1,79 +1,102 @@
 import 'bootstrap/dist/css/bootstrap.css';
 import { useParams } from 'react-router';
 import SelectionPane from './SelectionPane.js'
+import { Button, Col, Container, Row } from 'react-bootstrap';
+import { useEffect, useState } from 'react';
 function Review({review}) {
 
 }
 
 function Title() {
   const {id} = useParams();
-  return (
-    <div className='container'>
-      <div className='row'>
-        <div className='col-4'>
-          <div className='row'>
-            <div className='col'>
-              <img style={{width: "100%", height: "100%"}} src="https://media.istockphoto.com/id/911590226/vector/movie-time-vector-illustration-cinema-poster-concept-on-red-round-background-composition-with.jpg?s=612x612&w=0&k=20&c=QMpr4AHrBgHuOCnv2N6mPUQEOr5Mo8lE7TyWaZ4r9oo="/>
-            </div>
-            <div className='row'>
-              <div className='col'>
-                <p>Total rating: 1.0</p> 
-              </div>
-              <div className='col'>
-                <p>Total amount of voters: 1245</p> 
-              </div>
-            </div>
-            <div className='row'>
-              <div className='col'>
-                <span>Plot:</span>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</p> 
-              </div>
-            </div>
-            <div className='row'>
-              <div className='col centered'>
-                <button>Create Review</button>
-              </div>
-            </div>
+  const [title, setTitle] = useState({});
 
-          </div>
-        </div>
-        <div className='col'>
-          <div className='row'>
-            <div className='col' style={{textAlign: "center"}}>
-              <h2>name of title</h2>
-            </div>
-          </div>
+  useEffect(() => {
+    fetch("http://localhost:5001/api/title/" + id)
+    .then(res => {
+      if (res.ok) return res.json();
+      return {}; // no results
+    })
+    .then(data => {
+      if (data) setTitle(data);
+      else return new Error("No data");
+    }) 
+    .catch(e => console.log("error", e))
+  }, []);
+
+  let titleImage = (title.poster !== "N/A") ? title.poster : "https://media.istockphoto.com/id/911590226/vector/movie-time-vector-illustration-cinema-poster-concept-on-red-round-background-composition-with.jpg?s=612x612&w=0&k=20&c=QMpr4AHrBgHuOCnv2N6mPUQEOr5Mo8lE7TyWaZ4r9oo="
+  return (
+    <Container>
+      <Row>
+        <Col xs={4}>
+          <Row>
+          <Col style={{ maxWidth: "100%" }}>
+            <img
+              src={titleImage}
+              alt="Title"
+            />
+          </Col>
+            <Row>
+              <Col>
+                <p>Total rating: {title.rating}</p> 
+              </Col>
+              <Col>
+                <p>Total amount of voters: ??</p> 
+              </Col>
+            </Row>
+
+            <Row>
+              <Col>
+                <span>Plot:</span>
+                <p>{(title.plot) || "No plot for this title"}</p> {/*  equivalent to: (title.plot) ? title.plot : "string" */}
+              </Col>
+            </Row>
+
+            <Row>
+              <Col>
+                <Button>Create Review</Button>
+              </Col>
+            </Row>
+
+          </Row>
+        </Col>
+        <Col>
+          <Row>
+            <Col className='text-center'>
+              <h2>{title._Title}</h2>
+            </Col>
+          </Row>
           <br/>
-          <div className='row'>
-            <div className='col centered'>
+          <Row>
+            <Col>
               <h3>Main cast</h3>
               <SelectionPane items={["item1", "item2", "item3", "item4", "item5", "item6"]}/>
-            </div>
-          </div>
+            </Col>
+          </Row>
 
-          <div className='row'>
-            <div className='col centered'>
+          <Row>
+            <Col>
               <h3>Main crew</h3>
               <SelectionPane items={["item1", "item2", "item3", "item4", "item5", "item6"]}/>
-            </div>
-          </div>
+            </Col>
+          </Row>
 
-          <div className='row'>
-            <div className='col centered'>
+          <Row>
+            <Col>
               <h3>Similar titles</h3>
               <SelectionPane items={["item1", "item2", "item3", "item4", "item5", "item6"]}/>
-            </div>
-          </div>
+            </Col>
+          </Row>
 
-        </div>
-      </div>
+        </Col>
+      </Row>
 
-      <div className='row'>
-        <div className='col centered'>
+      <Row>
+        <Col>
           REVIEWS GO HERE
-        </div>
-      </div>
-    </div>
+        </Col>
+      </Row>
+    </Container>
   );
 }
   

@@ -1,32 +1,76 @@
 import { Link } from "react-router";
 import SelectionPane from "./SelectionPane";
-
+import { useEffect, useState } from "react";
+import "bootstrap/dist/css/bootstrap.min.css";
+import { Container, Row, Col } from 'react-bootstrap';
 
 function Frontpage() {
-  let items = ["title1", "title2", "title3", "title4", "title5", "title6"];
-  let path = "/title";
+  const [movies, setMovies] = useState([]);
+  const [series, setSeries] = useState([]);
+  const [people, setPeople] = useState([]);
+
+  useEffect(() => {
+    fetch("http://localhost:5001/api/title/movies")
+    .then(res => {
+      if (res.ok) return res.json();
+      return {}; // no results
+    })
+    .then(data => {
+      if (data && data.items) setMovies(data.items.slice(0, 100));
+      else return new Error("No data");
+    }) 
+    .catch(e => console.log("error", e))
+  }, []);
+
+  useEffect(() => {
+    fetch("http://localhost:5001/api/title/episodes")
+    .then(res => {
+      if (res.ok) return res.json();
+      return {}; // no results
+    })
+    .then(data => {
+      if (data && data.items) setSeries(data.items.slice(0, 100));
+      else return new Error("No data");
+    }) 
+    .catch(e => console.log("error", e))
+  }, []);
+
+  useEffect(() => {
+    fetch("http://localhost:5001/api/person")
+    .then(res => {
+      if (res.ok) return res.json();
+      return {}; // no results
+    })
+    .then(data => {
+      if (data && data.items) setPeople(data.items.slice(0, 100));
+      else return new Error("No data");
+    }) 
+    .catch(e => console.log("error", e))
+  }, []);
 
   return (
-    <div className="container">
+    <Container>
       { // rows for our links to pages
       }
-      <div className="row">
-        <div className="col" style={{"textAlign": "center"}}>
+      <Row>
+        <Col style={{"textAlign": "center"}}>
           <h1>MVDb</h1>
-        </div>
-      </div>
-      <br/>
-      <div className="row">
-        <div className="col">
-          <SelectionPane items={items} path={path} name="Popular Movies"/> {/* row and col inside selection pane*/}
-          <br/>
-          <SelectionPane items={items} path={path} name="Popular Series"/> 
-          <br/>
-          <SelectionPane items={items} path={path} name="Popular Actors"/> 
-        </div>
-      </div>
+        </Col>
+      </Row>
 
-    </div>
+      <br/>
+
+      <Row>
+        <Col className="centered">
+          <SelectionPane items={movies} path={"/title"} name="Popular Movies"/> 
+          <br/>
+          <SelectionPane items={series} path={"/title"} name="Popular Series"/> 
+          <br/>
+          <SelectionPane items={people} path={"/person"} name="Popular Actors"/> 
+        </Col>
+      </Row>
+
+    </Container>
   );
 }
 
