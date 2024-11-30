@@ -1,38 +1,31 @@
 import 'bootstrap/dist/css/bootstrap.css';
+import { Container, Row, Col, FormGroup, Button } from 'react-bootstrap';
 
 function SignIn() {
   return (
-    <div style={{display: "flex", flexDirection: "column", justifyContent: "center", height: "100vh", margin: 0, transform: "translateY(-200px)"}}>
 
-      <div className="row" style={{"textAlign": "center", 
-        "fontWeight": "bold", marginBottom: "12%", marginTop: "15%", 
-        fontSize: "220%"}}>
+    <Container>
+      <Row className="signInHeader">
+        <Col>
+            MVDb
+        </Col>
+      </Row>
 
-        <div className="col">
-            OMBd
-        </div>
-      </div>
-
-      <div className="row placeholders">
-        <div className="col">
+      <form className="centered">
+        <FormGroup className="placeholders">
           <input className="placeholderText" placeholder="Username"/>
-        </div>
-      </div>
+        </FormGroup>
 
-      <div className="row placeholders">
-        <div className="col">
+        <FormGroup className="placeholders">
           <input className="placeholderText" placeholder="Password"/>
-        </div>
-      </div>
+        </FormGroup>
 
-      <div className="row" style={{textAlign: "center"}}>
-        <div className="col">
-          <button style={{width: "20%"}}>
-            Login
-          </button>
-        </div>
-      </div>
-    </div>
+        <Button style={{width: "20%"}}>
+          Login
+        </Button>
+      </form>
+
+    </Container>
   );
 }
   

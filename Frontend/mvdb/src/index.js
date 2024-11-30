@@ -20,6 +20,8 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <Header/>
+    <div className="fullscreen">
+    
     <BrowserRouter> {/* from react package */}
       <Routes> {/* we must include our routes here somehow*/}
         <Route path="/test" element={<App />}/>
@@ -39,12 +41,11 @@ root.render(
           
         <Route path="/signIn" element={<SignIn />}/>
         <Route path="/signUp" element={<SignUp />}/>
-        
-        
-
+      
 
       </Routes>
     </BrowserRouter>
+    </div>
   </React.StrictMode>
 );
 
