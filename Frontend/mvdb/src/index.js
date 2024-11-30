@@ -9,6 +9,7 @@ import Series from './Components/Series';
 import Title from './Components/Title';
 import SearchResult from './Components/SearchResults';
 import CreateReview from './Components/CreateReview';
+import Person from './Components/Person';
 import SignUp from './Components/Signup';
 import SignIn from './Components/SignIn';
 import Header from './Components/Header';
@@ -28,6 +29,8 @@ root.render(
         <Route path="/title/:id" element={<Title />}>
           <Route path="newReview" element={<CreateReview />}/>
         </Route>
+
+        <Route path="/person" element={<Person />}/>
 
         <Route path="/user/:id" element={<UserPage />}> 
            <Route path="settings" element={<Settings />}/>
