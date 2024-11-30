@@ -1,28 +1,25 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\andre\\Documents\\Navicat\\PostgreSQL\\Servers\\University\\CITP-Portfolio\\CITP Portfolio Backend\\Testing\\Testing.csproj": {}
+    "/Users/dagmarree/Documents/GitHub/CITP-Portfolio/CITP Portfolio Backend/Testing/Testing.csproj": {}
   },
   "projects": {
-    "C:\\Users\\andre\\Documents\\Navicat\\PostgreSQL\\Servers\\University\\CITP-Portfolio\\CITP Portfolio Backend\\DataLayer\\DataLayer.csproj": {
+    "/Users/dagmarree/Documents/GitHub/CITP-Portfolio/CITP Portfolio Backend/DataLayer/DataLayer.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\andre\\Documents\\Navicat\\PostgreSQL\\Servers\\University\\CITP-Portfolio\\CITP Portfolio Backend\\DataLayer\\DataLayer.csproj",
+        "projectUniqueName": "/Users/dagmarree/Documents/GitHub/CITP-Portfolio/CITP Portfolio Backend/DataLayer/DataLayer.csproj",
         "projectName": "DataLayer",
-        "projectPath": "C:\\Users\\andre\\Documents\\Navicat\\PostgreSQL\\Servers\\University\\CITP-Portfolio\\CITP Portfolio Backend\\DataLayer\\DataLayer.csproj",
-        "packagesPath": "C:\\Users\\andre\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\andre\\Documents\\Navicat\\PostgreSQL\\Servers\\University\\CITP-Portfolio\\CITP Portfolio Backend\\DataLayer\\obj\\",
+        "projectPath": "/Users/dagmarree/Documents/GitHub/CITP-Portfolio/CITP Portfolio Backend/DataLayer/DataLayer.csproj",
+        "packagesPath": "/Users/dagmarree/.nuget/packages/",
+        "outputPath": "/Users/dagmarree/Documents/GitHub/CITP-Portfolio/CITP Portfolio Backend/DataLayer/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\andre\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "/Users/dagmarree/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -103,37 +100,34 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.400/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/8.0.403/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\andre\\Documents\\Navicat\\PostgreSQL\\Servers\\University\\CITP-Portfolio\\CITP Portfolio Backend\\Testing\\Testing.csproj": {
+    "/Users/dagmarree/Documents/GitHub/CITP-Portfolio/CITP Portfolio Backend/Testing/Testing.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\andre\\Documents\\Navicat\\PostgreSQL\\Servers\\University\\CITP-Portfolio\\CITP Portfolio Backend\\Testing\\Testing.csproj",
+        "projectUniqueName": "/Users/dagmarree/Documents/GitHub/CITP-Portfolio/CITP Portfolio Backend/Testing/Testing.csproj",
         "projectName": "Testing",
-        "projectPath": "C:\\Users\\andre\\Documents\\Navicat\\PostgreSQL\\Servers\\University\\CITP-Portfolio\\CITP Portfolio Backend\\Testing\\Testing.csproj",
-        "packagesPath": "C:\\Users\\andre\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\andre\\Documents\\Navicat\\PostgreSQL\\Servers\\University\\CITP-Portfolio\\CITP Portfolio Backend\\Testing\\obj\\",
+        "projectPath": "/Users/dagmarree/Documents/GitHub/CITP-Portfolio/CITP Portfolio Backend/Testing/Testing.csproj",
+        "packagesPath": "/Users/dagmarree/.nuget/packages/",
+        "outputPath": "/Users/dagmarree/Documents/GitHub/CITP-Portfolio/CITP Portfolio Backend/Testing/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\andre\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "/Users/dagmarree/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "C:\\Users\\andre\\Documents\\Navicat\\PostgreSQL\\Servers\\University\\CITP-Portfolio\\CITP Portfolio Backend\\DataLayer\\DataLayer.csproj": {
-                "projectPath": "C:\\Users\\andre\\Documents\\Navicat\\PostgreSQL\\Servers\\University\\CITP-Portfolio\\CITP Portfolio Backend\\DataLayer\\DataLayer.csproj"
+              "/Users/dagmarree/Documents/GitHub/CITP-Portfolio/CITP Portfolio Backend/DataLayer/DataLayer.csproj": {
+                "projectPath": "/Users/dagmarree/Documents/GitHub/CITP-Portfolio/CITP Portfolio Backend/DataLayer/DataLayer.csproj"
               }
             }
           }
@@ -198,7 +192,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.400/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/8.0.403/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

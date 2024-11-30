@@ -51,3 +51,27 @@ code {
   align-items: center;
   justify-content: center;
 }
+
+.search {
+  border-style: solid;
+  display: flex;
+  align-items: center;
+  margin-bottom: 5%;
+}
+
+.placeholders {
+  text-align: center;
+  margin-bottom: 8%;
+}
+
+.placeholderText {
+  text-align: center;
+  width: 50%;
+  height: 200%;
+}
+
+.searchResultPictures {
+  width: 30%;
+  height: auto;
+}
+
