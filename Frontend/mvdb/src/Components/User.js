@@ -1,5 +1,7 @@
 import 'bootstrap/dist/css/bootstrap.css';
+import './User.css';
 import { Link, Outlet, useParams } from 'react-router';
+import { Row, Col, Container } from "react-bootstrap";
 import { useState } from "react"; 
 import { Pagination } from './Pagination.js';
 import {Button} from 'react-bootstrap';
@@ -9,37 +11,44 @@ function Reviews({ title, rating, review }) {
   const [index, setIndex] = useState(0);
 
   return (
-    <div className='row'>
-      <div className='col'>
-        <div className='container'>
-          {title.map((item, index) => (
-            <div key={index}>
-              <div className='container' style={{ marginTop: 20, marginBottom: 20 }}>
-              <div className='row'>
-                <h5 className='col-10 text-center' style={{ wordBreak: "break-word" }}>{item}</h5>
-                <Button className='col-auto btn'>Delete</Button>
-              </div>
-              <div className='row'>
-                <div className='col text-start'>
-                  <p style={{ fontWeight: 'bold' }}>Rating: {rating[index]}</p>
-                </div>
-                <div className='col-9'>
-                  <p style={{ wordBreak: "break-word" }}>{review[index]}</p>
-                </div>
-                </div>
-              </div>
-            </div>
+    <Container className='reviewContainer'>
+      <Row>
+      <Col>
+        {title.map((item, index) => (
+          <div key={index}>
+            <Container className='singleReview'>
+              <Container className='whatever'>
+                <Row>
+                <Col className='text-center'>
+                  <h5 className='breakWord'>{item}</h5>
+                </Col>
+                <Col className="hej">
+                  <Button>Delete</Button>
+                </Col>
+                </Row>
+               </Container>
+
+
+            <Row>
+            <Col className='col text-start'>
+              <p style={{ fontWeight: 'bold' }}>Rating: {rating[index]}</p>
+            </Col>
+            <Col className='col-9'>
+              <p className='breakWord'>{review[index]}</p>
+            </Col>
+            </Row>
+            </Container>
+          </div>
             
           ))}
-          <div className='row'>
-           <div className='col text-center'>
+          <Row>
+          <Col className='col text-center'>
             <Pagination index={index} total={5} setIndex={setIndex} />
-           </div>
-         </div>
-        </div>
-      </div>
-    </div>
-
+          </Col>
+        </Row>
+      </Col>
+      </Row>
+    </Container>
   );
 }
 
@@ -47,28 +56,29 @@ function SearchHistory({keyword, timestamp}){
   const [index, setIndex] = useState(0);
 
   return(
-    <div className='row'>
-      <div className='col'>
+    <Row>
+      <Col>
         {keyword.map((item, index) => (
           <div key={index} className='container' style={{marginTop: 20, marginBottom: 20 }}>
-            <div className='row'>
-            <div className='col-3 text-start'>
-                  <p style={{ fontWeight: 'bold' }}>{timestamp[index]}</p>
-                </div>
-            
-              <h6 className='col-5' style={{ wordBreak: 'break-word' }}>
+            <Row>
+              <Col className='col-5 text-start'>
+              <p style={{ fontWeight: 'bold', wordBreak: 'break-word' }}>{timestamp[index]}</p>
+              </Col>
+              <Col className='col-5'>
+              <h6 style={{ wordBreak: 'break-word' }}>
                 {item}
               </h6>
-              </div>
+              </Col>
+              </Row>
             </div>
         ))}
-        <div className='row'>
-          <div className='col text-center'>
+        <Row>
+          <Col className='text-center'>
             <Pagination index={index} total={5} setIndex={setIndex} />
-          </div>
-        </div>
-      </div>
-    </div>
+          </Col>
+        </Row>
+      </Col>
+    </Row>
   );
 
 }

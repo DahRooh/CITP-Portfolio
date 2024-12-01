@@ -32,7 +32,9 @@ root.render(
           <Route path="newReview" element={<CreateReview />}/>
         </Route>
 
-        <Route path="/person" element={<Person />}/>
+        {/* <Route path="/person/:t_id" element={<Person />}/> */}
+        <Route path="/person/:p_id" element={<Person />}/>
+
 
         <Route path="/user/:id" element={<UserPage />}> 
            <Route path="settings" element={<Settings />}/>
