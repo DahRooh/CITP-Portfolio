@@ -1,4 +1,3 @@
-import { Link } from "react-router";
 import SelectionPane from "./SelectionPane";
 import { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -49,11 +48,12 @@ function Frontpage() {
   }, []);
 
   return (
-    <Container>
+    <Container className="centered">
+
       { // rows for our links to pages
       }
       <Row>
-        <Col style={{"textAlign": "center"}}>
+        <Col>
           <h1>MVDb</h1>
         </Col>
       </Row>
@@ -61,14 +61,16 @@ function Frontpage() {
       <br/>
 
       <Row>
-        <Col className="centered">
+        <Col>
           <SelectionPane items={movies} path={"/title"} name="Popular Movies"/> 
           <br/>
-          <SelectionPane items={series} path={"/title"} name="Popular Series"/> 
+          <SelectionPane items={series} path={"/series"} name="Popular Series"/> 
           <br/>
           <SelectionPane items={people} path={"/person"} name="Popular Actors"/> 
         </Col>
       </Row>
+
+
 
     </Container>
   );

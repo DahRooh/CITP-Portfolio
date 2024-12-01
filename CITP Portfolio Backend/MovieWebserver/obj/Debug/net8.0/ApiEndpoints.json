@@ -404,6 +404,23 @@
     "EndpointName": "GetMovies"
   },
   {
+    "ContainingType": "MovieWebserver.Controllers.TitleController",
+    "Method": "GetSeries",
+    "RelativePath": "api/title/series",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "parentId",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [],
+    "EndpointName": "GetSeries"
+  },
+  {
     "ContainingType": "MovieWebserver.Controllers.UserController",
     "Method": "CreateUser",
     "RelativePath": "api/user",

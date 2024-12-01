@@ -1,23 +1,29 @@
 import 'bootstrap/dist/css/bootstrap.css';
+import { Button, ButtonGroup, Col, Container, Nav, Row } from 'react-bootstrap';
+import { Link } from 'react-router';
 
 function Header() {
   return (
-    <div className="container">
-      <div className="row">
-          <div className="col">
-              LOGO
-          </div>
-          <div className="col">
+    <Container className="fluid">
+      <Row>
+          <Col className='centered'>
+          <Nav>
+            <Link to="/">LOGO</Link>
+          </Nav>
+          </Col>
+          <Col>
               <input placeholder="search"/>
-              <button>gogo</button>
-          </div>
-          <div className="col">
-              <button>sign in</button>
-              <button>sign up</button>
-          </div>
-      </div>
+              <Button>gogo</Button>
+          </Col>
+          <Col>
+            <ButtonGroup style={{border: "1px solid black"}}>
+              <Button className="btn-dark">sign in</Button>
+              <Button className="btn-light">sign up</Button>
+            </ButtonGroup>
+          </Col>
+      </Row>
       <hr/>
-    </div>
+    </Container>
   );
 }
   

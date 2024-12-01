@@ -10,6 +10,7 @@ using System.IdentityModel.Tokens.Jwt;
 using DataLayer.IDataServices;
 using DataLayer.DomainObjects.Relations;
 using DataLayer.Model.User;
+
 namespace MovieWebserver.Controllers;
 
 [ApiController]
@@ -107,6 +108,17 @@ public class TitleController : BaseController
             numberOfItems,
             episodes);
         return Ok(result);
+
+    }
+
+    [HttpGet("series", Name = nameof(GetSeries))]
+    public IActionResult GetSeries(string parentId)
+    {
+        var episodes = _ds.GetSeries(parentId).Select(x => CreateSeriesModel(x)).ToList();
+
+        var numberOfItems = _ds.NumberOfEpisodes();
+
+        return Ok(episodes);
 
     }
 
@@ -322,6 +334,13 @@ public class TitleController : BaseController
         model.Country = episode.Title.Country;
         model.RunTime = episode.Title.RunTime;
         model.Poster = episode.Title.Poster;
+        return model;
+    }
+
+    private object CreateSeriesModel(Series series)
+    {
+        var model = series.Adapt<SeriesModel>();
+
         return model;
     }
 

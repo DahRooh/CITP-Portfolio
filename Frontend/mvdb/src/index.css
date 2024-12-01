@@ -12,26 +12,47 @@ code {
     monospace;
 }
 
+
+
+.selectionOption {
+  margin-right: 2%;
+  border: 1px solid black;
+  border-radius: 30px;
+  padding-top: 10px;
+}
+
 .selectionPane {
+  background-color: rgb(228, 251, 251);
   text-align: center;
   margin-left: 10%;
   margin-right: 10%;
   padding-top: 10px;
   padding-bottom: 10px;
   border-radius: 30px;
-  border: 2px solid black;
+  border: 1px solid rgb(0, 0, 0);
+}
+
+.selectionOption:hover {
+  background-color: rgba(102, 107, 108, 0.2);
 }
 
 .selectionButton {
-  width: 95%;
-  height: 50px;
+  margin-top: 30%;
+  
+  width: 40%;
+  height: 70%;
 }
 
+.titleInfo, .review {
+  background-color: rgb(228, 251, 251);
+  margin-bottom: 10px;
+  padding-top: 10px;
+  border: 2px solid black;
+  border-radius: 30px;
+}
 
-
-
-.selectionButtonCon {
-  padding-top: 60px;
+.selectionImage {
+  width: 60%;
 }
 
 .centered {
@@ -73,12 +94,9 @@ nedenstående skal ændres
   justify-content: center;
 }
 
-.container {
-  background-color: whitesmoke;
-}
 
 
-.textHeader {
+.signInHeader {
   text-align: center;
   font-weight: bold;
   margin-bottom: 8%;
@@ -96,6 +114,13 @@ nedenstående skal ændres
   background-color: whitesmoke;
 }
 
+
 .buttonGroup {
   width: 5vw;
 }
+
+
+.all {
+  background-color: whitesmoke;
+}
+

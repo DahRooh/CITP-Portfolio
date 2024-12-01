@@ -36,6 +36,7 @@ public class MVContext : DbContext
     public DbSet<SearchResult> SearchResults { get; set; }
     public DbSet<SimilarTitle> SimilarTitles { get; set; }
     public DbSet<CoActor> CoActors { get; set; }
+    public DbSet<Series> Series { get; set; }
 
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -71,6 +72,7 @@ public class MVContext : DbContext
 
         MapWebpage(modelBuilder);
         MapSearchResults(modelBuilder);
+        MapSeries(modelBuilder);
 
     }
 
@@ -442,6 +444,26 @@ public class MVContext : DbContext
         modelBuilder.Entity<SimilarTitle>().Property(x => x.Id).HasColumnName("similar_title_id");
         modelBuilder.Entity<SimilarTitle>().Property(x => x._Title).HasColumnName("similar_title");
         modelBuilder.Entity<SimilarTitle>().Property(x => x.CommonGenres).HasColumnName("multiple_same_genre");
+
+    }
+
+    public static void MapSeries(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<Series>().HasNoKey();
+
+
+        modelBuilder.Entity<Series>().Property(x => x.Id).HasColumnName("e_id");
+        modelBuilder.Entity<Series>().Property(x => x.Name).HasColumnName("ep_name");
+        modelBuilder.Entity<Series>().Property(x => x.Plot).HasColumnName("ep_plot");
+        modelBuilder.Entity<Series>().Property(x => x.Rating).HasColumnName("ep_rating");
+        modelBuilder.Entity<Series>().Property(x => x.Type).HasColumnName("ep_type");
+        modelBuilder.Entity<Series>().Property(x => x.IsAdult).HasColumnName("adult");
+        modelBuilder.Entity<Series>().Property(x => x.Released).HasColumnName("release_date");
+        modelBuilder.Entity<Series>().Property(x => x.Language).HasColumnName("language");
+        modelBuilder.Entity<Series>().Property(x => x.Country).HasColumnName("country");
+        modelBuilder.Entity<Series>().Property(x => x.RunTime).HasColumnName("runtime");
+        modelBuilder.Entity<Series>().Property(x => x.Poster).HasColumnName("poster");
+        modelBuilder.Entity<Series>().Property(x => x.Titletype).HasColumnName("title_type");
 
     }
 

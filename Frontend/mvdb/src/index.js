@@ -1,9 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { BrowserRouter, Route, Routes, useParams } from 'react-router';
+import { BrowserRouter, Route, Routes } from 'react-router';
 import Frontpage from './Components/Frontpage';
 import Series from './Components/Series';
 import Title from './Components/Title';
@@ -19,26 +18,26 @@ import UserPage from './Components/User';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <Header/>
-    <div className="fullscreen">
-    
+    <div className='all'>
     <BrowserRouter> {/* from react package */}
+    <Header/>    
+
       <Routes> {/* we must include our routes here somehow*/}
-        <Route path="/test" element={<App />}/>
         <Route path="/" element={<Frontpage />}/>
+
+
         <Route path="/search" element={<SearchResult />}/>
-        <Route path="/series" element={<Series />}/>
-        <Route path="/title/:id" element={<Title />}>
-          <Route path="newReview" element={<CreateReview />}/>
-        </Route>
+        <Route path="/series/:id" element={<Series />}/>
+
+        <Route path="/title/:id" element={<Title />} />
+        <Route path="newReview" element={<CreateReview />}/>
 
         {/* <Route path="/person/:t_id" element={<Person />}/> */}
         <Route path="/person/:p_id" element={<Person />}/>
 
 
-        <Route path="/user/:id" element={<UserPage />}> 
-           <Route path="settings" element={<Settings />}/>
-        </Route>
+        <Route path="/user/:id" element={<UserPage />} /> 
+        <Route path="settings" element={<Settings />}/>
            
           
         <Route path="/signIn" element={<SignIn />}/>

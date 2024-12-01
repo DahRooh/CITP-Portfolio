@@ -56,6 +56,15 @@ public class TitleDataService : ITitleDataService
         return true;
     }
 
+    public IList<Series> GetSeries(string parentId)
+    {
+        db = new MVContext();
+
+        var results = db.Series.FromSqlRaw("select * from get_series({0})", parentId).ToList();
+
+        return results;
+    }
+
     public Bookmark CreateBookmark(string tId, int userId)
     {
         db = new MVContext();

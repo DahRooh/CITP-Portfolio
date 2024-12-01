@@ -19,18 +19,35 @@ $$;
 drop function if exists get_series;
 create function get_series(title_id VARCHAR)
 returns table(
-  e_id VARCHAR, episode_name VARCHAR, ti_id VARCHAR, series_name VARCHAR
+  e_id VARCHAR,
+  ep_name VARCHAR,
+  ep_plot VARCHAR,
+  ep_rating numeric(3,2),
+  ep_type varchar,
+  adult boolean,
+  release_date varchar,
+  language varchar,
+  country varchar,
+  runtime numeric(5,0),
+  awards varchar,
+  poster varchar,
+  title_type varchar
 )
 language plpgsql as $$
 begin 
   return query
-    select ep_id, 
-    t2.title as episode_title, 
-    t1.t_id, t1.title as series_title 
+    select ep.*
     from episode 
-    join title t1 on parentid = t1.t_id 
-    join title t2 on episode.t_id = t2.t_id
-    where t1.t_id = title_id;
+    join title ti on parentid = ti.t_id 
+    join title ep on episode.t_id = ep.t_id
+    where ti.t_id = title_id;
 end;
 $$;
 
+select * from get_series('tt20854604');
+
+select ep.*
+from episode 
+join title ti on parentid = ti.t_id 
+join title ep on episode.t_id = ep.t_id
+where ti.t_id = 'tt20854604';
