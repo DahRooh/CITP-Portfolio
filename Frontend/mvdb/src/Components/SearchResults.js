@@ -1,68 +1,62 @@
 import 'bootstrap/dist/css/bootstrap.css';
+import { Container, Row, Col, Button, ButtonGroup } from 'react-bootstrap';
 
 function SearchResult() {
   return (
-    <div style={{display: "flex", flexDirection: "column", 
-    justifyContent: "center", height: "80vh", margin: 0, 
-    transform: "translateY(-10px)"}}>
 
-      <div className="row" style={{"textAlign": "center", 
-        "fontWeight": "bold", marginBottom: "12%", marginTop: "15%", 
-        fontSize: "220%"}}>
+    <div className="fullscreen">
+      <Container>
+        <Row className="textHeader">
+          <Col>
+              Keyword: "keyword"
+          </Col>
+        </Row>
 
-        <div className="col">
-          Keyword: "Keyword"
-        </div>
-      </div>
-      
-      <div className="row search" style={{marginLeft: "20%", marginRight: "20%"}}>
-        <div className="col">
-          <img className="searchResultPictures" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSpHrvCwx8k_WyIOri6iWKD443_4bR3_zwUCw&s"/>
-          <hr/>
-        </div>
-        <div className="col">
-            "search result 1"
-        </div>
-      </div>
+          <Row className="search" style={{paddingLeft: "5vw", paddingRight: "5vw", paddingTop: "5vh"}}>
 
-      <div className="row search" style={{marginLeft: "20%", marginRight: "20%"}}>
-        <div className="col">
-          <img className="searchResultPictures" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSpHrvCwx8k_WyIOri6iWKD443_4bR3_zwUCw&s"/>
-          <hr/>
-        </div>
-        <div className="col">
-            "search result 2"
-        </div>
-      </div>
+            <Row>
+              <Col className="search" style={{paddingRight: "5vw"}}>
+                <img className="searchResultPictures" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSpHrvCwx8k_WyIOri6iWKD443_4bR3_zwUCw&s"/>
+                <span style={{ display: "block", textAlign: "center", margin: "0 auto" }}>
+                  Search result 1
+                </span>
+              </Col>
+            </Row>
 
-      <div className="row search" style={{marginLeft: "20%", marginRight: "20%"}}>
-        <div className="col">
-          <img className="searchResultPictures" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSpHrvCwx8k_WyIOri6iWKD443_4bR3_zwUCw&s"/>
-          <hr/>
-        </div>
-        <div className="col">
-            "search result 3"
-        </div>
-      </div>
+            <Row>
+              <Col className="search" style={{paddingRight: "5vw"}}>
+                <img className="searchResultPictures" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSpHrvCwx8k_WyIOri6iWKD443_4bR3_zwUCw&s"/>
+                <span style={{ display: "block", textAlign: "center", margin: "0 auto" }}>
+                  Search result 2
+                </span>
+              </Col>
+            </Row>
 
-      <div className="row"  style={{"textAlign": "center"}}>
-        <div className="col">
-          <button> &larr; </button>
-          <button>1</button>
-          <button>2</button>
-          <button>3</button>
-          <button> &rarr; </button>
-        </div>
-      </div>
+            <Row>
+              <Col className="search" style={{paddingRight: "5vw"}}>
+                <img className="searchResultPictures" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSpHrvCwx8k_WyIOri6iWKD443_4bR3_zwUCw&s"/>
+                <span style={{ display: "block", textAlign: "center", margin: "0 auto" }}>
+                  Search result 3
+                </span>
+              </Col>
+            </Row>
+          </Row>
+
+          <Row style={{textAlign: "center"}}>
+            <Col>
+              <ButtonGroup >
+                <Button className="buttonGroup">{"<"}</Button>
+                <Button className="buttonGroup">1</Button>
+                <Button className="buttonGroup">2</Button>
+                <Button className="buttonGroup">3</Button>
+                <Button className="buttonGroup">{">"}</Button>
+              </ButtonGroup>
+            </Col>
+          </Row>
+        
+      </Container>
     </div>
   );
 }
-
-/*
-Som den aller første:
- <div style={{display: "flex", flexDirection: "column", justifyContent: "center", height: "100vh", margin: 0, transform: "translateY(-200px)"}}>
-
- Fungerer ikke her??
-*/
-
+  
 export default SearchResult;

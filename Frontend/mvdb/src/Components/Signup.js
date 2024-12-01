@@ -1,42 +1,37 @@
 import 'bootstrap/dist/css/bootstrap.css';
+import { Container, Row, Col, FormGroup, Button } from 'react-bootstrap';
 
 function SignUp() {
   return (
-    <>
-    <div style={{display: "flex", flexDirection: "column", justifyContent: "center", height: "100vh", margin: 0, transform: "translateY(-200px)"}}>
-      <div className="row" style={{"textAlign": "center", "fontWeight": "bold", marginBottom: "12%", marginTop: "15%", fontSize: "220%"}}>
-        <div className="col">
-        OMBd
-        </div>
-      </div>
 
-      <div className="row placeholders">
-        <div className="col">
-          <input className="placeholderText" placeholder="Username"/>
-        </div>
-      </div>
+    <div className="fullscreen">
+      <Container>
+        <Row className="textHeader">
+          <Col>
+              MVDb
+          </Col>
+        </Row>
 
-      <div className="row placeholders">
-        <div className="col">
-          <input className="placeholderText" placeholder="Email"/>
-        </div>
-      </div>
+        <form className="centered">
+          <FormGroup className="placeholders">
+            <input className="placeholderText" placeholder="Username"/>
+          </FormGroup>
 
-      <div className="row placeholders">
-        <div className="col">
-          <input className="placeholderText" placeholder="Password"/>
-        </div>
-      </div>
+          <FormGroup className="placeholders">
+            <input className="placeholderText" placeholder="Email"/>
+          </FormGroup>
 
-      <div className="row" style={{textAlign: "center"}}>
-        <div className="col">
-          <button style={{width: "20%"}}>
+          <FormGroup className="placeholders">
+            <input className="placeholderText" placeholder="Password"/>
+          </FormGroup>
+
+          <Button style={{width: "20%"}}>
             Sign up
-          </button>
-        </div>
-      </div>
+          </Button>
+        </form>
+
+      </Container>
     </div>
-    </>
   );
 }
   

@@ -4,28 +4,30 @@ import { Container, Row, Col, FormGroup, Button } from 'react-bootstrap';
 function SignIn() {
   return (
 
-    <Container>
-      <Row className="signInHeader">
-        <Col>
-            MVDb
-        </Col>
-      </Row>
+    <div className="fullscreen">
+      <Container>
+        <Row className="textHeader">
+          <Col>
+              MVDb
+          </Col>
+        </Row>
 
-      <form className="centered">
-        <FormGroup className="placeholders">
-          <input className="placeholderText" placeholder="Username"/>
-        </FormGroup>
+        <form className="centered">
+          <FormGroup className="placeholders">
+            <input className="placeholderText" placeholder="Username"/>
+          </FormGroup>
 
-        <FormGroup className="placeholders">
-          <input className="placeholderText" placeholder="Password"/>
-        </FormGroup>
+          <FormGroup className="placeholders">
+            <input className="placeholderText" placeholder="Password"/>
+          </FormGroup>
 
-        <Button style={{width: "20%"}}>
-          Login
-        </Button>
-      </form>
+          <Button style={{width: "20%"}}>
+            Login
+          </Button>
+        </form>
 
-    </Container>
+      </Container>
+    </div>
   );
 }
   

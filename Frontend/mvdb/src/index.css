@@ -48,6 +48,10 @@ code {
   margin-bottom: 5%;
 }
 
+/*
+marginLeft: "20%", marginRight: "20%"
+*/
+
 .placeholders {
   text-align: center;
   margin-bottom: 8%;
@@ -55,29 +59,32 @@ code {
 
 .placeholderText {
   text-align: center;
-  width: 50%;
-  height: 200%;
+  width: 50vw;
+  height: 5vh;
 }
+
+/*
+nedenstående skal ændres
+*/
 
 .searchResultPictures {
-  width: 30%;
+  width: 12%;
   height: auto;
+  justify-content: center;
 }
-
 
 .container {
   background-color: whitesmoke;
 }
 
 
-.signInHeader {
+.textHeader {
   text-align: center;
   font-weight: bold;
-  margin-bottom: 12%;
+  margin-bottom: 8%;
   margin-top: 15%;
   font-size: 220%;
 }
-
 
 .fullscreen {
   height: 100vh; 
@@ -89,4 +96,6 @@ code {
   background-color: whitesmoke;
 }
 
-
+.buttonGroup {
+  width: 5vw;
+}
