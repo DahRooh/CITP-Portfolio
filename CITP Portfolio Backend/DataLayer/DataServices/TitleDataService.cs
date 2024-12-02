@@ -56,13 +56,28 @@ public class TitleDataService : ITitleDataService
         return true;
     }
 
-    public IList<Series> GetSeries(string parentId)
+    public IList<Series> GetEpisodesFromParentId(string parentId)
     {
         db = new MVContext();
 
         var results = db.Series.FromSqlRaw("select * from get_series({0})", parentId).ToList();
 
         return results;
+    }
+
+
+
+    public IList<Title> GetAllSeries(int page, int pageSize)
+    {
+        db = new MVContext();
+
+        var series = db.Titles
+            .Where(t => t.Titletype == "series")
+            .OrderByDescending(t => t.Rating)
+            .Skip(page * pageSize).Take(pageSize)
+            .ToList();
+
+        return series;
     }
 
     public Bookmark CreateBookmark(string tId, int userId)
@@ -96,6 +111,18 @@ public class TitleDataService : ITitleDataService
         db = new MVContext();
         var count = db.Movies.Count();
         return count;
+    }
+
+    public int GetSeriesCount()
+    {
+        db = new MVContext();
+
+        var numberOfSeries = db.Titles
+            .Where(t => t.Titletype == "series")
+            .Count();
+
+
+        return numberOfSeries;
     }
 
     public IList<Movie> GetMovies(int page, int pageSize)
@@ -167,7 +194,7 @@ public class TitleDataService : ITitleDataService
             .OrderBy(x => x.Person.Rating)
             .ToList();
         
-        var distinctPersonInvolvedIn = personInvolvedIn.DistinctBy(x => x.PersonId).ToList();
+        var distinctPersonInvolvedIn = personInvolvedIn.DistinctBy(x => x.Id).ToList();
 
         return distinctPersonInvolvedIn;
     }
@@ -179,7 +206,8 @@ public class TitleDataService : ITitleDataService
             .Include(x => x.Title)
             .Include(x => x.Person)
             .Where(x => x.TitleId == id && x.Character != null)
-            .Select(x => new InvolvedIn { PersonId = x.PersonId, 
+            .Select(x => new InvolvedIn {
+                Id = x.Id, 
                                             TitleId = x.TitleId, 
                                             Character = x.Character, 
                                             Job = x.Job, 

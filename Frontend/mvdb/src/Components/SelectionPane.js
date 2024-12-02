@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router";
-import { Button, Row, Col, Container, Nav } from 'react-bootstrap';
+import { Button, Row, Col, Container } from 'react-bootstrap';
 
 function Option({item, path}) {
     let poster = (item.poster !== "N/A") ? item.poster :"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSpHrvCwx8k_WyIOri6iWKD443_4bR3_zwUCw&s"; 
-
+    console.log(item);
     
      if (item.name) { 
         poster = "https://thumbs.dreamstime.com/b/portrait-handsome-smiling-young-man-folded-arms-smiling-joyful-cheerful-men-crossed-hands-isolated-studio-shot-172869765.jpg";

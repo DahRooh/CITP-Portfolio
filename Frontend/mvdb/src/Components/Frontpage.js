@@ -22,7 +22,7 @@ function Frontpage() {
   }, []);
 
   useEffect(() => {
-    fetch("http://localhost:5001/api/title/episodes")
+    fetch("http://localhost:5001/api/title/series")
     .then(res => {
       if (res.ok) return res.json();
       return {}; // no results

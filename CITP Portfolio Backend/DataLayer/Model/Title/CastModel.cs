@@ -9,7 +9,7 @@ namespace MovieWebserver.Model.Title;
 
 public class CastModel
 {
-    public string PersonId { get; set; }
+    public string Id { get; set; }
     public string Url { get; set; }
     public string Person { get; set; }
     public string Character { get; set; }

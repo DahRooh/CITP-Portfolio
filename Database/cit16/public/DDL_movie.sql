@@ -68,6 +68,7 @@ create table title(
 	poster varchar(1000)
 );
 
+
 create table movie(
 	t_id varchar (10),
 	mov_id varchar (10),

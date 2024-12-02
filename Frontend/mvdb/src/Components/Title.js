@@ -71,7 +71,7 @@ function Title() {
     fetch(`http://localhost:5001/api/title/${id}/crew`)
     .then(res => {
       if (res.ok) return res.json();
-      return {}; // no results
+      return null; // no results
     })
     .then(data => {
       if (data) setCrew(data);
@@ -84,7 +84,7 @@ function Title() {
     fetch(`http://localhost:5001/api/title/${id}/cast`)
     .then(res => {
       if (res.ok) return res.json();
-      return {}; // no results
+      return null; // no results
     })
     .then(data => {
       if (data) setCast(data);
@@ -159,7 +159,7 @@ function Title() {
           <br/>
 
           <Row>
-            <Col><SelectionPane items={similarTitles} path={"./title"} name="Similar Titles"/></Col>
+            <Col><SelectionPane items={similarTitles} path={"/title"} name="Similar Titles"/></Col>
           </Row>
         </Col>
       </Row>
@@ -174,6 +174,10 @@ function Title() {
         {fakeReviews.map(r => <Review review={r} />)}
 
       </Container>
+      <Button onClick={() => {
+        console.log(cast);
+        console.log(crew);
+      }}>test</Button>
     </Container>
   );
 }

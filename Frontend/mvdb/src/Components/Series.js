@@ -8,7 +8,8 @@ import { useEffect, useState } from 'react';
 function Series() {
   const {id} = useParams();
   const [title, setTitle] = useState({});
-  const [episodes, setEpisodes] = useState([]);
+  const [data, setData] = useState({});
+  const [currentSeason, setCurrentSeason] = useState("Extra");
 
 
 
@@ -28,23 +29,19 @@ function Series() {
   }, [id]);
 
   useEffect(() => {
-    fetch(`http://localhost:5001/api/title/series?parentId=${id}`)
+    fetch(`http://localhost:5001/api/title/series/${id}`)
     .then(res => {
       if (res.ok) return res.json();
       return {}; // no results
     })
     .then(data => {
-      if (data) setEpisodes(data);
+      if (data) setData(data);
       else return new Error("No data");
     }) 
     .catch(e => console.log("error", e))
   }, [id]);
 
-
-
-
-  let titleImage = (title.poster !== "N/A") ? title.poster : "https://media.istockphoto.com/id/911590226/vector/movie-time-vector-illustration-cinema-poster-concept-on-red-round-background-composition-with.jpg?s=612x612&w=0&k=20&c=QMpr4AHrBgHuOCnv2N6mPUQEOr5Mo8lE7TyWaZ4r9oo="
-  {console.log(title)}
+  let titleImage = (title.poster !== "N/A") ? title.poster : "https://media.istockphoto.com/id/911590226/vector/movie-time-vector-illustration-cinema-poster-concept-on-red-round-background-composition-with.jpg?s=612x612&w=0&k=20&c=QMpr4AHrBgHuOCnv2N6mPUQEOr5Mo8lE7TyWaZ4r9oo="  
   return (
     <Container className='centered'>
       <Row>
@@ -84,27 +81,30 @@ function Series() {
           <br/>
           <Row>
             <Col>
-    
               <ButtonGroup>
-                <Button>1</Button>
-                <Button>2</Button>
-                <Button>3</Button>
-                <Button>4</Button>
-                <Button>5</Button>
-                <Button>6</Button>
-                <Button>7</Button>
-                <Button>8</Button>
-                <Button>9</Button>
+              {Object.keys(data).length > 0 // if there are available keys
+              ? Object.keys(data.seasons).map((seasonKey, index) => ( // then map the key to the button
+                  <Button key={index} 
+                  onClick={() => setCurrentSeason(seasonKey)} 
+                  disabled={currentSeason == seasonKey}>
+                    {seasonKey}
+                  </Button>
+                ))
+              : "No seasons available" // else no seasons
+              }
               </ButtonGroup>
             </Col>
           </Row>
           <br/>
           <Row>
             <Col> 
-            <p>{title._Title}</p>
-            <p>{title.seasonNum}</p>
-
-            {episodes.map(x => x.name)}</Col>
+              {
+                (data.seasons && data.seasons[currentSeason]) 
+                ? (<SelectionPane items={data.seasons[currentSeason]} path={"/title"} name="Episodes"/>) 
+                : "Loading!"
+              }
+              
+            </Col>
           </Row>
           <br/>
         
@@ -120,6 +120,10 @@ function Series() {
 
 
       </Container>
+      <Button onClick={() => {
+          console.log(data.seasons[currentSeason]);
+          console.log(currentSeason);
+      }}>get shit</Button>
     </Container>
   
   );

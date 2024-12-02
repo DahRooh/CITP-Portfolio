@@ -9,7 +9,7 @@ namespace DataLayer.DomainObjects;
 
 public class InvolvedIn
 {
-    public string PersonId { get; set; }
+    public string Id { get; set; }
     public string TitleId { get; set; }
     public string? Character { get; set; }
     public string Job { get; set; }

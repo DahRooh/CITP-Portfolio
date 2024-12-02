@@ -10,6 +10,8 @@ using System.IdentityModel.Tokens.Jwt;
 using DataLayer.IDataServices;
 using DataLayer.DomainObjects.Relations;
 using DataLayer.Model.User;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.Linq;
 
 namespace MovieWebserver.Controllers;
 
@@ -111,15 +113,58 @@ public class TitleController : BaseController
 
     }
 
-    [HttpGet("series", Name = nameof(GetSeries))]
-    public IActionResult GetSeries(string parentId)
+    [HttpGet("series/{parentId}", Name = nameof(GetSeriesFromParentId))]
+    public IActionResult GetSeriesFromParentId(string parentId)
     {
-        var episodes = _ds.GetSeries(parentId).Select(x => CreateSeriesModel(x)).ToList();
+        List<SeriesModel> episodes = _ds.GetEpisodesFromParentId(parentId)
+            .Select(x => CreateSeriesModel(x))
+            .ToList();
 
-        var numberOfItems = _ds.NumberOfEpisodes();
+        var title = CreateTitleModel(_ds.GetTitleFromId(parentId));
 
-        return Ok(episodes);
+        var amountOfSeasons = episodes.Max(t => t.SeasonNum);
 
+        var seasons = new Dictionary<string, List<SeriesModel>>();
+
+        for (int season = 1; season <= amountOfSeasons; season++)
+        {
+            seasons.Add(season.ToString(), episodes.Where(x => x.SeasonNum == 1).ToList());
+        }
+
+        seasons.Add("Extra", episodes.Where(x => x.SeasonNum == null || x.EpisodeNum == null).ToList());
+
+
+
+
+
+        var result = new
+        {
+            TotalEpisodes = episodes.Count(),
+            TotalSeasons = amountOfSeasons,
+            Title = title,
+            Seasons = seasons,
+        };
+
+        return Ok(result);
+    }
+
+    [HttpGet("series", Name = nameof(GetSeries))]
+    public IActionResult GetSeries(int page = 1, int pageSize = 20)
+    {
+        var episodes = _ds.GetAllSeries(page, pageSize).Select(x => CreateTitleModel(x)).ToList();
+
+        var numberOfItems = _ds.GetSeriesCount();
+
+
+
+        object result = CreatePaging(
+            nameof(GetSeries),
+            "Title",
+            page,
+            pageSize,
+            numberOfItems,
+            episodes);
+        return Ok(result);
     }
 
 
@@ -337,7 +382,7 @@ public class TitleController : BaseController
         return model;
     }
 
-    private object CreateSeriesModel(Series series)
+    private SeriesModel CreateSeriesModel(Series series)
     {
         var model = series.Adapt<SeriesModel>();
 
@@ -354,7 +399,7 @@ public class TitleController : BaseController
     private InvolvedInModel? CreateInvolvedTitleModel(InvolvedIn involvedIn)
     {
         var model = involvedIn.Adapt<InvolvedInModel>();
-        var url = GetWebpageUrl(nameof(PersonController.GetPerson), "Person", new { pId = involvedIn.PersonId });
+        var url = GetWebpageUrl(nameof(PersonController.GetPerson), "Person", new { pId = involvedIn.Id });
         model.Url = url;
         model.Person = involvedIn.Person.Name;
         model.Job = involvedIn.Job;
@@ -365,7 +410,7 @@ public class TitleController : BaseController
     private CastModel? CreateCastModel(InvolvedIn involvedIn)
     {
         var model = involvedIn.Adapt<CastModel>();
-        var url = GetWebpageUrl(nameof(PersonController.GetPerson), "Person", new { pId = involvedIn.PersonId });
+        var url = GetWebpageUrl(nameof(PersonController.GetPerson), "Person", new { pId = involvedIn.Id });
         model.Url = url;
         model.Person = involvedIn.Person.Name;
         return model;

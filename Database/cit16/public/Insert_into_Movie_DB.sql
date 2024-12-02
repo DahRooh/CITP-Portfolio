@@ -51,6 +51,8 @@ left join title_episode using(tconst)
 where titletype not in ('tvShort', 'movie', 'tvMovie', 'video', 'short', 'videoGame');
 
 
+
+
 /*select tconst, primarytitle, nullif(plot, 'N/A') as plot, 0 as rating, titletype, isadult, released, language, country, runtimeminutes, nullif(awards, 'N/A') as award, parenttconst, poster
 from title_basics left join omdb_data using(tconst) left join title_episode using(tconst);
 
@@ -65,12 +67,21 @@ alter table title
 add titletype varchar;
 
 update title
-set titletype = ('movie')
+set titletype = 'movie'
 where type in ('tvShort', 'movie', 'tvMovie', 'short');
 
 update title
-set titletype = ('episode')
+set titletype = 'episode'
 where type not in ('tvShort', 'movie', 'tvMovie', 'short');
+
+update episode
+set titletype = 'series'
+where parentid is null;
+
+update title
+set titletype = 'series'
+where title.t_id in (select distinct parentid from episode where parentid is not null);
+
 
 
 

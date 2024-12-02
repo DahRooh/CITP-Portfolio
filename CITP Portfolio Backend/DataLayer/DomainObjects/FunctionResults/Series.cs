@@ -20,6 +20,8 @@ namespace DataLayer.DomainObjects.FunctionResults
         public int? RunTime { get; set; }
         public string? Poster { get; set; }
         public string Titletype { get; set; }
+        public int? SeasonNum { get; set; }
+        public int? EpisodeNum { get; set; }
 
     }
 }

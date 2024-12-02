@@ -7,8 +7,10 @@ public class Episode
     public int? EpisodeNumber { get; set; }
 
 
+    public string Type { get; set; }
     public string TitleId { get; set; }
 
     public Title Title { get; set; }
+
 }
 

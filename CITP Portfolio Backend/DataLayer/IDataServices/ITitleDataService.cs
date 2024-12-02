@@ -25,8 +25,9 @@ public interface ITitleDataService
     IList<Episode> GetEpisodes(int page, int pageSize);
     Episode GetEpisode(string id);
 
-    public IList<Series> GetSeries(string parentId);
+    public IList<Title> GetAllSeries(int page, int pageSize);
 
+    public IList<Series> GetEpisodesFromParentId(string parentId);
     IList<Movie> GetMovies(int page, int pageSize);
     Movie? GetMovie(string id);
     IList<InvolvedIn> GetInvolvedIn(string id);
@@ -38,7 +39,7 @@ public interface ITitleDataService
 
     int NumberOfMovies();
     int NumberOfEpisodes();
-
+    int GetSeriesCount();
     bool UpdateReview(string titleId, int userId, int userRating, string inReview, int reviewId);
     public bool LikeReview(int userId, int revId, int like);
     bool DeleteLike(int revId, int id);

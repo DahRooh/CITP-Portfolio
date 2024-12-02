@@ -189,6 +189,8 @@ public class MVContext : DbContext
 
         modelBuilder.Entity<Episode>().Property(x => x.TitleId).HasColumnName("t_id");
         modelBuilder.Entity<Episode>().Property(x => x.Id).HasColumnName("ep_id");
+        modelBuilder.Entity<Episode>().Property(x => x.Type).HasColumnName("titletype");
+
         modelBuilder.Entity<Episode>().Property(x => x.SeasonNumber).HasColumnName("season_num");
         modelBuilder.Entity<Episode>().Property(x => x.EpisodeNumber).HasColumnName("ep_num");
 
@@ -250,9 +252,9 @@ public class MVContext : DbContext
 
     private static void MapPersonInvolvedTitle(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<InvolvedIn>().ToTable("person_involved_title").HasKey(x => new { x.PersonId, x.TitleId});
+        modelBuilder.Entity<InvolvedIn>().ToTable("person_involved_title").HasKey(x => new { x.Id, x.TitleId});
 
-        modelBuilder.Entity<InvolvedIn>().Property(x => x.PersonId).HasColumnName("p_id");
+        modelBuilder.Entity<InvolvedIn>().Property(x => x.Id).HasColumnName("p_id");
         modelBuilder.Entity<InvolvedIn>().Property(x => x.TitleId).HasColumnName("t_id");
         modelBuilder.Entity<InvolvedIn>().Property(x => x.Job).HasColumnName("job");
         modelBuilder.Entity<InvolvedIn>().Property(x => x.Character).HasColumnName("character");
@@ -261,7 +263,7 @@ public class MVContext : DbContext
        modelBuilder.Entity<InvolvedIn>()
             .HasOne(x => x.Person)
             .WithMany(p => p.InvolvedIn)
-            .HasForeignKey(x => x.PersonId)
+            .HasForeignKey(x => x.Id)
             .OnDelete(DeleteBehavior.Cascade);
 
 
@@ -451,7 +453,6 @@ public class MVContext : DbContext
     {
         modelBuilder.Entity<Series>().HasNoKey();
 
-
         modelBuilder.Entity<Series>().Property(x => x.Id).HasColumnName("e_id");
         modelBuilder.Entity<Series>().Property(x => x.Name).HasColumnName("ep_name");
         modelBuilder.Entity<Series>().Property(x => x.Plot).HasColumnName("ep_plot");
@@ -464,7 +465,8 @@ public class MVContext : DbContext
         modelBuilder.Entity<Series>().Property(x => x.RunTime).HasColumnName("runtime");
         modelBuilder.Entity<Series>().Property(x => x.Poster).HasColumnName("poster");
         modelBuilder.Entity<Series>().Property(x => x.Titletype).HasColumnName("title_type");
-
+        modelBuilder.Entity<Series>().Property(x => x.EpisodeNum).HasColumnName("episode_number");
+        modelBuilder.Entity<Series>().Property(x => x.SeasonNum).HasColumnName("season_number");
     }
 
     public static void MapCoActor(ModelBuilder modelBuilder)

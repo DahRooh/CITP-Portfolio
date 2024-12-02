@@ -31,23 +31,51 @@ returns table(
   runtime numeric(5,0),
   awards varchar,
   poster varchar,
+  title_type varchar,
+  season_number numeric(2,0),
+  episode_number numeric(2,0)
+)
+language plpgsql as $$
+begin 
+  return query
+    select ep.*, episode.season_num, episode.ep_num
+    from episode 
+    join title ti on parentid = ti.t_id 
+    join title ep on episode.t_id = ep.t_id
+    where ti.t_id = title_id
+    order by episode.season_num, episode.ep_num, title;
+end;
+$$;
+
+
+drop function if exists get_all_series;
+create function get_all_series()
+returns table(
+  s_id VARCHAR,
+  s_title VARCHAR,
+  s_plot VARCHAR,
+  s_rating numeric(3,2),
+  s_type varchar,
+  adult boolean,
+  release_date varchar,
+  languages varchar,
+  country varchar,
+  runtime numeric(5,0),
+  awards varchar,
+  poster varchar,
   title_type varchar
 )
 language plpgsql as $$
 begin 
   return query
-    select ep.*
+    select ti.*
     from episode 
-    join title ti on parentid = ti.t_id 
-    join title ep on episode.t_id = ep.t_id
-    where ti.t_id = title_id;
+    join title ti on episode.t_id = ti.t_id 
+    where ti.titletype = 'series'
+    order by ti.rating;
 end;
 $$;
 
-select * from get_series('tt20854604');
+select * from get_series('tt30069262');
 
-select ep.*
-from episode 
-join title ti on parentid = ti.t_id 
-join title ep on episode.t_id = ep.t_id
-where ti.t_id = 'tt20854604';
+

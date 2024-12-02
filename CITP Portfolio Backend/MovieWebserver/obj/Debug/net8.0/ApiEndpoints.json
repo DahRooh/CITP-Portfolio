@@ -412,13 +412,35 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "parentId",
-        "Type": "System.String",
+        "Name": "page",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "pageSize",
+        "Type": "System.Int32",
         "IsRequired": false
       }
     ],
     "ReturnTypes": [],
     "EndpointName": "GetSeries"
+  },
+  {
+    "ContainingType": "MovieWebserver.Controllers.TitleController",
+    "Method": "GetSeriesFromParentId",
+    "RelativePath": "api/title/series/{parentId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "parentId",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [],
+    "EndpointName": "GetSeriesFromParentId"
   },
   {
     "ContainingType": "MovieWebserver.Controllers.UserController",
