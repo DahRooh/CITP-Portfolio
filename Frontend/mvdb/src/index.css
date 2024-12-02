@@ -55,6 +55,10 @@ code {
   width: 60%;
 }
 
+  .selectionButtonCon {
+  padding-top: 60px;
+}
+
 .centered {
   text-align: center;
   align-items: center;
@@ -96,7 +100,7 @@ nedenstående skal ændres
 
 
 
-.signInHeader {
+.textHeader {
   text-align: center;
   font-weight: bold;
   margin-bottom: 8%;
