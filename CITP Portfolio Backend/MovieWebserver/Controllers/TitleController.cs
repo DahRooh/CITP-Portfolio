@@ -131,11 +131,10 @@ public class TitleController : BaseController
             seasons.Add(season.ToString(), episodes.Where(x => x.SeasonNum == 1).ToList());
         }
 
-        seasons.Add("Extra", episodes.Where(x => x.SeasonNum == null || x.EpisodeNum == null).ToList());
-
-
-
-
+        if (episodes.Where(x => x.SeasonNum == null || x.EpisodeNum == null).Count() > 0)
+        {
+            seasons.Add("Extra", episodes.Where(x => x.SeasonNum == null || x.EpisodeNum == null).ToList());
+        }
 
         var result = new
         {

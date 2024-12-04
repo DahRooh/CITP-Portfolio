@@ -8,18 +8,16 @@ import { useEffect, useState } from 'react';
 function Series() {
   const {id} = useParams();
   const [title, setTitle] = useState({});
-  const [data, setData] = useState({});
+  const [series, setSeries] = useState({});
   const [currentSeason, setCurrentSeason] = useState("Extra");
+  const [episodeOptionIndex, setEpisodeOptionIndex] = useState(1);
 
 
-
-  
-  
-  useEffect(() => {
+  useEffect(() => { // get the series' title
     fetch(`http://localhost:5001/api/title/${id}`)
     .then(res => {
       if (res.ok) return res.json();
-      return {}; // no results
+      return null; // no results
     })
     .then(data => {
       if (data) setTitle(data);
@@ -28,14 +26,16 @@ function Series() {
     .catch(e => console.log("error", e))
   }, [id]);
 
-  useEffect(() => {
+  useEffect(() => { // get episodes
     fetch(`http://localhost:5001/api/title/series/${id}`)
     .then(res => {
       if (res.ok) return res.json();
-      return {}; // no results
+      return null; // no results
     })
     .then(data => {
-      if (data) setData(data);
+      if (data) {
+        setSeries(data);
+      console.log(data)}
       else return new Error("No data");
     }) 
     .catch(e => console.log("error", e))
@@ -82,11 +82,11 @@ function Series() {
           <Row>
             <Col>
               <ButtonGroup>
-              {Object.keys(data).length > 0 // if there are available keys
-              ? Object.keys(data.seasons).map((seasonKey, index) => ( // then map the key to the button
-                  <Button key={index} 
+              {Object.keys(series).length > 0 // if there are available keys
+              ? Object.keys(series.seasons).map((seasonKey, index) => ( // then map the key to the button
+                  <Button key={index}  
                   onClick={() => setCurrentSeason(seasonKey)} 
-                  disabled={currentSeason == seasonKey}>
+                  disabled={currentSeason === seasonKey}>
                     {seasonKey}
                   </Button>
                 ))
@@ -99,8 +99,10 @@ function Series() {
           <Row>
             <Col> 
               {
-                (data.seasons && data.seasons[currentSeason]) 
-                ? (<SelectionPane items={data.seasons[currentSeason]} path={"/title"} name="Episodes"/>) 
+                (series.seasons && series.seasons[currentSeason]) 
+                ? (<SelectionPane items={series.seasons[currentSeason]} path={"/title"} currentIndex={episodeOptionIndex} name={"Episodes"} amountOfPages={5} function={setEpisodeOptionIndex}/> 
+
+                ) 
                 : "Loading!"
               }
               
@@ -120,10 +122,6 @@ function Series() {
 
 
       </Container>
-      <Button onClick={() => {
-          console.log(data.seasons[currentSeason]);
-          console.log(currentSeason);
-      }}>get shit</Button>
     </Container>
   
   );

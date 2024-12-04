@@ -4,9 +4,10 @@ import SelectionPane from './SelectionPane.js'
 import { Button, ButtonGroup, Col, Container, Row } from 'react-bootstrap';
 import { useEffect, useState } from 'react';
 
-let userLoggedIn = false;  
+import { convertCookie } from './Header.js';
 
-function Review({ review }) {
+
+function Review({ review, userLoggedIn }) {
   
     return (
         <Row className="review">
@@ -50,6 +51,8 @@ function Title() {
   const [cast, setCast] = useState([]);
   const [crew, setCrew] = useState([]);
   const [reviews, setReviews] = useState([]);
+  const [userLoggedIn, setUserLoggedIn] = useState(convertCookie());
+
 
   var fakeReviews = [{reviewTitle: "this is title", review: "this is a review", user: "username", rating: "rating", likes: "likes"}, {reviewTitle: "this is title", review: "this is a review", user: "username", rating: "rating", likes: "likes"}];
   
@@ -171,7 +174,7 @@ function Title() {
           </Col>
         </Row>
 
-        {fakeReviews.map(r => <Review review={r} />)}
+        {fakeReviews.map(r => <Review review={r} userLoggedIn={userLoggedIn} />)}
 
       </Container>
       <Button onClick={() => {

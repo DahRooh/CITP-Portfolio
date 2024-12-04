@@ -85,9 +85,9 @@ public abstract class BaseController : ControllerBase
     [NonAction]
     public object CreatePaging<T>(string entityName, string controller, int page, int pageSize, int total, IEnumerable<T?> items, string args = null)
     {
-        const int MaxItemPerPage = 20;
+        int MaxItemPerPage = pageSize;
         pageSize = pageSize > MaxItemPerPage ? MaxItemPerPage : pageSize;
-        int TotalNumberOfPages = (int)Math.Ceiling((double)total / pageSize);
+        int TotalNumberOfPages = (int)Math.Ceiling((double) total / pageSize);
         int nextPageNumber = page + 1;
         int previousPageNumber = page - 1;
 

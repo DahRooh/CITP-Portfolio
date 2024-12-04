@@ -73,7 +73,6 @@ public class TitleDataService : ITitleDataService
 
         var series = db.Titles
             .Where(t => t.Titletype == "series")
-            .OrderByDescending(t => t.Rating)
             .Skip(page * pageSize).Take(pageSize)
             .ToList();
 

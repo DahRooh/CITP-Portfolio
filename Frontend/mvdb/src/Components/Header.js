@@ -1,8 +1,33 @@
 import 'bootstrap/dist/css/bootstrap.css';
+import { useEffect, useState } from 'react';
 import { Button, ButtonGroup, Col, Container, Nav, Row } from 'react-bootstrap';
 import { Link } from 'react-router';
 
+
+
+export function convertCookie() {
+  var cookies = {};
+  const splitCookie = document.cookie.split(";");
+
+  splitCookie.map(data => {
+    var keyValuePair = data.split("=");
+    cookies[keyValuePair[0].trim()] = keyValuePair[1]; 
+  })
+
+  return cookies;
+}
+
+
 function Header() {
+  const [cookies, setCookie] = useState(() => convertCookie());
+
+  function clearCookies() {
+    var cookieNames = Object.keys(cookies);
+    cookieNames.map(name => document.cookie = name + '=; Max-Age=0');
+    setCookie(false);
+  }
+
+  
   return (
     <Container className="fluid">
       <Row>
@@ -16,10 +41,25 @@ function Header() {
               <Button>gogo</Button>
           </Col>
           <Col>
-            <ButtonGroup style={{border: "1px solid black"}}>
-              <Button className="btn-dark">sign in</Button>
-              <Button className="btn-light">sign up</Button>
-            </ButtonGroup>
+            {(cookies.username) ? 
+              <>
+                <span>Username: {cookies["username"]}</span>
+                <Link to={`/user/${cookies["userid"]}`}>
+                  <Button className="btn-dark">User Page</Button>
+                </Link>
+                <Link to={`/`}>
+                  <Button className="btn-light" onClick={clearCookies}>Logout</Button>
+                </Link>
+
+              </>
+            : (<ButtonGroup style={{border: "1px solid black"}}>
+              <Link to="/signin">
+                <Button className="btn-dark">sign in</Button>
+              </Link>
+              <Link to="/signup">
+                <Button className="btn-light">sign up</Button>
+              </Link>
+            </ButtonGroup>)}
           </Col>
       </Row>
       <hr/>

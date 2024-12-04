@@ -22,22 +22,20 @@ function SignIn() {
   const [logInData, setLogInData] = useState({});
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [cookies, setCookie] = useState(['user']);
   let navigate = useNavigate();
   
   useEffect(() => {
     if (logInData) {
       if (logInData.token) {
-        setCookie('token', logInData.token, {path: '/'});
+        Cookies.set('token', logInData.token, {secure: false, expires: 7});
+        Cookies.set('userid', logInData.id, {secure: false, expires: 7});
+        Cookies.set('username', logInData.username, {secure: false, expires: 7});
+
         navigate("/");
       }
-      console.log("no user");
     }
   }, [logInData])
 
-  const print = () => {
-    console.log(logInData)
-  }
 
   async function signIn() {
     await fetch(`http://localhost:5001/api/user/sign_in`, {
@@ -66,7 +64,6 @@ function SignIn() {
     }) 
   }
 
-//  console.log(logInData)
 
   const handleSetUsername = e => {
     setUsername(e.target.value);
@@ -107,9 +104,7 @@ username og password som argumenter?
         </form>
 
       </Container>
-      <Button onClick={print}>
-        gogogo
-      </Button>
+
     </div>
   );
 }

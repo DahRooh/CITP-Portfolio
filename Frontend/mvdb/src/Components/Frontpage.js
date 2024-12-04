@@ -1,51 +1,68 @@
 import SelectionPane from "./SelectionPane";
 import { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Container, Row, Col } from 'react-bootstrap';
+import { Container, Row, Col, Button } from 'react-bootstrap';
 
 function Frontpage() {
+  const [moviesIndex, setMoviesIndex] = useState(1);
   const [movies, setMovies] = useState([]);
+
+  const [seriesIndex, setSeriesIndex] = useState(1);
   const [series, setSeries] = useState([]);
+
+  const [peopleIndex, setPeopleIndex] = useState(1);
   const [people, setPeople] = useState([]);
+  
+
+  const itemsPerPage = 5;
+  const maxItems = 100;
 
   useEffect(() => {
-    fetch("http://localhost:5001/api/title/movies")
+    fetch(`http://localhost:5001/api/title/movies?page=${moviesIndex}&pageSize=${itemsPerPage}`)
     .then(res => {
       if (res.ok) return res.json();
-      return {}; // no results
+      return null; // no results
     })
     .then(data => {
-      if (data && data.items) setMovies(data.items.slice(0, 100));
+      if (data && data.items) {
+        setMovies(data.items);
+      }
       else return new Error("No data");
     }) 
     .catch(e => console.log("error", e))
-  }, []);
+  }, [moviesIndex]);
 
   useEffect(() => {
-    fetch("http://localhost:5001/api/title/series")
+    fetch(`http://localhost:5001/api/title/series?page=${seriesIndex}&pageSize=${itemsPerPage}`)
     .then(res => {
       if (res.ok) return res.json();
-      return {}; // no results
+      return null; // no results
     })
     .then(data => {
-      if (data && data.items) setSeries(data.items.slice(0, 100));
+      if (data && data.items){
+         setSeries(data.items);
+         console.log(data.items)
+        }
       else return new Error("No data");
     }) 
     .catch(e => console.log("error", e))
-  }, []);
+  }, [seriesIndex]);
 
   useEffect(() => {
-    fetch("http://localhost:5001/api/person")
+    fetch(`http://localhost:5001/api/person?page=${peopleIndex}&pageSize=${itemsPerPage}`)
     .then(res => {
       if (res.ok) return res.json();
-      return {}; // no results
+      return null; // no results
     })
     .then(data => {
-      if (data && data.items) setPeople(data.items.slice(0, 100));
+      if (data && data.items) setPeople(data.items);
       else return new Error("No data");
     }) 
     .catch(e => console.log("error", e))
-  }, []);
+  }, [peopleIndex]);
+
+
+  const amountOfPages = Math.ceil(maxItems/itemsPerPage);
 
   return (
     <Container className="centered">
@@ -62,11 +79,13 @@ function Frontpage() {
 
       <Row>
         <Col>
-          <SelectionPane items={movies} path={"/title"} name="Popular Movies"/> 
-          <br/>
-          <SelectionPane items={series} path={"/series"} name="Popular Series"/> 
-          <br/>
-          <SelectionPane items={people} path={"/person"} name="Popular Actors"/> 
+
+            <SelectionPane items={movies} path={"/title"} currentIndex={moviesIndex} name={"Popular movies"} amountOfPages={amountOfPages} function={setMoviesIndex}/> 
+            <br/>
+            <SelectionPane items={series} path={"/series"} currentIndex={seriesIndex} name={"Popular series"} amountOfPages={amountOfPages} function={setSeriesIndex}/> 
+            <br/>
+            <SelectionPane items={people} path={"/person"} currentIndex={peopleIndex} name={"Popular people"} amountOfPages={amountOfPages} function={setPeopleIndex}/> 
+
         </Col>
       </Row>
 

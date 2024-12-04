@@ -2,68 +2,75 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router";
 import { Button, Row, Col, Container } from 'react-bootstrap';
 
-function Option({item, path}) {
-    let poster = (item.poster !== "N/A") ? item.poster :"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSpHrvCwx8k_WyIOri6iWKD443_4bR3_zwUCw&s"; 
-    console.log(item);
-    
-     if (item.name) { 
-        poster = "https://thumbs.dreamstime.com/b/portrait-handsome-smiling-young-man-folded-arms-smiling-joyful-cheerful-men-crossed-hands-isolated-studio-shot-172869765.jpg";
-     }
-    return (
-        <Col className="selectionOption">
-            <Row>
-                <Link to={path}> 
+function handleData(data, setData) {
+    var keys = Object.keys(data);
+    keys.forEach(key => {
+        if (data[key].length > 0) {
+            setData((data[key][0].profile_path) ? data[key][0].profile_path : data[key][0].poster_path)
+        }
+    });
+}
 
-                <Col>
-                    <img src={poster} className="selectionImage"/>
-                </Col>
-                
-                <Col>
-                    <span>{item._Title}{item.name}</span>
-                    <br/>
-                    <span>Rating: {item.rating}</span>
-                </Col>
-                </Link>
-            </Row>
+function Option({item, path}) {
+    const [poster, setPoster] = useState(false);
+
+    const apiKey = "c8190d104e34c4f62a2be88afa477327";
+    var posterUrl = "https://image.tmdb.org/t/p/w500";
+    
+    const fetchPoster = `https://api.themoviedb.org/3/find/${item.id}?api_key=${apiKey}&external_source=imdb_id`;
+
+    useEffect(() => {
+        fetch(fetchPoster)
+        .then(res =>  res.json())
+        .then(data => handleData(data, setPoster));
+    })
+
+
+    return (
+        <Col className="selectionOption" md={2}>
+            <Link to={path}>
+                <Row>
+                    <Col>
+                        {<img src={(poster) ? posterUrl+poster : "https://media.istockphoto.com/id/911590226/vector/movie-time-vector-illustration-cinema-poster-concept-on-red-round-background-composition-with.jpg?s=612x612&w=0&k=20&c=QMpr4AHrBgHuOCnv2N6mPUQEOr5Mo8lE7TyWaZ4r9oo="}
+                         width={"100%"} height={"100%"}/>}
+                    </Col>
+                </Row>
+                <Row>
+                    <Col>
+                        <p>{item.name || item._Title}</p>
+                    </Col>
+                </Row>
+            </Link>
         </Col>
+
     ); 
 }
 
-const SelectionPane = ({items, path, name}) => {
+function SelectionPane({items, path, currentIndex, name, amountOfPages, function: setIndex}) {
 
-    const [page, setPage] = useState(1);
-    let total = items.length;
-    const itemsPerPage = 5;
-    let pages = Math.ceil(total/itemsPerPage);
-
-    let currentPage = (page - 1) * itemsPerPage;
-    let endIndex = currentPage + itemsPerPage;
 
     return (
-        <>
-    <Row>
-        <h2>{name}</h2>
-    </Row>
-    <Container className="selectionPane">
 
-    <Row>
-        <Col md={1} className="selectionButtonCon">
-            <Button className="selectionButton" variant="secondary" onClick={() => setPage(() => page - 1)} disabled={page === 1}>{"<"}</Button>
-        </Col>
-
-        <Col>
+        <Container className="selectionPane centered">
+            <Row className="centered">
+                <h2>{name}</h2>
+            </Row>
             <Row>
-            {items.slice(currentPage, endIndex).map((item, i) => <Option key={i} item={item} path={path + `/${item.id}`}/>)}
-            </Row> 
-        </Col>
+            <Col md={1}>
+                <Button onClick={() => setIndex(c => c - 1)} disabled={currentIndex === 1}>&larr;</Button>
+            </Col>
+            <Col>
+                <Row className="centered">
+                    {items.map(item => <Option key={item.id} item={item} path={`${path}/${item.id}`}/>)}
+                </Row>
+            </Col>
+            <Col md={1}>
+                <Button onClick={() => setIndex(c => c + 1)} disabled={currentIndex === amountOfPages}>&rarr;</Button>
+            </Col>
+            </Row>
+            <p className="centered">Page: {currentIndex}</p>
+        </Container>
 
-        <Col md={1} className="selectionButtonCon">
-            <Button className="selectionButton" variant="secondary" onClick={() => setPage(() => page + 1)} disabled={page === pages}>{">"}</Button>
-        </Col>
-        
-        </Row>
-    </Container>
-    </>
     );
 }
 

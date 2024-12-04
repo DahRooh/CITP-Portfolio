@@ -157,7 +157,7 @@ public class UserController : BaseController
         // write token to string
         var jwt = new JwtSecurityTokenHandler().WriteToken(token); 
 
-        return Ok(new { username = user.Username, token = jwt });
+        return Ok(new { username = user.Username, token = jwt, id=user.Id });
     }
 
     
