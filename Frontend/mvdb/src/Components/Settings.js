@@ -1,34 +1,37 @@
 import 'bootstrap/dist/css/bootstrap.css';
-import { Container, Row, Col, FormGroup, Button } from 'react-bootstrap';
+import './User.css';
+import { Container, Row, Col, Button, Form, InputGroup } from 'react-bootstrap';
 
-function SignIn() {
+function UpdateInformation() {
   return (
-
-    <div className="fullscreen">
-      <Container>
-        <Row className="headers">
+      <Container className='blackBorder'>
+        <Container>
+        <Row className="textHeader">
           <Col>
-              MVDb
+              <h1>Update Information</h1>
           </Col>
         </Row>
+        </Container>
 
-        <form className="centered">
-          <FormGroup className="placeholders">
-            <input className="placeholderText" placeholder="Email"/>
-          </FormGroup>
-
-          <FormGroup className="placeholders">
-            <input className="placeholderText" placeholder="Password"/>
-          </FormGroup>
-
-          <Button style={{width: "20%"}}>
-            Login
+        <Container className="placeholders text-center">
+          <Form >
+          <Form.Control  
+            className="placeholderText placeholders"
+            type="text"
+            placeholder="Email"
+          />
+          <Form.Control  
+              className="placeholderText placeholders"
+              type="text"
+              placeholder="Password"
+          />
+          <Button type="submut" style={{width: "20%"}}>
+            Update
           </Button>
-        </form>
-
+          </Form>
+        </Container>
       </Container>
-    </div>
   );
 }
   
-export default SignIn;
+export default UpdateInformation;

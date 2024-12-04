@@ -14,6 +14,10 @@ import SignIn from './Components/SignIn';
 import Header from './Components/Header';
 import Settings from './Components/Settings';
 import UserPage from './Components/User';
+import SearchHistory from './Components/SearchHistory';
+import Reviews from './Components/Review';
+import Bookmarks from './Components/Bookmark';
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -23,25 +27,25 @@ root.render(
     <Header/>    
 
       <Routes> {/* we must include our routes here somehow*/}
-        <Route path="/" element={<Frontpage />}/>
+        <Route index element={<Frontpage />}/>
 
+        <Route path="search" element={<SearchResult />}/>
+        <Route path="series/:id" element={<Series />}/>
 
-        <Route path="/search" element={<SearchResult />}/>
-        <Route path="/series/:id" element={<Series />}/>
+        <Route path="title/:id" element={<Title />} />
+        <Route path="title/:id/newReview" element={<CreateReview />}/>
 
-        <Route path="/title/:id" element={<Title />} />
-        <Route path="newReview" element={<CreateReview />}/>
+        <Route path="person/:p_id" element={<Person />}/>
 
-        {/* <Route path="/person/:t_id" element={<Person />}/> */}
-        <Route path="/person/:p_id" element={<Person />}/>
+        <Route path="user/:u_id" element={<UserPage />}>
+          <Route path="settings" element={<Settings />}/>
+          <Route path="history" element={<SearchHistory />}/>
+          <Route path="review" element={<Reviews />}/>
+          <Route path="bookmark" element={<Bookmarks />}/>
+        </Route>
 
-
-        <Route path="/user/:id" element={<UserPage />} /> 
-        <Route path="settings" element={<Settings />}/>
-           
-          
-        <Route path="/signIn" element={<SignIn />}/>
-        <Route path="/signUp" element={<SignUp />}/>
+        {/*}<Route path="signIn" element={<SignIn />}/>{*/}
+        <Route path="signUp" element={<SignUp />}/>
       
 
       </Routes>

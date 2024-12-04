@@ -51,7 +51,7 @@ function Person() {
 
 
 
-// Fetch pictures when person data is available
+// Fetch pictures of Coactors when person data is available
   useEffect(() => {
     if (p_id) {
       fetch(`http://localhost:5001/api/person/${p_id}`)

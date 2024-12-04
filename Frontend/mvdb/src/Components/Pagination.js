@@ -1,6 +1,8 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { Row, Col, Container, Pagination } from "react-bootstrap";
 
-export function Pagination({index, total, setIndex}) {
+
+export function Paging({index, total, setIndex}) {
   const handleIndex = (i) => setIndex(i);
 
   const toRender = [];
@@ -8,72 +10,49 @@ export function Pagination({index, total, setIndex}) {
   // Left button
   if (index > 0) {
     toRender.push(
-      <button
-        className="pageButton"
-        onClick={() => handleIndex(index - 1)}
-        disabled={index === 0}
-        key="left-arrow"
-      >
-        &larr;
-      </button>
+      <Pagination.Prev onClick={() => handleIndex(index - 1)} key="prev" />
     );
   }
 
   // First button and ellipsis
   if (index > 2) {
-    toRender.push( // push the first button and string of ... to indicate there are buttons hidden
-      <>
-        <button className='pageButton' key = {0} onClick = {() => handleIndex(0)} disabled = {index === 0}>
-          1
-        </button>
-        <span style={{paddingLeft: '10px', paddingRight: '10px' }}>...</span> 
-      </>
+    toRender.push(
+      <Pagination.Item onClick={() => handleIndex(0)} active={index === 0} key={0}>
+        1
+      </Pagination.Item>
     );
+    toRender.push(<Pagination.Ellipsis key="start-ellipsis" />);
   }
 
   // Middle buttons
-  for (let i = index - 2; i < index + 3; i++) { 
-    // we want [n - 2, ..., n + 2] as long as we dont hit last or first index
-    if (i >= 0 && i < total) { // can't be larger or equal to total, and it can't be below minimum
-      toRender.push( // we must then push each button that fit
-        <>
-          <button
-            className={`pageButton ${index === i ? "active" : ""}`} // Fix: Add backticks for string interpolation
-            key={i}
-            onClick={() => handleIndex(i)}
-            disabled={index === i}
-          >
-            {i + 1}
-          </button>
-        </>
+  for (let i = index - 2; i <= index + 2; i++) {
+    if (i >= 0 && i < total) {
+      toRender.push(
+        <Pagination.Item onClick={() => handleIndex(i)} active={index === i} key={i}>
+          {i + 1}
+        </Pagination.Item>
       );
     }
   }
-  
 
   // handle last button
   if (index < total - 3) {
+    toRender.push(<Pagination.Ellipsis key="end-ellipsis" />);
     toRender.push(
-    <>
-      <span style={{paddingLeft: '10px', paddingRight: '10px' }}>...</span> 
-      <button className='pageButton' key = {total} onClick = {() => handleIndex(total-1)} disabled = {index === total-1}>
+      <Pagination.Item onClick={() => handleIndex(total - 1)} active={index === total - 1} key={total - 1}>
         {total}
-      </button>
-    </>);
+      </Pagination.Item>
+    );
   }
 
   // handle right button
   if (index < total - 1) {
     toRender.push(
-      <button // Right button (&rarr; right arrow)
-        className="pageButton"
-        onClick = {() => handleIndex(index + 1)}
-        disabled={index === total}
-      >
-        &rarr; 
-      </button> 
+      <Pagination.Next onClick={() => handleIndex(index + 1)} key="next" />
     );
   }
 
-  return <>{toRender}</>;
-}
+  return <Pagination>{toRender}</Pagination>;
+  
+  }
+
