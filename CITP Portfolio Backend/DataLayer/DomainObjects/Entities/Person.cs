@@ -14,8 +14,7 @@ public class Person
     public string Name { get; set; } = string.Empty;
     public int? BirthYear { get; set; }
     public int? DeathYear { get; set; }
-    // public int Age { get; set; }
-    public double? Rating { get; set; } = 0;
+    public double? PersonRating { get; set; }
 
     public IList<PersonProfession> Professions { get; set; } = new List<PersonProfession>();
 

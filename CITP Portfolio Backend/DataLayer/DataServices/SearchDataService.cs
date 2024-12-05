@@ -28,7 +28,7 @@ namespace DataLayer.DataServices
             }
 
             var results = db.SearchResults.
-                FromSqlRaw("select * from make_search({0}, {1}, {2})", keyword, pageSize, skip).ToList();
+                FromSqlRaw("select * from make_search({0}, {1}, {2})", keyword, pageSize, skip).OrderByDescending(r => r.Relevance).ToList();
 
             return results;
         }

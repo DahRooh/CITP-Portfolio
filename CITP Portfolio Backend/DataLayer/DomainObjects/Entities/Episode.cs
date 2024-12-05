@@ -11,6 +11,7 @@ public class Episode
     public string TitleId { get; set; }
 
     public Title Title { get; set; }
+    public double? Rating { get { return Title.Rating; } }
 
 }
 

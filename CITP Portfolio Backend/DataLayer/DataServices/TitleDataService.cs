@@ -73,6 +73,7 @@ public class TitleDataService : ITitleDataService
 
         var series = db.Titles
             .Where(t => t.Titletype == "series")
+            .OrderByDescending(t => t.Rating)
             .Skip(page * pageSize).Take(pageSize)
             .ToList();
 
@@ -124,10 +125,13 @@ public class TitleDataService : ITitleDataService
         return numberOfSeries;
     }
 
-    public IList<Movie> GetMovies(int page, int pageSize)
+    public IList<Title> GetMovies(int page, int pageSize)
     {
         db = new MVContext();
-        var titles = db.Movies.Include(x => x.Title).Skip(page * pageSize).Take(pageSize).ToList();
+        var titles = db.Titles
+            .Where(x => x.Titletype=="movie")
+            .OrderByDescending(t => t.Rating)
+            .Skip(page * pageSize).Take(pageSize).ToList();
         return titles;
     }
 
@@ -189,8 +193,9 @@ public class TitleDataService : ITitleDataService
         var personInvolvedIn = db.PersonInvolvedIn
             .Include(x => x.Title)
             .Include(x => x.Person)
+            .AsSplitQuery()
             .Where(x => x.TitleId == id)
-            .OrderBy(x => x.Person.Rating)
+            .OrderByDescending(x => x.Person.PersonRating)
             .ToList();
         
         var distinctPersonInvolvedIn = personInvolvedIn.DistinctBy(x => x.Id).ToList();
@@ -204,14 +209,16 @@ public class TitleDataService : ITitleDataService
         var cast = db.PersonInvolvedIn
             .Include(x => x.Title)
             .Include(x => x.Person)
+            .AsSplitQuery()
             .Where(x => x.TitleId == id && x.Character != null)
+            .OrderByDescending(x => x.Person.PersonRating)
             .Select(x => new InvolvedIn {
                 Id = x.Id, 
-                                            TitleId = x.TitleId, 
-                                            Character = x.Character, 
-                                            Job = x.Job, 
-                                            Person = x.Person, 
-                                            Title = x.Title})
+                TitleId = x.TitleId, 
+                Character = x.Character, 
+                Job = x.Job, 
+                Person = x.Person, 
+                Title = x.Title})
             .ToList();
 
         return cast;
@@ -223,6 +230,7 @@ public class TitleDataService : ITitleDataService
         var genre = db.TitlesGenres
             .Include(x => x.Genre)
             .Include(x => x.Title)
+            .AsSplitQuery()
             .Where(x => x.TitleId == id).ToList();
         return genre;
     }
@@ -246,6 +254,7 @@ public class TitleDataService : ITitleDataService
             .Include(x => x.Title)
             .Include(x => x.Review)
             .Include(x => x.User)
+            .AsSplitQuery()
             .Where(x => x.TitleId == tId).ToList();
         
         return reviews;

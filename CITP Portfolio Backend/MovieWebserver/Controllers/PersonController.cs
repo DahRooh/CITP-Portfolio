@@ -90,7 +90,9 @@ public class PersonController : BaseController
         }
 
         var model = person.Adapt<PersonModel>();
+        model.PersonRating = person.PersonRating;
         model.Url = GetWebpageUrl(nameof(GetPerson), "Person", new { pId = person.Id }); // Initializing the Url property
+
         return model;
     }
 

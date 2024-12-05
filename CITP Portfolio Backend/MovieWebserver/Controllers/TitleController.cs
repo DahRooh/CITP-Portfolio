@@ -53,7 +53,7 @@ public class TitleController : BaseController
     public IActionResult GetMovies(int page = 1, int pageSize = 20)
     {
 
-        var movies = _ds.GetMovies(page, pageSize).Select(x => CreateMovieModel(x)).ToList();
+        var movies = _ds.GetMovies(page, pageSize).Select(x => CreateTitleModel(x)).ToList();
         var numberOfItems = _ds.NumberOfMovies();
 
         object result = CreatePaging(
@@ -402,7 +402,7 @@ public class TitleController : BaseController
         model.Url = url;
         model.Person = involvedIn.Person.Name;
         model.Job = involvedIn.Job;
-        model.Rating = involvedIn.Person.Rating;
+        model.Rating = involvedIn.Person.PersonRating;
         return model;
     }
 

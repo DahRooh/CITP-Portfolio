@@ -211,7 +211,7 @@ public class MVContext : DbContext
         modelBuilder.Entity<Person>().Property(x => x.Name).HasColumnName("name");
         modelBuilder.Entity<Person>().Property(x => x.BirthYear).HasColumnName("birth_year");
         modelBuilder.Entity<Person>().Property(x => x.DeathYear).HasColumnName("death_year");
-        modelBuilder.Entity<Person>().Property(x => x.Rating).HasColumnName("person_rating");
+        modelBuilder.Entity<Person>().Property(x => x.PersonRating).HasColumnName("person_rating");
     }
 
 

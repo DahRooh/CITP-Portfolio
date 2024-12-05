@@ -28,7 +28,7 @@ public interface ITitleDataService
     public IList<Title> GetAllSeries(int page, int pageSize);
 
     public IList<Series> GetEpisodesFromParentId(string parentId);
-    IList<Movie> GetMovies(int page, int pageSize);
+    IList<Title> GetMovies(int page, int pageSize);
     Movie? GetMovie(string id);
     IList<InvolvedIn> GetInvolvedIn(string id);
     IList<InvolvedIn> GetCast(string id);

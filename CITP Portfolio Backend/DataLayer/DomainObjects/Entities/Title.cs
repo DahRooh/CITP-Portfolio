@@ -14,7 +14,7 @@ public class Title
     public string Id { get; set; }
     public string _Title { get; set; } = string.Empty;
     public string? Plot { get; set; }
-    public double? Rating { get; set; } = 0;
+    public double Rating { get; set; } = 0;
     public string Type { get; set; }
     public string Titletype { get; set; }
     public bool? IsAdult { get; set; }

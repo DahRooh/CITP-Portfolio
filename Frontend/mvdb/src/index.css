@@ -18,17 +18,23 @@ code {
 .selectionOption {
   border: 1px solid black;
   border-radius: 20px;
-  height: 100%;
 }
+
 
 .selectionPane {
   background-color: rgb(228, 251, 251);
   border: 1px solid rgb(0, 0, 0);
-  border-radius: 30px;  
+  border-radius: 30px;
 }
 
 .selectionOption:hover {
   background-color: rgba(102, 107, 108, 0.2);
+}
+
+.selectionImage{
+  width: 10%; 
+  height: auto; 
+  object-fit: contain; 
 }
 
 .selectionButton {

@@ -25,7 +25,8 @@ public class PersonDataService : IPersonDataService
             .Include(p => p.Professions)
             .Include(p => p.InvolvedIn)
             .ThenInclude(x => x.Title)
-            .OrderBy(p => p.Id)
+            .AsSplitQuery()
+            .OrderByDescending(p => p.PersonRating)
             .Skip(page * pageSize).Take(pageSize)
             .ToList();
 
@@ -46,6 +47,7 @@ public class PersonDataService : IPersonDataService
             .Include(p => p.Professions)
             .Include(p => p.InvolvedIn)
             .ThenInclude(x => x.Title)
+            .AsSplitQuery()
             .FirstOrDefault(x => x.Id == id);
 
         if (person == null)
@@ -79,7 +81,7 @@ public class PersonDataService : IPersonDataService
         var actors = db.People
                         .Include(p => p.Professions)
                         .Where(p => p.Professions.Any(pr => pr.ProfessionName == "actor"))
-                        .OrderBy(p => p.Id)
+                        .OrderByDescending(p => p.PersonRating)
                         .Skip(page * pageSize).Take(pageSize)
                         .ToList();
 
@@ -153,7 +155,7 @@ public class PersonDataService : IPersonDataService
     {
         db = new MVContext();
         var coActors = db.CoActors.FromSqlRaw("select * from find_coactors_with_skip({0}, {1}, {2})", id, page, pageSize)
-            .ToList();
+            .OrderByDescending(a => a.PersonRating).ToList();
         return coActors;
     }
 

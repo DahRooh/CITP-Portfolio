@@ -44,7 +44,7 @@ root.render(
           <Route path="bookmark" element={<Bookmarks />}/>
         </Route>
 
-        {/*}<Route path="signIn" element={<SignIn />}/>{*/}
+        <Route path="signIn" element={<SignIn />}/>
         <Route path="signUp" element={<SignUp />}/>
       
 

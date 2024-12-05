@@ -1,7 +1,7 @@
 import SelectionPane from "./SelectionPane";
 import { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Container, Row, Col, Button } from 'react-bootstrap';
+import { Container, Row, Col } from 'react-bootstrap';
 
 function Frontpage() {
   const [moviesIndex, setMoviesIndex] = useState(1);
@@ -21,13 +21,14 @@ function Frontpage() {
     fetch(`http://localhost:5001/api/title/movies?page=${moviesIndex}&pageSize=${itemsPerPage}`)
     .then(res => {
       if (res.ok) return res.json();
-      return null; // no results
+      throw new Error("Could not fect"); // no results
     })
     .then(data => {
       if (data && data.items) {
+        
         setMovies(data.items);
       }
-      else return new Error("No data");
+      else throw new Error("No data");
     }) 
     .catch(e => console.log("error", e))
   }, [moviesIndex]);
@@ -36,14 +37,13 @@ function Frontpage() {
     fetch(`http://localhost:5001/api/title/series?page=${seriesIndex}&pageSize=${itemsPerPage}`)
     .then(res => {
       if (res.ok) return res.json();
-      return null; // no results
+      throw new Error("Could not fect"); // no results
     })
     .then(data => {
       if (data && data.items){
          setSeries(data.items);
-         console.log(data.items)
         }
-      else return new Error("No data");
+      else throw new Error("No data");
     }) 
     .catch(e => console.log("error", e))
   }, [seriesIndex]);
@@ -52,11 +52,11 @@ function Frontpage() {
     fetch(`http://localhost:5001/api/person?page=${peopleIndex}&pageSize=${itemsPerPage}`)
     .then(res => {
       if (res.ok) return res.json();
-      return null; // no results
+      throw new Error("Could not fect"); // no results
     })
     .then(data => {
-      if (data && data.items) setPeople(data.items);
-      else return new Error("No data");
+      if (data && data.items) {console.log("PEOPLE:" + data.items);setPeople(data.items);}
+      else throw new Error("No data");
     }) 
     .catch(e => console.log("error", e))
   }, [peopleIndex]);

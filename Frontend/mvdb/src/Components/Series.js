@@ -5,11 +5,13 @@ import SelectionPane from './SelectionPane.js'
 import { Button, ButtonGroup, Col, Container, Row } from 'react-bootstrap';
 import { useEffect, useState } from 'react';
 
+
+
 function Series() {
   const {id} = useParams();
   const [title, setTitle] = useState({});
   const [series, setSeries] = useState({});
-  const [currentSeason, setCurrentSeason] = useState("Extra");
+  const [currentSeason, setCurrentSeason] = useState(1);
   const [episodeOptionIndex, setEpisodeOptionIndex] = useState(1);
 
 
@@ -35,13 +37,19 @@ function Series() {
     .then(data => {
       if (data) {
         setSeries(data);
-      console.log(data)}
+        setCurrentSeason((data.seasons && data.seasons["1"]) ? "1" : "Extra")
+      }
       else return new Error("No data");
     }) 
     .catch(e => console.log("error", e))
   }, [id]);
 
+  const getCurrentItems = () => {
+    return series.seasons[currentSeason].slice((episodeOptionIndex - 1) * pageSize, ((episodeOptionIndex - 1) * pageSize) + pageSize)
+  }
+
   let titleImage = (title.poster !== "N/A") ? title.poster : "https://media.istockphoto.com/id/911590226/vector/movie-time-vector-illustration-cinema-poster-concept-on-red-round-background-composition-with.jpg?s=612x612&w=0&k=20&c=QMpr4AHrBgHuOCnv2N6mPUQEOr5Mo8lE7TyWaZ4r9oo="  
+  const pageSize = 5;
   return (
     <Container className='centered'>
       <Row>
@@ -85,7 +93,12 @@ function Series() {
               {Object.keys(series).length > 0 // if there are available keys
               ? Object.keys(series.seasons).map((seasonKey, index) => ( // then map the key to the button
                   <Button key={index}  
-                  onClick={() => setCurrentSeason(seasonKey)} 
+                  onClick={
+                    () => {
+                      setCurrentSeason(seasonKey);
+                      setEpisodeOptionIndex(1);
+                    }
+                  } 
                   disabled={currentSeason === seasonKey}>
                     {seasonKey}
                   </Button>
@@ -100,8 +113,9 @@ function Series() {
             <Col> 
               {
                 (series.seasons && series.seasons[currentSeason]) 
-                ? (<SelectionPane items={series.seasons[currentSeason]} path={"/title"} currentIndex={episodeOptionIndex} name={"Episodes"} amountOfPages={5} function={setEpisodeOptionIndex}/> 
-
+                ? (<SelectionPane items={getCurrentItems()} path={"/title"} 
+                currentIndex={episodeOptionIndex} name={"Episodes"} 
+                amountOfPages={getCurrentItems().length} function={setEpisodeOptionIndex}/> 
                 ) 
                 : "Loading!"
               }

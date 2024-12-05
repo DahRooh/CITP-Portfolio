@@ -91,6 +91,7 @@ namespace DataLayer.DataServices
             var likedList = db.UserLikesReviews
                 .Include(x => x.Review).ThenInclude(x => x.createdBy).ThenInclude(x => x.Title)
                 .Include(x => x.User)
+                .AsSplitQuery()
                 .Where(x => x.UserId == userId).ToList();
 
             return likedList;
@@ -104,7 +105,10 @@ namespace DataLayer.DataServices
                 return null;
             }
 
-            return db.UserSearches.Include(x => x.User).Include(x => x.Search).Where(x => x.UserId == userId).ToList();
+            return db.UserSearches.Include(x => x.User)
+                .Include(x => x.Search)
+                .AsSplitQuery()
+                .Where(x => x.UserId == userId).ToList();
 
         }
 
@@ -130,6 +134,8 @@ namespace DataLayer.DataServices
                 .Include(x => x.WebpageBookmark).ThenInclude(x => x.Webpage)
                 .ThenInclude(x => x.Title)
                 .Include(x => x.BookmarkedBy)
+                .AsSplitQuery()
+
                 .Where(x => x.BookmarkedBy.UserId == userId).ToList();
 
         }
@@ -165,6 +171,8 @@ namespace DataLayer.DataServices
                 .Include(x => x.Title)
                 .Include(x => x.Review)
                 .ThenInclude(x => x.UserLikes)
+                .AsSplitQuery()
+
                 .Where(x => x.UserId == userId)
                 .ToList();
             return reviews;
