@@ -47,12 +47,18 @@ function Review({ review, userLoggedIn }) {
 function Title() {
   const {id} = useParams();
   const [title, setTitle] = useState({});
-  const [similarTitles, setSimilarTitles] = useState([]);
+  
+  const [similarTitles, setSimilarTitles] = useState(false);
+  const [similarTitlesPage, setSimilarTitlesPage] = useState(1);
   const [cast, setCast] = useState([]);
+  const [castPage, setCastPage] = useState(1);
   const [crew, setCrew] = useState([]);
+  const [crewPage, setCrewPage] = useState(1);
+  
   const [reviews, setReviews] = useState([]);
   const [userLoggedIn, setUserLoggedIn] = useState(convertCookie());
-
+  
+  console.log(userLoggedIn);
 
   var fakeReviews = [{reviewTitle: "this is title", review: "this is a review", user: "username", rating: "rating", likes: "likes"}, {reviewTitle: "this is title", review: "this is a review", user: "username", rating: "rating", likes: "likes"}];
   
@@ -61,14 +67,14 @@ function Title() {
     fetch(`http://localhost:5001/api/title/${id}`)
     .then(res => {
       if (res.ok) return res.json();
-      return {}; // no results
+      return null; // no results
     })
     .then(data => {
       if (data) setTitle(data);
       else return new Error("No data");
     }) 
     .catch(e => console.log("error", e))
-  }, []);
+  }, [id]);
 
   useEffect(() => {
     fetch(`http://localhost:5001/api/title/${id}/crew`)
@@ -81,7 +87,7 @@ function Title() {
       else return new Error("No data");
     }) 
     .catch(e => console.log("error", e))
-  }, []);
+  }, [id]);
 
   useEffect(() => {
     fetch(`http://localhost:5001/api/title/${id}/cast`)
@@ -94,7 +100,7 @@ function Title() {
       else return new Error("No data");
     }) 
     .catch(e => console.log("error", e))
-  }, []);
+  }, [id]);
 
   useEffect(() => {
     fetch(`http://localhost:5001/api/title/${id}/similartitles`)
@@ -107,7 +113,25 @@ function Title() {
       else return new Error("No data");
     }) 
     .catch(e => console.log("error", e))
-  }, []);
+  }, [id]);
+
+  function TitlePane() {
+    
+    if (similarTitles) {
+      if ((similarTitles.length) > 0) {
+        return (
+          <SelectionPane items={similarTitles} 
+          path={"/title"} currentIndex={similarTitlesPage} 
+          name="Similar Titles" amountOfPages={similarTitles.length}
+          function={setSimilarTitlesPage}/>)
+      }
+      else {
+        return <p>Loading!</p>
+      }
+    }
+    return <p>No similar titles!</p>
+  }
+
 
   let titleImage = (title.poster !== "N/A") ? title.poster : "https://media.istockphoto.com/id/911590226/vector/movie-time-vector-illustration-cinema-poster-concept-on-red-round-background-composition-with.jpg?s=612x612&w=0&k=20&c=QMpr4AHrBgHuOCnv2N6mPUQEOr5Mo8lE7TyWaZ4r9oo="
   return (
@@ -150,19 +174,13 @@ function Title() {
               <h2>{title._Title}</h2>
             </Col>
           </Row>
-          <br/>
-          <Row>
-            <Col><SelectionPane items={cast} path={"/person"} name="Main Cast"/></Col>
-          </Row>
-          <br/>
-        
-          <Row>
-            <Col> <SelectionPane items={crew} path={"/person"} name="Main Crew"/></Col>
-          </Row>
-          <br/>
+
+
 
           <Row>
-            <Col><SelectionPane items={similarTitles} path={"/title"} name="Similar Titles"/></Col>
+            <Col>
+              <TitlePane />
+            </Col>
           </Row>
         </Col>
       </Row>
@@ -177,10 +195,6 @@ function Title() {
         {fakeReviews.map(r => <Review review={r} userLoggedIn={userLoggedIn} />)}
 
       </Container>
-      <Button onClick={() => {
-        console.log(cast);
-        console.log(crew);
-      }}>test</Button>
     </Container>
   );
 }

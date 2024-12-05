@@ -13,10 +13,8 @@ export function convertCookie() {
     var keyValuePair = data.split("=");
     cookie[keyValuePair[0].trim()] = keyValuePair[1]; 
   })
-
   return cookie;
 }
-
 
 function Header() {
   const [cookies, setCookie] = useState({});
@@ -34,7 +32,6 @@ function Header() {
     setCookie(false);
   }
 
-  
   return (
     <Container className="fluid">
       <Row>

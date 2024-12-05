@@ -41,13 +41,9 @@ function SignUp() {
     })
     .then(res => {
       return res.json();
-      
-
     })
     .then(data => {
-      console.log(data);
       if (data.id) {
-        console.log(data);
         setSignUpData(data);
       } else if (data.error){
         setErrorMessage(data.error);
