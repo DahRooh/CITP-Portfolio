@@ -1,21 +1,8 @@
-/* (22)
-varierende variabler
-dem der kommer til at være en del af dep. array?
-hashing funktion - skal have salt. Skal gemme salt/standard salt som inge kender?
-
-knap - post?
-*/
-
 import 'bootstrap/dist/css/bootstrap.css';
 import { useEffect, useState } from 'react';
 import { Container, Row, Col, FormGroup, Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router';
 import Cookies from 'js-cookie';
-
-/*
-funktion her.
-Skal setters bruges her? nok ikke...
-*/
 
 function SignIn() {
 
@@ -75,11 +62,6 @@ function SignIn() {
 
   return (
 
-/*
-brug setters for neden her - højst sandsynligt i FormGroups
-username og password som argumenter? 
-*/
-
     <div className="fullscreen">
       <Container>
         <Row className="textHeader">
@@ -95,7 +77,7 @@ username og password som argumenter?
           </FormGroup>
 
           <FormGroup className="placeholders">
-            <input className="placeholderText" placeholder="Password" onChange={handleSetPassword}/>
+            <input className="placeholderText" placeholder="Password" onChange={handleSetPassword} type="password"/>
           </FormGroup>
 
           <Button style={{width: "20%"}} onClick={signIn}>

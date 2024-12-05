@@ -36,7 +36,7 @@ public class UserController : BaseController
     }
 
     // creates
-    [HttpPost]
+    [HttpPost("new")]
     public IActionResult CreateUser([FromBody] CreateUserModel userModel)
     {
 
