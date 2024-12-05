@@ -11,19 +11,16 @@ function SignUp() {
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
   const [passwordIsOk, setPasswordIsOk] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
 
   let navigate = useNavigate();
   
   useEffect(() => {
     if (signUpData) {
-      if (signUpData.token) {
-        Cookies.set('token', signUpData.token, {secure: false, expires: 7});
-        Cookies.set('userid', signUpData.id, {secure: false, expires: 7});
-        Cookies.set('username', signUpData.username, {secure: false, expires: 7});
-
-        navigate("/");
-      }
+      if (signUpData.id) {
+        navigate("/signin");
+      } 
     }
   }, [signUpData])
 
@@ -43,18 +40,24 @@ function SignUp() {
       }
     })
     .then(res => {
-      if (res.ok) return res.json();
-      return null;
+      return res.json();
+      
+
     })
     .then(data => {
-      if (data) {
+      console.log(data);
+      if (data.id) {
+        console.log(data);
         setSignUpData(data);
+      } else if (data.error){
+        setErrorMessage(data.error);
       }
     })
     .catch(e => {
       console.log(e)
     }) 
   }
+
 
   const handleSetUsername = e => {
     setUsername(e.target.value);
@@ -63,7 +66,6 @@ function SignUp() {
   const handleSetPassword = e => {
     var newPassword = e.target.value;
     setPassword(newPassword);
-
     setPasswordIsOk(newPassword.length >= 8); // avoiding branching by doing so
   }
 
@@ -77,10 +79,11 @@ function SignUp() {
       <Container>
         <Row className="textHeader">
           <Col>
-              MVDb
+            Sign Up
+            {(errorMessage) ? <p>{errorMessage}</p> : null}
           </Col>
         </Row>
-
+        
         <form className="centered">
           <FormGroup className="placeholders">
             <input className="placeholderText" placeholder="Username" onChange={handleSetUsername}/>
@@ -92,6 +95,10 @@ function SignUp() {
 
           <FormGroup className="placeholders">
             <input className="placeholderText" placeholder="Password" onChange={handleSetPassword} type="password"/>
+            {(password.length > 0)  
+            ? <p style={{color: (!passwordIsOk && password.length > 0) ? "red" : "green"}}>Password must be at least 8 characters long.</p>
+            : null}
+            
           </FormGroup>
 
           <Button style={{width: "20%"}} onClick={signUp} disabled={!passwordIsOk}>

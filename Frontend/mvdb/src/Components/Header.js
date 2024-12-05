@@ -6,20 +6,27 @@ import { Link } from 'react-router';
 
 
 export function convertCookie() {
-  var cookies = {};
+  var cookie = {};
   const splitCookie = document.cookie.split(";");
 
   splitCookie.map(data => {
     var keyValuePair = data.split("=");
-    cookies[keyValuePair[0].trim()] = keyValuePair[1]; 
+    cookie[keyValuePair[0].trim()] = keyValuePair[1]; 
   })
 
-  return cookies;
+  return cookie;
 }
 
 
 function Header() {
-  const [cookies, setCookie] = useState(() => convertCookie());
+  const [cookies, setCookie] = useState({});
+
+  useEffect( () => {
+    var userCookies = convertCookie();
+    if (userCookies && userCookies !== cookies) {
+      setCookie(userCookies);
+    }
+  }, []);
 
   function clearCookies() {
     var cookieNames = Object.keys(cookies);
@@ -38,7 +45,7 @@ function Header() {
           </Col>
           <Col>
               <input placeholder="search"/>
-              <Button>gogo</Button>
+              <Button>Search</Button>
           </Col>
           <Col>
             {(cookies.username) ? 

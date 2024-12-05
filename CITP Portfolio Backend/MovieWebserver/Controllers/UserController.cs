@@ -42,12 +42,19 @@ public class UserController : BaseController
 
         var user = _ds.GetUser(userModel.Username);
 
-        if (user != null || 
-            string.IsNullOrEmpty(userModel.Password) ||
-            _ds.IsEmailUsed(userModel.Email)
-            )
+        if (user != null)
         {
-            return BadRequest();
+            return BadRequest(new { error = "Username taken." });
+
+        }
+        else if (string.IsNullOrEmpty(userModel.Password))
+        {
+            return BadRequest(new { error = "Must provide a password." });
+        }
+        else if (_ds.IsEmailUsed(userModel.Email))
+        {
+            return BadRequest(new { error = "Email taken." });
+
         }
 
 

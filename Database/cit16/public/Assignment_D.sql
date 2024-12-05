@@ -62,7 +62,7 @@ create view title_cast as (
     where character is not null
 );
 
-
+drop view person_rated;
 create view person_rated as 
     (with temp_test as (
     select distinct name, title, rating
@@ -72,6 +72,10 @@ create view person_rated as
         group by name
         order by rating desc
 );
+
+select * from person_rated;
+
+
 
 
 
@@ -723,6 +727,7 @@ $$;
 
 call update_all_people_rating();
 
+select * from person limit 1;
 
 /*
 D.8. Popular actors: Suggest and implement a function that makes use of the name ratings. One
