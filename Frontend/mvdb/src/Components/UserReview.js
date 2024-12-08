@@ -5,7 +5,7 @@ import {Button} from 'react-bootstrap';
 import { useEffect, useState } from "react"; 
 import { Row, Col, Container, Form, Image } from "react-bootstrap";
 
-function Reviews() {
+function UserReviews() {
     const [index, setIndex] = useState(0);
     const[reviewsData, setReviewsData] = useState({
         reviews: [
@@ -79,4 +79,4 @@ function Reviews() {
   }
 
 
-  export default Reviews;
+  export default UserReviews;

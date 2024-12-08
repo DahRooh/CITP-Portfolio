@@ -13,7 +13,6 @@ function handleData(data, setData) {
 
 function Option({item, path}) {
     const [poster, setPoster] = useState(false);
-
     const apiKey = "c8190d104e34c4f62a2be88afa477327";
     var posterUrl = "https://image.tmdb.org/t/p/w500";
     
@@ -76,9 +75,13 @@ function SelectionPane({items, path, currentIndex, name, amountOfPages, function
                 <Button className="selectionButton" onClick={() => setIndex(c => c - 1)} disabled={currentIndex === 1}>&larr;</Button>
             </Col>
             <Col>
-                <Row className="centered">
-                    {items.map(item => <Option key={item.id} item={item} path={`${path}/${item.id}`}/>)}
+                {(items)
+                ? <Row className="centered">
+                    {(items.length > 0) 
+                    ? items.map(item => <Option key={item.id} item={item} path={`${path}/${item.id}`}/>)
+                    : "No items"}
                 </Row>
+                : "Loading!"}
             </Col>
             <Col md={1}>
                 <Button className="selectionButton" onClick={() => setIndex(c => c + 1)} disabled={currentIndex === amountOfPages}>&rarr;</Button>

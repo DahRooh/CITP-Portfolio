@@ -4,6 +4,10 @@ import { useParams } from 'react-router';
 import SelectionPane from './SelectionPane.js'
 import { Button, ButtonGroup, Col, Container, Row } from 'react-bootstrap';
 import { useEffect, useState } from 'react';
+import InfoBox from './InfoBox.js';
+import { convertCookie } from './Header.js';
+import TitleReview from './TitleReview.js';
+import TitleReviews from './TitleReview.js';
 
 
 
@@ -13,7 +17,8 @@ function Series() {
   const [series, setSeries] = useState({});
   const [currentSeason, setCurrentSeason] = useState(1);
   const [episodeOptionIndex, setEpisodeOptionIndex] = useState(1);
-
+  const [reviews, setReviews] = useState(false);
+  const [cookies] = useState(() => convertCookie());
 
   useEffect(() => { // get the series' title
     fetch(`http://localhost:5001/api/title/${id}`)
@@ -53,31 +58,7 @@ function Series() {
   return (
     <Container className='centered'>
       <Row>
-        <Col xs={4}>
-          <Row>
-          <Col>
-            <img
-              src={titleImage}
-              alt="Title"
-            />
-          </Col>
-            <Row>
-              <Col>
-                <p>Total rating: {title.rating}</p> 
-              </Col>
-              <Col>
-                <p>Total amount of voters: ??</p> 
-              </Col>
-            </Row>
-
-            <Row>
-              <Col>
-                <span>Plot:</span>
-                <p>{(title.plot) || "No plot for this title"}</p> {/*  equivalent to: (title.plot) ? title.plot : "string" */}
-              </Col>
-            </Row>
-          </Row>
-        </Col>
+        <InfoBox title={title} cookies={cookies}/>
 
         <Col>
           <Row>
@@ -126,16 +107,8 @@ function Series() {
         
         </Col>
       </Row>
+      <TitleReviews reviews={reviews} cookies={cookies}/>
 
-      <Container>
-        <Row>
-          <Col>
-          <h3>Reviews</h3>
-          </Col>
-        </Row>
-
-
-      </Container>
     </Container>
   
   );

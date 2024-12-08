@@ -15,8 +15,8 @@ import Header from './Components/Header';
 import Settings from './Components/Settings';
 import UserPage from './Components/User';
 import SearchHistory from './Components/SearchHistory';
-import Reviews from './Components/Review';
 import Bookmarks from './Components/Bookmark';
+import UserReviews from './Components/UserReview';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -40,7 +40,7 @@ root.render(
         <Route path="user/:u_id" element={<UserPage />}>
           <Route path="settings" element={<Settings />}/>
           <Route path="history" element={<SearchHistory />}/>
-          <Route path="review" element={<Reviews />}/>
+          <Route path="review" element={<UserReviews />}/>
           <Route path="bookmark" element={<Bookmarks />}/>
         </Route>
 

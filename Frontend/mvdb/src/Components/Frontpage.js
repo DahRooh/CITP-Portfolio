@@ -3,15 +3,16 @@ import { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Container, Row, Col } from 'react-bootstrap';
 
+
 function Frontpage() {
   const [moviesIndex, setMoviesIndex] = useState(1);
-  const [movies, setMovies] = useState([]);
+  const [movies, setMovies] = useState(false);
 
   const [seriesIndex, setSeriesIndex] = useState(1);
-  const [series, setSeries] = useState([]);
+  const [series, setSeries] = useState(false);
 
   const [peopleIndex, setPeopleIndex] = useState(1);
-  const [people, setPeople] = useState([]);
+  const [people, setPeople] = useState(false);
   
 
   const itemsPerPage = 5;
