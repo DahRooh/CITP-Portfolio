@@ -1,6 +1,6 @@
 import 'bootstrap/dist/css/bootstrap.css';
 import './User.css';
-import { Container, Row, Col, Button, Form, InputGroup } from 'react-bootstrap';
+import { Container, Row, Col, Button, Form } from 'react-bootstrap';
 
 function UpdateInformation() {
   return (

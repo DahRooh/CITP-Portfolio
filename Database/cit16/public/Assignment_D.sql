@@ -803,10 +803,12 @@ begin
       where t_id = input_title_id)
   and t_id <> input_title_id
   group by similar_title_id, similar_title 
-  order by multiple_same_genre desc
+  order by multiple_same_genre desc, title.t_id
   limit 15;
 end;
 $$;
+
+
 
 
 

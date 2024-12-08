@@ -30,15 +30,19 @@ public interface ITitleDataService
     public IList<Series> GetEpisodesFromParentId(string parentId);
     IList<Title> GetMovies(int page, int pageSize);
     Movie? GetMovie(string id);
-    IList<InvolvedIn> GetInvolvedIn(string id);
-    IList<InvolvedIn> GetCast(string id);
+    IList<InvolvedIn> GetInvolvedIn(string id, int page, int pageSize);
+    IList<InvolvedIn> GetCast(string id, int page, int pageSize);
 
     IList<TitleGenre> GetGenre(string id);
-    IList<SimilarTitle> GetSimilarTitles(string id);
+    IList<SimilarTitle> GetSimilarTitles(string id, int page, int pageSize);
     IList<UserTitleReview> GetReviews(string tId);
 
+    int NumberOfCast(string id);
+    int NumberOfCrew(string id);
     int NumberOfMovies();
     int NumberOfEpisodes();
+    public int NumberOfSimilarTitles(string id);
+
     int GetSeriesCount();
     bool UpdateReview(string titleId, int userId, int userRating, string inReview, int reviewId);
     public bool LikeReview(int userId, int revId, int like);

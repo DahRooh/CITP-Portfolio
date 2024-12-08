@@ -26,7 +26,7 @@ function CreateReview() {
       <Container>
       <Row>
       <Col className='blackBorder text-center'>
-      <StarRating amountOfStars={10} />
+      <StarRating amountOfStars={10} startValue={0} />
 
       <Form >
           <Form.Control  

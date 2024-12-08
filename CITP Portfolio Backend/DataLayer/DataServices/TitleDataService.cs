@@ -157,6 +157,8 @@ public class TitleDataService : ITitleDataService
         return count;
     }
 
+
+
     public IList<Episode> GetEpisodes(int page, int pageSize)
     {
         db = new MVContext();
@@ -187,7 +189,7 @@ public class TitleDataService : ITitleDataService
         return title;
     }
 
-    public IList<InvolvedIn> GetInvolvedIn(string id)
+    public IList<InvolvedIn> GetInvolvedIn(string id, int page, int pageSize)
     {
         db = new MVContext();
         var personInvolvedIn = db.PersonInvolvedIn
@@ -196,6 +198,7 @@ public class TitleDataService : ITitleDataService
             .AsSplitQuery()
             .Where(x => x.TitleId == id)
             .OrderByDescending(x => x.Person.PersonRating)
+            .Skip((page-1)*pageSize).Take(pageSize)
             .ToList();
         
         var distinctPersonInvolvedIn = personInvolvedIn.DistinctBy(x => x.Id).ToList();
@@ -203,7 +206,25 @@ public class TitleDataService : ITitleDataService
         return distinctPersonInvolvedIn;
     }
 
-    public IList<InvolvedIn> GetCast(string id) 
+    public int NumberOfCast(string id)
+    {
+        db = new MVContext();
+        var count = db.PersonInvolvedIn
+        .Where(x => x.TitleId == id && x.Character != null)
+        .Count();
+        return count;
+    }
+
+    public int NumberOfCrew(string id)
+    {
+        db = new MVContext();
+        var count = db.PersonInvolvedIn
+        .Where(x => x.TitleId == id && x.Character == null)
+        .Count();
+        return count;
+    }
+
+    public IList<InvolvedIn> GetCast(string id, int page, int pageSize) 
     {
         db = new MVContext();
         var cast = db.PersonInvolvedIn
@@ -212,6 +233,7 @@ public class TitleDataService : ITitleDataService
             .AsSplitQuery()
             .Where(x => x.TitleId == id && x.Character != null)
             .OrderByDescending(x => x.Person.PersonRating)
+            .Skip((page - 1) * pageSize).Take(pageSize)
             .Select(x => new InvolvedIn {
                 Id = x.Id, 
                 TitleId = x.TitleId, 
@@ -236,14 +258,21 @@ public class TitleDataService : ITitleDataService
     }
 
 
-    public IList<SimilarTitle> GetSimilarTitles(string id)
+    public IList<SimilarTitle> GetSimilarTitles(string id, int page, int pageSize)
     {
         db = new MVContext();   
 
-        var results = db.SimilarTitles.FromSqlRaw("select * from find_similar_titles({0})", id).ToList();
+        var results = db.SimilarTitles.FromSqlRaw("select * from find_similar_titles({0})", id).OrderByDescending(x => x.CommonGenres).Skip((page-1) * pageSize).Take(pageSize).ToList();
 
         return results;
 
+    }
+    public int NumberOfSimilarTitles(string id)
+    {
+        db = new MVContext();
+        var count = db.SimilarTitles.FromSqlRaw("select * from find_similar_titles({0})", id).Count();
+
+        return count;
     }
 
 

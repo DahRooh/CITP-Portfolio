@@ -8,8 +8,7 @@ import { Link } from 'react-router';
 export function convertCookie() {
   var cookie = {};
   const splitCookie = document.cookie.split(";");
-
-  splitCookie.map(data => {
+  splitCookie.forEach(data => {
     var keyValuePair = data.split("=");
     cookie[keyValuePair[0].trim()] = keyValuePair[1]; 
   })
@@ -17,14 +16,14 @@ export function convertCookie() {
 }
 
 function Header() {
-  const [cookies, setCookie] = useState({});
+  const [cookies, setCookie] = useState(() => convertCookie());
 
-  useEffect( () => {
+  setInterval(() => {
     var userCookies = convertCookie();
-    if (userCookies && userCookies !== cookies) {
+    if (userCookies && userCookies.token !== cookies.token) {
       setCookie(userCookies);
     }
-  }, []);
+  }, 500);
 
   function clearCookies() {
     var cookieNames = Object.keys(cookies);
@@ -33,7 +32,7 @@ function Header() {
   }
 
   return (
-    <Container className="fluid">
+    <Container key={cookies} className="fluid">
       <Row>
           <Col className='centered'>
           <Nav>

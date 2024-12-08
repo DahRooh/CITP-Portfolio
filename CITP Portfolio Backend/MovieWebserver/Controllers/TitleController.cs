@@ -11,7 +11,8 @@ using DataLayer.IDataServices;
 using DataLayer.DomainObjects.Relations;
 using DataLayer.Model.User;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using System.Linq;
+using System.Xml.Linq;
+
 
 namespace MovieWebserver.Controllers;
 
@@ -113,7 +114,7 @@ public class TitleController : BaseController
 
     }
 
-    [HttpGet("series/{parentId}", Name = nameof(GetSeriesFromParentId))]
+    [HttpGet("/api/series/{parentId}", Name = nameof(GetSeriesFromParentId))]
     public IActionResult GetSeriesFromParentId(string parentId)
     {
         List<SeriesModel> episodes = _ds.GetEpisodesFromParentId(parentId)
@@ -169,28 +170,50 @@ public class TitleController : BaseController
 
 
     [HttpGet("{tId}/crew", Name = nameof(GetInvolvedIn))]
-    public IActionResult GetInvolvedIn(string tId)
+    public IActionResult GetInvolvedIn(string tId, int page = 1, int pageSize = 5)
     {
-        var peopleInvolvedInTitle = _ds.GetInvolvedIn(tId).Select(x => CreateInvolvedTitleModel(x)).ToList();
-
-        if (peopleInvolvedInTitle == null)
+        var crew = _ds.GetInvolvedIn(tId, page, pageSize).Select(x => CreateInvolvedTitleModel(x)).ToList();
+        var count = _ds.NumberOfCrew(tId);
+        if (crew == null)
         {
             return NotFound();
         }
-        return Ok(peopleInvolvedInTitle);
+        object result = CreatePaging(
+            nameof(GetInvolvedIn),
+            "Title",
+            page,
+            pageSize,
+            count,
+            crew);
+
+        return Ok(result);
     }
 
 
 
-    [HttpGet("{tId}/cast", Name = nameof(GetCastFromTitle))]
-    public IActionResult GetCastFromTitle(string tId)
+    [HttpGet("{tId}/cast")]
+    public IActionResult GetCastFromTitle(string tId, int page = 1, int pageSize = 5)
     {
-        var cast = _ds.GetCast(tId).Select(x => CreateCastModel(x)).ToList();
+
+
+        var cast = _ds.GetCast(tId, page, pageSize).Select(x => CreateCastModel(x)).ToList();
+        var count = _ds.NumberOfCast(tId);
+
         if (cast == null)
         {
             return NotFound();
         }
-        return Ok(cast);
+        
+
+        object result = CreatePaging(
+            nameof(GetCastFromTitle),
+            "Title",
+            page,
+            pageSize,
+            count,
+            cast);
+
+        return Ok(result);
     }
 
 
@@ -208,11 +231,19 @@ public class TitleController : BaseController
 
 
     [HttpGet("{tId}/similartitles", Name = nameof(GetSimilarTitles))]
-    public IActionResult GetSimilarTitles(string tId)
+    public IActionResult GetSimilarTitles(string tId, int page = 1, int pageSize = 5)
     {
-        var similarTitles = _ds.GetSimilarTitles(tId).Select(x => CreateSimilarTitlesModel(x)).ToList();
+        var similarTitles = _ds.GetSimilarTitles(tId, page, pageSize).Select(x => CreateSimilarTitlesModel(x)).ToList();
+        var count = _ds.NumberOfSimilarTitles(tId);
 
-        return Ok(similarTitles);
+        var result = CreatePaging(nameof(GetSimilarTitles),
+            "Title",
+            page,
+            pageSize,
+            count,
+            similarTitles);
+            
+        return Ok(result);
     }
 
 

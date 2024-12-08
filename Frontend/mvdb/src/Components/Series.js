@@ -29,7 +29,7 @@ function Series() {
   }, [id]);
 
   useEffect(() => { // get episodes
-    fetch(`http://localhost:5001/api/title/series/${id}`)
+    fetch(`http://localhost:5001/api/series/${id}`)
     .then(res => {
       if (res.ok) return res.json();
       return null; // no results

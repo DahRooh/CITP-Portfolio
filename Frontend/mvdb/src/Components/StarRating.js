@@ -2,7 +2,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 import { Container, Row, Col, Button, ButtonGroup, InputGroup, Form } from 'react-bootstrap';
 import { useState } from 'react';
 
-export function StarRating({ amountOfStars}) {
+export function StarRating({ amountOfStars }) {
     const [rating, setRating] = useState(0);
   
     const onClickStar = (index) => {

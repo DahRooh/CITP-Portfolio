@@ -147,14 +147,14 @@ public class DataserviceTests
             Name = "Fred Astaire",
             BirthYear = 1899,
             DeathYear = 1987,
-            Rating = 8.2
+            PersonRating = 8.2
         };
 
         Assert.Equal("nm0000001", p.Id);
         Assert.Equal("Fred Astaire", p.Name);
         Assert.Equal(1899, p.BirthYear);
         Assert.Equal(1987, p.DeathYear);
-        Assert.Equal(8.2, p.Rating);
+        Assert.Equal(8.2, p.PersonRating);
         
         Assert.Empty(p.Professions);        
         Assert.Empty(p.InvolvedIn);        

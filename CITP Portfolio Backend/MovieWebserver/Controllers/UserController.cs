@@ -313,6 +313,9 @@ public class UserController : BaseController
 
 
         model.Url = GetWebpageUrl(nameof(TitleController.GetTitle), "Title", new { tId = title.Id });
+        model.Id = new string(bookmark.Id.SkipWhile(item => item !=  't').ToArray());
+        model.ReviewId = bookmark.Id;
+
         model.Title = title._Title;
         model.Poster = title.Poster;
         

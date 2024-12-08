@@ -39,7 +39,6 @@ function Option({item, path}) {
         }
         return posterUrl;
     }
-    
     return (
         <Col className="selectionOption" md={2} >
             <Link to={path}>
@@ -51,7 +50,7 @@ function Option({item, path}) {
                 </Row>
                 <Row>
                     <Col>
-                        <p style={{fontSize: "0.8em", marginBottom: "0px"}}>{item.name || item._Title}</p>
+                        <p style={{fontSize: "0.8em", marginBottom: "0px"}}>{item.person || item._Title}</p>
 
                         <p style={{fontSize: "0.8em", margin: 0}}><small>Rating {item.rating || item.personRating}</small></p>
 

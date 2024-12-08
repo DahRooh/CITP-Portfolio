@@ -37,7 +37,7 @@ function Frontpage() {
     fetch(`http://localhost:5001/api/title/series?page=${seriesIndex}&pageSize=${itemsPerPage}`)
     .then(res => {
       if (res.ok) return res.json();
-      throw new Error("Could not fect"); // no results
+      throw new Error("Could not fetch"); // no results
     })
     .then(data => {
       if (data && data.items){
@@ -55,7 +55,7 @@ function Frontpage() {
       throw new Error("Could not fect"); // no results
     })
     .then(data => {
-      if (data && data.items) {console.log("PEOPLE:" + data.items);setPeople(data.items);}
+      if (data && data.items) setPeople(data.items);
       else throw new Error("No data");
     }) 
     .catch(e => console.log("error", e))
