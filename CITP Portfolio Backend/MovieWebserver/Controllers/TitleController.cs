@@ -258,7 +258,7 @@ public class TitleController : BaseController
         return Ok(models);
     }
 
-    [HttpPost("{tId}/review/{revId}")]
+    [HttpPost("{tId}/review/{revId}/like")]
     [Authorize]
     public IActionResult LikeReview([FromBody] CreateLikeModel like, string tId, int revId)
     {
@@ -276,7 +276,6 @@ public class TitleController : BaseController
                 return Ok();
             }
         }
-
         return BadRequest();
     }
 
@@ -461,6 +460,7 @@ public class TitleController : BaseController
         var model = review.Adapt<ReviewModel>();
         model.Text = review.Review.Text;
         model.Username = review.User.Username;
+        model.Liked = review.Review.Likes;
         return model;
     }
     private static GenreModel CreateTitleGenreModel(TitleGenre titleGenres)

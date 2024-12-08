@@ -31,8 +31,27 @@ function Review({ review, userLoggedIn }) {
         </Col>
       </Row>
     }
-      
-      
+    function likeReview( reaction ) {
+      fetch(`http://localhost:5001/api/title/${review.titleId}/review/${review.reviewId}/like`, {
+        method: "POST",
+        body: JSON.stringify({
+          "like": reaction
+        }),
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer " + userLoggedIn.token
+        }
+      })
+      .then(res => {
+        console.log(res);
+        if (res.ok) {
+          return res.json;
+        }
+        return null;
+      }) 
+      .catch(e => console.log("error", e))
+    }
+
     return (
       <Row className='review'>
         <Col>
@@ -40,7 +59,6 @@ function Review({ review, userLoggedIn }) {
             <Col>
               <p>Username: {review.username}</p>
               <p>Rating: {review.rating}</p>
-
             </Col>
             <Col >
               <p>{review.caption}</p>
@@ -49,11 +67,11 @@ function Review({ review, userLoggedIn }) {
             <Col>
             <p>Likes: {review.liked}</p>
             <ButtonGroup>
-                <Button  disabled={!userLoggedIn}>
-                  +1
+                <Button  onClick={() => likeReview(1)} disabled={!userLoggedIn}>
+                  Like
                 </Button>
-                <Button disabled={!userLoggedIn}>
-                  -1
+                <Button onClick={() => likeReview(-1)} disabled={!userLoggedIn}>
+                  Dislike
                 </Button>
             </ButtonGroup>
             </Col>
