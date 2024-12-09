@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
-import { BrowserRouter, Route, Routes } from 'react-router';
+import { BrowserRouter, Route, Routes, Navigate } from 'react-router';
 import Frontpage from './Components/Frontpage';
 import Series from './Components/Series';
 import Title from './Components/Title';
@@ -33,19 +33,20 @@ root.render(
         <Route path="series/:id" element={<Series />}/>
 
         <Route path="title/:id" element={<Title />} />
-        <Route path="title/:id/newReview" element={<CreateReview />}/>
+        <Route path="title/:id/newreview" element={<CreateReview />}/>
 
         <Route path="person/:p_id" element={<Person />}/>
 
         <Route path="user/:u_id" element={<UserPage />}>
-          <Route path="settings" element={<Settings />}/>
-          <Route path="history" element={<SearchHistory />}/>
-          <Route path="review" element={<UserReviews />}/>
-          <Route path="bookmark" element={<Bookmarks />}/>
+          <Route index element={<Navigate to="settings" replace />} />
+          <Route path="settings" element={<Settings />} />
+          <Route path="history" element={<SearchHistory />} />
+          <Route path="review" element={<UserReviews />} />
+          <Route path="bookmark" element={<Bookmarks />} />
         </Route>
-
-        <Route path="signIn" element={<SignIn />}/>
-        <Route path="signUp" element={<SignUp />}/>
+        
+        <Route path="signin" element={<SignIn />}/>
+        <Route path="signup" element={<SignUp />}/>
       
 
       </Routes>

@@ -94,6 +94,7 @@ public class PersonDataService : IPersonDataService
     }
 
 
+
     public Person AddNewPerson(Person person)
     {
         db = new MVContext();
@@ -160,4 +161,53 @@ public class PersonDataService : IPersonDataService
     }
 
 
+    
+    public int NumberOfKnownFor(string id)
+    {
+        db = new MVContext();
+        return db.KnownFor.FromSqlRaw("select * from person_known_for({0})", id).Count();
+    }
+
+    public IList<KnownFor> GetKnownFor(string id, int page, int pageSize)
+    {
+        db = new MVContext();
+        var knownForList = db.KnownFor.FromSqlRaw("select * from person_known_for_with_skip({0}, {1}, {2})", id, page, pageSize).ToList();
+        return knownForList;
+    }
+    
+
+
+
+
+
+
+    
+    /*
+    public int NumberOfKnownFor(string id)
+    {
+        db = new MVContext();
+        return db.PersonInvolvedIn
+            .Include(p => p.Title)
+            .Where(p => p.Id == id)
+            .Count();
+
+    }
+
+    public IList<Title> GetKnownFor(string id, int page, int pageSize)
+    {
+        db = new MVContext();
+        var knownFor = db.PersonInvolvedIn
+            .Include(p => p.Title)
+            .Where(p => p.Id == id)
+            .OrderByDescending(p => p.Title.Rating)
+            .Select(p => p.Title)
+            .Skip((page - 1) * pageSize)
+            .Take(pageSize)
+            .ToList();
+        return knownFor;
+
+    }
+    */
+    
+  
 }

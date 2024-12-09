@@ -14,6 +14,8 @@ public interface IPersonDataService
     bool UpdatePerson(Person person);
     IList <CoActor>GetCoActors(string id, int page, int pageSize);
     int NumberOfCoActors(string id);
+    int NumberOfKnownFor(string id);
+    IList<KnownFor> GetKnownFor(string id, int page, int pageSize);
 
 
 }

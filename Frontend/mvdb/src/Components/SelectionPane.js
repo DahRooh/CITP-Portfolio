@@ -16,9 +16,9 @@ function Option({item, path}) {
                 </Row>
                 <Row>
                     <Col>
-                        <p style={{fontSize: "0.8em", marginBottom: "0px"}}>{item.person || item._Title || item.name}</p>
+                        <p style={{fontSize: "0.8em", marginBottom: "0px"}}>{item.name || item.person || item._Title || item.knownForTitle}</p>
 
-                        <p style={{fontSize: "0.8em", margin: 0}}><small>Rating {item.rating || item.personRating}</small></p>
+                        <p style={{fontSize: "0.8em", margin: 0}}><small>Rating {item.rating || item.personRating || item.titleRating}</small></p>
 
                     </Col>
                 </Row>
@@ -45,7 +45,7 @@ function SelectionPane({items, path, currentIndex, name, amountOfPages, function
                 {(items)
                 ? <Row className="centered">
                     {(items.length > 0) 
-                    ? items.map(item => <Option key={item.id} item={item} path={`${path}/${item.id}`}/>)
+                    ? items.map((item, index) => <Option key={`${item.id}-${index}`} item={item} path={`${path}/${item.id}`}/>)
                     : "No items"}
                 </Row>
                 : "Loading!"}

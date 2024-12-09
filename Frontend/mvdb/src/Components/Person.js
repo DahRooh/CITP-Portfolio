@@ -1,4 +1,5 @@
 import 'bootstrap/dist/css/bootstrap.css';
+import SelectionPane from "./SelectionPane";
 import { Row, Col, Container } from "react-bootstrap";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
@@ -8,7 +9,19 @@ function Person() {
   const apiKey = "c8190d104e34c4f62a2be88afa477327";
   const [personIDs, setPersonID] = useState([]);
   const [personPictures, setPersonPictures] = useState([]);
+
+  const [coActorsIndex, setcoActorsIndex] = useState(1);
   const [coActors, setCoActors] = useState([]);
+  const [coActorsDetails, setcoActorsDetails] = useState([]);
+
+
+  const [knownForIndex, setKnownForIndex] = useState(1);
+  const [knownFor, setKnownFor] = useState([]);
+  const [knownForDetails, setknownForDetails] = useState([]);
+
+  const itemsPerPage = 5;
+  const maxItems = 100;
+
 
   const [currentIndex] = useState(0);
   const [titleImages, setTitleImages] = useState([]);
@@ -47,41 +60,59 @@ function Person() {
   }, [personID]);
 
   const personPicture = personPictures[currentIndex];
-  console.log("HAA:", personPicture);
 
 
 
-// Fetch pictures of Coactors when person data is available
-  useEffect(() => {
-    if (p_id) {
-      fetch(`http://localhost:5001/api/person/${p_id}`)
-        .then((res) => res.json())
-        .then((data) => setCoActors([data] || []))
-        .catch((error) => console.error("Error fetching person data:", error));
+
+
+useEffect(() => {
+  fetch(`http://localhost:5001/api/person/${p_id}/coactors?page=${coActorsIndex}&pageSize=${itemsPerPage}`)
+  .then(res => {
+    if (res.ok) return res.json();
+    throw new Error("Could not fect"); // no results
+  })
+  .then(data => {
+    if (data && data.items) {
+      setCoActors(data.items);
+      setcoActorsDetails(data.totalNumberOfPages);
     }
-  }, [personID]);
+    else throw new Error("No data");
+  }) 
+  .catch(e => console.log("error", e))
+}, [p_id, coActorsIndex]);
 
-  const coActor = coActors[currentIndex];
 
-
-/*
-  // Fetch title details by title ID
-  useEffect(() => {
-    if (t_id) {
-      console.log("t_id:", t_id);
-      fetch(`http://localhost:5001/api/title/${t_id}`)
-        .then((res) => {
-          if (res.ok) return res.json();
-          return {}; // no results
-        })
-        .then((data) => setTitleImages([data]))
-        .catch((error) => console.log("Error fetching title data", error));
+useEffect(() => {
+  fetch(`http://localhost:5001/api/person/${p_id}/knownfor?page=${knownForIndex}&pageSize=${itemsPerPage}`)
+  .then(res => {
+    if (res.ok) return res.json();
+    throw new Error("Could not fect"); // no results
+  })
+  .then(data => {
+    if (data && data.items) {
+      setKnownFor(data.items);
+      setknownForDetails(data.totalNumberOfPages)
     }
-  }, [t_id]);
+    else throw new Error("No data");
+  }) 
+  .catch(e => console.log("error", e))
+}, [p_id, knownForIndex]);
 
-  const titleImage = titleImages[0];
-*/
 
+console.log("CoActors: ", coActors);
+console.log("Known for: ", knownFor);
+
+console.log("Coactors details: ", coActorsDetails);
+console.log("Known for details: ", knownForDetails);
+
+let coActorsPaging = coActorsDetails;
+let knownForPaging = knownForDetails;
+
+if(coActorsDetails == 0){
+  coActorsPaging = 1;
+} else if(knownForDetails == 0){
+  knownForPaging = 1;
+}
 
 
   return (
@@ -107,29 +138,16 @@ function Person() {
           </Row>
           <Row>
             <Col>
-              <p>Co-actors</p>
+            <SelectionPane items={coActors} path={`/person`} currentIndex={coActorsIndex} name={"Co-actors"} amountOfPages={coActorsPaging} function={setcoActorsIndex}/> 
             </Col>
           </Row>
           <Row>
             <Col>
-              <p>Known for</p>
+            <SelectionPane items={knownFor} path={"/title"} currentIndex={knownForIndex} name={"Known for"} amountOfPages={knownForPaging} function={setKnownForIndex}/>
             </Col>
           </Row>
         </Col>
       </Row>
-{/*
-      <Container>
-        <Row>
-          <Col>
-            <h1>{titleImage?._Title || "Title not available"}</h1>
-            {titleImage?.id ? (
-              <Picture type="title" titlePath={titleImage} width={200} height={400} />
-            ) : (
-              <p>Image not available</p>
-            )}
-          </Col>
-        </Row>
-      </Container> */}
     </Container>
   );
 }

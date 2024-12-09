@@ -279,23 +279,37 @@ $$;
 --------------------------------------------------------------------------------
 -- Person known for
 
-drop function if exists person_known_for;
+drop function if exists person_known_for_with_skip;
 
-create function person_known_for (search_name varchar(100))
-returns table (title varchar(2000))
+create function person_known_for_with_skip(search_id varchar(100), skip int, take int)
+returns table (titleId varchar, knownfortitles varchar(2000))
 language plpgsql as $$
 
 begin
 		return query
-				select distinct title.title from title
+				select distinct title.t_id, title.title from title
 				natural join person_involved_title join person using (p_id)
-				where person.name = search_name;
+				where person.p_id = search_id
+        limit take offset skip;
 			
 end;
 $$;
 
+select * from person_known_for_with_skip('nm0000165', 1, 20);
 
+drop function if exists person_known_for;
 
+create function person_known_for(search_id varchar(100))
+returns table (titleId varchar, knownfortitles varchar(2000))
+language plpgsql as $$
+
+begin
+		return query
+				select distinct title.t_id, title.title from title
+				natural join person_involved_title join person using (p_id)
+				where person.p_id = search_id;
+end;
+$$;
 
 
 
@@ -641,7 +655,7 @@ Hint: You may for this as well as for other purposes find a view helpful to make
 */
 
 drop function if exists find_coactors_with_skip;
-create function find_coactors_with_skip(actor_id varchar, skip int,take int)
+create function find_coactors_with_skip(actor_id varchar, skip int, take int)
 returns table (
       person_id varchar,
       co_actor varchar,
@@ -653,7 +667,7 @@ returns table (
 language plpgsql as $$
 begin
   return query
-    select t1.p_id, t1.name, t1.title, t1.rating, count(distinct t2.title) 
+    select distinct t1.p_id, t1.name, t1.title, t1.rating, count(distinct t2.title) 
     from title_cast t1 
     join title_cast t2 on t1.title = t2.title
     where t2.p_id = actor_id and t1.p_id <> actor_id
@@ -676,7 +690,7 @@ returns table (
 language plpgsql as $$
 begin
   return query
-    select t1.p_id, t1.name, t1.title, t1.rating, count(distinct t2.title) 
+    select distinct t1.p_id, t1.name, t1.title, t1.rating, count(distinct t2.title) 
     from title_cast t1 
     join title_cast t2 on t1.title = t2.title
     where t2.p_id = actor_id and t1.p_id <> actor_id
@@ -684,6 +698,8 @@ begin
     order by count desc;
 end;
 $$;
+
+select * from find_coactors_with_skip('nm0000229', 1, 20);
 
 
 /*

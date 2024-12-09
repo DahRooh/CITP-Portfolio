@@ -36,6 +36,7 @@ public class MVContext : DbContext
     public DbSet<SearchResult> SearchResults { get; set; }
     public DbSet<SimilarTitle> SimilarTitles { get; set; }
     public DbSet<CoActor> CoActors { get; set; }
+    public DbSet<KnownFor> KnownFor { get; set; }
     public DbSet<Series> Series { get; set; }
 
 
@@ -61,6 +62,7 @@ public class MVContext : DbContext
         MapEpisodeAndMovie(modelBuilder);
         MapSimilarTitle(modelBuilder);
         MapCoActor(modelBuilder);
+        MapKnownFor(modelBuilder);
 
         MapPersonInvolvedTitle(modelBuilder);
         MapUsers(modelBuilder);
@@ -480,5 +482,13 @@ public class MVContext : DbContext
 
     }
 
+    public static void MapKnownFor(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<KnownFor>().HasNoKey();
+
+        modelBuilder.Entity<KnownFor>().Property(x => x.KnownForTitle).HasColumnName("knownfortitles");
+        modelBuilder.Entity<KnownFor>().Property(x => x.KnownForId).HasColumnName("titleId");
+
+    }
 
 }

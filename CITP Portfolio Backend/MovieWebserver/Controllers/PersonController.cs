@@ -81,6 +81,23 @@ public class PersonController : BaseController
     }
 
 
+
+    [HttpGet("{pId}/knownfor", Name = nameof(GetKnownFor))]
+    public IActionResult GetKnownFor(string pId, [FromQuery] int page = 1, [FromQuery] int pageSize = 20)
+    {
+        var knownFor = _ds.GetKnownFor(pId, page, pageSize).Select(x => CreateKnownForModel(x)).ToList();
+
+        var count = _ds.NumberOfKnownFor(pId);
+    
+        var results = CreatePaging(nameof(GetKnownFor), "Person", page, pageSize, count, knownFor);
+
+        return Ok(results);
+    }
+
+
+
+
+
     // models
     private PersonModel? CreatePersonModel(Person? person)
     {
@@ -102,9 +119,25 @@ public class PersonController : BaseController
         var model = coActor.Adapt<CoActorModel>();
         var url = GetWebpageUrl(nameof(GetPerson), "Person", new { pId = coActor.PersonId });
         model.Url = url;
+        model.Id = coActor.PersonId;
 
         return model;
     }
+
+    private KnownForModel? CreateKnownForModel(KnownFor knownFor)
+    {
+        var model = knownFor.Adapt<KnownForModel>();
+        var url = GetWebpageUrl(nameof(GetPerson), "Person", new { pId = knownFor.KnownForId });
+        model.Url = url;
+        model.KnownForId = knownFor.KnownForId;
+        model.KnownForTitle = knownFor.KnownForTitle;
+        
+        return model;
+    }
+
+
+
+
 }
 
 

@@ -5,15 +5,14 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace DataLayer.Model.Person
+
 {
-    public class CoActorModel
+    public class KnownForModel
     {
         public string Url { get; set; }
-        public string Id { get; set; }
-        public string Name { get; set; }
-        public string Title { get; set; }
-        public double PersonRating { get; set; }
-
+        public string KnownForTitle { get; set; }
+        public string KnownForId { get; set; }
+        public double TitleRating { get; set; }
 
     }
 }
