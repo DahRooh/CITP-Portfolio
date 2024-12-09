@@ -116,6 +116,23 @@
   },
   {
     "ContainingType": "MovieWebserver.Controllers.TitleController",
+    "Method": "GetSeriesFromParentId",
+    "RelativePath": "api/series/{parentId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "parentId",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [],
+    "EndpointName": "GetSeriesFromParentId"
+  },
+  {
+    "ContainingType": "MovieWebserver.Controllers.TitleController",
     "Method": "GetTitle",
     "RelativePath": "api/title/{tId}",
     "HttpMethod": "GET",
@@ -159,10 +176,19 @@
         "Name": "tId",
         "Type": "System.String",
         "IsRequired": true
+      },
+      {
+        "Name": "page",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "pageSize",
+        "Type": "System.Int32",
+        "IsRequired": false
       }
     ],
-    "ReturnTypes": [],
-    "EndpointName": "GetCastFromTitle"
+    "ReturnTypes": []
   },
   {
     "ContainingType": "MovieWebserver.Controllers.TitleController",
@@ -176,6 +202,16 @@
         "Name": "tId",
         "Type": "System.String",
         "IsRequired": true
+      },
+      {
+        "Name": "page",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "pageSize",
+        "Type": "System.Int32",
+        "IsRequired": false
       }
     ],
     "ReturnTypes": [],
@@ -214,32 +250,6 @@
       {
         "Name": "tId",
         "Type": "System.String",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "MovieWebserver.Controllers.TitleController",
-    "Method": "LikeReview",
-    "RelativePath": "api/title/{tId}/review/{revId}",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "like",
-        "Type": "DataLayer.Model.Title.CreateLikeModel",
-        "IsRequired": true
-      },
-      {
-        "Name": "tId",
-        "Type": "System.String",
-        "IsRequired": true
-      },
-      {
-        "Name": "revId",
-        "Type": "System.Int32",
         "IsRequired": true
       }
     ],
@@ -294,6 +304,32 @@
   },
   {
     "ContainingType": "MovieWebserver.Controllers.TitleController",
+    "Method": "LikeReview",
+    "RelativePath": "api/title/{tId}/review/{revId}/like",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "like",
+        "Type": "DataLayer.Model.Title.CreateLikeModel",
+        "IsRequired": true
+      },
+      {
+        "Name": "tId",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "revId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MovieWebserver.Controllers.TitleController",
     "Method": "GetReviews",
     "RelativePath": "api/title/{tId}/reviews",
     "HttpMethod": "GET",
@@ -320,6 +356,16 @@
         "Name": "tId",
         "Type": "System.String",
         "IsRequired": true
+      },
+      {
+        "Name": "page",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "pageSize",
+        "Type": "System.Int32",
+        "IsRequired": false
       }
     ],
     "ReturnTypes": [],
@@ -424,39 +470,6 @@
     ],
     "ReturnTypes": [],
     "EndpointName": "GetSeries"
-  },
-  {
-    "ContainingType": "MovieWebserver.Controllers.TitleController",
-    "Method": "GetSeriesFromParentId",
-    "RelativePath": "api/title/series/{parentId}",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "parentId",
-        "Type": "System.String",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": [],
-    "EndpointName": "GetSeriesFromParentId"
-  },
-  {
-    "ContainingType": "MovieWebserver.Controllers.UserController",
-    "Method": "CreateUser",
-    "RelativePath": "api/user",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "userModel",
-        "Type": "DataLayer.Model.User.CreateUserModel",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
   },
   {
     "ContainingType": "MovieWebserver.Controllers.UserController",
@@ -648,6 +661,22 @@
       {
         "Name": "model",
         "Type": "DataLayer.Model.User.UpdatePasswordModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MovieWebserver.Controllers.UserController",
+    "Method": "CreateUser",
+    "RelativePath": "api/user/new",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userModel",
+        "Type": "DataLayer.Model.User.CreateUserModel",
         "IsRequired": true
       }
     ],

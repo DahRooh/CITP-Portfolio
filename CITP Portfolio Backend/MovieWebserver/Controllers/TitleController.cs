@@ -129,7 +129,7 @@ public class TitleController : BaseController
 
         for (int season = 1; season <= amountOfSeasons; season++)
         {
-            seasons.Add(season.ToString(), episodes.Where(x => x.SeasonNum == 1).ToList());
+            seasons.Add(season.ToString(), episodes.Where(x => x.SeasonNum == season).ToList());
         }
 
         if (episodes.Where(x => x.SeasonNum == null || x.EpisodeNum == null).Count() > 0)

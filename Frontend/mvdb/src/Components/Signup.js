@@ -82,14 +82,20 @@ function SignUp() {
         
         <form className="centered">
           <FormGroup className="placeholders">
+            <label>Username:</label>
+            <br/>
             <input className="placeholderText" placeholder="Username" onChange={handleSetUsername}/>
           </FormGroup>
 
           <FormGroup className="placeholders">
+            <label>Email:</label>
+            <br/>
             <input className="placeholderText" placeholder="Email" onChange={handleSetEmail}/>
           </FormGroup>
 
           <FormGroup className="placeholders">
+            <label>Password:</label>
+            <br/>
             <input className="placeholderText" placeholder="Password" onChange={handleSetPassword} type="password"/>
             {(password.length > 0)  
             ? <p style={{color: (!passwordIsOk && password.length > 0) ? "red" : "green"}}>Password must be at least 8 characters long.</p>

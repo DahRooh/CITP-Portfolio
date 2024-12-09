@@ -17,6 +17,7 @@ export function convertCookie() {
 
 function Header() {
   const [cookies, setCookie] = useState(() => convertCookie());
+  const [search, setSearch] = useState(false);
 
   setInterval(() => {
     var userCookies = convertCookie();
@@ -40,8 +41,10 @@ function Header() {
           </Nav>
           </Col>
           <Col>
-              <input placeholder="search"/>
-              <Button>Search</Button>
+            <form action='/search'>
+              <input name="keyword" onChange={setSearch} placeholder="search"/>
+                <Button type='submit'>Search</Button>
+            </form>
           </Col>
           <Col>
             {(cookies.username) ? 

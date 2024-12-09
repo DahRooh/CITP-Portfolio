@@ -6,7 +6,6 @@ import { BrowserRouter, Route, Routes } from 'react-router';
 import Frontpage from './Components/Frontpage';
 import Series from './Components/Series';
 import Title from './Components/Title';
-import SearchResult from './Components/SearchResults';
 import CreateReview from './Components/CreateReview';
 import Person from './Components/Person';
 import SignUp from './Components/Signup';
@@ -17,6 +16,7 @@ import UserPage from './Components/User';
 import SearchHistory from './Components/SearchHistory';
 import Bookmarks from './Components/Bookmark';
 import UserReviews from './Components/UserReview';
+import SearchResults from './Components/SearchResults';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -29,7 +29,7 @@ root.render(
       <Routes> {/* we must include our routes here somehow*/}
         <Route index element={<Frontpage />}/>
 
-        <Route path="search" element={<SearchResult />}/>
+        <Route path="search" element={<SearchResults />}/>
         <Route path="series/:id" element={<Series />}/>
 
         <Route path="title/:id" element={<Title />} />

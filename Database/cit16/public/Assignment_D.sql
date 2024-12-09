@@ -599,6 +599,7 @@ begin
 end;
 $$;
 
+select * from structured_string_search('lord of the rings');
 
 
 /*
@@ -616,18 +617,20 @@ declare
   search_word varchar := concat('%', lower(search_string), '%');
 
 begin
+  if 
+  
   return query
-  select distinct p_id, name
-  from person_involved_title
-  natural join person
-  natural join title    
-  where lower(title) like search_word or (plot is not null and lower(plot) like search_word);
+    select distinct p_id, name
+    from person_involved_title
+    natural join person
+    natural join title    
+    where lower(title) like search_word or person."name" like search_word or (plot is not null and lower(plot) like search_word);
     
 end;
 $$;
 
 
-
+select * from simple_search_person('ian mckellen');
 
 
 /*
@@ -848,6 +851,7 @@ end;
 $$;
   
 
+select * from person_words('Ian McKellen', 30);
 
 
 
@@ -939,6 +943,7 @@ begin
   end if;
 end;
 $$;
+
 
 
 
@@ -1054,6 +1059,8 @@ begin
       
   end;
 $$;
+
+
 
 
 /*

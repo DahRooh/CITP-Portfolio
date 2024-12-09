@@ -48,6 +48,7 @@ end;
 $$;
 
 
+
 drop function if exists get_all_series;
 create function get_all_series()
 returns table(

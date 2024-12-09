@@ -12,11 +12,12 @@ import TitleReviews from './TitleReview.js';
 
 
 function Series() {
-  const {id} = useParams();
+  const { id } = useParams();
   const [title, setTitle] = useState({});
   const [series, setSeries] = useState({});
   const [currentSeason, setCurrentSeason] = useState(1);
   const [episodeOptionIndex, setEpisodeOptionIndex] = useState(1);
+  const [currentItems, setCurrentItems] = useState(false);
   const [reviews, setReviews] = useState(false);
   const [cookies] = useState(() => convertCookie());
 
@@ -49,11 +50,15 @@ function Series() {
     .catch(e => console.log("error", e))
   }, [id]);
 
-  const getCurrentItems = () => {
-    return series.seasons[currentSeason].slice((episodeOptionIndex - 1) * pageSize, ((episodeOptionIndex - 1) * pageSize) + pageSize)
-  }
+  useEffect(() => {
+    if (series && series.seasons && series.seasons[currentSeason]) {
+      var newItems = series.seasons[currentSeason].slice((episodeOptionIndex - 1) * pageSize, ((episodeOptionIndex - 1) * pageSize) + pageSize);
+      setCurrentItems(newItems);
+      console.log(newItems);
+    }
+  }, [currentSeason, series, episodeOptionIndex]);
 
-  let titleImage = (title.poster !== "N/A") ? title.poster : "https://media.istockphoto.com/id/911590226/vector/movie-time-vector-illustration-cinema-poster-concept-on-red-round-background-composition-with.jpg?s=612x612&w=0&k=20&c=QMpr4AHrBgHuOCnv2N6mPUQEOr5Mo8lE7TyWaZ4r9oo="  
+
   const pageSize = 5;
   return (
     <Container className='centered'>
@@ -71,9 +76,9 @@ function Series() {
           <Row>
             <Col>
               <ButtonGroup>
-              {Object.keys(series).length > 0 // if there are available keys
+              {(Object.keys(series).length > 0) // if there are available keys
               ? Object.keys(series.seasons).map((seasonKey, index) => ( // then map the key to the button
-                  <Button key={index}  
+                  <Button key={index}
                   onClick={
                     () => {
                       setCurrentSeason(seasonKey);
@@ -93,24 +98,20 @@ function Series() {
           <Row>
             <Col> 
               {
-                (series.seasons && series.seasons[currentSeason]) 
-                ? (<SelectionPane items={getCurrentItems()} path={"/title"} 
+                (series && series.seasons && series.seasons[currentSeason]) 
+                ? (<SelectionPane items={currentItems} path={"/title"} 
                 currentIndex={episodeOptionIndex} name={"Episodes"} 
-                amountOfPages={getCurrentItems().length} function={setEpisodeOptionIndex}/> 
+                amountOfPages={Math.ceil(series.seasons[currentSeason].length / pageSize)} function={setEpisodeOptionIndex}/> 
                 ) 
                 : "Loading!"
               }
-              
             </Col>
           </Row>
           <br/>
-        
         </Col>
       </Row>
       <TitleReviews reviews={reviews} cookies={cookies}/>
-
     </Container>
-  
   );
 }
   

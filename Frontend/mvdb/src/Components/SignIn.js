@@ -72,11 +72,14 @@ function SignIn() {
 
         <form className="centered">
           <FormGroup className="placeholders">
+            <label>Username:</label>  
+            <br/>
             <input className="placeholderText" placeholder="Username" onChange={handleSetUsername}/>
-
           </FormGroup>
 
           <FormGroup className="placeholders">
+            <label>Password:</label>
+            <br/>
             <input className="placeholderText" placeholder="Password" onChange={handleSetPassword} type="password"/>
           </FormGroup>
 

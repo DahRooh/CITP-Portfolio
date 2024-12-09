@@ -4,6 +4,7 @@ import { Button, Col, Row } from 'react-bootstrap';
 
 import { StarRatingFixed } from './StarRatingFixed.js';
 import { useEffect, useState } from 'react';
+import ImageFor from './ImageFor.js';
 
 
 function InfoBox({ title, cookies }) {
@@ -91,12 +92,9 @@ function InfoBox({ title, cookies }) {
     return (
         <Col xs={4} className='titleInfo'>
         <Row>
-        <Col>
-          <img
-            src={titleImage}
-            alt="Title"
-          />
-        </Col>
+          <Col>
+            {<ImageFor item={title}/>} 
+          </Col>
           <Row>
             <Col>
               {(title.rating) ? <StarRatingFixed key={title.id} titleRating={title.rating}/> : "loading rating"}
