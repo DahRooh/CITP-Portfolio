@@ -1,8 +1,9 @@
 import 'bootstrap/dist/css/bootstrap.css';
 import { useEffect, useState } from 'react';
-import { Container, Row, Col, Button, ButtonGroup } from 'react-bootstrap';
-import { Link, useLocation, useParams } from 'react-router';
+import { Container, Row, Col } from 'react-bootstrap';
+import { Link, useLocation } from 'react-router';
 import ImageFor from './ImageFor';
+import { Paging } from './Pagination';
 
 function SearchResult({result}) {
   return (
@@ -70,7 +71,7 @@ function SearchResults() {
           
 
         </Row>
-          <Row className="search" style={{paddingLeft: "5vw", paddingRight: "5vw", paddingTop: "5vh"}}>
+          <Row className="search centered" style={{paddingLeft: "5vw", paddingRight: "5vw", paddingTop: "5vh"}}>
 
             {
             (!loading) ? (searchResults.length > 0)  // if loading, then if there are results
@@ -78,20 +79,14 @@ function SearchResults() {
             : <h2 className='centered'>No results!</h2>
             : <h2 className='centered'>Loading results!</h2>
             }            
-
+            <Row >
+              <Col>
+                <Paging index={page} total={totalPages} setIndex={setPage}/>
+              </Col>
+            </Row>
           </Row>
 
-          <Row style={{textAlign: "center"}}>
-            <Col>
-              <ButtonGroup >
-                <Button className="buttonGroup">{"<"}</Button>
-                <Button className="buttonGroup">1</Button>
-                <Button className="buttonGroup">2</Button>
-                <Button className="buttonGroup">3</Button>
-                <Button className="buttonGroup">{">"}</Button>
-              </ButtonGroup>
-            </Col>
-          </Row>
+
         
       </Container>
   );

@@ -17,7 +17,6 @@ export function convertCookie() {
 
 function Header() {
   const [cookies, setCookie] = useState(() => convertCookie());
-  const [search, setSearch] = useState(false);
 
   setInterval(() => {
     var userCookies = convertCookie();
@@ -37,12 +36,12 @@ function Header() {
       <Row>
           <Col className='centered'>
           <Nav>
-            <Link to="/">LOGO</Link>
+            <Link to="/"><h2>MVDb</h2></Link>
           </Nav>
           </Col>
           <Col>
             <form action='/search'>
-              <input name="keyword" onChange={setSearch} placeholder="search"/>
+              <input name="keyword" placeholder="search"/>
                 <Button type='submit'>Search</Button>
             </form>
           </Col>

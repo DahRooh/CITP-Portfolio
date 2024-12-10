@@ -8,7 +8,6 @@ import ImageFor from './ImageFor.js';
 
 
 function InfoBox({ title, cookies }) {
-  let titleImage = (title.poster !== "N/A") ? title.poster : "https://media.istockphoto.com/id/911590226/vector/movie-time-vector-illustration-cinema-poster-concept-on-red-round-background-composition-with.jpg?s=612x612&w=0&k=20&c=QMpr4AHrBgHuOCnv2N6mPUQEOr5Mo8lE7TyWaZ4r9oo=";
   const[userBookmarks, setUserBookmarks] = useState(false);
   useEffect(() => {
         if (cookies){
@@ -34,7 +33,7 @@ function InfoBox({ title, cookies }) {
 
 
     function bookmark() {
-        if (cookies && cookies.token) {
+      if (cookies && cookies.token) {
             fetch(`http://localhost:5001/api/title/${title.id}/bookmark`, {
               method: "POST",
               headers: {
@@ -50,6 +49,7 @@ function InfoBox({ title, cookies }) {
             })
             .then ( data => {
               if (data) {
+                data.reviewId = data.id; // fix for some bug, reviewid is null, but id has the correct value
                 setUserBookmarks(data);
               }
             });
@@ -57,30 +57,32 @@ function InfoBox({ title, cookies }) {
       }
     
       function deleteBookmark() {
-    
-    /*    if (userLoggedIn && userLoggedIn.token) {
-          fetch(`http://localhost:5001/api/user/${userLoggedIn.id}/bookmark`, {
-            method: "DELETE",
-            headers: {
-              "Authorization": "Bearer " + userLoggedIn.token
-            }
-          })
-          .then(res =>{
-             console.log(res);
-          })
-        }*/
+        if (cookies && cookies.token) {
+            fetch(`http://localhost:5001/api/user/${cookies.userid}/bookmark/${userBookmarks.reviewId}`, {
+              method: "DELETE",
+              headers: {
+                "Authorization": "Bearer " + cookies.token
+              }
+            })
+            .then(res =>{
+              console.log(userBookmarks);
+              if (res.ok) {
+                setUserBookmarks(null); 
+              }
+            })
+          }
       }
     
     function BookmarkButton() {
     if (cookies.token) {
         if (!userBookmarks) {
-        return (<>
-        <Button onClick={bookmark} disabled={!cookies.token}>Bookmark</Button>
-        </>)
+          return (<>
+          <Button onClick={bookmark} disabled={!cookies.token}>Bookmark</Button>
+          </>)
         }
         return (
         <>
-        <Button className='danger-btn' onClick={() => deleteBookmark}>Bookmarked</Button>
+        <Button className='danger-btn' onClick={deleteBookmark}>Bookmarked</Button>
         </>
         )
     }
@@ -93,7 +95,7 @@ function InfoBox({ title, cookies }) {
         <Col xs={4} className='titleInfo'>
         <Row>
           <Col>
-            {<ImageFor item={title}/>} 
+            {<ImageFor item={title} width='200px'/>} 
           </Col>
           <Row>
             <Col>

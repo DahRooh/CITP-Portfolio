@@ -7,7 +7,7 @@ export function Paging({index, total, setIndex}) {
 
   const toRender = [];
 
-  // Left button
+  // Left arrow button
   if (index > 0) {
     toRender.push(
       <Pagination.Prev onClick={() => handleIndex(index - 1)} key="prev" />
@@ -19,9 +19,9 @@ export function Paging({index, total, setIndex}) {
     toRender.push(
       <Pagination.Item onClick={() => handleIndex(0)} active={index === 0} key={0}>
         1
-      </Pagination.Item>
+      </Pagination.Item> 
     );
-    toRender.push(<Pagination.Ellipsis key="start-ellipsis" />);
+    if (index > 3) toRender.push(<Pagination.Ellipsis disabled={true} key="start-ellipsis" />);
   }
 
   // Middle buttons
@@ -37,7 +37,9 @@ export function Paging({index, total, setIndex}) {
 
   // handle last button
   if (index < total - 3) {
-    toRender.push(<Pagination.Ellipsis key="end-ellipsis" />);
+    if (index < total - 4) {
+      toRender.push(<Pagination.Ellipsis disabled={true} key="end-ellipsis" />);
+    }  
     toRender.push(
       <Pagination.Item onClick={() => handleIndex(total - 1)} active={index === total - 1} key={total - 1}>
         {total}
@@ -52,7 +54,7 @@ export function Paging({index, total, setIndex}) {
     );
   }
 
-  return <Pagination>{toRender}</Pagination>;
+  return <Pagination className='centered'>{toRender}</Pagination>;
   
   }
 

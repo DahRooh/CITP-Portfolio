@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import { Link } from "react-router";
 import { Button, Row, Col, Container } from 'react-bootstrap';
 import ImageFor from "./ImageFor";

@@ -13,3 +13,6 @@ CITP Portfolio Backend/Testing/obj/project.nuget.cache
 /CITP Portfolio Backend/DataLayer/obj
 CITP Portfolio Backend/DataLayer/obj/Debug/net8.0/DataLayer.AssemblyInfoInputs.cache
 *.cache
+CITP Portfolio Backend/.vs/CITP Portfolio Backend/DesignTimeBuild/.dtbcache.v2
+CITP Portfolio Backend/.vs/CITP Portfolio Backend/DesignTimeBuild/.dtbcache.v2
+/CITP Portfolio Backend/.vs

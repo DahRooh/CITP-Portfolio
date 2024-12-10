@@ -80,7 +80,7 @@ function Title() {
       return null; // no results
     })
     .then(data => {
-      if (data) setCast(data);
+      if (data) {setCast(data); console.log(data);}
       else return new Error("No data");
     }) 
     .catch(e => console.log("error", e))
@@ -115,7 +115,7 @@ function Title() {
             </Col>
           </Row>
 
-          <SelectionPane items={similarTitles.items} path={"/title"} currentIndex={similarTitlesPage} name={"Similar titles"} amountOfPages={similarTitles.totalNumberOfPages} function={setSimilarTitlesPage}/> 
+          <SelectionPane items={similarTitles.items} path={"/title"} currentIndex={similarTitlesPage} name={"Similar titles"} amountOfPages={(similarTitles.totalNumberOfPages !== 0) ? similarTitles.totalNumberOfPages : 1} function={setSimilarTitlesPage}/> 
           
           <br/>
           <SelectionPane items={cast.items} path={"/person"} currentIndex={castPage} name={"Cast"} amountOfPages={cast.totalNumberOfPages} function={setCastPage}/> 

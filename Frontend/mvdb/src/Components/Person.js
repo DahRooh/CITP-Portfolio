@@ -4,6 +4,7 @@ import { Row, Col, Container } from "react-bootstrap";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import { Picture } from "./Picture";
+import ImageFor from './ImageFor';
 
 function Person() {
   const apiKey = "c8190d104e34c4f62a2be88afa477327";
@@ -20,12 +21,12 @@ function Person() {
   const [knownForDetails, setknownForDetails] = useState([]);
 
   const itemsPerPage = 5;
-  const maxItems = 100;
+  //const maxItems = 100;
 
 
   const [currentIndex] = useState(0);
-  const [titleImages, setTitleImages] = useState([]);
-  const { t_id, p_id } = useParams();
+  //const [titleImages, setTitleImages] = useState([]);
+  const { p_id } = useParams();
 
   // Fetch person details by person ID
   useEffect(() => {
@@ -108,9 +109,9 @@ console.log("Known for details: ", knownForDetails);
 let coActorsPaging = coActorsDetails;
 let knownForPaging = knownForDetails;
 
-if(coActorsDetails == 0){
+if(coActorsDetails === 0){
   coActorsPaging = 1;
-} else if(knownForDetails == 0){
+} else if(knownForDetails === 0){
   knownForPaging = 1;
 }
 

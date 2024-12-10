@@ -62,7 +62,7 @@ create view title_cast as (
     where character is not null
 );
 
-drop view person_rated;
+drop view if exists person_rated;
 create view person_rated as 
     (with temp_test as (
     select distinct name, title, rating
@@ -613,7 +613,6 @@ begin
 end;
 $$;
 
-select * from structured_string_search('lord of the rings');
 
 
 /*
@@ -630,9 +629,7 @@ language plpgsql as $$
 declare 
   search_word varchar := concat('%', lower(search_string), '%');
 
-begin
-  if 
-  
+begin  
   return query
     select distinct p_id, name
     from person_involved_title
@@ -644,7 +641,6 @@ end;
 $$;
 
 
-select * from simple_search_person('ian mckellen');
 
 
 /*
@@ -699,7 +695,6 @@ begin
 end;
 $$;
 
-select * from find_coactors_with_skip('nm0000229', 1, 20);
 
 
 /*
@@ -746,7 +741,6 @@ $$;
 
 call update_all_people_rating();
 
-select * from person limit 1;
 
 /*
 D.8. Popular actors: Suggest and implement a function that makes use of the name ratings. One
