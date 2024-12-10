@@ -12,7 +12,6 @@ namespace DataLayer.Model.Person
         public string Url { get; set; }
         public string KnownForTitle { get; set; }
         public string KnownForId { get; set; }
-        public double TitleRating { get; set; }
 
     }
 }

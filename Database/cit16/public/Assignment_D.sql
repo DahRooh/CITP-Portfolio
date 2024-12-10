@@ -281,19 +281,18 @@ $$;
 
 drop function if exists person_known_for_with_skip;
 
-create function person_known_for_with_skip(search_id varchar(100), skip int, take int)
-returns table (titleId varchar, knownfortitles varchar(2000))
+create function person_known_for_with_skip(search_id varchar(100))
+returns table (titleid varchar, knownfortitles varchar(2000))
 language plpgsql as $$
 
 begin
 		return query
 				select distinct title.t_id, title.title from title
 				natural join person_involved_title join person using (p_id)
-				where person.p_id = search_id
-        limit take offset skip;
-			
+				where person.p_id = search_id;			
 end;
 $$;
+        
 
 drop function if exists person_known_for;
 
@@ -308,7 +307,6 @@ begin
 				where person.p_id = search_id;
 end;
 $$;
-
 
 
 --------------------------------------------------------------------------------

@@ -488,7 +488,7 @@ public class MVContext : DbContext
         modelBuilder.Entity<KnownFor>().HasNoKey();
 
         modelBuilder.Entity<KnownFor>().Property(x => x.KnownForTitle).HasColumnName("knownfortitles");
-        modelBuilder.Entity<KnownFor>().Property(x => x.KnownForId).HasColumnName("titleId");
+        modelBuilder.Entity<KnownFor>().Property(x => x.KnownForId).HasColumnName("titleid");
 
     }
 

@@ -11,7 +11,5 @@ namespace DataLayer.DomainObjects.FunctionResults
         public string KnownForTitle { get; set; }
         public string KnownForId { get; set; }
 
-        public Title Title { get; set; }
-
     }
 }

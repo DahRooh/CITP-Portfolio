@@ -23,7 +23,7 @@ public class PersonController : BaseController
     }
 
     [HttpGet(Name = nameof(GetPeople))]
-    public IActionResult GetPeople(int page = 1, int pageSize = 20)
+    public IActionResult GetPeople(int page = 1, int pageSize = 5)
     {
         var people = _ds.GetPeople(page, pageSize).Select(x => CreatePersonModel(x)).ToList();
         var numberOfItems = _ds.NumberOfPeople();
@@ -54,7 +54,7 @@ public class PersonController : BaseController
 
     [HttpGet("actor", Name = nameof(GetActors))] // maybe move to title? get actors from title (get cast)
                                                  // maybe use this for finding the highest rated actors on site to display? 
-    public IActionResult GetActors([FromQuery] int page = 1, [FromQuery] int pageSize = 20) 
+    public IActionResult GetActors([FromQuery] int page = 1, [FromQuery] int pageSize = 5) 
     {
         var actors = _ds.GetActors(page, pageSize).Select(x => CreatePersonModel(x)).ToList();
         var numberOfItems = _ds.NumberOfActors();
@@ -70,7 +70,7 @@ public class PersonController : BaseController
 
 
     [HttpGet("{pId}/coactors", Name = nameof(GetCoActors))] // maybe make person/id/coactors? then id not from query
-    public IActionResult GetCoActors(string pId, [FromQuery] int page = 1, [FromQuery] int pageSize = 20)
+    public IActionResult GetCoActors(string pId, [FromQuery] int page = 1, [FromQuery] int pageSize = 5)
     {
         var coActors = _ds.GetCoActors(pId, page, pageSize).Select(x => CreateCoActorModel(x)).ToList();
 
@@ -83,7 +83,7 @@ public class PersonController : BaseController
 
 
     [HttpGet("{pId}/knownfor", Name = nameof(GetKnownFor))]
-    public IActionResult GetKnownFor(string pId, [FromQuery] int page = 1, [FromQuery] int pageSize = 20)
+    public IActionResult GetKnownFor(string pId, [FromQuery] int page = 1, [FromQuery] int pageSize = 5)
     {
         var knownFor = _ds.GetKnownFor(pId, page, pageSize).Select(x => CreateKnownForModel(x)).ToList();
 

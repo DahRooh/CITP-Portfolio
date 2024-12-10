@@ -1,3 +1,17 @@
+-- search people
+
+
+
+
+
+
+
+
+
+
+
+
+
 -- get session
 drop function if exists get_user;
 create function get_user(in_user_id int)

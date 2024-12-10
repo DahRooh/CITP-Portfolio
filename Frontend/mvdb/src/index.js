@@ -8,6 +8,7 @@ import Series from './Components/Series';
 import Title from './Components/Title';
 import CreateReview from './Components/CreateReview';
 import Person from './Components/Person';
+//import Person from './Components/PersonTest';
 import SignUp from './Components/Signup';
 import SignIn from './Components/SignIn';
 import Header from './Components/Header';
