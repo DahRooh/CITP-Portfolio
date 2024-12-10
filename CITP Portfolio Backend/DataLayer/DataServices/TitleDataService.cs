@@ -22,29 +22,26 @@ public class TitleDataService : ITitleDataService
 {
     private MVContext db;
 
-    public UserTitleReview CreateReview(CreateReviewModel model, int userId, string tId)
+    public bool CreateReview(CreateReviewModel model, int userId, string tId)
     {
         db = new MVContext();
 
         var title = db.Titles.Where(x => x.Id == tId).FirstOrDefault();
 
-        if (title == null) return null;
+        if (title == null) return false;
 
         var reviewId = db.Reviews.Any() ? db.Reviews.Max(x => x.Id) + 1 : 1; // set to max id + 1, or set to 1 if no reviews
 
-        db.Database.ExecuteSqlRaw("call rate({0},{1},{2},{3},{4})", title.Id, userId, model.Rating, reviewId, model.ReviewText);
+        db.Database.ExecuteSqlRaw("call rate({0},{1},{2},{3},{4},{5})", title.Id, userId, model.Rating, reviewId, model.ReviewText, model.CaptionText);
 
-        var newReview = db.UserReviews
-            .Include(x => x.Review)
-            .Include(x => x.User)
-            .Include(x => x.Title)
-            .Where(x => x.UserId == userId)
-            .Where(x => x.TitleId == title.Id)
+        var newReview = db.Reviews
+            .Where(x => x.Id == reviewId)
             .FirstOrDefault();
 
-        if (newReview == null) return null;
 
-        return newReview;
+        if (newReview == null) return false;
+
+        return true;
     }
     public bool LikeReview(int userId, int revId, int like)
     {
@@ -284,13 +281,13 @@ public class TitleDataService : ITitleDataService
             .Include(x => x.Review)
             .Include(x => x.User)
             .AsSplitQuery()
-            .Where(x => x.TitleId == tId).ToList();
+            .Where(x => x.TitleId == tId && x.Review.Caption != null).ToList();
         
         return reviews;
     }
 
 
-    public bool UpdateReview(string titleId, int userId, int userRating, string inReview, int reviewId)
+    public bool UpdateReview(string titleId, int userId, int userRating, string inReview, int reviewId, string inCaption)
     {
         db = new MVContext();
         var user = db.Users.Where(x => x.Id == userId).FirstOrDefault();
@@ -299,7 +296,7 @@ public class TitleDataService : ITitleDataService
         
         if (user != null && review != null)
         {
-            db.Database.ExecuteSqlRaw("call rate({0},{1},{2},{3})", titleId, userId, userRating, inReview);
+            db.Database.ExecuteSqlRaw("call rate({0},{1},{2},{3},{4},{5})", titleId, userId, userRating, reviewId, inReview, inCaption);
             return true;
         }
         return false;

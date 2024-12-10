@@ -15,7 +15,7 @@ namespace DataLayer;
 public interface ITitleDataService
 {
     // create
-    UserTitleReview CreateReview(CreateReviewModel model, int userId, string tId);
+    bool CreateReview(CreateReviewModel model, int userId, string tId);
     Bookmark CreateBookmark(string tId, int id);
 
 
@@ -44,7 +44,7 @@ public interface ITitleDataService
     public int NumberOfSimilarTitles(string id);
 
     int GetSeriesCount();
-    bool UpdateReview(string titleId, int userId, int userRating, string inReview, int reviewId);
+    bool UpdateReview(string titleId, int userId, int userRating, string inReview, int reviewId, string inCaption);
     public bool LikeReview(int userId, int revId, int like);
     bool DeleteLike(int revId, int id);
 }

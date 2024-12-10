@@ -11,5 +11,6 @@ namespace DataLayer.Model.Title
         public int Id { get; set; }
         public string ReviewText { get; set; }
         public int Rating {  get; set; }
+        public string CaptionText { get; set; }
     }
 }

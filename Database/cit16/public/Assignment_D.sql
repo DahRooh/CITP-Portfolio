@@ -295,8 +295,6 @@ begin
 end;
 $$;
 
-select * from person_known_for_with_skip('nm0000165', 1, 20);
-
 drop function if exists person_known_for;
 
 create function person_known_for(search_id varchar(100))
@@ -435,7 +433,7 @@ average rating appropriately.
 
 /* User rate */
 drop procedure if exists rate;
-create procedure rate(in title_id varchar(10), in user_id int, in user_rating int, in review_id int, in in_review varchar(256) default null)
+create procedure rate(in title_id varchar(10), in user_id int, in user_rating int, in review_id int, in in_review varchar(256), in in_caption varchar(256))
 language plpgsql as $$
 begin
 
@@ -446,19 +444,19 @@ begin
     update rates 
     set rating = user_rating, rated_at = current_timestamp
     where t_id = title_id and u_id = user_id;
-    if in_review is not null then
+    if in_review is not null and in_caption is not null then
       raise notice 'update review as well';
 
       update review
-      set review = in_review
+      set review = in_review, caption = in_caption
       where rev_id = review_id;
     end if;
     
   else -- create new rating/review
     raise notice 'creating new rating/review';
 
-    insert into review (rev_id, review, likes)
-    values (review_id, in_review, default);
+    insert into review (rev_id, review, likes, caption)
+    values (review_id, in_review, default, in_caption);
 
     insert into rates 
     values (title_id, user_id, review_id, user_rating, current_timestamp);
@@ -466,9 +464,6 @@ begin
   end if;
 end;
 $$;
-
-
-
 
 
 -- liking reviews
@@ -859,10 +854,6 @@ begin
       limit list_length;
 end;
 $$;
-  
-
-select * from person_words('Ian McKellen', 30);
-
 
 
 /*

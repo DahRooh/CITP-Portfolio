@@ -11,7 +11,8 @@ public class ReviewModel
     public string Username { get; set; }
     public string Text { get; set; }
     public int Rating { get; set; }
-    public int Liked { get; set; } 
+    public int Liked { get; set; }
+    public string Caption { get; set; }
 
 
 }

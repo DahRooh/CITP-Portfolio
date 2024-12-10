@@ -141,6 +141,7 @@ public class MVContext : DbContext
         modelBuilder.Entity<Review>().Property(x => x.Id).HasColumnName("rev_id");
         modelBuilder.Entity<Review>().Property(x => x.Likes).HasColumnName("likes");
         modelBuilder.Entity<Review>().Property(x => x.Text).HasColumnName("review");
+        modelBuilder.Entity<Review>().Property(x => x.Caption).HasColumnName("caption");
     }
 
     private static void MapGenre(ModelBuilder modelBuilder)

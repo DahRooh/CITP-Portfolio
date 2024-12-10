@@ -30,8 +30,19 @@
   
 
   /* CreateReview */
-.newReviewMargin{
+.newReviewMargin {
     margin-top: 1em;
+
+}
+
+.removeLink {
+    text-decoration: none;
+    color: black;
+
+}
+
+.removeLink:hover {
+    color: rgba(0, 0, 0, 0.641)
 
 }
 

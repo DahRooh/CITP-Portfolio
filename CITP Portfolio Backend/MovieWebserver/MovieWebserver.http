@@ -123,23 +123,24 @@ PUT {{MovieWebserver_HostAddress}}/api/user/sign_in
 Accept: application/json
 Content-Type: application/json
 {
-    "username": "2",
-    "password": "2"
+    "username": "1",
+    "password": "11111111"
 }
 
 ### create review
 POST {{MovieWebserver_HostAddress}}/api/title/tt3318956/review
-Authorization: Bearer eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTUxMiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoibW9ua2Vtb25rZSIsImV4cCI6MTczMzY0NzQ3OH0.Y6VKxUuAIko9np2rnc8gKw7qUyXefiIf6-pAZ__FHZmoJ3l6GrDebJrDSDnrGGo_vrgjJ4eimgDDoshIHidXPQ
+Authorization: Bearer eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTUxMiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiMSIsImV4cCI6MTczMzg1MTM0MX0.wkQvo8_tmp0qXDxPMLVcmLxmHsA4qZ9J6GKG_KrtvKZh41FTlztB8PYvueM5SFya8P1rDc_fuzIOsWv_qnH5aQ
 Accept: application/json
 Content-Type: application/json
 {
   "ReviewText": "Gootie",
-  "Rating": 10
+  "Rating": 5,
+  "CaptionText": "SOO GOOD"
 }
 
 ### create review
 get {{MovieWebserver_HostAddress}}/api/title/tt28005029/reviews
-Authorization: Bearer eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTUxMiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoibW9ua2Vtb25rZSIsImV4cCI6MTczMzY0NzQ3OH0.Y6VKxUuAIko9np2rnc8gKw7qUyXefiIf6-pAZ__FHZmoJ3l6GrDebJrDSDnrGGo_vrgjJ4eimgDDoshIHidXPQ
+Authorization: Bearer eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTUxMiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiMSIsImV4cCI6MTczMzc3OTE5Mn0.GWhHE-1uT2EABigp3Vw7IANNfZj33su_FVmBtOJ_gAkH1wRWvcQWy3zqF5UmkwT3tgN08qDCLJQAe8wpdaHbIw
 Accept: application/json
 
 

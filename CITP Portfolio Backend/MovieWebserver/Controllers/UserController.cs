@@ -280,6 +280,7 @@ public class UserController : BaseController
         var model = review.Adapt<ReviewModel>();
         model.Username = review.User.Username;
         model.Text = review.Review.Text;
+        model.Caption = review.Review.Caption;
         return model;
     }
 

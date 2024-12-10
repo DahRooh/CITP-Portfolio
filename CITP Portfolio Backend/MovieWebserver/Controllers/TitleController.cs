@@ -282,7 +282,7 @@ public class TitleController : BaseController
     [HttpPost("{tId}/review")]
     [Authorize]
     public IActionResult CreateReview([FromBody] CreateReviewModel model, string tId)
-    {
+    { 
         //var username = HttpContext.Request.Headers.Authorization.FirstOrDefault();
         // rating, uid, tid, text, 
         JwtSecurityToken token = GetDecodedToken();
@@ -293,11 +293,10 @@ public class TitleController : BaseController
         if (_ds.GetTitleFromId(tId) == null) return NotFound();
 
         var review = _ds.CreateReview(model, user.Id, tId);
-        var newReview = CreateReviewModel(review);
 
-        if (newReview == null) return BadRequest();
+        if (!review) return BadRequest();
 
-        return Created(nameof(CreateReview), newReview);
+        return Created();
     }
 
     [HttpPost("{tId}/bookmark", Name = nameof(CreateBookmark))]
@@ -333,7 +332,7 @@ public class TitleController : BaseController
 
         if (user != null)
         {
-            var update = _ds.UpdateReview(tId, user.Id, updateReview.Rating, updateReview.Text, revId);
+            var update = _ds.UpdateReview(tId, user.Id, updateReview.Rating, updateReview.Text, revId, updateReview.Caption);
 
             if (update)
             {
@@ -461,6 +460,7 @@ public class TitleController : BaseController
         model.Text = review.Review.Text;
         model.Username = review.User.Username;
         model.Liked = review.Review.Likes;
+        model.Caption = review.Review.Caption;
         return model;
     }
     private static GenreModel CreateTitleGenreModel(TitleGenre titleGenres)

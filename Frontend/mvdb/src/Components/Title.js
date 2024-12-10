@@ -100,9 +100,6 @@ function Title() {
   }, [similarTitlesPage, id]);
 
 
-
-
-
   return (
     <Container className='centered'>
       <Row>

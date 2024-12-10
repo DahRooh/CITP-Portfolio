@@ -95,7 +95,8 @@ create table wp_bookmarks
 create table review (
   rev_id int primary key,
   review varchar(256) default null,
-  likes int default 0
+  likes int default 0,
+  caption varchar(256) default null
 );
 
 create table rates
