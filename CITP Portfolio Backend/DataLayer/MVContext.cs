@@ -34,6 +34,7 @@ public class MVContext : DbContext
     public DbSet<TitleGenre> TitlesGenres { get; set; }
     public DbSet<UserSearch> UserSearches { get; set; }
     public DbSet<SearchResult> SearchResults { get; set; }
+    public DbSet<SearchResultPerson> SearchResultsPerson { get; set; }
     public DbSet<SimilarTitle> SimilarTitles { get; set; }
     public DbSet<CoActor> CoActors { get; set; }
     public DbSet<KnownFor> KnownFor { get; set; }
@@ -74,6 +75,7 @@ public class MVContext : DbContext
 
         MapWebpage(modelBuilder);
         MapSearchResults(modelBuilder);
+        MapSearchResultsPerson(modelBuilder);
         MapSeries(modelBuilder);
 
     }
@@ -133,6 +135,15 @@ public class MVContext : DbContext
         modelBuilder.Entity<SearchResult>().Property(x => x.Relevance).HasColumnName("relevance");
         modelBuilder.Entity<SearchResult>().Property(x => x.WebpageId).HasColumnName("webpage_id");
     }
+
+    private static void MapSearchResultsPerson(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<SearchResultPerson>().HasNoKey();
+
+        modelBuilder.Entity<SearchResultPerson>().Property(x => x.WebpageId).HasColumnName("webpage_id");
+    }
+    
+
 
     private static void MapReview(ModelBuilder modelBuilder)
     {

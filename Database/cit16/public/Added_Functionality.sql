@@ -2,14 +2,52 @@
 
 
 
+drop function if exists make_search_person;
+
+create function make_search_person(keyword varchar) 
+returns table (webpage_id text)
+language plpgsql as $$
+
+declare variadic_keyword text[];
+
+begin
+		variadic_keyword = string_to_array(keyword, ' ');
+    
+		return query
+    select 'wp'|| searching_algorithm_for_person.p_id as wp_id
+    from searching_algorithm_for_person(variadic variadic_keyword);
+			
+end;
+$$;
 
 
+drop function if exists searching_algorithm_for_person;
 
-
-
-
-
-
+create function searching_algorithm_for_person(variadic keywords text[])
+returns table (p_id varchar, person_name varchar)
+language plpgsql as $$
+begin
+  return query 
+  with exact_match as (
+    select p.p_id, p.name as person_name
+    from person p
+    where lower(p.name) = any(keywords)
+  ), similar_matches as (
+    select p.p_id, p.name as person_name
+    from person p
+    cross join unnest(keywords) as keyword
+    where p.name ilike '%' || keyword || '%'
+    and not exists (
+      select *
+      from exact_match em
+      where em.p_id = p.p_id
+    )
+  )
+  select * from exact_match
+  union all
+  select * from similar_matches;
+end;
+$$;
 
 
 -- get session
