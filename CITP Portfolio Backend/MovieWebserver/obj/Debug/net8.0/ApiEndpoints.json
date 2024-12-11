@@ -67,6 +67,33 @@
   },
   {
     "ContainingType": "MovieWebserver.Controllers.PersonController",
+    "Method": "GetKnownFor",
+    "RelativePath": "api/person/{pId}/knownfor",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "pId",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "page",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "pageSize",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [],
+    "EndpointName": "GetKnownFor"
+  },
+  {
+    "ContainingType": "MovieWebserver.Controllers.PersonController",
     "Method": "GetActors",
     "RelativePath": "api/person/actor",
     "HttpMethod": "GET",

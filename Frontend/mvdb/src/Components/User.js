@@ -3,16 +3,16 @@ import './User.css';
 import { Link, Outlet, useParams } from 'react-router';
 import { Row, Col, Container, Button, ButtonGroup } from "react-bootstrap";
 import { useEffect, useState } from "react"; 
-
+import Cookies from 'js-cookie';
 
 function UserPage() {
     const { u_id } = useParams();
     const [userIDs, setuserID] = useState([]);
-    const[token] = useState("hdehw")
+    const token = Cookies.get();
+    const [currentPage, setCurrentPage] = useState("Settings");
 
   // Fetch user details by ID
   useEffect(() => {
-    console.log("User ID :", u_id);
     if (u_id) {
       fetch(`http://localhost:5001/api/user/${u_id}`, {
         method: "GET",
@@ -22,13 +22,11 @@ function UserPage() {
         }
       })
         .then((res) => {
-          console.log("User response: ", res);
           if (res.ok) return res.json();
           return {}; // no results
         })
         .then((data) => {
-          setuserID([data]);
-          console.log("User Data: ", data);
+          setuserID(data);
         })
         .catch((error) => console.log("Error fetching person ID", error));
     }
@@ -40,11 +38,8 @@ function UserPage() {
         <Col>
           <Container>
             <Row>
-              <Col className="user" md={1}>
-                <h2>Setting</h2>
-              </Col>
-              <Col className="user  text-center" md={11}>
-                <h1>{userIDs.username || "HEJ"}</h1>
+              <Col className="user text-center"> 
+                <h1>{userIDs.username}</h1>
               </Col>
             </Row>
           </Container>
@@ -54,32 +49,34 @@ function UserPage() {
               <Col className="text-center">
                 <Container className="buttons">
                   <Row className="buttons-margin">
+                    <Col className="user" md={3}>
+                      <h2>{currentPage}</h2>
+                    </Col>
                     <Col>
                       <ButtonGroup>  
                           <Link to="settings">
-                            <Button className="buttons-margin">Update information</Button>
+                            <Button onClick={() => setCurrentPage("Settings")} className="buttons-margin" disabled={currentPage == "Settings"}>Update information</Button>
                           </Link>
                           <Link to="review">
-                            <Button className="buttons-margin">Reviews</Button>
+                            <Button onClick={() => setCurrentPage("Reviews")} className="buttons-margin" disabled={currentPage == "Reviews"}>Reviews</Button>
                           </Link>
                           <Link to="history">
-                            <Button className="buttons-margin">Search History</Button>
+                            <Button onClick={() => setCurrentPage("Search History")} className="buttons-margin" disabled={currentPage == "Search History"}>Search History</Button>
                           </Link>
                           <Link to="bookmark">
-                            <Button className="buttons-margin">Bookmarks</Button>
+                            <Button onClick={() => setCurrentPage("Bookmarks")} className="buttons-margin" disabled={currentPage == "Bookmarks"}>Bookmarks</Button>
                           </Link>
-                          
                         </ButtonGroup>
                     </Col>
                   </Row>
                 </Container>
               </Col>
-              </Row>
-              <Row>
+            </Row>
+            <Row>
               <Col className='text-center'>
                 <Outlet />
               </Col>
-            </Row>
+          </Row>
           </Container>
         </Col>
       </Row>

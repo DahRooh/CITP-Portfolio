@@ -389,6 +389,7 @@ public class TitleController : BaseController
         var model = bookmark.Adapt<BookmarkModel>();
         model.Url = GetWebpageUrl(nameof(GetTitle), "Title", new { tId = title.Id });
         model.Title = title._Title;
+        model.Type = title.Titletype;
         model.Poster = title.Poster;
         return model;
     }

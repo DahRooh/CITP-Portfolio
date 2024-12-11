@@ -18,12 +18,8 @@ function CreateReview() {
 
   const cookieToken = Cookies.get('token'); 
 
-  console.log("COOKIE TOKEN: ", cookieToken);
-
-
   if(cookieToken === undefined){
-    console.log("Hej");
-    navigate(`/title/${id}`);
+    navigate(-1);
   }
 
     async function handleSubmit() {
@@ -39,9 +35,12 @@ function CreateReview() {
           "Content-Type": "application/json"
         },
       })
-        .catch((e) => {
-          console.log(e);
-        });
+      .then(res => {
+          if (res.ok) navigate(-1);
+        })
+      .catch((e) => {
+        console.log(e);
+      });
     }
     
     useEffect(() => {
@@ -74,11 +73,10 @@ function CreateReview() {
 
   const handleSetNavigation = e => {
     if(cookieToken !== undefined){
-      setNavigation(navigate(`/title/${id}`));
+      navigate(-1);
+      // setNavigation(navigate(`/title/${id}`));
     }
   }
-
-
 
 
   return (
@@ -120,7 +118,7 @@ function CreateReview() {
             value={reviewText}
             onChange={handleSetReviewText}
           />
-          <Button className='newReviewMargin' type="submit" style={{width: "20%"}} onClick={handleSetNavigation}>
+          <Button className='newReviewMargin' type="submit" style={{width: "20%"}}>
             Confirm Review
           </Button>
           </Form>

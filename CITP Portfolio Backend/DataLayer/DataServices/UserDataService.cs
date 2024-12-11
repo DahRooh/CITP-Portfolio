@@ -8,6 +8,7 @@ using DataLayer.Model.User;
 using System.Linq;
 using DataLayer.DomainObjects.Relations;
 using DataLayer.HelperMethods;
+using Microsoft.EntityFrameworkCore.Scaffolding.Metadata;
 
 
 namespace DataLayer.DataServices
@@ -225,6 +226,10 @@ namespace DataLayer.DataServices
         {
             db = new MVContext();
 
+            var exists = db.Users.Where(x => x.Email == email).FirstOrDefault();
+
+            if (exists != null) return false;
+
             var user = db.Users.Where(x => x.Username == username).FirstOrDefault();
             user.Email = email;
             var updatedEmail = db.SaveChanges() > 0;
@@ -248,10 +253,6 @@ namespace DataLayer.DataServices
             }
  
             return db.SaveChanges() > 0;
-
-
         }
-
-
     }
 }

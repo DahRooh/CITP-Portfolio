@@ -180,13 +180,15 @@ public class UserController : BaseController
         { 
             return Unauthorized();
         }
+
+
         var updated = _ds.UpdateEmail(user.Username, model.Email);
 
         if (updated)
         {
             return Ok(CreateUserModel(_ds.GetUser(userId)));
         }
-        return BadRequest(updated);
+        return BadRequest("Email already exists");
     }
 
     [HttpPut("{userId}/update_password")]
@@ -199,6 +201,8 @@ public class UserController : BaseController
         {
             return Unauthorized();
         }
+
+        if (model.Password.Count() < 8) return BadRequest("Too short");
 
         var updated = _ds.UpdatePassword(userId, model.Password);
 
@@ -278,6 +282,8 @@ public class UserController : BaseController
     private static ReviewModel CreateReviewModel(UserTitleReview review)
     {
         var model = review.Adapt<ReviewModel>();
+        model.Title = review.Title._Title;
+        model.Type = review.Title.Titletype;
         model.Username = review.User.Username;
         model.Text = review.Review.Text;
         model.Caption = review.Review.Caption;
@@ -314,11 +320,11 @@ public class UserController : BaseController
 
 
         model.Url = GetWebpageUrl(nameof(TitleController.GetTitle), "Title", new { tId = title.Id });
-        model.Id = new string(bookmark.Id.SkipWhile(item => item !=  't').ToArray());
-        model.ReviewId = bookmark.Id;
+        model.TitleId = new string(bookmark.Id.SkipWhile(item => item != 't').ToArray());
 
         model.Title = title._Title;
         model.Poster = title.Poster;
+        model.Type = title.Titletype;
         
         return model;
     }

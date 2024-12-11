@@ -527,7 +527,7 @@ begin
     set rating = (
         select avg(rating) 
         from rates 
-        where rev_id = new.rev_id
+        where t_id = new.t_id
         ) 
       where t_id = new.t_id;
       
@@ -1151,3 +1151,4 @@ begin
 end;
 $$;
 
+select * from search;

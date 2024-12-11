@@ -7,10 +7,10 @@ import { useEffect, useState } from 'react';
 import ImageFor from './ImageFor.js';
 
 
-function InfoBox({ title, cookies }) {
+function InfoBox({ updater, title, cookies }) {
   const[userBookmarks, setUserBookmarks] = useState(false);
   useEffect(() => {
-        if (cookies){
+        if (cookies.userid){
           fetch(`http://localhost:5001/api/user/${cookies.userid}/bookmarks`, {
             method: "GET",
             headers: {
@@ -51,6 +51,7 @@ function InfoBox({ title, cookies }) {
               if (data) {
                 data.reviewId = data.id; // fix for some bug, reviewid is null, but id has the correct value
                 setUserBookmarks(data);
+                updater(true);
               }
             });
           }
@@ -68,6 +69,7 @@ function InfoBox({ title, cookies }) {
               console.log(userBookmarks);
               if (res.ok) {
                 setUserBookmarks(null); 
+                updater(true);
               }
             })
           }
@@ -77,7 +79,7 @@ function InfoBox({ title, cookies }) {
     if (cookies.token) {
         if (!userBookmarks) {
           return (<>
-          <Button onClick={bookmark} disabled={!cookies.token}>Bookmark</Button>
+          <Button  onClick={bookmark} disabled={!cookies.token}>Bookmark</Button>
           </>)
         }
         return (
@@ -138,7 +140,6 @@ function InfoBox({ title, cookies }) {
             <Col>  
               {(cookies.token) ? <Link to={`/title/${title.id}/newReview`}>
                 <Button>Create Review</Button> </Link>: <p style={{backgroundColor: "grey"}}>To create a review please log in</p>}
-              
             </Col>
           </Row>
 

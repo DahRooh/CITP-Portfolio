@@ -1,6 +1,7 @@
 import 'bootstrap/dist/css/bootstrap.css';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Button, ButtonGroup, Col, Container, Nav, Row } from 'react-bootstrap';
+import Cookies from 'js-cookie';
 import { Link } from 'react-router';
 
 
@@ -15,20 +16,21 @@ export function convertCookie() {
   return cookie;
 }
 
+
 function Header() {
-  const [cookies, setCookie] = useState(() => convertCookie());
+  const [cookies, setCookie] = useState(Cookies);
 
   setInterval(() => {
     var userCookies = convertCookie();
     if (userCookies && userCookies.token !== cookies.token) {
       setCookie(userCookies);
     }
-  }, 500);
+  }, 2000);
 
   function clearCookies() {
     var cookieNames = Object.keys(cookies);
-    cookieNames.map(name => document.cookie = name + '=; Max-Age=0');
-    setCookie(false);
+    cookieNames.map(name => document.cookie = name + '=; Max-Age=0; expires=Thu, 01 Jan 1970 00:00:00 UTC"');
+    setCookie(null);
   }
 
   return (

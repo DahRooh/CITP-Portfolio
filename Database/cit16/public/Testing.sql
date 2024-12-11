@@ -4,6 +4,8 @@ GROUP: cit16, MEMBERS: Andreas Moosdorf, Dagmar Ree, Eray Erkul
 
 */
 
+
+
 delete from users where username = 'Hallo123';
 
 delete  from users;

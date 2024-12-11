@@ -1,22 +1,26 @@
 import 'bootstrap/dist/css/bootstrap.css';
 import { Button, ButtonGroup, Col, Container, Row } from 'react-bootstrap';
 import { useEffect, useState } from 'react';
+import { StarRatingFixed } from './StarRatingFixed';
 
-function TitleReview({ review, userLoggedIn }) {
-    const [liked, setLiked] = useState(false);
-  
+function TitleReview({ updater, review, userLoggedIn }) {
+
+
     useEffect(() => {
-      fetch(`http://localhost:5001/api/user/${userLoggedIn.id}/likes`)
+      fetch(`http://localhost:5001/api/user/${userLoggedIn.userid}/likes`, {
+        headers: {
+          Authorization: "Bearer " + userLoggedIn.token
+        }
+      })
       .then(res => {
         if (res.ok) return res.json();
         return null; // no results
       })
       .then(data => {
-        if (data) setLiked(data);
-        else return new Error("No data");
+        if (!data) return new Error("No data");
       }) 
       .catch(e => console.log("error", e))
-    }, [userLoggedIn.id]);
+    }, [userLoggedIn.userid]);
   
       if (!review) {
         return <Row>
@@ -37,28 +41,31 @@ function TitleReview({ review, userLoggedIn }) {
           }
         })
         .then(res => {
-          console.log(res);
           if (res.ok) {
+            updater(c => !c);
             return res.json;
           }
-          return null;
         }) 
         .catch(e => console.log("error", e))
       }
-  
+      let style = (userLoggedIn.username === review.username) ? { backgroundColor: "rgb(173,255,47)" } : null;
       return (
         <Row className='review'>
           <Col>
             <Row>
-              <Col>
-                <p>Username: {review.username}</p>
-                <p>Rating: {review.rating}</p>
+              <Col md={2}>
+                <StarRatingFixed titleRating={review.rating} />
+                <br/>
+                <p>Rating given: {review.rating}</p>
+                <p style={style}>Username: {review.username}</p>
+
               </Col>
               <Col >
-                <p>{review.caption}</p>
-                <p>{review.text}</p>
+                <h2>{review.caption}</h2>
+                <hr/>
+                <p style={{ backgroundColor: "rgb(191, 215, 215)" }}>{review.text}</p>
               </Col>
-              <Col>
+              <Col md={2}>
               <p>Likes: {review.liked}</p>
               <ButtonGroup>
                   <Button onClick={() => likeReview(1)} disabled={!userLoggedIn.token}>
@@ -80,18 +87,18 @@ function TitleReview({ review, userLoggedIn }) {
         </Row>
     )
 }
-function TitleReviews( {reviews, cookies} ) {
+function TitleReviews( {updater, reviews, cookies} ) {
     return (
         <Container className='reviewContainer'>
             <Row>
             <Col>
-            <h3>Reviews</h3>
+            <h1>Reviews</h1>
             </Col>
             <hr/>
             </Row>
 
             {(reviews.length > 0) 
-            ? reviews.map(review => <TitleReview review={review} key={review.reviewId} userLoggedIn={cookies} />)
+            ? reviews.map(review => <TitleReview updater={updater} review={review} key={review.reviewId} userLoggedIn={cookies} />)
             : <Row><Col><p>No reviews</p></Col></Row>}
 
       </Container>

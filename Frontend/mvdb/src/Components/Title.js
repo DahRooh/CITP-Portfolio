@@ -32,6 +32,7 @@ function Title() {
   const [reviews, setReviews] = useState(false);
   const [cookies] = useState(() => convertCookie());
 
+  const [updater, setUpdater] = useState(null);
     
   
   useEffect(() => {
@@ -58,7 +59,7 @@ function Title() {
       else return new Error("No data");
     }) 
     .catch(e => console.log("error", e))
-  }, [id]);
+  }, [id, updater]);
 
   useEffect(() => {
     fetch(`http://localhost:5001/api/title/${id}/crew?page=${crewPage}&pageSize=${pageSize}`)
@@ -80,7 +81,7 @@ function Title() {
       return null; // no results
     })
     .then(data => {
-      if (data) {setCast(data); console.log(data);}
+      if (data) {setCast(data);}
       else return new Error("No data");
     }) 
     .catch(e => console.log("error", e))
@@ -103,7 +104,7 @@ function Title() {
   return (
     <Container className='centered'>
       <Row>
-        <InfoBox key={title.id} title={title} cookies={cookies} />
+        <InfoBox updater={setUpdater} key={title.id} title={title} cookies={cookies} />
 
         <Col>
           <Row>
@@ -124,7 +125,7 @@ function Title() {
         </Col>
       </Row>
       <br/>
-      <TitleReviews reviews={reviews} cookies={cookies}/>
+      <TitleReviews updater={setUpdater} reviews={reviews} cookies={cookies}/>
     </Container>
   );
 }

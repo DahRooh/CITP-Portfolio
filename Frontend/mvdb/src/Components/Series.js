@@ -6,7 +6,6 @@ import { Button, ButtonGroup, Col, Container, Row } from 'react-bootstrap';
 import { useEffect, useState } from 'react';
 import InfoBox from './InfoBox.js';
 import { convertCookie } from './Header.js';
-import TitleReview from './TitleReview.js';
 import TitleReviews from './TitleReview.js';
 
 
@@ -20,6 +19,7 @@ function Series() {
   const [currentItems, setCurrentItems] = useState(false);
   const [reviews, setReviews] = useState(false);
   const [cookies] = useState(() => convertCookie());
+  const [updater, setUpdater] = useState(null);
 
   useEffect(() => { // get the series' title
     fetch(`http://localhost:5001/api/title/${id}`)
@@ -51,10 +51,23 @@ function Series() {
   }, [id]);
 
   useEffect(() => {
+    fetch(`http://localhost:5001/api/title/${id}/reviews`)
+    .then(res => {
+      if (res.ok) return res.json();
+      return null; // no results
+    })
+    .then(data => {
+      if (data) {
+        setReviews(data);}
+      else return new Error("No data");
+    }) 
+    .catch(e => console.log("error", e))
+  }, [id, updater]);
+
+  useEffect(() => {
     if (series && series.seasons && series.seasons[currentSeason]) {
       var newItems = series.seasons[currentSeason].slice((episodeOptionIndex - 1) * pageSize, ((episodeOptionIndex - 1) * pageSize) + pageSize);
       setCurrentItems(newItems);
-      console.log(newItems);
     }
   }, [currentSeason, series, episodeOptionIndex]);
 
@@ -63,7 +76,7 @@ function Series() {
   return (
     <Container className='centered'>
       <Row>
-        <InfoBox title={title} cookies={cookies}/>
+        <InfoBox updater={setUpdater} title={title} cookies={cookies}/>
 
         <Col>
           <Row>
@@ -110,7 +123,7 @@ function Series() {
           <br/>
         </Col>
       </Row>
-      <TitleReviews reviews={reviews} cookies={cookies}/>
+      <TitleReviews updater={setUpdater} reviews={reviews} cookies={cookies}/>
     </Container>
   );
 }

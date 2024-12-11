@@ -10,11 +10,11 @@ export function StarRatingFixed({ titleRating }) {
         var newButtons = [];
         for (let i = 0; i < 10; i++) {
             newButtons.push(
-              <Button
+              <button
                 key={i}
-                className={`btn ${
-                  i < rating ? "btn-warning" : "btn-light"
-                } rounded-circle`}
+                className={` ${
+                  i < rating ? "stargold" : "stardull"
+                } rounded-circle star`}
                 style={{
                   width: "20px",
                   height: "25px",
@@ -27,7 +27,7 @@ export function StarRatingFixed({ titleRating }) {
                 }}
               >
                 ☆
-              </Button>
+              </button>
             );
         }
         setButtons(newButtons);

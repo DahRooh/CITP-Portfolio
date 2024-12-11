@@ -21,9 +21,10 @@ namespace DataLayer.DataServices
             var user = db.Users.Where(x => x.Username == username).FirstOrDefault();
             
             var skip = pageSize*page;
-
+            Console.WriteLine("keyword " + keyword);
             if (user != null)
             {
+                Console.WriteLine("keyword " + keyword);
                 db.Database.ExecuteSqlRaw("call insert_search({0}, {1}, {2})", keyword, user.Id, username);
             }
 
