@@ -5,18 +5,74 @@ import { Link, useLocation } from 'react-router';
 import ImageFor from './ImageFor';
 import { Paging } from './Pagination';
 
-function SearchResult({result}) {
+function SearchResult({ result }) {
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        let response;
+        if (result.id) {
+          
+          response = await fetch(`http://localhost:5001/api/title/${result.id}`, 
+         );
+        } else if (result.p_id) {
+          
+          response = await fetch(`http://localhost:5001/api/person/${result.p_id}`);
+        }
+        const fetchedData = await response.json();
+        console.log("DATA: ", data);
+        setData(fetchedData);
+      } catch (error) {
+        console.error('Fejl ved hentning af data:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [result]);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (!data) {
+    return <div>No data found!</div>;
+  }
+
+  const displayName = result.type === "series" ? result.name : result.title;
+
   return (
     <Row>
-      <Link to={result.url}>
-        <Col className="search" style={{paddingRight: "5vw"}}>
-            <ImageFor item={result} width='20%'/>
-            <span style={{ display: "block", textAlign: "center", margin: "0 auto" }}>
-            {result.id}
-          </span>
-        </Col>
-      </Link>
-    </Row>)
+      {(() => {
+        if (result.id) {
+          return (
+            <Link to={`http://localhost:3000/title/${result.id}`}>
+              <Col className="search" style={{ paddingRight: "5vw" }}>
+                <ImageFor item={data} width="20%" />
+                <span style={{ display: "block", textAlign: "center", margin: "0 auto" }}>
+                  {displayName}
+                </span>
+              </Col>
+            </Link>
+          );
+        } else if (result.p_id) {
+          return (
+            <Link to={`http://localhost:3000/person/${result.p_id}`}>
+              <Col className="search" style={{ paddingRight: "5vw" }}>
+                <ImageFor item={data} width="20%" />
+                <span style={{ display: "block", textAlign: "center", margin: "0 auto" }}>
+                  {result.name}
+                </span>
+              </Col>
+            </Link>
+          );
+        }
+      })()}
+    </Row>
+  );
 }
 
 function SearchResults() {
@@ -39,7 +95,6 @@ function SearchResults() {
         console.log(res);
         if (res.ok) {
           var data = await res.json(); 
-          console.log(data);
           if (data) {
             setSearchResults(data.items);
             setTotalPages(data.totalNumberOfPages);

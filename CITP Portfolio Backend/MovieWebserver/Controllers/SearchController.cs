@@ -70,7 +70,8 @@ public class SearchController : BaseController
             Id = title.Id,
             Title = title._Title,
             Poster = title.Poster,
-            Rating = title.Rating
+            Rating = title.Rating,
+            Type = (title.Titletype == "series") ? title.Titletype : "title"
         };
         return result;
     }
