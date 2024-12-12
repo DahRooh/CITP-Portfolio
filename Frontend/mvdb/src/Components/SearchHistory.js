@@ -75,7 +75,8 @@ function SearchHistory(){
           <Container className='paging'>
           <Row>
             <Col>
-              <Paging index={index} total={5} setIndex={setIndex} />
+              {(searchHistory) ? <Paging index={index} total={Math.ceil(searchHistory.length / 20)} setIndex={setIndex} /> 
+                : null}
             </Col>
           </Row>
           </Container>

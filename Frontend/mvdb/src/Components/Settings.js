@@ -106,7 +106,7 @@ function UpdateInformation() {
         <Container className="placeholders text-center">
           <Form onSubmit={(e) => {
                 e.preventDefault();
-
+                updateMail(email);
                 setEmail("");
 
                 e.target.childNodes[1].value = '';

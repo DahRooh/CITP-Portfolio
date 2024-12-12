@@ -4,6 +4,7 @@ import { Container, Row, Col } from 'react-bootstrap';
 import { Link, useLocation } from 'react-router';
 import ImageFor from './ImageFor';
 import { Paging } from './Pagination';
+import Cookies from 'js-cookie';
 
 function SearchResult({ result }) {
   const [data, setData] = useState(null);
@@ -89,7 +90,11 @@ function SearchResults() {
   const pageSize = 5;
   useEffect(() => {
     const fetchData = async () => {
-      const res = await fetch(`http://localhost:5001/api/search?keyword=${keyword}&page=${page}&pageSize=${pageSize}`);
+      const res = await fetch(`http://localhost:5001/api/search?keyword=${keyword}&page=${page}&pageSize=${pageSize}`, {
+        headers: {
+          Authorization: "Bearer " + Cookies.get("token")
+        }
+      });
       try {
         console.log("fetch data")
         console.log(res);
