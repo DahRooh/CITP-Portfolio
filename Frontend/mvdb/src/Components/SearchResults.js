@@ -16,11 +16,19 @@ function SearchResult({ result }) {
         let response;
         if (result.id) {
           
-          response = await fetch(`http://localhost:5001/api/title/${result.id}`, 
+          response = await fetch(`http://localhost:5001/api/title/${result.id}`, {
+            headers: {
+              Authorization: "Bearer: " + Cookies.get("token")
+            }
+          }
          );
         } else if (result.p_id) {
           
-          response = await fetch(`http://localhost:5001/api/person/${result.p_id}`);
+          response = await fetch(`http://localhost:5001/api/person/${result.p_id}`, {
+            headers: {
+              Authorization: "Bearer: " + Cookies.get("token")
+            }
+          });
         }
         const fetchedData = await response.json();
         console.log("DATA: ", data);
