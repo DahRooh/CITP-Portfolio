@@ -7,6 +7,7 @@ import { Row, Col, Container, Form, Image } from "react-bootstrap";
 import Cookies from 'js-cookie';
 import { StarRatingFixed } from './StarRatingFixed.js';
 import { Link } from 'react-router';
+import ImageFor from './ImageFor.js';
 
 function UserReview( {review, updater} ) {
   async function deleteReview() {
@@ -31,7 +32,7 @@ function UserReview( {review, updater} ) {
             <p>Rating given: {review.rating}</p>
           </Col>
           <Col><Link to={`/${type}/${review.titleId}`}>
-           <h2 className='left'>{review.title}</h2>
+           <h2 className='left'> <ImageFor width='10%' item={{id: review.titleId}}/>{review.title}</h2>
            </Link></Col>
 
         </Row>
@@ -42,7 +43,7 @@ function UserReview( {review, updater} ) {
 
           </Col>
           <Col style={{ backgroundColor: "rgb(191, 215, 215)" }}>
-            <h3>{review.caption}</h3>
+            <h3> {review.caption}</h3>
             <hr/>
             <p >{review.text}</p>
           </Col>
@@ -81,6 +82,7 @@ function UserReviews() {
       })
     .then(data => {
       if (data) {
+        console.log(data);
         setReviews(data);
       } else {
         setReviews([]);

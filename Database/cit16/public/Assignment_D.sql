@@ -409,7 +409,7 @@ delete from
   search where search_id in (
                       select search_id 
                       from search natural join history
-                      where u_id = 1
+                      where u_id = user_id
                       );
 end;
 $$;
@@ -607,6 +607,72 @@ end;
 $$;
 
 
+drop function if exists search_simple;
+create function search_simple(keyword text)
+returns table(
+  id varchar,
+  title_name varchar,
+  title_rating numeric(3,2),
+  title_poster varchar,
+  type varchar
+)
+language plpgsql as $$
+declare 
+  title_search varchar := concat('%', lower(keyword), '%');
+  plot_search varchar := concat('%', lower(keyword), '%');
+  character_search varchar := concat('%', lower(keyword), '%');
+  person_search varchar := concat('%', lower(keyword), '%');
+
+begin
+  return query
+    with titles as (
+    select distinct t_id, title, rating, plot, character, name, poster, titletype
+      from person 
+      natural join person_involved_title 
+      natural join title
+      where title.titletype != 'episode')
+      
+
+      select  results.t_id, 
+              results.title, 
+              results.rating, 
+              results.poster, 
+              results.titletype  
+      from (
+        select t_id, title, rating, poster, titletype 
+        from titles 
+        where lower(title) like title_search
+        
+        union all
+        
+        select t_id, title, rating, poster, titletype 
+        from titles 
+        where lower(plot) like plot_search
+        
+        union all
+        
+        select t_id, title, rating, poster, titletype 
+        from titles where lower(character) like character_search
+        
+        union all
+        
+        select t_id, title, rating, poster, titletype 
+        from titles 
+        where lower(name) like person_search ) as results
+      group by results.t_id, results.title, results.rating,results.poster, results.titletype;
+
+    
+end;
+$$;
+
+select * from search_simple('game of ');
+
+/*
+      where lower(title) like title_search
+      or lower(plot) like plot_search
+      or lower(character) like character_search
+      or lower(name) like person_search;
+*/
 
 /*
 D.5. Finding names: The above search functions are focused on finding titles. Try to add to these by developing one or two functions aimed at finding names (of for instance actors).
@@ -632,7 +698,6 @@ begin
     
 end;
 $$;
-
 
 
 
@@ -895,7 +960,6 @@ $$;
 
 
 
-
 /*
 D.12. Best-match querying: 
 Develop a refined function similar to D.11, but now with a “best-match” ranking and ordering of objects in the answer. 
@@ -1007,7 +1071,7 @@ declare
   
 begin
   -- total amount of documents
-  select count(wp_id) into total_webpages from webpage;
+  select count(t_id) into total_webpages from title where titletype != 'episode';
 
   foreach keyword in array keywords
   loop
@@ -1017,7 +1081,7 @@ begin
     select count(distinct t_id) into title_with_keyword
     from wi 
     join title on title.t_id = tconst
-    where lower(word) = keyword;
+    where title.titletype != 'episode' and lower(word) = keyword;
     
     if title_with_keyword > 0 then
     
@@ -1025,20 +1089,20 @@ begin
           select distinct t_id, title.title
           from wi 
           join title on t_id = tconst
-          where lower(word) = keyword
+          where title.titletype != 'episode' and lower(word) = keyword
           loop
         
             -- total words in document
             select count(word) into total_words 
             from wi 
             join title on tconst = title.t_id
-            where title.t_id = web_page.t_id;
+            where title.titletype != 'episode' and title.t_id = web_page.t_id;
             
             -- keyword_appears
             select count(word) into keyword_appears
             from wi 
             join title on title.t_id = tconst
-            where lower(word) = keyword 
+            where title.titletype != 'episode' and lower(word) = keyword 
             and title.t_id = web_page.t_id;
   
   
@@ -1058,7 +1122,8 @@ begin
       
   end;
 $$;
-
+select * from title where t_id = 'tt13878426';
+select * from searching_algorithm('frodo') ORDER BY results desc;
 
 
 
@@ -1077,7 +1142,7 @@ users can like or dislike a comment
 */
 
 
-
+create index searching on wi(word);
 
 --------------------------------------------------------------------------------
 -- Procedure for insert_search
@@ -1150,5 +1215,3 @@ begin
 			order by frequency desc;
 end;
 $$;
-
-select * from search;

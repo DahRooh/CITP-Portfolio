@@ -10,8 +10,8 @@ namespace DataLayer.Model.Search
     {
         public string Id { get; set; }
         public string Url { get; set; }
-        public string Name { get; set; }
-        public double? PersonRating { get; set; }
+        public string Text { get; set; }
+        public double? Rating { get; set; }
         public string Type { get; set; }
     }
 }

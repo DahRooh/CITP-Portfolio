@@ -23,6 +23,7 @@ public class SearchController : BaseController
         var items = new List<SearchResultModel>();
         var items1 = new List<SearchResultPersonModel>();
         var decodedToken = GetDecodedToken();
+
         if (decodedToken != null) // store result for people logged in
         {
             var claim = decodedToken.Claims.FirstOrDefault();
@@ -44,12 +45,12 @@ public class SearchController : BaseController
         }
 
         var count = _ds.SearchCount(keyword);
-        var countperson = _ds.SearchPersonCount(keyword);
+        var countPerson = _ds.SearchPersonCount(keyword);
 
         var results = new
         {
             title = CreatePaging(nameof(GetSearches), "Search", page, pageSize, count, items, keyword),
-            person = CreatePaging(nameof(GetSearches), "Search", page, pageSize, countperson, items1, keyword)
+            person = CreatePaging(nameof(GetSearches), "Search", page, pageSize, countPerson, items1, keyword)
         };
         return Ok(results);
     }
@@ -59,27 +60,16 @@ public class SearchController : BaseController
     public SearchResultModel CreateSearchResultModel(SearchResult searchResult)
     {
         
-        var webpage = _ds.GetWebpage(searchResult.WebpageId);
         var url = string.Empty;
 
-        var title = webpage.Title;
-
-        if (title.Titletype == "episode")
-        {
-            url = GetWebpageUrl(nameof(TitleController.GetEpisode), "Title", new { eId = webpage.TitleId });
-        } else
-        {
-            url = GetWebpageUrl(nameof(TitleController.GetMovie), "Title", new { mId = webpage.TitleId });
-        }
 
         var result = new SearchResultModel
         {
-            Url = url,
-            Id = title.Id,
-            Title = title._Title,
-            Poster = title.Poster,
-            Rating = title.Rating,
-            Type = (title.Titletype == "series") ? title.Titletype : "title"
+            Id = searchResult.Id,
+            Text = searchResult.Text,
+            Poster = searchResult.Poster,
+            Rating = searchResult.Rating,
+            Type = (searchResult.Type == "series") ? searchResult.Type : "title"
         };
         return result;
     }
@@ -97,8 +87,8 @@ public class SearchController : BaseController
         {
             Url = url,
             Id = person.Id,
-            Name = person.Name,
-            PersonRating = person.PersonRating,
+            Text = person.Name,
+            Rating = person.PersonRating,
             Type = "person"
         };
 

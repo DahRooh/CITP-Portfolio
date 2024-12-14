@@ -254,5 +254,21 @@ namespace DataLayer.DataServices
  
             return db.SaveChanges() > 0;
         }
+
+        public bool DeleteSearch(string searchId)
+        {
+            db = new MVContext();
+
+                
+
+            return db.SaveChanges() > 0;
+        }
+
+        public bool ClearHistory(int userId)
+        {
+            db = new MVContext();
+            var changes = db.Database.ExecuteSqlRaw("call clear_history({0})", userId);
+            return changes > 0;
+        }
     }
 }

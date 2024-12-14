@@ -129,6 +129,28 @@ begin
 end;
 $$;
 
-select * from get_series('tt30069262');
+
+/* searching titles */
+
+drop function if exists testSearch;
+create or replace function testSearch(in_keyword text)
+returns table(
+  title_text varchar,
+  id varchar,
+  out_rating numeric(2,3)
+)
+language plpgsql as $$
+declare
+  keyword text = lower(in_keyword);
+
+begin 
+return query
+  select title.title, t_id, rating from title
+  where keyword = title.title
+  order by rating desc;
+end;
+$$;
+
+select * from testSearch('1999');
 
 

@@ -9,9 +9,12 @@ namespace DataLayer.DomainObjects.Relations
 {
     public class SearchResult
     {
-        public double Relevance { get; set; }
-        public string WebpageId { get; set; }
-        
+        public string Id { get; set; }
+        public string Type { get; set; }
+        public string Text { get; set; }
+        public string? Poster { get; set; }
+        public double? Rating { get; set; }
+
     }
 }
 

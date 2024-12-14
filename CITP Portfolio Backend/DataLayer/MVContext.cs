@@ -132,8 +132,11 @@ public class MVContext : DbContext
     {
         modelBuilder.Entity<SearchResult>().HasNoKey();
         
-        modelBuilder.Entity<SearchResult>().Property(x => x.Relevance).HasColumnName("relevance");
-        modelBuilder.Entity<SearchResult>().Property(x => x.WebpageId).HasColumnName("webpage_id");
+        modelBuilder.Entity<SearchResult>().Property(x => x.Id).HasColumnName("id");
+        modelBuilder.Entity<SearchResult>().Property(x => x.Text).HasColumnName("title_name");
+        modelBuilder.Entity<SearchResult>().Property(x => x.Rating).HasColumnName("title_rating");
+        modelBuilder.Entity<SearchResult>().Property(x => x.Poster).HasColumnName("title_poster");
+        modelBuilder.Entity<SearchResult>().Property(x => x.Type).HasColumnName("type");
     }
 
     private static void MapSearchResultsPerson(ModelBuilder modelBuilder)

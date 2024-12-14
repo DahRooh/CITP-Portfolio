@@ -277,6 +277,42 @@ public class UserController : BaseController
         return NotFound();
     }
 
+    [HttpDelete("{userId}/search/{searchId}")]
+    [Authorize]
+    public IActionResult DeleteSearch(int userId, string searchId)
+    {
+        var user = AuthorizeUser(userId);
+
+        if (user == null || userId != user.Id) return Unauthorized();
+
+
+        var deleted = _ds.DeleteSearch(searchId);
+
+        if (deleted) return NoContent();
+
+        return NotFound();
+    }
+
+
+    [HttpDelete("{userId}/search/clear")]
+    [Authorize]
+    public IActionResult ClearHistory(int userId)
+    {
+        var user = AuthorizeUser(userId);
+
+        if (user == null || userId != user.Id) return Unauthorized();
+
+
+        _ds.ClearHistory(userId);
+
+        var history = _ds.GetHistory(userId);
+        Console.WriteLine("HOGOOGOGOGOG");
+        Console.WriteLine(history);
+        if (history.Count() == 0) return NoContent();
+
+        return NotFound();
+    }
+
 
     // models
     private static ReviewModel CreateReviewModel(UserTitleReview review)

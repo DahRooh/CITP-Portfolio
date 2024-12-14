@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import Cookies from 'js-cookie';
 import { Timestamp } from './Time.js';
 
-function Search( {searchHistory} ) {
+function Search( {searchHistory, updater} ) {
 
   return (
     <Container className='review' style={{marginTop: 20, marginBottom: 20 }}>
@@ -27,16 +27,16 @@ function Search( {searchHistory} ) {
         </Col>
 
         <Col className='text-start' md={8}>
-        <h6 style={{wordBreak: 'break-word'}}>
-          Search keyword: {searchHistory.keyword}
-        </h6>
+          <h6 style={{wordBreak: 'break-word'}}>
+            Search keyword: {searchHistory.keyword}
+          </h6>
         </Col>
 
         <Col>
-            <Button>
-              <Image src="../../trash.png" roundedCircle />
-            </Button>
-            </Col>
+          <Button onClick={e => console.log(e)} >
+            <Image src="../../trash.png" roundedCircle/>
+          </Button>
+        </Col>
       </Row>
 
     </Container>
@@ -45,29 +45,49 @@ function Search( {searchHistory} ) {
 }
 
 function SearchHistory(){
-    const [index, setIndex] = useState(0);
-    const [searchHistory, setSearchHistory] = useState(null);
-    let cookies = Cookies.get();
-    useEffect(() => {
-      fetch(`http://localhost:5001/api/user/${cookies.userid}/search_history`, { 
-        headers: {
-          Authorization: "Bearer " + cookies.token
-        }
+  const [index, setIndex] = useState(0);
+  const [searchHistory, setSearchHistory] = useState(null);
+  const [updater, setUpdater] = useState(false);
+  let cookies = Cookies.get();
+  useEffect(() => {
+    fetch(`http://localhost:5001/api/user/${cookies.userid}/search_history`, { 
+      headers: {
+        Authorization: "Bearer " + cookies.token
+      }
+    })
+    .then(res =>  { 
+        if (res.ok) return res.json();
       })
-      .then(res => res.json())
-      .then (data => {
-        setSearchHistory(data)})
-    }, []);
-    return(
-      <Container className='blackBorder'>
-        <Row>
+    .then (data => {
+      setSearchHistory(data)})
+  }, [updater]);
+
+  const clearHistory = () => {
+    fetch(`http://localhost:5001/api/user/${cookies.userid}/search/clear`, { 
+      method: "DELETE",
+      headers: {
+        Authorization: "Bearer " + cookies.token
+      }
+    })
+    .then(res => {
+      console.log(res);
+      if (res.ok) {
+        setUpdater(c => !c);
+      }      
+    })
+  }
+  
+
+  return(
+    <Container className='blackBorder'>
+      <Row>
         <Col>
         <h3 className="col text-center breakWord">Search History</h3>
         <Col className='text-end'>
-        <ButtonGroup>
-        <Button variant="secondary">Clear Selected History</Button>
-        <Button variant="secondary">Clear History</Button>
-        </ButtonGroup>
+          <ButtonGroup>
+            <Button variant="secondary">Clear Selected History</Button>
+            <Button onClick={clearHistory} variant="secondary">Clear History</Button>
+          </ButtonGroup>
         </Col>
       <Row>
         <Col>
@@ -84,9 +104,9 @@ function SearchHistory(){
       </Row>
       </Col>
       </Row>
-      </Container>
-    );
-  
-  }
+    </Container>
+  );
+
+}
 
   export default SearchHistory;
