@@ -116,8 +116,8 @@
   },
   {
     "ContainingType": "MovieWebserver.Controllers.SearchController",
-    "Method": "GetSearches",
-    "RelativePath": "api/search",
+    "Method": "GetSearchesPeople",
+    "RelativePath": "api/search/people",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -139,7 +139,34 @@
       }
     ],
     "ReturnTypes": [],
-    "EndpointName": "GetSearches"
+    "EndpointName": "GetSearchesPeople"
+  },
+  {
+    "ContainingType": "MovieWebserver.Controllers.SearchController",
+    "Method": "GetSearchesTitle",
+    "RelativePath": "api/search/titles",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "keyword",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "page",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "pageSize",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [],
+    "EndpointName": "GetSearchesTitle"
   },
   {
     "ContainingType": "MovieWebserver.Controllers.TitleController",
@@ -650,6 +677,43 @@
     ],
     "ReturnTypes": [],
     "EndpointName": "GetUserHistory"
+  },
+  {
+    "ContainingType": "MovieWebserver.Controllers.UserController",
+    "Method": "DeleteSearch",
+    "RelativePath": "api/user/{userId}/search/{searchId}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "searchId",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MovieWebserver.Controllers.UserController",
+    "Method": "ClearHistory",
+    "RelativePath": "api/user/{userId}/search/clear",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
   },
   {
     "ContainingType": "MovieWebserver.Controllers.UserController",

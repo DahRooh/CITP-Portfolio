@@ -15,13 +15,12 @@ public class SearchController : BaseController
         _ds = ds;
     }
 
-    [HttpGet(Name = nameof(GetSearches))]
-    public IActionResult GetSearches([FromQuery] string keyword, [FromQuery] int page = 1, [FromQuery] int pageSize = 25)
+    [HttpGet("titles", Name = nameof(GetSearchesTitle))]
+    public IActionResult GetSearchesTitle([FromQuery] string keyword, [FromQuery] int page = 1, [FromQuery] int pageSize = 10)
     {
         // if logged in
         var username = string.Empty;
         var items = new List<SearchResultModel>();
-        var items1 = new List<SearchResultPersonModel>();
         var decodedToken = GetDecodedToken();
 
         if (decodedToken != null) // store result for people logged in
@@ -31,8 +30,6 @@ public class SearchController : BaseController
                 username = claim.Value;
                 items = _ds.Search(keyword, page, pageSize, username)
                             .Select(x => CreateSearchResultModel(x)).ToList();
-                items1 = _ds.SearchPerson(keyword, page, pageSize, username)
-                            .Select(x => CreateSearchResultPersonModel(x)).ToList();
 
             }
 
@@ -40,21 +37,48 @@ public class SearchController : BaseController
         {
             items = _ds.Search(keyword, page, pageSize, username)
                         .Select(x => CreateSearchResultModel(x)).ToList();
-            items1 = _ds.SearchPerson(keyword, page, pageSize, username)
-                        .Select(x => CreateSearchResultPersonModel(x)).ToList();
+
         }
 
         var count = _ds.SearchCount(keyword);
-        var countPerson = _ds.SearchPersonCount(keyword);
 
-        var results = new
-        {
-            title = CreatePaging(nameof(GetSearches), "Search", page, pageSize, count, items, keyword),
-            person = CreatePaging(nameof(GetSearches), "Search", page, pageSize, countPerson, items1, keyword)
-        };
+        var results = CreatePaging(nameof(GetSearchesTitle), "Search", page, pageSize, count, items, keyword);
         return Ok(results);
     }
 
+    [HttpGet("people", Name = nameof(GetSearchesPeople))]
+    public IActionResult GetSearchesPeople([FromQuery] string keyword, [FromQuery] int page = 1, [FromQuery] int pageSize = 10)
+    {
+        // if logged in
+        var username = string.Empty;
+        var items = new List<SearchResultPersonModel>();
+        var decodedToken = GetDecodedToken();
+
+        if (decodedToken != null) // store result for people logged in
+        {
+            var claim = decodedToken.Claims.FirstOrDefault();
+            if (claim != null)
+            {
+                username = claim.Value;
+                items = _ds.SearchPerson(keyword, page, pageSize, username)
+                            .Select(x => CreateSearchResultPersonModel(x)).ToList();
+
+            }
+
+        }
+        else // dont store result for anonymous users
+        {
+
+            items = _ds.SearchPerson(keyword, page, pageSize, username)
+                        .Select(x => CreateSearchResultPersonModel(x)).ToList();
+        }
+
+        var countPerson = _ds.SearchPersonCount(keyword);
+
+        var results = CreatePaging(nameof(GetSearchesPeople), "Search", page, pageSize, countPerson, items, keyword);
+       
+        return Ok(results);
+    }
 
     [NonAction]
     public SearchResultModel CreateSearchResultModel(SearchResult searchResult)

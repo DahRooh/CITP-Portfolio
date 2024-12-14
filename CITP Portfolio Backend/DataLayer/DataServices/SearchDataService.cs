@@ -42,11 +42,6 @@ namespace DataLayer.DataServices
 
             var skip = pageSize * page;
 
-            if (user != null)
-            {
-                db.Database.ExecuteSqlRaw("call insert_search({0}, {1}, {2})", keyword, user.Id, username);
-            }
-
             var results = db.SearchResultsPerson
                 .FromSqlRaw("select * from make_search_person({0})", keyword)
                 .Skip((page - 1) * pageSize)
