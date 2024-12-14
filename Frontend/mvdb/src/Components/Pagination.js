@@ -1,10 +1,10 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Row, Col, Container, Pagination } from "react-bootstrap";
+import {  Pagination } from "react-bootstrap";
 
 
 export function Paging({index, total, setIndex}) {
-  const handleIndex = (i) => setIndex(i);
-
+  const handleIndex = (i) => setIndex(i + 1);
+  index -= 1;
   const toRender = [];
 
   // Left arrow button
