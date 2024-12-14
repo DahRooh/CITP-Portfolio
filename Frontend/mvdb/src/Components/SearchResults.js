@@ -6,89 +6,38 @@ import ImageFor from './ImageFor';
 import { Paging } from './Pagination';
 import Cookies from 'js-cookie';
 
+
 function SearchResult({ result }) {
-  const [data, setData] = useState(null);
-  const [loading, setLoading] = useState(true);
   
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        let response;
-        if (result.id) {
-          
-          response = await fetch(`http://localhost:5001/api/title/${result.id}`, {
-            headers: {
-              Authorization: "Bearer: " + Cookies.get("token")
-            }
-          }
-         );
-        } else if (result.p_id) {
-          
-          response = await fetch(`http://localhost:5001/api/person/${result.p_id}`, {
-            headers: {
-              Authorization: "Bearer: " + Cookies.get("token")
-            }
-          });
-        }
-        const fetchedData = await response.json();
-        console.log("DATA: ", data);
-        setData(fetchedData);
-      } catch (error) {
-        console.error('Fejl ved hentning af data:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchData();
-  }, [result]);
-
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
-  if (!data) {
-    return <div>No data found!</div>;
-  }
-
+  const type = result.type;
   const displayName = result.type === "series" ? result.name : result.title;
-
+  
   return (
+ 
     <Row>
-      {(() => {
-        if (result.id) {
-          return (
-            <Link to={`http://localhost:3000/title/${result.id}`}>
-              <Col className="search" style={{ paddingRight: "5vw" }}>
-                <ImageFor item={data} width="20%" />
-                <span style={{ display: "block", textAlign: "center", margin: "0 auto" }}>
-                  {displayName}
-                </span>
-              </Col>
-            </Link>
-          );
-        } else if (result.p_id) {
-          return (
-            <Link to={`http://localhost:3000/person/${result.p_id}`}>
-              <Col className="search" style={{ paddingRight: "5vw" }}>
-                <ImageFor item={data} width="20%" />
-                <span style={{ display: "block", textAlign: "center", margin: "0 auto" }}>
-                  {result.name}
-                </span>
-              </Col>
-            </Link>
-          );
-        }
-      })()}
+      <Col className="search" style={{ paddingRight: "5vw" }}>
+        <Link to={`http://localhost:3000/${type}/${result.id}`}> 
+          <ImageFor item={result} width="20%" />
+            <span style={{ textAlign: "center", margin: "0 auto" }}>
+              {displayName}
+            </span>
+        </Link>
+      </Col>
     </Row>
   );
 }
 
-function SearchResults() {
+// resultet fra fetch kommer til at have item for person og item for titler
+// resultaterne skal være i arrays - har gjort det for den ene
+// linket skal være varierende
+// col i stedet for row
 
-  const [searchResults, setSearchResults] = useState([]);
-  const [page, setPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(0);
+function SearchResults() {
+  
+  const [personPage, setPersonPage] = useState(1);
+  const [titlePage, setTitlePage] = useState(1);
+  const [personResults, setPersonResults] = useState([]);
+  const [titleResults, setTitleResults] = useState([]);
   const [loading, setLoading] = useState(true);
   const location = useLocation();
 
@@ -96,66 +45,109 @@ function SearchResults() {
   const keyword = queryParams.get('keyword');
   
   const pageSize = 5;
+
   useEffect(() => {
-    const fetchData = async () => {
-      const res = await fetch(`http://localhost:5001/api/search?keyword=${keyword}&page=${page}&pageSize=${pageSize}`, {
+    
+      console.log(Cookies.get("token"));
+      fetch(`http://localhost:5001/api/search/titles?keyword=${keyword}&page=${titlePage}&pageSize=${pageSize}`, {
         headers: {
           Authorization: "Bearer " + Cookies.get("token")
         }
-      });
-      try {
-        console.log("fetch data")
+      })
+      .then(res => {
         console.log(res);
         if (res.ok) {
-          var data = await res.json(); 
-          if (data) {
-            setSearchResults(data.items);
-            setTotalPages(data.totalNumberOfPages);
-            setLoading(false);
-          } else {
-            throw new Error("no results");
-          }
+          return res.json();          
         } else {
           throw new Error(`Cannot fetch data ${res.status}`)
         }
-      } catch (error) {
-        console.log(error);
-      }
-      
-    }
-    fetchData();}, [keyword, page]);
+      })
+      .then(data => {
+        console.log(data);
+        if (data) {
+          setTitleResults(data);
+          setLoading(false);
+        } else {
+          throw new Error("no results");
+        }
+      })
+      .catch(e => {
+        console.log(e);
+      })
+    }, [keyword, titlePage]);
+
+    useEffect(() => {
+    
+      console.log(Cookies.get("token"));
+      fetch(`http://localhost:5001/api/search/people?keyword=${keyword}&page=${personPage}&pageSize=${pageSize}`, {
+        headers: {
+          Authorization: "Bearer " + Cookies.get("token")
+        }
+      })
+      .then(res => {
+        console.log(res);
+        if (res.ok) {
+          return res.json();          
+        } else {
+          throw new Error(`Cannot fetch data ${res.status}`)
+        }
+      })
+      .then(data => {
+        console.log(data);
+        if (data) {
+          setPersonResults(data);
+          setLoading(false);
+        } else {
+          throw new Error("no results");
+        }
+      })
+      .catch(e => {
+        console.log(e);
+      })
+    }, [keyword, personPage]);
 
     
-
   return (
-
-     
       <Container>
+
         <Row className="textHeader">
           <Col>
             <p>Searched for: {keyword}</p>
           </Col>
 
-          
-
         </Row>
-          <Row className="search centered" style={{paddingLeft: "5vw", paddingRight: "5vw", paddingTop: "5vh"}}>
+        <Row>
+        <Col className="search centered" >
+          {
+              (!loading) ? (titleResults.items)  // if loading, then if there are results
+              ? titleResults.items.map(result => <SearchResult result={result}/>) 
+              : <h2 className='centered'>No results!</h2>
+              : <h2 className='centered'>Loading results!</h2>
+            }            
+          <Row >
+            <Col>
+              <Paging index={titlePage} total={titleResults.totalNumberOfPages} setIndex={setTitlePage}/>
+            </Col>
+          </Row>
+        </Col>
+        
+            
+          <Col className="search centered">
 
             {
-            (!loading) ? (searchResults.length > 0)  // if loading, then if there are results
-            ? searchResults.map(result => <SearchResult result={result}/>) 
+            (!loading) ? (personResults.items)  // if loading, then if there are results
+            ? personResults.items.map(result => <SearchResult result={result}/>) 
             : <h2 className='centered'>No results!</h2>
             : <h2 className='centered'>Loading results!</h2>
             }            
-            <Row >
-              <Col>
-                <Paging index={page} total={totalPages} setIndex={setPage}/>
-              </Col>
-            </Row>
+         <Row >
+            <Col>
+              <Paging index={personPage} total={personResults.totalNumberOfPages} setIndex={setPersonPage}/>
+            </Col>
           </Row>
+        </Col>
 
-
-        
+        </Row>
       </Container>
   );
 }
