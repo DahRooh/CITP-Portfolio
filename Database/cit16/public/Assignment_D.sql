@@ -625,47 +625,48 @@ declare
 
 begin
   return query
-    with titles as (
-    select distinct t_id, title, rating, plot, character, name, poster, titletype
-      from person 
-      natural join person_involved_title 
-      natural join title
-      where title.titletype != 'episode')
-      
 
-      select  results.t_id, 
-              results.title, 
-              results.rating, 
-              results.poster, 
-              results.titletype  
-      from (
-        select t_id, title, rating, poster, titletype 
-        from titles 
+
+      with search_results as (
+        select t.t_id, title, rating, poster, titletype 
+        from title t
+        join person_involved_title pit using (t_id) 
+        join person p using (p_id)
         where lower(title) like title_search
         
         union all
         
-        select t_id, title, rating, poster, titletype 
-        from titles 
+        select t.t_id, title, rating, poster, titletype 
+        from title t
+        join person_involved_title pit using (t_id) 
+        join person p using (p_id)
         where lower(plot) like plot_search
         
         union all
         
-        select t_id, title, rating, poster, titletype 
-        from titles where lower(character) like character_search
+        select t.t_id, title, rating, poster, titletype 
+        from title t
+        join person_involved_title pit using (t_id) 
+        join person p using (p_id)
+        where lower(character) like character_search
         
         union all
         
-        select t_id, title, rating, poster, titletype 
-        from titles 
-        where lower(name) like person_search ) as results
-      group by results.t_id, results.title, results.rating,results.poster, results.titletype;
-
-    
+        select t.t_id, title, rating, poster, titletype 
+        from title t
+        join person_involved_title pit using (t_id) 
+        join person p using (p_id) 
+        where lower(name) like person_search)
+        select * from search_results
+        group by t_id, title, rating, poster, titletype; 
 end;
 $$;
 
-select * from search_simple('game of ');
+
+create index idx_character on person_involved_title(character);
+create index idx_title on title(poster, rating, title, titletype);
+create index idx_person on person(name);
+
 
 /*
       where lower(title) like title_search
