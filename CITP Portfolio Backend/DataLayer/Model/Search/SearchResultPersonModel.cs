@@ -12,5 +12,6 @@ namespace DataLayer.Model.Search
         public string Url { get; set; }
         public string Name { get; set; }
         public double? PersonRating { get; set; }
+        public string Type { get; set; }
     }
 }

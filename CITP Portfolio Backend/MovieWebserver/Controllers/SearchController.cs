@@ -98,7 +98,8 @@ public class SearchController : BaseController
             Url = url,
             Id = person.Id,
             Name = person.Name,
-            PersonRating = person.PersonRating
+            PersonRating = person.PersonRating,
+            Type = "person"
         };
 
         return result;
