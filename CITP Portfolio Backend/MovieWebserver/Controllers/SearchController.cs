@@ -21,6 +21,7 @@ public class SearchController : BaseController
         // if logged in
         var username = string.Empty;
         var items = new List<SearchResultModel>();
+        var items1 = new List<SearchResultPersonModel>();
         var decodedToken = GetDecodedToken();
         if (decodedToken != null) // store result for people logged in
         {
@@ -29,24 +30,31 @@ public class SearchController : BaseController
                 username = claim.Value;
                 items = _ds.Search(keyword, page, pageSize, username)
                             .Select(x => CreateSearchResultModel(x)).ToList();
+                items1 = _ds.SearchPerson(keyword, page, pageSize, username)
+                            .Select(x => CreateSearchResultPersonModel(x)).ToList();
+
             }
 
         } else // dont store result for anonymous users
         {
             items = _ds.Search(keyword, page, pageSize, username)
                         .Select(x => CreateSearchResultModel(x)).ToList();
+            items1 = _ds.SearchPerson(keyword, page, pageSize, username)
+                        .Select(x => CreateSearchResultPersonModel(x)).ToList();
         }
 
-
-
-
-
         var count = _ds.SearchCount(keyword);
+        var countperson = _ds.SearchPersonCount(keyword);
 
-        var results = CreatePaging(nameof(GetSearches), "Search", page, pageSize, count, items, keyword);
+        var results = new
+        {
+            title = CreatePaging(nameof(GetSearches), "Search", page, pageSize, count, items, keyword),
+            person = CreatePaging(nameof(GetSearches), "Search", page, pageSize, countperson, items1, keyword)
+        };
         return Ok(results);
     }
-    
+
+
     [NonAction]
     public SearchResultModel CreateSearchResultModel(SearchResult searchResult)
     {
@@ -75,4 +83,26 @@ public class SearchController : BaseController
         };
         return result;
     }
+
+    [NonAction]
+    public SearchResultPersonModel CreateSearchResultPersonModel(SearchResultPerson searchResultPerson)
+    {
+
+        var webpage = _ds.GetWebpage(searchResultPerson.WebpageId);
+        var url = GetWebpageUrl(nameof(PersonController.GetPerson), "Person", new { pId = webpage.PersonId});
+
+        var person = webpage.Person;
+
+        var result = new SearchResultPersonModel
+        {
+            Url = url,
+            Id = person.Id,
+            Name = person.Name,
+            PersonRating = person.PersonRating
+        };
+
+        return result;
+    }
+
+
 }
