@@ -13,7 +13,7 @@ function CreateReview() {
   const [rating, setRating] = useState(0);
   const [reviewText, setReviewText] = useState("");
   const [captionText, setCaptionText] = useState("");
-  const [navgation, setNavigation] = useState("");
+  const [loading, setLoading] = useState(false);
   const [title, setTitile] = useState([]);
 
   const cookieToken = Cookies.get('token'); 
@@ -22,65 +22,45 @@ function CreateReview() {
     navigate(-1);
   }
 
-    async function handleSubmit() {
-      if(!reviewText && !captionText){
-        console.log("NO REVIEW and CAPTIOn");
-        await fetch(`http://localhost:5001/api/title/${id}/review`, {
-          method: "POST",
-          body: JSON.stringify({
-            reviewText: "",
-            rating: rating,
-            captionText: "",
-          }),
-          headers: {
-            "Authorization": `Bearer ${cookieToken}`,
-            "Content-Type": "application/json"
-          },
-        })
-        .then(res => {
-            if (res.ok) navigate(-1);
-          })
-        .catch((e) => {
-          console.log(e);
-        });
-      } else {
-        await fetch(`http://localhost:5001/api/title/${id}/review`, {
-          method: "POST",
-          body: JSON.stringify({
-            reviewText: reviewText,
-            rating: rating,
-            captionText: captionText,
-          }),
-          headers: {
-            "Authorization": `Bearer ${cookieToken}`,
-            "Content-Type": "application/json"
-          },
-        })
-        .then(res => {
-            if (res.ok) navigate(-1);
-          })
-        .catch((e) => {
-          console.log(e);
-        });
-
-      }
-      
-    }
-    
-    useEffect(() => {
-      fetch(`http://localhost:5001/api/title/${id}`)
-      .then(res => {
-        if (res.ok) return res.json();
-        throw new Error("Could not fect"); // no results
-      })
-      .then(data => {
-        if (data) {
-          setTitile(data._Title)
+  async function handleSubmit() {
+    setLoading(true);
+    await fetch(`http://localhost:5001/api/title/${id}/review`, {
+      method: "POST",
+      body: JSON.stringify({
+        reviewText: reviewText,
+        rating: rating,
+        captionText: captionText,
+      }),
+      headers: {
+        "Authorization": `Bearer ${cookieToken}`,
+        "Content-Type": "application/json"
+      },
+    })
+    .then(res => {
+        if (res.ok) {
+          navigate(-1);
         }
-        else throw new Error("No data");
-      }) 
-      .catch(e => console.log("error", e))
-    }, [id]);
+        setLoading(false)
+      })
+    .catch((e) => {
+      console.log(e);
+    });
+  }
+  
+  useEffect(() => {
+    fetch(`http://localhost:5001/api/title/${id}`)
+    .then(res => {
+      if (res.ok) return res.json();
+      throw new Error("Could not fetch"); // no results
+    })
+    .then(data => {
+      if (data) {
+        setTitile(data._Title)
+      }
+      else throw new Error("No data");
+    }) 
+    .catch(e => console.log("error", e))
+  }, [id]);
     
   
   const handleSetRating = (newRating) => {
@@ -105,54 +85,52 @@ function CreateReview() {
 
   return (
     <Container>
-    <Row>
-    <Col>
-
-      <Container>
       <Row>
-      <Col className="text-center">
-        <Link to={`../title/${id}`} className='removeLink'><h1>{title}</h1></Link>
-        {(cookieToken == undefined)  
-            ? <h1 style={{color:"red"}}>You must sign in to create a review</h1>
-            : null}
-      </Col>
-      </Row>
+      <Col>
+
+        <Container>
+        <Row>
+          <Col className="text-center">
+            <Link to={`../title/${id}`} className='removeLink'><h1>{title}</h1></Link>
+            {(cookieToken === undefined)  
+                ? <h1 style={{color:"red"}}>You must sign in to create a review</h1>
+                : null}
+          </Col>
+        </Row>
       </Container>
 
-      <Container>
-      <Row>
-      <Col className='blackBorder text-center'>
-        <Form onSubmit={(e) => {
-              e.preventDefault();
-              handleSubmit();
-              }}>
-          <StarRating amountOfStars={10} getRating={handleSetRating} startValue={0} />
-          <Form.Control  
-            className="newReviewMargin text-center"
-            type="text"
-            placeholder="Caption"
-            value={captionText}
-            onChange={handleSetCaptionText}
-          />
-          <Form.Control
-            as="textarea" rows={5} 
-            className="newReviewMargin text-center"
-            type="text"
-            placeholder="Review text"
-            value={reviewText}
-            onChange={handleSetReviewText}
-          />
-          <Button className='newReviewMargin' type="submit" style={{width: "20%"}}>
-            Confirm Review
-          </Button>
-          </Form>
-      </Col>
+        <Container>
+          <Row>
+            <Col className='blackBorder text-center'>
+              <Form onSubmit={(e) => {
+                      e.preventDefault();
+                      handleSubmit();
+                      }}>
+              <StarRating amountOfStars={10} getRating={handleSetRating} startValue={0} />
+              <Form.Control  
+                  className="newReviewMargin text-center"
+                  type="text"
+                  placeholder="Caption"
+                  value={captionText}
+                  onChange={handleSetCaptionText}
+                />
+              <Form.Control
+                  as="textarea" rows={5} 
+                  className="newReviewMargin text-center"
+                  type="text"
+                  placeholder="Review text"
+                  value={reviewText}
+                  onChange={handleSetReviewText}
+                />
+              <Button className='newReviewMargin' disabled={loading} type="submit" style={{width: "20%"}}>
+                  {(!loading) ? "Create Review" : "Creating review..."}
+              </Button>
+              </Form>
+            </Col>
+          </Row>
+        </Container>
+        </Col>
       </Row>
-      
-      </Container>
-    
-    </Col>
-    </Row>
     </Container>
   );
 }

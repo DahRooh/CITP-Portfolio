@@ -49,6 +49,9 @@ function TitleReview({ updater, review, userLoggedIn }) {
         .catch(e => console.log("error", e))
       }
       let style = (userLoggedIn.username === review.username) ? { backgroundColor: "rgb(173,255,47)" } : null;
+      
+
+
       return (
         <Row className='review'>
           <Col>

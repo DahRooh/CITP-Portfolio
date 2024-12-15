@@ -25,14 +25,22 @@ public class TitleDataService : ITitleDataService
     public bool CreateReview(CreateReviewModel model, int userId, string tId)
     {
         db = new MVContext();
-
         var title = db.Titles.Where(x => x.Id == tId).FirstOrDefault();
+        var reviewId = 0;
 
         if (title == null) return false;
+        
+        var review = db.Reviews.Include(x => x.createdBy).Where(x => x.createdBy.UserId == userId).FirstOrDefault();
 
-        var reviewId = db.Reviews.Any() ? db.Reviews.Max(x => x.Id) + 1 : 1; // set to max id + 1, or set to 1 if no reviews
+        if (review == null)
+        {
+            reviewId = db.Reviews.Any() ? db.Reviews.Max(x => x.Id) + 1 : 1; // set to max id + 1, or set to 1 if no reviews
+        } else
+        {
+            reviewId = review.Id;
+        }
 
-        db.Database.ExecuteSqlRaw("call rate({0},{1},{2},{3},{4},{5})", title.Id, userId, model.Rating, reviewId, model.ReviewText, model.CaptionText);
+        db.Database.ExecuteSqlRaw("call rate({0}, {1}, {2}, {3}, {4}, {5})", title.Id, userId, model.Rating, reviewId, model.ReviewText, model.CaptionText);
 
         var newReview = db.Reviews
             .Where(x => x.Id == reviewId)

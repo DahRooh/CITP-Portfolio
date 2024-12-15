@@ -413,15 +413,14 @@ begin
   then -- update current rating and review
     raise notice 'update current rating';
     update rates 
-    set rating = user_rating, rated_at = current_timestamp
+    set rating = user_rating, 
+        rated_at = current_timestamp
     where t_id = title_id and u_id = user_id;
-    if in_review is not null and in_caption is not null then
-      raise notice 'update review as well';
 
-      update review
-      set review = in_review, caption = in_caption
-      where rev_id = review_id;
-    end if;
+    update review
+    set review = in_review, 
+        caption = in_caption
+    where rev_id = review_id;
     
   else -- create new rating/review
     raise notice 'creating new rating/review';
@@ -436,7 +435,6 @@ begin
 end;
 $$;
 
-call rate()
 
 
 -- liking reviews

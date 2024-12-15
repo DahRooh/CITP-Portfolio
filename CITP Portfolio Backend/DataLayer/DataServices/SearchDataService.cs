@@ -21,6 +21,7 @@ namespace DataLayer.DataServices
             var user = db.Users.Where(x => x.Username == username).FirstOrDefault();
             
             var skip = pageSize * (page - 1);
+
             Console.WriteLine("keyword " + keyword);
             if (user != null)
             {
