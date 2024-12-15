@@ -491,9 +491,9 @@ public class MVContext : DbContext
         modelBuilder.Entity<CoActor>().HasNoKey();
 
         modelBuilder.Entity<CoActor>().Property(x => x.PersonId).HasColumnName("person_id");
-        modelBuilder.Entity<CoActor>().Property(x => x.Name).HasColumnName("co_actor");
-        modelBuilder.Entity<CoActor>().Property(x => x.Title).HasColumnName("title_name");
-        modelBuilder.Entity<CoActor>().Property(x => x.PersonRating).HasColumnName("person_rating");
+        modelBuilder.Entity<CoActor>().Property(x => x.Name).HasColumnName("co_actors");
+        modelBuilder.Entity<CoActor>().Property(x => x.Rating).HasColumnName("co_rating");
+       
 
     }
 
@@ -503,6 +503,8 @@ public class MVContext : DbContext
 
         modelBuilder.Entity<KnownFor>().Property(x => x.KnownForTitle).HasColumnName("knownfortitles");
         modelBuilder.Entity<KnownFor>().Property(x => x.KnownForId).HasColumnName("titleid");
+        modelBuilder.Entity<KnownFor>().Property(x => x.Rating).HasColumnName("rating");
+
 
     }
 

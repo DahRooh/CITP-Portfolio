@@ -1,4 +1,21 @@
 
+/* Might move somewhere else */
+.textOverflowEllipsis{
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+
+.InfoBox {
+    background-color: rgb(228, 251, 251);
+    margin-bottom: 10px;
+    padding-top: 10px;
+    border: 2px solid black;
+    border-radius: 30px;
+  }
 
 /* REVIEW */
 
@@ -12,6 +29,8 @@
     max-width: 100%;
     overflow-wrap: break-word;
 }
+
+
 
 /* SEARCH HISTORY */
 

@@ -23,24 +23,48 @@ function CreateReview() {
   }
 
     async function handleSubmit() {
-      await fetch(`http://localhost:5001/api/title/${id}/review`, {
-        method: "POST",
-        body: JSON.stringify({
-          reviewText: reviewText,
-          rating: rating,
-          captionText: captionText,
-        }),
-        headers: {
-          "Authorization": `Bearer ${cookieToken}`,
-          "Content-Type": "application/json"
-        },
-      })
-      .then(res => {
-          if (res.ok) navigate(-1);
+      if(!reviewText && !captionText){
+        console.log("NO REVIEW and CAPTIOn");
+        await fetch(`http://localhost:5001/api/title/${id}/review`, {
+          method: "POST",
+          body: JSON.stringify({
+            reviewText: "",
+            rating: rating,
+            captionText: "",
+          }),
+          headers: {
+            "Authorization": `Bearer ${cookieToken}`,
+            "Content-Type": "application/json"
+          },
         })
-      .catch((e) => {
-        console.log(e);
-      });
+        .then(res => {
+            if (res.ok) navigate(-1);
+          })
+        .catch((e) => {
+          console.log(e);
+        });
+      } else {
+        await fetch(`http://localhost:5001/api/title/${id}/review`, {
+          method: "POST",
+          body: JSON.stringify({
+            reviewText: reviewText,
+            rating: rating,
+            captionText: captionText,
+          }),
+          headers: {
+            "Authorization": `Bearer ${cookieToken}`,
+            "Content-Type": "application/json"
+          },
+        })
+        .then(res => {
+            if (res.ok) navigate(-1);
+          })
+        .catch((e) => {
+          console.log(e);
+        });
+
+      }
+      
     }
     
     useEffect(() => {

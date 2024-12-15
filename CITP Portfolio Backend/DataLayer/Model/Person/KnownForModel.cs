@@ -10,8 +10,9 @@ namespace DataLayer.Model.Person
     public class KnownForModel
     {
         public string Url { get; set; }
-        public string KnownForTitle { get; set; }
-        public string KnownForId { get; set; }
+        public string _Title { get; set; }
+        public string Id { get; set; }
+        public double? Rating { get; set; }
 
     }
 }

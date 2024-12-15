@@ -41,7 +41,8 @@ create table person(
 	p_id varchar(10) primary key,
 	name varchar(100),
 	birth_year numeric(4,0),
-	death_year numeric(4,0)
+	death_year numeric(4,0),
+  person_rating numeric(4,2)
 );
 
 create table person_has_a(

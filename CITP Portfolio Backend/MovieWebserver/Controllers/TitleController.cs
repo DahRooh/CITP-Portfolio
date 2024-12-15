@@ -253,7 +253,7 @@ public class TitleController : BaseController
     public IActionResult GetReviews(string tId)
     {
         var reviews = _ds.GetReviews(tId);
-        var models = reviews.Select(x => CreateReviewModel(x));
+        var models = reviews.Where(x => x.Review.Caption != "" && x.Review.Text != "").Select(x => CreateReviewModel(x));
 
         return Ok(models);
     }

@@ -1,7 +1,7 @@
 import { Link } from "react-router";
 import { Button, Row, Col, Container } from 'react-bootstrap';
 import ImageFor from "./ImageFor";
-
+import './User.css';
 
 
 function Option({item, path}) {
@@ -15,7 +15,7 @@ function Option({item, path}) {
                 </Row>
                 <Row>
                     <Col>
-                        <p style={{fontSize: "0.8em", marginBottom: "0px"}}>{item.name || item.person || item._Title || item.knownForTitle}</p>
+                        <p className="textOverflowEllipsis" style={{fontSize: "0.8em", marginBottom: "0px"} }>{item.name || item.person || item._Title}</p>
 
                         <p style={{fontSize: "0.8em", margin: 0}}><small>Rating {item.rating || item.personRating || item.titleRating}</small></p>
 

@@ -155,12 +155,12 @@ public class PersonDataService : IPersonDataService
     public IList<CoActor> GetCoActors(string id, int page, int pageSize)
     {
         db = new MVContext();
-        var coActors = db.CoActors.FromSqlRaw("select * from find_coactors_with_skip({0}, {1}, {2})", id, page, pageSize)
-            .OrderByDescending(a => a.PersonRating).ToList();
+        var coActors = db.CoActors.FromSqlRaw("select * from find_coactors({0})", id)
+            .Skip((page - 1) * pageSize)
+            .Take(pageSize)
+            .ToList();
         return coActors;
     }
-
-
 
     public int NumberOfKnownFor(string id)
     {
@@ -171,7 +171,7 @@ public class PersonDataService : IPersonDataService
     public IList<KnownFor> GetKnownFor(string id, int page, int pageSize)
     {
         db = new MVContext();
-        var knownForList = db.KnownFor.FromSqlRaw("select * from person_known_for_with_skip({0})", id)
+        var knownForList = db.KnownFor.FromSqlRaw("select * from person_known_for({0})", id)
             .Skip((page - 1) * pageSize)
             .Take(pageSize)
             .ToList();

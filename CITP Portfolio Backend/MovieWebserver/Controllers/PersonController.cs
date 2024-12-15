@@ -120,7 +120,8 @@ public class PersonController : BaseController
         var url = GetWebpageUrl(nameof(GetPerson), "Person", new { pId = coActor.PersonId });
         model.Url = url;
         model.Id = coActor.PersonId;
-
+        model.Name = coActor.Name;
+        model.Rating = coActor.Rating;
         return model;
     }
 
@@ -129,9 +130,10 @@ public class PersonController : BaseController
         var model = knownFor.Adapt<KnownForModel>();
         var url = GetWebpageUrl(nameof(GetPerson), "Person", new { pId = knownFor.KnownForId });
         model.Url = url;
-        model.KnownForId = knownFor.KnownForId;
-        model.KnownForTitle = knownFor.KnownForTitle;
-        
+        model.Id = knownFor.KnownForId;
+        model._Title = knownFor.KnownForTitle;
+        model.Rating = knownFor.Rating;
+
         return model;
     }
 

@@ -54,7 +54,6 @@ create view person_title_webpages as (
   order by wp_id
  );
  
-drop view if exists person_rated;
 drop view if exists title_cast;
 create view title_cast as (
     select p_id, name, t_id, title, character, rating 
@@ -64,20 +63,10 @@ create view title_cast as (
 
 drop view if exists person_rated;
 create view person_rated as 
-    (with temp_test as (
-    select distinct name, title, rating
-    from title_cast)
         select name, round(sum(rating) / count(title), 2) as rating
-        from temp_test
+        from title_cast
         group by name
-        order by rating desc
-);
-
-select * from person_rated;
-
-
-
-
+        order by rating desc;
 
 --------------------------------------------------------------------------------
 -- sign up procedure 
@@ -279,35 +268,19 @@ $$;
 --------------------------------------------------------------------------------
 -- Person known for
 
-drop function if exists person_known_for_with_skip;
-
-create function person_known_for_with_skip(search_id varchar(100))
-returns table (titleid varchar, knownfortitles varchar(2000))
-language plpgsql as $$
-
-begin
-		return query
-				select distinct title.t_id, title.title from title
-				natural join person_involved_title join person using (p_id)
-				where person.p_id = search_id;			
-end;
-$$;
-        
-
 drop function if exists person_known_for;
 
 create function person_known_for(search_id varchar(100))
-returns table (titleId varchar, knownfortitles varchar(2000))
+returns table (titleId varchar, knownfortitles varchar(2000), rating numeric)
 language plpgsql as $$
 
 begin
 		return query
-				select distinct title.t_id, title.title from title
+				select distinct title.t_id, title.title, title.rating from title
 				natural join person_involved_title join person using (p_id)
 				where person.p_id = search_id;
 end;
 $$;
-
 
 --------------------------------------------------------------------------------
 
@@ -463,6 +436,8 @@ begin
 end;
 $$;
 
+call rate()
+
 
 -- liking reviews
 drop procedure if exists like_review;
@@ -561,8 +536,6 @@ begin
     order by rated_at desc;
 end;
 $$;
-
-
 
 
 /*
@@ -709,50 +682,32 @@ played).
 Hint: You may for this as well as for other purposes find a view helpful to make query expressions easier (to express and to read). An example of such a view could be one that collects the most important columns from title, principals and name in a single virtual table.
 */
 
-drop function if exists find_coactors_with_skip;
-create function find_coactors_with_skip(actor_id varchar, skip int, take int)
-returns table (
-      person_id varchar,
-      co_actor varchar,
-      title_name varchar,
-      person_rating numeric(8,2),
-      counted bigint
-      
-      )
-language plpgsql as $$
-begin
-  return query
-    select distinct t1.p_id, t1.name, t1.title, t1.rating, count(distinct t2.title) 
-    from title_cast t1 
-    join title_cast t2 on t1.title = t2.title
-    where t2.p_id = actor_id and t1.p_id <> actor_id
-    group by t1.p_id, t1.name, t1.title, t1.rating
-    order by count desc
-    limit take offset skip;
-end;
-$$;
 
 drop function if exists find_coactors;
 create function find_coactors(actor_id varchar)
 returns table (
       person_id varchar,
-      co_actor varchar,
-      title_name varchar,
-      person_rating numeric(8,2),
+      co_actors varchar,
+      co_rating numeric,
       counted bigint
-      
       )
 language plpgsql as $$
 begin
   return query
-    select distinct t1.p_id, t1.name, t1.title, t1.rating, count(distinct t2.title) 
+    select distinct t1.p_id, t1.name, pr.person_rating, count(distinct t2.title) 
     from title_cast t1 
     join title_cast t2 on t1.title = t2.title
+    join person pr on pr.name = t1.name
     where t2.p_id = actor_id and t1.p_id <> actor_id
-    group by t1.p_id, t1.name, t1.title, t1.rating
+    group by t1.p_id, t1.name, pr.person_rating
     order by count desc;
 end;
 $$;
+
+
+
+
+
 
 
 

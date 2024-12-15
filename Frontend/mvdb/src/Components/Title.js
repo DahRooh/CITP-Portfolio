@@ -100,7 +100,6 @@ function Title() {
     .catch(e => console.log("error", e))
   }, [similarTitlesPage, id]);
 
-
   return (
     <Container className='centered'>
       <Row>

@@ -10,6 +10,7 @@ namespace DataLayer.DomainObjects.FunctionResults
     {
         public string KnownForTitle { get; set; }
         public string KnownForId { get; set; }
+        public double? Rating { get; set; }
 
     }
 }

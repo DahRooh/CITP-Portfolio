@@ -11,9 +11,7 @@ namespace DataLayer.Model.Person
         public string Url { get; set; }
         public string Id { get; set; }
         public string Name { get; set; }
-        public string Title { get; set; }
-        public double PersonRating { get; set; }
-
+        public double? Rating { get; set; }
 
     }
 }
