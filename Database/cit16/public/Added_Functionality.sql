@@ -31,7 +31,7 @@ begin
   with exact_match as (
     select p.p_id, p.name as person_name
     from person p
-    where lower(p.name) = any(keywords)
+    where p.name ilike any(keywords)
   ), similar_matches as (
     select p.p_id, p.name as person_name
     from person p
