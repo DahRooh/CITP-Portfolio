@@ -1,27 +1,15 @@
 import 'bootstrap/dist/css/bootstrap.css';
 import { useState } from 'react';
 import { Button, ButtonGroup, Col, Container, Nav, Row } from 'react-bootstrap';
-import Cookies from 'js-cookie';
+import Cookies from 'js-cookie';  
 import { Link } from 'react-router';
-
-
-
-export function convertCookie() {
-  var cookie = {};
-  const splitCookie = document.cookie.split(";");
-  splitCookie.forEach(data => {
-    var keyValuePair = data.split("=");
-    cookie[keyValuePair[0].trim()] = keyValuePair[1]; 
-  })
-  return cookie;
-}
 
 
 function Header() {
   const [cookies, setCookie] = useState(Cookies.get());
 
   setInterval(() => {
-    var userCookies = convertCookie();
+    var userCookies = Cookies.get();
     if (userCookies && userCookies.token !== cookies.token) {
       setCookie(userCookies);
     }
@@ -30,7 +18,9 @@ function Header() {
   function clearCookies() {
     var cookieNames = Object.keys(cookies);
     cookieNames.map(name => document.cookie = name + '=; Max-Age=0; expires=Thu, 01 Jan 1970 00:00:00 UTC"');
-    setCookie(Cookies.get());
+    Cookies.remove("token");
+    Cookies.remove("username");
+    Cookies.remove("userid");
   }
 
   return (

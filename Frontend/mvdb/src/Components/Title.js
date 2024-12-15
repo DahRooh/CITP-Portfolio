@@ -1,12 +1,11 @@
 import 'bootstrap/dist/css/bootstrap.css';
-import { Link, useParams } from 'react-router';
+import { useParams } from 'react-router';
 import SelectionPane from './SelectionPane.js'
-import { Button, ButtonGroup, Col, Container, Row } from 'react-bootstrap';
+import {  Col, Container, Row } from 'react-bootstrap';
 import { useEffect, useState } from 'react';
+import Cookies from 'js-cookie';
 
-import { convertCookie } from './Header.js';
 import InfoBox from './InfoBox.js';
-import TitleReview from './TitleReview.js';
 import TitleReviews from './TitleReview.js';
 
 
@@ -29,8 +28,7 @@ function Title() {
   const [crewPage, setCrewPage] = useState(1);
   
 
-  const [reviews, setReviews] = useState(false);
-  const [cookies] = useState(() => convertCookie());
+  const [cookies] = useState(Cookies.get());
 
   const [updater, setUpdater] = useState(null);
     
@@ -47,19 +45,6 @@ function Title() {
     }) 
     .catch(e => console.log("error", e))
   }, [id]);
-
-  useEffect(() => {
-    fetch(`http://localhost:5001/api/title/${id}/reviews`)
-    .then(res => {
-      if (res.ok) return res.json();
-      return null; // no results
-    })
-    .then(data => {
-      if (data) setReviews(data);
-      else return new Error("No data");
-    }) 
-    .catch(e => console.log("error", e))
-  }, [id, updater]);
 
   useEffect(() => {
     fetch(`http://localhost:5001/api/title/${id}/crew?page=${crewPage}&pageSize=${pageSize}`)
@@ -124,7 +109,7 @@ function Title() {
         </Col>
       </Row>
       <br/>
-      <TitleReviews updater={setUpdater} reviews={reviews} cookies={cookies}/>
+      <TitleReviews updater={updater} setUpdater={setUpdater}  id={id}/>
     </Container>
   );
 }

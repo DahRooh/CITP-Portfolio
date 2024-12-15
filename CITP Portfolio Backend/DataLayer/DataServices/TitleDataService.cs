@@ -30,7 +30,11 @@ public class TitleDataService : ITitleDataService
 
         if (title == null) return false;
         
-        var review = db.Reviews.Include(x => x.createdBy).Where(x => x.createdBy.UserId == userId).FirstOrDefault();
+        var review = db.Reviews
+            .Include(x => x.createdBy)
+            .Where(x => x.createdBy.UserId == userId)
+            .Where(x => x.createdBy.TitleId == tId)
+            .FirstOrDefault();
 
         if (review == null)
         {

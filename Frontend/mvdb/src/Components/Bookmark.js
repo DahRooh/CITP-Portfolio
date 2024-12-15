@@ -7,10 +7,12 @@ import { Link, Outlet, useParams } from 'react-router';
 import Cookies from 'js-cookie';
 import ImageFor from './ImageFor.js';
 import { Timestamp } from './Time.js';
+import { Popup } from './Popup.js';
 
 
 
 function Bookmark( {item, updater} ) {
+
   async function deleteBookmark() {
     await fetch(`http://localhost:5001/api/user/${Cookies.get("userid")}/bookmark/${item.id}` , {
       method: "DELETE",
@@ -27,15 +29,7 @@ function Bookmark( {item, updater} ) {
     <div key={item.id} className='container' style={{marginTop: 20, marginBottom: 20 }}>
       <Container className='singlehistoryContainer'>
         <Row>
-          <Col className='text-start' md={1}>
-          <Form>
-            <Form.Check
-              name="group1"
-              type="checkbox"
-              id={`checkbox`}
-            />
-          </Form>
-          </Col>
+
 
           <Col className='text-start' md={2}>
             <p style={{fontWeight: 'bold', wordBreak: 'break-word'}}>
@@ -43,7 +37,7 @@ function Bookmark( {item, updater} ) {
               </p>
             <Timestamp time={item.createdAt}/>
           </Col>
-            <Col className='text-start' md={8}>
+            <Col className='text-start'>
               <Link to={`/${type}/${item.titleId}`}>
                 <h6 style={{wordBreak: 'break-word'}}>
                   <ImageFor item={item} width='10%'/>
@@ -51,11 +45,7 @@ function Bookmark( {item, updater} ) {
                 </h6>
               </Link>
             </Col>
-          <Col>
-            <Button onClick={deleteBookmark}>
-              <Image src="../../trash.png" roundedCircle />
-            </Button>
-          </Col>
+            <Popup deleter={deleteBookmark} functionMsg={"Delete bookmark"} message={"Are you sure you want to delete the bookmark?"}/>
         </Row>
       </Container>
     </div>
@@ -90,19 +80,14 @@ function Bookmarks(){
       console.log(e);
     })
   }, [updater]);
-
+  
   return(
   <Container className='blackBorder'>
     <Row>
       <Col>
         <Container>
-          <h3 className="col text-center breakWord">Bookmarks</h3>
-          <Col className='text-end'>
-          <ButtonGroup>
-          <Button variant="secondary">Clear Selected Bookmarks</Button>
-          <Button variant="secondary">Clear Bookmarks</Button>
-          </ButtonGroup>
-          </Col>
+          <h2 className="col text-center breakWord">Bookmarks</h2>
+
           <Row className='review'>
             <Col>
               {(bookmarks) 

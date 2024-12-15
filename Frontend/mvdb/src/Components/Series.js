@@ -5,8 +5,8 @@ import SelectionPane from './SelectionPane.js'
 import { Button, ButtonGroup, Col, Container, Row } from 'react-bootstrap';
 import { useEffect, useState } from 'react';
 import InfoBox from './InfoBox.js';
-import { convertCookie } from './Header.js';
 import TitleReviews from './TitleReview.js';
+import Cookies from 'js-cookie';
 
 
 
@@ -18,7 +18,7 @@ function Series() {
   const [episodeOptionIndex, setEpisodeOptionIndex] = useState(1);
   const [currentItems, setCurrentItems] = useState(false);
   const [reviews, setReviews] = useState(false);
-  const [cookies] = useState(() => convertCookie());
+  const [cookies] = useState(Cookies.get());
   const [updater, setUpdater] = useState(null);
 
   useEffect(() => { // get the series' title
@@ -123,8 +123,8 @@ function Series() {
           <br/>
         </Col>
       </Row>
-      <TitleReviews updater={setUpdater} reviews={reviews} cookies={cookies}/>
-    </Container>
+      <TitleReviews updater={updater} setUpdater={setUpdater}  id={id}/>
+      </Container>
   );
 }
   

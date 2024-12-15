@@ -8,6 +8,8 @@ import Cookies from 'js-cookie';
 import { StarRatingFixed } from './StarRatingFixed.js';
 import { Link } from 'react-router';
 import ImageFor from './ImageFor.js';
+import trashIcon from '../trash.png';
+import { Popup } from './Popup.js';
 
 function UserReview( {review, updater} ) {
   async function deleteReview() {
@@ -47,11 +49,8 @@ function UserReview( {review, updater} ) {
             <hr/>
             <p >{review.text}</p>
           </Col>
-          <Col md={1}>
-            <Button onClick={deleteReview}>
-              <Image src="../trash.png" roundedCircle />
-            </Button>
-          </Col>
+          <Popup deleter={deleteReview} functionMsg={"Delete review"} message={"Are you sure you want to delete the review?"}/>
+          
         </Row>
         <hr/>
         <Row>
@@ -95,10 +94,8 @@ function UserReviews() {
         <Container>
           <Row>
             <Col>
-              <h3 className='col text-center'>Reviews</h3>
-                <Col className="text-end">
-                    <Button>Delete Selected Reviews</Button>
-                </Col>
+              <h2 className='col text-center'>Reviews</h2>
+
                   {(reviews) ? (reviews.length > 0) ? reviews.map( (item) => <UserReview key={item.reviewId} review={item} updater={setUpdater}/>  ) : "You have no reviews."
                     : "Loading"}
                   <Container className='paging'>

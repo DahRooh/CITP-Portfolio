@@ -25,7 +25,7 @@ root.render(
   <React.StrictMode>
     <div className='all'>
     <BrowserRouter> {/* from react package */}
-    <Header/>    
+      <Header/>    
 
       <Routes> {/* we must include our routes here somehow*/}
         <Route index element={<Frontpage />}/>

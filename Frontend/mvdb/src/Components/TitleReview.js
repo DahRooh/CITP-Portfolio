@@ -2,14 +2,15 @@ import 'bootstrap/dist/css/bootstrap.css';
 import { Button, ButtonGroup, Col, Container, Row } from 'react-bootstrap';
 import { useEffect, useState } from 'react';
 import { StarRatingFixed } from './StarRatingFixed';
+import Cookies from 'js-cookie';
 
-function TitleReview({ updater, review, userLoggedIn }) {
-
+function TitleReview({ updater, review }) {
+  let cookies = Cookies.get();
 
     useEffect(() => {
-      fetch(`http://localhost:5001/api/user/${userLoggedIn.userid}/likes`, {
+      fetch(`http://localhost:5001/api/user/${cookies.userid}/likes`, {
         headers: {
-          Authorization: "Bearer " + userLoggedIn.token
+          Authorization: "Bearer " + Cookies.get("token")
         }
       })
       .then(res => {
@@ -20,7 +21,7 @@ function TitleReview({ updater, review, userLoggedIn }) {
         if (!data) return new Error("No data");
       }) 
       .catch(e => console.log("error", e))
-    }, [userLoggedIn.userid]);
+    }, [cookies.userid]);
   
       if (!review) {
         return <Row>
@@ -29,26 +30,29 @@ function TitleReview({ updater, review, userLoggedIn }) {
           </Col>
         </Row>
       }
-      function likeReview( reaction ) {
-        fetch(`http://localhost:5001/api/title/${review.titleId}/review/${review.reviewId}/like`, {
-          method: "POST",
-          body: JSON.stringify({
-            "like": reaction
-          }),
-          headers: {
-            "Content-Type": "application/json",
-            "Authorization": "Bearer " + userLoggedIn.token
-          }
-        })
-        .then(res => {
-          if (res.ok) {
-            updater(c => !c);
-            return res.json;
-          }
-        }) 
-        .catch(e => console.log("error", e))
+      async function likeReview( reaction ) {
+        if (review) {
+          await fetch(`http://localhost:5001/api/title/${review.titleId}/review/${review.reviewId}/like`, {
+            method: "POST",
+            body: JSON.stringify({
+              "like": reaction
+            }),
+            headers: {
+              "Content-Type": "application/json",
+              "Authorization": "Bearer " + cookies.token
+            }
+          })
+          .then(res => {
+            if (res.ok) {
+              updater(c => !c);
+              return res.json;
+            }
+          }) 
+          .catch(e => console.log("error", e))
+        }
       }
-      let style = (userLoggedIn.username === review.username) ? { backgroundColor: "rgb(173,255,47)" } : null;
+
+      let style = (cookies.username === review.username) ? { backgroundColor: "rgb(173,255,47)" } : null;
       
 
 
@@ -71,10 +75,10 @@ function TitleReview({ updater, review, userLoggedIn }) {
               <Col md={2}>
               <p>Likes: {review.liked}</p>
               <ButtonGroup>
-                  <Button onClick={() => likeReview(1)} disabled={!userLoggedIn.token}>
+                  <Button onClick={() => likeReview(1)} disabled={!cookies.token}>
                     Like
                   </Button>
-                  <Button onClick={() => likeReview(-1)} disabled={!userLoggedIn.token}>
+                  <Button onClick={() => likeReview(-1)} disabled={!cookies.token}>
                     Dislike
                   </Button>
               </ButtonGroup>
@@ -90,21 +94,40 @@ function TitleReview({ updater, review, userLoggedIn }) {
         </Row>
     )
 }
-function TitleReviews( {updater, reviews, cookies} ) {
-    return (
-        <Container className='reviewContainer'>
-            <Row>
-            <Col>
-            <h1>Reviews</h1>
-            </Col>
-            <hr/>
-            </Row>
+function TitleReviews( {id} ) {
+  const [reviews, setReviews] = useState(false);
+  const [updater, setUpdater] = useState(false);
 
-            {(reviews.length > 0) 
-            ? reviews.map(review => <TitleReview updater={updater} review={review} key={review.reviewId} userLoggedIn={cookies} />)
-            : <Row><Col><p>No reviews</p></Col></Row>}
+  useEffect(() => {
+    fetch(`http://localhost:5001/api/title/${id}/reviews`)
+    .then(res => {
+      console.log(res);
+      if (res.ok) return res.json();
+      return null; // no results
+    })
+    .then(data => {
+      console.log(data);
+      if (data) setReviews(data);
+      else return new Error("No data");
+    }) 
+    .catch(e => console.log("error", e))
+  }, [id, updater]);
 
-      </Container>
-    )
+
+  return (
+      <Container className='reviewContainer'>
+          <Row>
+          <Col>
+          <h1>Reviews</h1>
+          </Col>
+          <hr/>
+          </Row>
+
+          {(reviews && reviews.length > 0) 
+          ? reviews.map(review => <TitleReview updater={setUpdater} review={review} key={review.reviewId}/>)
+          : <Row><Col><p>No reviews</p></Col></Row>}
+
+    </Container>
+  )
 }
 export default TitleReviews;

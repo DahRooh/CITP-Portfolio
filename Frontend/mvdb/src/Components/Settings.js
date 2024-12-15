@@ -3,6 +3,8 @@ import './User.css';
 import { Container, Row, Col, Button, Form } from 'react-bootstrap';
 import { useEffect, useState } from 'react';
 import Cookies from 'js-cookie';
+import { Popup } from './Popup';
+import { useNavigate } from 'react-router';
 
 function UpdateInformation() {
   const [user, setUser] = useState(null);
@@ -18,6 +20,8 @@ function UpdateInformation() {
   const [emailSuccess, setEmailSuccess] = useState(false);
 
   const cookies = Cookies.get();
+
+  let navigate = useNavigate();
 
   // Fetch user details by ID
   useEffect(() => {
@@ -90,16 +94,38 @@ function UpdateInformation() {
     });
   }
 
+  async function deleteAccount() {
+    await fetch(`http://localhost:5001/api/user/${cookies.userid}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + cookies.token
+      },
+    })
+    .then(res => {
+        if (res.ok) {
+          Cookies.remove("token");
+          Cookies.remove("username");
+          Cookies.remove("userid");
+          navigate("/");
+        }
+    })
+    .catch(e => {
+      console.log(e);
+    });
+  }
+
   if (!user) return (
     <>Fetching user details</>
   )
   return (
       <Container className='blackBorder'>
         <Container>
-        <Row className="textHeader">
-          <Col>
+        <Row>
+          <Col className="textHeader">
               <h1>Update Information</h1>
           </Col>
+          <Popup deleter={deleteAccount} message={"Do you really want to delete your account?"} functionMsg={"Delete account"}/>
         </Row>
         </Container>
 
