@@ -13,5 +13,6 @@ public class CastModel
     public string Url { get; set; }
     public string Person { get; set; }
     public string Character { get; set; }
+    public double? Rating { get; set; }
 
 }

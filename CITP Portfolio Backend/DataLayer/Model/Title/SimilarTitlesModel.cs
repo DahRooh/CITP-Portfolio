@@ -12,5 +12,6 @@ namespace DataLayer.Model.Title
         public string Url { get; set; }
         public string _Title { get; set; }
         public int CommonGenres { get; set; }
+        public double? Rating { get; set; } = 0;
     }
 }

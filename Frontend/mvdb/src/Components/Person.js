@@ -43,14 +43,13 @@ function PersonInformation({person}){
 function Person() {
   const [person, setPersons] = useState([]);
 
-  const [coActorsIndex, setcoActorsIndex] = useState(1);
-  const [coActors, setCoActors] = useState([]);
-  const [coActorsDetails, setcoActorsDetails] = useState([]);
+
+  const [coActors, setCoActors] = useState(false);
+  const [coActorsPage, setcoActorsPage] = useState(1);
 
 
-  const [knownForIndex, setKnownForIndex] = useState(1);
-  const [knownFor, setKnownFor] = useState([]);
-  const [knownForDetails, setknownForDetails] = useState([]);
+  const [knownFor, setKnownFor] = useState(false);
+  const [knownForPage, setKnownForPage] = useState(1);
 
   const itemsPerPage = 5;
 
@@ -78,46 +77,43 @@ function Person() {
 
 
   useEffect(() => {
-    fetch(`http://localhost:5001/api/person/${p_id}/coactors?page=${coActorsIndex}&pageSize=${itemsPerPage}`)
+    fetch(`http://localhost:5001/api/person/${p_id}/coactors?page=${coActorsPage}&pageSize=${itemsPerPage}`)
     .then(res => {
       if (res.ok) return res.json();
       throw new Error("Could not fect"); // no results
     })
     .then(data => {
-      if (data && data.items) {
-        setCoActors(data.items);
-        setcoActorsDetails(data.totalNumberOfPages);
-      }
-      else throw new Error("No data");
+      if (data) {setCoActors(data);}
+      else return new Error("No data");
     }) 
     .catch(e => console.log("error", e))
-  }, [p_id, coActorsIndex]);
+  }, [coActorsPage, p_id]);
+
+
 
 
   useEffect(() => {
-    fetch(`http://localhost:5001/api/person/${p_id}/knownfor?page=${knownForIndex}&pageSize=${itemsPerPage}`)
+    fetch(`http://localhost:5001/api/person/${p_id}/knownfor?page=${knownForPage}&pageSize=${itemsPerPage}`)
     .then(res => {
       if (res.ok) return res.json();
       throw new Error("Could not fect"); // no results
     })
     .then(data => {
-      if (data && data.items) {
-        setKnownFor(data.items);
-        setknownForDetails(data.totalNumberOfPages)
-      }
-      else throw new Error("No data");
+      if (data) {setKnownFor(data);}
+      else return new Error("No data");
     }) 
     .catch(e => console.log("error", e))
-  }, [p_id, knownForIndex]);
+  }, [knownForPage, p_id]);
 
 
 
-  let coActorsPaging = coActorsDetails;
-  let knownForPaging = knownForDetails;
 
-  if(coActorsDetails === 0){
+  let coActorsPaging = coActors.totalNumberOfPages;
+  let knownForPaging = knownFor.totalNumberOfPages;
+
+  if(coActors.totalNumberOfPages === 0){
     coActorsPaging = 1;
-  } else if(knownForDetails === 0){
+  } else if(knownFor.totalNumberOfPages === 0){
     knownForPaging = 1;
   }
 
@@ -129,9 +125,9 @@ function Person() {
           <PersonInformation person={person}/> 
         </Col>        
         <Col>
-        <SelectionPane items={coActors} path={`/person`} currentIndex={coActorsIndex} name={"Co-actors"} amountOfPages={coActorsPaging} function={setcoActorsIndex}/> 
+        <SelectionPane items={coActors.items} path={`/person`} currentIndex={coActorsPage} name={"Co-actors"} amountOfPages={coActorsPaging} function={setcoActorsPage}/> 
         <br/>
-        <SelectionPane items={knownFor} path={"/title"} currentIndex={knownForIndex} name={"Known for"} amountOfPages={knownForPaging} function={setKnownForIndex}/>
+        <SelectionPane items={knownFor.items} path={"/title"} currentIndex={knownForPage} name={"Known for"} amountOfPages={knownForPaging} function={setKnownForPage}/>
         </Col>
       </Row>
     </Container>

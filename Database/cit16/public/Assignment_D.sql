@@ -812,6 +812,7 @@ create or replace function find_similar_titles(input_title_id varchar)
 returns table(
   similar_title_id varchar,
   similar_title varchar,
+  title_rating numeric(4,2),
   multiple_same_genre numeric
 )
 language plpgsql as $$
@@ -819,6 +820,7 @@ begin
   return query
   select distinct t_id as similar_title_id,
          title as similar_title,
+         rating,
          sum(case when (select count(genre) from title_is where title_is.genre = genre) > 1 then 1 else 0 end)::numeric as multiple_same_genre
   from title
   join title_is using(t_id)
@@ -827,14 +829,11 @@ begin
       from title_is
       where t_id = input_title_id)
   and t_id <> input_title_id
-  group by similar_title_id, similar_title 
+  group by similar_title_id, similar_title, rating
   order by multiple_same_genre desc
   limit 15;
 end;
 $$;
-
-
-
 
 
 /*

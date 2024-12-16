@@ -18,7 +18,14 @@ function Option({item, path}) {
                     <Col>
                         <p className="textOverflowEllipsis" style={{fontSize: "0.8em", marginBottom: "0px"} }>{item.name || item.person || item._Title}</p>
 
-                        <p style={{fontSize: "0.8em", margin: 0}}><small>Rating {item.rating || item.personRating || item.titleRating}</small></p>
+                        {(item.rating === 0 || item.personRating === 0 || item.titleRating === 0) ? (
+                        <p style={{ fontSize: "0.8em", margin: 0 }}>    
+                        <small>Rating: 0</small>
+                        </p>
+                        ) : ( <p style={{ fontSize: "0.8em", margin: 0 }}>    
+                                 <small>Rating: {item.rating || item.personRating || item.titleRating}</small>
+                              </p>
+                        )}
 
                     </Col>
                 </Row>

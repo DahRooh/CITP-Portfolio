@@ -462,6 +462,7 @@ public class MVContext : DbContext
 
         modelBuilder.Entity<SimilarTitle>().Property(x => x.Id).HasColumnName("similar_title_id");
         modelBuilder.Entity<SimilarTitle>().Property(x => x._Title).HasColumnName("similar_title");
+        modelBuilder.Entity<SimilarTitle>().Property(x => x.Rating).HasColumnName("title_rating");
         modelBuilder.Entity<SimilarTitle>().Property(x => x.CommonGenres).HasColumnName("multiple_same_genre");
 
     }

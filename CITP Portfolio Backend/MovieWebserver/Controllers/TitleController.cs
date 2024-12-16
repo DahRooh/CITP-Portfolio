@@ -443,6 +443,7 @@ public class TitleController : BaseController
         var url = GetWebpageUrl(nameof(PersonController.GetPerson), "Person", new { pId = involvedIn.Id });
         model.Url = url;
         model.Person = involvedIn.Person.Name;
+        model.Rating = involvedIn.Person.PersonRating;
         return model;
     }
 

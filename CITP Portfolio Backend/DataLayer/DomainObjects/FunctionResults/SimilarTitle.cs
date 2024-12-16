@@ -12,6 +12,8 @@ namespace DataLayer.DomainObjects.FunctionResults
         public string _Title { get; set; }
         public int CommonGenres { get; set; }
 
+        public double? Rating { get; set; } = 0;
+
 
     }
 }
