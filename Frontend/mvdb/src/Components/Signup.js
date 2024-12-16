@@ -1,12 +1,10 @@
 import 'bootstrap/dist/css/bootstrap.css';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Container, Row, Col, FormGroup, Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router';
-import Cookies from 'js-cookie';
 
 function SignUp() {
 
-  const [signUpData, setSignUpData] = useState({});
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
@@ -16,14 +14,6 @@ function SignUp() {
 
   let navigate = useNavigate();
   
-  useEffect(() => {
-    if (signUpData) {
-      if (signUpData.id) {
-        navigate("/signin");
-      } 
-    }
-  }, [signUpData])
-
 
   async function signUp() {
     await fetch(`http://localhost:5001/api/user/new`, {
@@ -44,14 +34,14 @@ function SignUp() {
     })
     .then(data => {
       if (data.id) {
-        setSignUpData(data);
+          navigate("/signin");
       } else if (data.error){
         setErrorMessage(data.error);
       }
     })
     .catch(e => {
       console.log(e)
-    }) 
+    })
   }
 
 

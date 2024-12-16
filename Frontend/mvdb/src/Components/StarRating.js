@@ -1,5 +1,5 @@
 import 'bootstrap/dist/css/bootstrap.css';
-import { Container, Row, Col, Button, ButtonGroup, InputGroup, Form } from 'react-bootstrap';
+import { Button, ButtonGroup } from 'react-bootstrap';
 import { useState } from 'react';
 
 export function StarRating({ amountOfStars, getRating }) {

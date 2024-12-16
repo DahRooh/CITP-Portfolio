@@ -8,7 +8,6 @@ import Cookies from 'js-cookie';
 function UserPage() {
     const { u_id } = useParams();
     const [userIDs, setuserID] = useState([]);
-    const token = Cookies.get();
     const [currentPage, setCurrentPage] = useState("Settings");
 
   // Fetch user details by ID
@@ -18,7 +17,7 @@ function UserPage() {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${Cookies.get("token")}`,
         }
       })
         .then((res) => {
@@ -55,16 +54,16 @@ function UserPage() {
                     <Col>
                       <ButtonGroup>  
                           <Link to="settings">
-                            <Button onClick={() => setCurrentPage("Settings")} className="buttons-margin" disabled={currentPage == "Settings"}>Update information</Button>
+                            <Button onClick={() => setCurrentPage("Settings")} className="buttons-margin" disabled={currentPage === "Settings"}>Update information</Button>
                           </Link>
                           <Link to="review">
-                            <Button onClick={() => setCurrentPage("Reviews")} className="buttons-margin" disabled={currentPage == "Reviews"}>Reviews</Button>
+                            <Button onClick={() => setCurrentPage("Reviews")} className="buttons-margin" disabled={currentPage === "Reviews"}>Reviews</Button>
                           </Link>
                           <Link to="history">
-                            <Button onClick={() => setCurrentPage("Search History")} className="buttons-margin" disabled={currentPage == "Search History"}>Search History</Button>
+                            <Button onClick={() => setCurrentPage("Search History")} className="buttons-margin" disabled={currentPage === "Search History"}>Search History</Button>
                           </Link>
                           <Link to="bookmark">
-                            <Button onClick={() => setCurrentPage("Bookmarks")} className="buttons-margin" disabled={currentPage == "Bookmarks"}>Bookmarks</Button>
+                            <Button onClick={() => setCurrentPage("Bookmarks")} className="buttons-margin" disabled={currentPage === "Bookmarks"}>Bookmarks</Button>
                           </Link>
                         </ButtonGroup>
                     </Col>

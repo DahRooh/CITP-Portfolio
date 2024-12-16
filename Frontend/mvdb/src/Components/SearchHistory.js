@@ -1,11 +1,11 @@
 import 'bootstrap/dist/css/bootstrap.css';
-import './User.css';
 import { Paging } from './Pagination.js';
-import {Button, ButtonGroup, Form,  Row, Col, Container, Image} from 'react-bootstrap';
+import {Row, Col, Container} from 'react-bootstrap';
 import { useEffect, useState } from "react"; 
 import Cookies from 'js-cookie';
+
+import './User.css';
 import { Timestamp } from './Time.js';
-import trashIcon from '../trash.png';
 import { Popup } from './Popup.js';
 
 function Search( {searchHistory} ) {
@@ -46,7 +46,7 @@ function SearchHistory(){
       })
     .then (data => {
       setSearchHistory(data)})
-  }, [updater]);
+  }, [updater, cookies.userid, cookies.token]);
 
   const clearHistory = () => {
     fetch(`http://localhost:5001/api/user/${cookies.userid}/search/clear`, { 

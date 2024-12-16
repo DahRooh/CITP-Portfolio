@@ -1,30 +1,34 @@
 import 'bootstrap/dist/css/bootstrap.css';
-import { useEffect, useState } from 'react';
-import { Container, Row, Col, FormGroup, Button } from 'react-bootstrap';
+import { useState } from 'react';
+import { Container, Row, Col, Button, Form } from 'react-bootstrap';
 import { useNavigate } from 'react-router';
 import Cookies from 'js-cookie';
 
 function SignIn() {
 
-  const [logInData, setLogInData] = useState({});
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+
+  const [errorMessage, setErrorMessage] = useState(false);
   let navigate = useNavigate();
   
-  useEffect(() => {
+  function login(logInData) {
     if (logInData) {
       if (logInData.token) {
         Cookies.set('token', logInData.token, {secure: false, expires: 7});
         Cookies.set('userid', logInData.id, {secure: false, expires: 7});
         Cookies.set('username', logInData.username, {secure: false, expires: 7});
 
+        setErrorMessage(false);
         navigate("/");
-      }
+      } 
+    } else {
+      setErrorMessage(true);
     }
-  }, [logInData])
+  }
 
 
-  async function signIn() {
+  async function signIn(e) {
     await fetch(`http://localhost:5001/api/user/sign_in`, {
       method: "PUT", 
       body: JSON.stringify(
@@ -39,11 +43,11 @@ function SignIn() {
     })
     .then(res => {
       if (res.ok) return res.json();
-      return null;
+      setErrorMessage(true);
     })
     .then(data => {
       if (data) {
-        setLogInData(data);
+        login(data);
       }
     })
     .catch(e => {
@@ -70,23 +74,32 @@ function SignIn() {
           </Col>
         </Row>
 
-        <form className="centered">
-          <FormGroup className="placeholders">
-            <label>Username:</label>  
+        <Form className="centered"
+              onSubmit={(e) => {
+                ;
+              }}>
+            <label>Username:</label>
+            <Form.Control  
+                  className="newReviewMargin text-center"
+                  type="text"
+                  placeholder="Username"
+                  onChange={handleSetUsername}
+                />
             <br/>
-            <input className="placeholderText" placeholder="Username" onChange={handleSetUsername}/>
-          </FormGroup>
-
-          <FormGroup className="placeholders">
+            {(errorMessage) ? <p style={{color: "red"}}>Username or password is incorrect.</p> : null}
             <label>Password:</label>
-            <br/>
-            <input className="placeholderText" placeholder="Password" onChange={handleSetPassword} type="password"/>
-          </FormGroup>
+            <Form.Control  
+                  className="newReviewMargin text-center"
+                  type="password"
+                  placeholder="Password"
+                  onChange={handleSetPassword}
+                />
+          <br/>
 
-          <Button style={{width: "20%"}} onClick={signIn}>
+          <Button onClick={signIn} style={{width: "20%"}}>
             Login
           </Button>
-        </form>
+        </Form>
 
       </Container>
 

@@ -1,10 +1,12 @@
 import 'bootstrap/dist/css/bootstrap.css';
-import { Container, Row, Col, Button, ButtonGroup, InputGroup, Form } from 'react-bootstrap';
-import { Link, Outlet, useParams, useNavigate } from 'react-router';
-import './User.css';
+
+import { Container, Row, Col, Button, Form } from 'react-bootstrap';
+import { Link, useParams, useNavigate } from 'react-router';
 import { useState, useEffect } from 'react';
-import {StarRating} from './StarRating'; 
 import Cookies from 'js-cookie';
+
+import {StarRating} from './StarRating'; 
+import './User.css';
 
 
 function CreateReview() {
@@ -74,14 +76,6 @@ function CreateReview() {
   const handleSetCaptionText = e => {
     setCaptionText(e.target.value);
   }
-
-  const handleSetNavigation = e => {
-    if(cookieToken !== undefined){
-      navigate(-1);
-      // setNavigation(navigate(`/title/${id}`));
-    }
-  }
-
 
   return (
     <Container>

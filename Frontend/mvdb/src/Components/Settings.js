@@ -1,10 +1,11 @@
 import 'bootstrap/dist/css/bootstrap.css';
-import './User.css';
 import { Container, Row, Col, Button, Form } from 'react-bootstrap';
 import { useEffect, useState } from 'react';
-import Cookies from 'js-cookie';
-import { Popup } from './Popup';
 import { useNavigate } from 'react-router';
+import Cookies from 'js-cookie';
+
+import './User.css';
+import { Popup } from './Popup';
 
 function UpdateInformation() {
   const [user, setUser] = useState(null);
@@ -39,7 +40,7 @@ function UpdateInformation() {
         setUser(data);
       })
       .catch((error) => console.log("Error fetching user", error));
-  }, [updater]);
+  }, [updater, cookies.token, cookies.userid]);
 
   async function updateMail(value) {
     await fetch(`http://localhost:5001/api/user/${cookies.userid}/update_email`, {

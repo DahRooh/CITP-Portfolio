@@ -10,7 +10,7 @@ function ImageFor( {item, width = "100%", height="100%"} ) {
         .then(data => {
             handleData(data, setPoster);
         });
-    }, [item]);
+    }, [fetchPoster]);
 
     function handleData(data, setData) {
         var keys = Object.keys(data);

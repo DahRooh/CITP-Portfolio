@@ -101,12 +101,10 @@ function TitleReviews( {id} ) {
   useEffect(() => {
     fetch(`http://localhost:5001/api/title/${id}/reviews`)
     .then(res => {
-      console.log(res);
       if (res.ok) return res.json();
       return null; // no results
     })
     .then(data => {
-      console.log(data);
       if (data) setReviews(data);
       else return new Error("No data");
     }) 

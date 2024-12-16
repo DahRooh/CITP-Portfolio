@@ -1,10 +1,12 @@
 import 'bootstrap/dist/css/bootstrap.css';
+
+import { Row, Col, Container } from 'react-bootstrap';
+import { useEffect, useState } from "react"; 
+import { Link } from 'react-router';
+import Cookies from 'js-cookie';
+
 import './User.css';
 import { Paging } from './Pagination.js';
-import {Button, ButtonGroup, Form,  Row, Col, Container, Image} from 'react-bootstrap';
-import { useEffect, useState } from "react"; 
-import { Link, Outlet, useParams } from 'react-router';
-import Cookies from 'js-cookie';
 import ImageFor from './ImageFor.js';
 import { Timestamp } from './Time.js';
 import { Popup } from './Popup.js';
@@ -79,7 +81,7 @@ function Bookmarks(){
     .catch(e => {
       console.log(e);
     })
-  }, [updater]);
+  }, [updater, cookies.token, cookies.userid]);
   
   return(
   <Container className='blackBorder'>

@@ -1,9 +1,9 @@
 import 'bootstrap/dist/css/bootstrap.css';
-import SelectionPane from "./SelectionPane";
 import { Row, Col, Container } from "react-bootstrap";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
-import { Picture } from "./Picture";
+
+import SelectionPane from "./SelectionPane";
 import ImageFor from './ImageFor';
 
 
@@ -16,7 +16,6 @@ function PersonInformation({person}){
     } else {
       return "Unknown";
     }
-
   }
 
   return (
@@ -43,7 +42,6 @@ function PersonInformation({person}){
 
 
 function Person() {
-  const apiKey = "c8190d104e34c4f62a2be88afa477327";
   const [person, setPersons] = useState([]);
 
   const [coActorsIndex, setcoActorsIndex] = useState(1);
@@ -68,19 +66,16 @@ function Person() {
     if (p_id) {
       fetch(`http://localhost:5001/api/person/${p_id}`)
         .then((res) => {
-          console.log("Person Data: ", res);
           if (res.ok) return res.json();
           return {}; // no results
         })
         .then((data) => {
           setPersons(data);
-          console.log("Person Data: ", data);
         })
         .catch((error) => console.log("Error fetching person ID", error));
     }
   }, [p_id]);
 
-  console.log("Person: ", person);
 
 
   useEffect(() => {
@@ -117,11 +112,6 @@ function Person() {
   }, [p_id, knownForIndex]);
 
 
-  console.log("CoActors: ", coActors);
-  console.log("Known for: ", knownFor);
-
-  console.log("Coactors details: ", coActorsDetails);
-  console.log("Known for details: ", knownForDetails);
 
   let coActorsPaging = coActorsDetails;
   let knownForPaging = knownForDetails;

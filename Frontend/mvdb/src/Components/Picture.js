@@ -3,7 +3,6 @@ export function Picture({ type, personPath, titlePath, width, height }) {
     person: "https://image.tmdb.org/t/p/w500",
     title: ""
   };
-  //console.log("pictuepath: ", urls[type]);
   const imagePath =
     type === "person" ? personPath?.profile_path : titlePath?.poster;
 

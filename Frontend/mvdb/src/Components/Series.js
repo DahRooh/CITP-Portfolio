@@ -17,7 +17,6 @@ function Series() {
   const [currentSeason, setCurrentSeason] = useState(1);
   const [episodeOptionIndex, setEpisodeOptionIndex] = useState(1);
   const [currentItems, setCurrentItems] = useState(false);
-  const [reviews, setReviews] = useState(false);
   const [cookies] = useState(Cookies.get());
   const [updater, setUpdater] = useState(null);
 
@@ -50,19 +49,6 @@ function Series() {
     .catch(e => console.log("error", e))
   }, [id]);
 
-  useEffect(() => {
-    fetch(`http://localhost:5001/api/title/${id}/reviews`)
-    .then(res => {
-      if (res.ok) return res.json();
-      return null; // no results
-    })
-    .then(data => {
-      if (data) {
-        setReviews(data);}
-      else return new Error("No data");
-    }) 
-    .catch(e => console.log("error", e))
-  }, [id, updater]);
 
   useEffect(() => {
     if (series && series.seasons && series.seasons[currentSeason]) {

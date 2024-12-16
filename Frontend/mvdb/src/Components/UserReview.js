@@ -1,19 +1,17 @@
 import 'bootstrap/dist/css/bootstrap.css';
-import './User.css';
-import { Paging } from './Pagination.js';
-import {Button} from 'react-bootstrap';
 import { useEffect, useState } from "react"; 
-import { Row, Col, Container, Form, Image } from "react-bootstrap";
-import Cookies from 'js-cookie';
-import { StarRatingFixed } from './StarRatingFixed.js';
+import { Row, Col, Container } from "react-bootstrap";
 import { Link } from 'react-router';
+import Cookies from 'js-cookie';
+
+import './User.css';
+import { StarRatingFixed } from './StarRatingFixed.js';
 import ImageFor from './ImageFor.js';
-import trashIcon from '../trash.png';
+import { Paging } from './Pagination.js';
 import { Popup } from './Popup.js';
 
 function UserReview( {review, updater} ) {
   async function deleteReview() {
-    console.log(review);
     await fetch(`http://localhost:5001/api/user/${Cookies.get("userid")}/review/${review.reviewId}` , {
       method: "DELETE",
       headers: {
@@ -81,13 +79,12 @@ function UserReviews() {
       })
     .then(data => {
       if (data) {
-        console.log(data);
         setReviews(data);
       } else {
         setReviews([]);
       }
     });
-  }, [updater])
+  }, [updater, user.token, user.userid])
 
     return (
       <Container className='blackBorder text-center'>

@@ -1,7 +1,8 @@
-import SelectionPane from "./SelectionPane";
 import { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Container, Row, Col } from 'react-bootstrap';
+
+import SelectionPane from "./SelectionPane";
 
 
 function Frontpage() {

@@ -66,7 +66,6 @@ function InfoBox({ updater, title, cookies }) {
               }
             })
             .then(res =>{
-              console.log(userBookmarks);
               if (res.ok) {
                 setUserBookmarks(null); 
                 updater(true);

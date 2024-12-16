@@ -1,5 +1,5 @@
 import 'bootstrap/dist/css/bootstrap.css';
-import { Button, ButtonGroup } from 'react-bootstrap';
+import {  ButtonGroup } from 'react-bootstrap';
 import { useEffect, useState } from 'react';
 
 export function StarRatingFixed({ titleRating }) {
