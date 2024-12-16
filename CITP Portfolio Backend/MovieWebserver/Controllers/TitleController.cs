@@ -421,6 +421,7 @@ public class TitleController : BaseController
     private TitleModel CreateTitleModel(Title title)
     {
         var model = title.Adapt<TitleModel>();
+        model.Genres = title.Genres.Select(x => x.GenreName).ToList();
         model.Url = GetWebpageUrl(nameof(GetTitle), "Title", new { tId = title.Id });
         return model;
     }

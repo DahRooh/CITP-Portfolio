@@ -15,9 +15,9 @@ function SignIn() {
   function login(logInData) {
     if (logInData) {
       if (logInData.token) {
-        Cookies.set('token', logInData.token, {secure: false, expires: 7});
-        Cookies.set('userid', logInData.id, {secure: false, expires: 7});
-        Cookies.set('username', logInData.username, {secure: false, expires: 7});
+        Cookies.set('token', logInData.token, {secure: false, expires: 1});
+        Cookies.set('userid', logInData.id, {secure: false, expires: 1});
+        Cookies.set('username', logInData.username, {secure: false, expires: 1});
 
         setErrorMessage(false);
         navigate("/");
@@ -28,7 +28,7 @@ function SignIn() {
   }
 
 
-  async function signIn(e) {
+  async function signIn() {
     await fetch(`http://localhost:5001/api/user/sign_in`, {
       method: "PUT", 
       body: JSON.stringify(
@@ -65,19 +65,14 @@ function SignIn() {
   }
 
   return (
-
-    <div className="fullscreen">
-      <Container>
+      <Container style={{height: "100vh"}}>
         <Row className="textHeader">
           <Col>
             Sign In
           </Col>
         </Row>
 
-        <Form className="centered"
-              onSubmit={(e) => {
-                ;
-              }}>
+        <Form className="centered">
             <label>Username:</label>
             <Form.Control  
                   className="newReviewMargin text-center"
@@ -85,6 +80,8 @@ function SignIn() {
                   placeholder="Username"
                   onChange={handleSetUsername}
                 />
+            <br/>
+            <br/>
             <br/>
             {(errorMessage) ? <p style={{color: "red"}}>Username or password is incorrect.</p> : null}
             <label>Password:</label>
@@ -102,8 +99,6 @@ function SignIn() {
         </Form>
 
       </Container>
-
-    </div>
   );
 }
   

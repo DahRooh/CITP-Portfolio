@@ -93,7 +93,7 @@ function UserReviews() {
             <Col>
               <h2 className='col text-center'>Reviews</h2>
 
-                  {(reviews) ? (reviews.length > 0) ? reviews.map( (item) => <UserReview key={item.reviewId} review={item} updater={setUpdater}/>  ) : "You have no reviews."
+                  {(reviews) ? (reviews.length > 0) ? reviews.map( (item) => <UserReview key={item.reviewId} review={item} updater={setUpdater}/>  ) : <div className='review'>You have no reviews.</div> 
                     : "Loading"}
                   <Container className='paging'>
                     <Row>

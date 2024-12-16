@@ -34,13 +34,16 @@ function Title() {
     
   
   useEffect(() => {
+    setUpdater(c => !c)
     fetch(`http://localhost:5001/api/title/${id}`)
     .then(res => {
       if (res.ok) return res.json();
       return null; // no results
     })
     .then(data => {
-      if (data) setTitle(data);
+      if (data) {
+        setTitle(data);
+      }
       else return new Error("No data");
     }) 
     .catch(e => console.log("error", e))
@@ -88,7 +91,7 @@ function Title() {
   return (
     <Container className='centered'>
       <Row>
-        <InfoBox updater={setUpdater} key={title.id} title={title} cookies={cookies} />
+        <InfoBox updater={setUpdater} title={title} cookies={cookies} />
 
         <Col>
           <Row>

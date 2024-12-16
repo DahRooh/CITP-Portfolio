@@ -19,5 +19,7 @@ public class TitleModel
     public int? RunTime { get; set; }
     public string? Poster { get; set; }
 
+    public List<string>? Genres { get; set; }
+
     
 }

@@ -42,7 +42,7 @@ function UserPage() {
               </Col>
             </Row>
           </Container>
-  
+          <br/>
           <Container>
             <Row>
               <Col className="text-center">

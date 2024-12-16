@@ -19,7 +19,7 @@ function PersonInformation({person}){
   }
 
   return (
-    <>
+    <Container style={{height: "80vh"}}>
       <Row>
         <Col>
           <ImageFor item={person} width={'50%'} />
@@ -30,11 +30,10 @@ function PersonInformation({person}){
         <Col>
           <h3>{person.name || "Name not available"}</h3>
           <p>Age: {calculateAge()}</p>
-          {/*}<p>Department: {personPicture.known_for_department || "Unknown"}</p>{*/}
           <p>Rating: {person.personRating || "Has no rating"}</p>
         </Col>
       </Row>
-    </>
+    </Container>
   )
   
 }

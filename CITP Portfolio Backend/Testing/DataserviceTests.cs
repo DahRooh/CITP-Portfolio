@@ -122,7 +122,7 @@ public class DataserviceTests
     public void AnyoneCanFindCastOfATitle()
     {
         var tds = new TitleDataService();
-        var cast = tds.GetCast("tt10382912");
+        var cast = tds.GetCast("tt10382912", 1, 5);
 
         Assert.Equal("['Amadeu Matheus']", cast[0].Character);
     }

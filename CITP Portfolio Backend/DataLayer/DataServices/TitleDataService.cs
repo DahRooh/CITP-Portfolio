@@ -187,6 +187,7 @@ public class TitleDataService : ITitleDataService
     {
         db = new MVContext();
         var title = db.Titles
+            .Include(x => x.Genres)
             .Where(x => x.Id == id)
             .FirstOrDefault();
 

@@ -67,8 +67,12 @@ function SearchHistory(){
     <Container className='blackBorder'>
       <Row>
         <Col>
-          <h2 className="col text-center breakWord">Search History</h2>
-          {(searchHistory && searchHistory.length > 0) ? <Popup deleter={clearHistory}  functionMsg={"Delete search history"} message={"Are you sure you want to clear the search history?"}/> : null}
+          <Row>
+            <Col md={9}>
+              <h2 className="col text-center breakWord">Search History</h2>
+            </Col>
+            {(searchHistory && searchHistory.length > 0) ? <Popup  deleter={clearHistory}  functionMsg={"Delete search history"} message={"Are you sure you want to clear the search history?"}/> : null}
+          </Row>
           <Row>
             <Col>
               {(searchHistory) ? (searchHistory.length > 0) ? 

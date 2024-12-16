@@ -10,6 +10,7 @@ import ImageFor from './ImageFor.js';
 function InfoBox({ updater, title, cookies }) {
   const[userBookmarks, setUserBookmarks] = useState(false);
   useEffect(() => {
+        setUserBookmarks(false);
         if (cookies.userid){
           fetch(`http://localhost:5001/api/user/${cookies.userid}/bookmarks`, {
             method: "GET",
@@ -25,15 +26,17 @@ function InfoBox({ updater, title, cookies }) {
           .then(data => {
             if (data) {
               data.forEach(bookmark => {
-                if (bookmark.id === title.id) setUserBookmarks(bookmark); 
+                if (bookmark.titleId === title.id) {
+                  setUserBookmarks(bookmark);
+                } 
               }) 
             }
           })}
-        }, [cookies, title]);
+        }, [cookies, title, updater]);
 
 
     function bookmark() {
-      if (cookies && cookies.token) {
+      if (cookies && cookies.token) { 
             fetch(`http://localhost:5001/api/title/${title.id}/bookmark`, {
               method: "POST",
               headers: {
@@ -67,7 +70,7 @@ function InfoBox({ updater, title, cookies }) {
             })
             .then(res =>{
               if (res.ok) {
-                setUserBookmarks(null); 
+                setUserBookmarks(false); 
                 updater(true);
               }
             })
@@ -108,22 +111,44 @@ function InfoBox({ updater, title, cookies }) {
           </Row>
 
           <Row>
+            {(title.release) ?
             <Col>
-              <p>Release: {title.released}</p>
+               <h3>Release: </h3> <span>{title.released}</span>
             </Col>
-            <Col>
-              <p>Language: {title.language}</p>
-            </Col>
-          </Row>
-
-          <Row>
+            : null}
+            
+            {(title.runTime) ?
             <Col>
               <p>Runtime: {title.runTime} minutes</p>
             </Col>
-            <Col>
-              <p>Country: {title.country}</p>
-            </Col>
+            : null}
           </Row>
+
+          <Row>
+            {(title.language) ?
+            <Col>
+                <p>Language: {title.language}</p>
+              </Col>
+            : null}
+
+            {
+            (title.country) ?
+              <Col>
+                <p>Country: {title.country}</p>
+              </Col>
+            : null
+            }
+            {
+            (title.genres) ?
+              <Col>
+                <p>Genres: {title.genres.map((x, i) => (
+                    <><span key={i}>{x}</span><br/></>
+                  ))}</p>
+              </Col>
+            : null
+            }
+          </Row>
+
 
           <Row>
             <Col>

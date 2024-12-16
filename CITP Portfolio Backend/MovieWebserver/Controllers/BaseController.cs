@@ -56,7 +56,7 @@ public abstract class BaseController : ControllerBase
 
         var token = new JwtSecurityToken(
             claims: claims,
-            expires: DateTime.Now.AddHours(8),
+            expires: DateTime.Now.AddDays(1),
             signingCredentials: creds
 
             );
@@ -115,12 +115,11 @@ public abstract class BaseController : ControllerBase
     public JwtSecurityToken GetDecodedToken()
     {
         var encodedToken = HttpContext.Request.Headers.Authorization.FirstOrDefault();
-        if (encodedToken == null) return null;
+        if (encodedToken == "null" || encodedToken == null) return null;
         var handler = new JwtSecurityTokenHandler();
 
         var trimmedEncodedToken = encodedToken.Replace("Bearer ", "");
-
-        var token = handler.ReadJwtToken(trimmedEncodedToken);
+        JwtSecurityToken token = handler.ReadJwtToken(trimmedEncodedToken);
 
         return token;
     }

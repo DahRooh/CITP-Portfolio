@@ -1,6 +1,6 @@
 import 'bootstrap/dist/css/bootstrap.css';
 import { useState } from 'react';
-import { Container, Row, Col, FormGroup, Button } from 'react-bootstrap';
+import { Container, Row, Col, Button, Form } from 'react-bootstrap';
 import { useNavigate } from 'react-router';
 
 function SignUp() {
@@ -61,8 +61,7 @@ function SignUp() {
 
   return (
 
-    <div className="fullscreen">
-      <Container>
+      <Container style={{height: "100vh"}}>
         <Row className="textHeader">
           <Col>
             Sign Up
@@ -70,36 +69,50 @@ function SignUp() {
           </Col>
         </Row>
         
-        <form className="centered">
-          <FormGroup className="placeholders">
-            <label>Username:</label>
-            <br/>
-            <input className="placeholderText" placeholder="Username" onChange={handleSetUsername}/>
-          </FormGroup>
+        <Form className="centered">
 
-          <FormGroup className="placeholders">
-            <label>Email:</label>
-            <br/>
-            <input className="placeholderText" placeholder="Email" onChange={handleSetEmail}/>
-          </FormGroup>
+          <br/>
+          <br/>
+          <label>Username:</label>
+          <Form.Control  
+                    className="placeholderText"
+                    type="text"
+                    placeholder="Username"
+                    onChange={handleSetUsername}
+                  />
 
-          <FormGroup className="placeholders">
-            <label>Password:</label>
-            <br/>
-            <input className="placeholderText" placeholder="Password" onChange={handleSetPassword} type="password"/>
+
+          <br/>
+          <br/>
+          <label>Email:</label>
+          <Form.Control  
+                    className="placeholderText"
+                    type="text"
+                    placeholder="Email"
+                    onChange={handleSetEmail}
+                  />
+
+          <br/>
+          <br/>
+          <label>Password:</label>
+          <Form.Control  
+                    className="placeholderText"
+                    type="password"
+                    placeholder="Password"
+                    onChange={handleSetPassword}
+                  />
+                  
             {(password.length > 0)  
             ? <p style={{color: (!passwordIsOk && password.length > 0) ? "red" : "green"}}>Password must be at least 8 characters long.</p>
             : null}
-            
-          </FormGroup>
-
+          <br/>
+          <br/>
           <Button style={{width: "20%"}} onClick={signUp} disabled={!passwordIsOk}>
             Sign up
           </Button>
-        </form>
+        </Form>
 
       </Container>
-    </div>
   );
 }
   

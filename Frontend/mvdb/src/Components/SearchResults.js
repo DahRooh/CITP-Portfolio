@@ -1,7 +1,7 @@
 import 'bootstrap/dist/css/bootstrap.css';
 import { useEffect, useState } from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
-import { Link, useLocation } from 'react-router';
+import { Link, useLocation } from 'react-router-dom';
 import ImageFor from './ImageFor';
 import { Paging } from './Pagination';
 import Cookies from 'js-cookie';
@@ -10,19 +10,24 @@ import Cookies from 'js-cookie';
 function SearchResult({ result }) {
   
   const type = result.type;
-  
+  console.log(result);
   return (
  
-    <Row>
-      <Link to={`http://localhost:3000/${type}/${result.id}`}> 
-        <Col className="search">
-          <ImageFor item={result} width='20%' height='100%'/>
-          <span>
+    <Link style={{border: "none", outline: "none", textDecoration: "none"}} to={`http://localhost:3000/${type}/${result.id}`}> 
+      <Row  className='review'>
+          <Col className="search" md={3}>
+            <ImageFor item={result} width='100%' height='100%'/>
+          </Col>
+          <Col className='text-center'>
+            <h4>
               {result.text}
-          </span>
-        </Col>
-      </Link>
-    </Row>
+            </h4>
+            {(result.type !== 'person') ? <p>{(result.type === 'title') ? "movie" : result.type} </p>: null}
+            {(result.rating) ? "Rating: " + result.rating : null}
+          </Col>
+
+      </Row>
+    </Link>
   );
 }
 
@@ -50,7 +55,7 @@ function SearchResults() {
     setLoadingTitle(true);
     fetch(`http://localhost:5001/api/search/titles?keyword=${keyword}&page=${titlePage}&pageSize=${pageSize}`, {
       headers: {
-        Authorization: "Bearer " + Cookies.get("token")
+        Authorization: (Cookies.get("token")) ? "Bearer " + Cookies.get("token") : null
       }
     })
     .then(res => {
@@ -62,6 +67,7 @@ function SearchResults() {
     })
     .then(data => {
       if (data) {
+        console.log(data);
         setTitleResults(data);
         setLoadingTitle(false);
       } else {
@@ -75,11 +81,7 @@ function SearchResults() {
 
     useEffect(() => {
       setLoadingPerson(true);
-      fetch(`http://localhost:5001/api/search/people?keyword=${keyword}&page=${personPage}&pageSize=${pageSize}`, {
-        headers: {
-          Authorization: "Bearer " + Cookies.get("token")
-        }
-      })
+      fetch(`http://localhost:5001/api/search/people?keyword=${keyword}&page=${personPage}&pageSize=${pageSize}`)
       .then(res => {
         if (res.ok) {
           return res.json();          
