@@ -35,6 +35,9 @@ function Title() {
   
   useEffect(() => {
     setUpdater(c => !c)
+    setCrewPage(1);
+    setCastPage(1);
+    setSimilarTitlesPage(1);
     fetch(`http://localhost:5001/api/title/${id}`)
     .then(res => {
       if (res.ok) return res.json();
@@ -50,6 +53,7 @@ function Title() {
   }, [id]);
 
   useEffect(() => {
+    setCrew(false);
     fetch(`http://localhost:5001/api/title/${id}/crew?page=${crewPage}&pageSize=${pageSize}`)
     .then(res => {
       if (res.ok) return res.json();
@@ -63,19 +67,22 @@ function Title() {
   }, [crewPage, id]);
 
   useEffect(() => {
+    setCast(false);
     fetch(`http://localhost:5001/api/title/${id}/cast?page=${castPage}&pageSize=${pageSize}`)
     .then(res => {
       if (res.ok) return res.json();
       return null; // no results
     })
     .then(data => {
-      if (data) {setCast(data);}
+      if (data) {
+        setCast(data);}
       else return new Error("No data");
     }) 
     .catch(e => console.log("error", e))
   }, [castPage, id]);
 
   useEffect(() => {
+    setSimilarTitles(false);
     fetch(`http://localhost:5001/api/title/${id}/similartitles?page=${similarTitlesPage}&pageSize=${pageSize}`)
     .then(res => {
       if (res.ok) return res.json();

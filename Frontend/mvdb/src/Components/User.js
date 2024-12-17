@@ -9,8 +9,10 @@ function UserPage() {
     const { u_id } = useParams();
     const [userIDs, setuserID] = useState([]);
     const [currentPage, setCurrentPage] = useState("Settings");
-
-  // Fetch user details by ID
+    
+    //window.location.href.split("/").slice(-1) to get current path
+  
+    // Fetch user details by ID
   useEffect(() => {
     if (u_id) {
       fetch(`http://localhost:5001/api/user/${u_id}`, {

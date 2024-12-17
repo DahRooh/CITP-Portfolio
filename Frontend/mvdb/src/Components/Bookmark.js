@@ -14,7 +14,6 @@ import { Popup } from './Popup.js';
 
 
 function Bookmark( {item, updater} ) {
-
   async function deleteBookmark() {
     await fetch(`http://localhost:5001/api/user/${Cookies.get("userid")}/bookmark/${item.id}` , {
       method: "DELETE",
@@ -58,7 +57,6 @@ function Bookmark( {item, updater} ) {
 
 
 function Bookmarks(){
-  const [index, setIndex] = useState(0);
   const [bookmarks, setBookmarks] = useState(null);
   const [updater, setUpdater] = useState(false);
 
@@ -72,7 +70,7 @@ function Bookmarks(){
     .then(res => res.json())
     .then (data => {
       if (data) {
-        return setBookmarks(data);
+        return setBookmarks(data.reverse());
       } else {
         setBookmarks([]);
       }
@@ -97,12 +95,7 @@ function Bookmarks(){
               ? bookmarks.map((bookmark) => ( <Bookmark key={bookmark.id} item={bookmark} updater={setUpdater} /> )) 
               : "You have no bookmarks" : "Loading"}
               <Container className='paging'>
-              <Row>
-                <Col className='text-center'>
-                {(bookmarks) ? <Paging index={index} total={Math.ceil(bookmarks.length / 20)} setIndex={setIndex} /> 
-                : null}
-                </Col>
-              </Row>
+
               </Container>
             </Col>
           </Row>

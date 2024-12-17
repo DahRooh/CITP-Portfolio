@@ -36,8 +36,22 @@ function Option({item, path}) {
 }
 
 function SelectionPane({items, path, currentIndex, name, amountOfPages, function: setIndex}) {
+    if ((items) && items.length === 0) {
+        return (
+        <Container className="selectionPane centered">
+            <Row className="centered">
+                <h2>{name}</h2>
+            </Row>
+            <Row>
 
-
+            <Col>
+                No {name} to display
+            </Col>
+            
+            </Row>
+            <br/>
+        </Container>)
+    }
     return (
 
         <Container className="selectionPane centered">

@@ -20,6 +20,7 @@ function Frontpage() {
   const maxItems = 100;
 
   useEffect(() => {
+    setMovies(false);
     fetch(`http://localhost:5001/api/title/movies?page=${moviesIndex}&pageSize=${itemsPerPage}`)
     .then(res => {
       if (res.ok) return res.json();
@@ -36,6 +37,7 @@ function Frontpage() {
   }, [moviesIndex]);
 
   useEffect(() => {
+    setSeries(false);
     fetch(`http://localhost:5001/api/title/series?page=${seriesIndex}&pageSize=${itemsPerPage}`)
     .then(res => {
       if (res.ok) return res.json();
@@ -51,6 +53,7 @@ function Frontpage() {
   }, [seriesIndex]);
 
   useEffect(() => {
+    setPeople(false);
     fetch(`http://localhost:5001/api/person?page=${peopleIndex}&pageSize=${itemsPerPage}`)
     .then(res => {
       if (res.ok) return res.json();

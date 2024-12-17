@@ -61,6 +61,8 @@ function Person() {
 
   // Fetch person details by person ID
   useEffect(() => {
+    setKnownForPage(1);
+    setcoActorsPage(1);
     if (p_id) {
       fetch(`http://localhost:5001/api/person/${p_id}`)
         .then((res) => {
@@ -77,6 +79,7 @@ function Person() {
 
 
   useEffect(() => {
+    setCoActors(false);
     fetch(`http://localhost:5001/api/person/${p_id}/coactors?page=${coActorsPage}&pageSize=${itemsPerPage}`)
     .then(res => {
       if (res.ok) return res.json();
@@ -93,6 +96,7 @@ function Person() {
 
 
   useEffect(() => {
+    setKnownFor(false);
     fetch(`http://localhost:5001/api/person/${p_id}/knownfor?page=${knownForPage}&pageSize=${itemsPerPage}`)
     .then(res => {
       if (res.ok) return res.json();

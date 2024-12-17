@@ -79,7 +79,7 @@ function UserReviews() {
       })
     .then(data => {
       if (data) {
-        setReviews(data);
+        setReviews(data.reverse());
       } else {
         setReviews([]);
       }
@@ -95,13 +95,7 @@ function UserReviews() {
 
                   {(reviews) ? (reviews.length > 0) ? reviews.map( (item) => <UserReview key={item.reviewId} review={item} updater={setUpdater}/>  ) : <div className='review'>You have no reviews.</div> 
                     : "Loading"}
-                  <Container className='paging'>
-                    <Row>
-                      <Col>
-                        {(reviews) ? <Paging index={index} total={Math.ceil(reviews.length / 20)} setIndex={setIndex} /> : null}
-                      </Col>
-                    </Row>
-                  </Container>
+
             </Col>
           </Row>
         </Container>    

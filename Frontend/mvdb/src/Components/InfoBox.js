@@ -62,7 +62,7 @@ function InfoBox({ updater, title, cookies }) {
     
       function deleteBookmark() {
         if (cookies && cookies.token) {
-            fetch(`http://localhost:5001/api/user/${cookies.userid}/bookmark/${userBookmarks.reviewId}`, {
+            fetch(`http://localhost:5001/api/user/${cookies.userid}/bookmark/${userBookmarks.id}`, {
               method: "DELETE",
               headers: {
                 "Authorization": "Bearer " + cookies.token
@@ -142,7 +142,7 @@ function InfoBox({ updater, title, cookies }) {
             (title.genres) ?
               <Col>
                 <p>Genres: {title.genres.map((x, i) => (
-                    <><span key={i}>{x}</span><br/></>
+                    <span key={i}>{x}<br/></span>
                   ))}</p>
               </Col>
             : null
@@ -168,6 +168,7 @@ function InfoBox({ updater, title, cookies }) {
           </Row>
 
         </Row>
+        <br/>
       </Col>
     );
 }

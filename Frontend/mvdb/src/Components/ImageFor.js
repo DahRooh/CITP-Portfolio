@@ -34,7 +34,7 @@ function ImageFor( {item, width = "100%", height="100%"} ) {
                 posterUrl = posterUrl+poster;
             }
             else {
-                posterUrl = (item.id[0] === 't') ? "https://media.istockphoto.com/id/911590226/vector/movie-time-vector-illustration-cinema-poster-concept-on-red-round-background-composition-with.jpg?s=612x612&w=0&k=20&c=QMpr4AHrBgHuOCnv2N6mPUQEOr5Mo8lE7TyWaZ4r9oo="
+                posterUrl = (item.id[0] !== 'n') ? "https://media.istockphoto.com/id/911590226/vector/movie-time-vector-illustration-cinema-poster-concept-on-red-round-background-composition-with.jpg?s=612x612&w=0&k=20&c=QMpr4AHrBgHuOCnv2N6mPUQEOr5Mo8lE7TyWaZ4r9oo="
                                         : personImage;
             }
         } else {

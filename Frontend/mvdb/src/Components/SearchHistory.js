@@ -80,14 +80,7 @@ function SearchHistory(){
               <Search key={search.searchId} searchHistory={search}/> : null) : 
               <p className='review'>No results</p> : "Loading..."}
 
-              <Container className='paging'>
-                <Row>
-                  <Col>
-                    {(searchHistory) ? <Paging index={index} total={Math.ceil(searchHistory.length / 20)} setIndex={setIndex} /> 
-                      : null}
-                  </Col>
-                </Row>
-              </Container>
+
             </Col>
           </Row>
         </Col>

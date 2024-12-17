@@ -21,6 +21,8 @@ function Series() {
   const [updater, setUpdater] = useState(null);
 
   useEffect(() => { // get the series' title
+    setUpdater(c => !c);
+    setEpisodeOptionIndex(1);
     fetch(`http://localhost:5001/api/title/${id}`)
     .then(res => {
       if (res.ok) return res.json();

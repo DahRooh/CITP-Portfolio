@@ -10,7 +10,6 @@ import Cookies from 'js-cookie';
 function SearchResult({ result }) {
   
   const type = result.type;
-  console.log(result);
   return (
  
     <Link style={{border: "none", outline: "none", textDecoration: "none"}} to={`http://localhost:3000/${type}/${result.id}`}> 
