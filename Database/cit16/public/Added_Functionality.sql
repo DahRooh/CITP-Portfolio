@@ -1,7 +1,47 @@
+
+drop trigger if exists title_update_trigger on rates;
+drop function if exists trigger_update_people_rating;
+
+create function trigger_update_people_rating()
+returns trigger as $$
+declare per_id record;
+begin
+
+  for per_id in (
+    select p_id from person_involved_title
+    where t_id = new.t_id )
+
+  loop
+  update person 
+  set person_rating = (
+    select round(sum(title.rating) / count(title.title), 2) as rating
+    from person 
+    join person_involved_title using(p_id)
+    join title using(t_id)
+    where person.p_id = per_id.p_id
+    )
+  where person.p_id = per_id.p_id;
+  end loop;
+  
+  return new;
+  
+end;
+$$ language plpgsql;
+
+create trigger title_update_trigger
+after insert or update or delete on rates
+for each row execute function trigger_update_people_rating();
+
+
+select * from person 
+where p_id = 'nm1580225';
+
+
+select * from person_involved_title
+limit 10;
+
+
 -- search people
-
-
-
 drop function if exists make_search_person;
 
 create function make_search_person(keyword varchar) 

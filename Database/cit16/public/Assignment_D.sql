@@ -474,7 +474,7 @@ begin
       select coalesce(sum(liked), 0)
       from likes 
       where rev_id = new.rev_id)
-      where rev_id = new.rev_id;
+    where rev_id = new.rev_id;
 
     return new; 
 end; $$
@@ -752,7 +752,6 @@ end;
 $$;
 
 call update_all_people_rating();
-
 
 /*
 D.8. Popular actors: Suggest and implement a function that makes use of the name ratings. One
